@@ -5,7 +5,7 @@ import React from "react"; // import React
 import GeneralNavbar from "../../Component/Navbar/General Navbar"; // import the general navbar
 
 // import Functions
-import {Update_Document_Title} from '../../Services/Common'; // import the function to update the document title
+import {Update_Document_Title} from '../../Helper/Common'; // import the function to update the document title
 
 // import Global Details
 import { AppName } from "../../App/App_Config"; // import the app name

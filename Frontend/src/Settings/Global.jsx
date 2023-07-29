@@ -29,7 +29,7 @@ import Router from "./Router/MainRouter"; // Main Router component for routing
 import {
   Update_Internet_Status,
   Load_General_App_Info,
-} from "../Services/Common"; // import the function to update the internet status
+} from "../Helper/Common"; // import the function to update the internet status
 
 export default function Main() {
   Update_Internet_Status(); // update the internet status

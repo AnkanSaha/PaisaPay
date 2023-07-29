@@ -2,12 +2,12 @@
   "name": "paisapay",
   "version": "10.2.3",
   "description": "A Node.js Backend for integrating with the PaisaPay API",
-  "main": "./source/settings/PaisaPay.js",
-  "type": "module",
+  "main": "./Build/settings/PaisaPay.js",
   "scripts": {
-    "tests": "eslint ./source/**/*.js --fix",
-    "dev": "nodemon ./source/settings/PaisaPay.js",
-    "start": "pm2 start ./source/settings/PaisaPay.js --name PaisaPay --watch"
+    "test": "eslint ./source/**/*.{js,ts} --fix",
+    "build": "npm test && tsc && cp package.json ./Build/",
+    "dev": "nodemon source/settings/PaisaPay.ts",
+    "start": "pm2 start ./Build/settings/PaisaPay.js --name PaisaPay --watch"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,9 @@
   "author": "Ankan Saha",
   "license": "MIT",
   "dependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/node": "^20.4.5",
+    "@types/nodemon": "^1.19.2",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -35,7 +38,11 @@
     "outers": "^2.3.5"
   },
   "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
     "eslint": "^8.46.0",
-    "eslint-config-google": "^0.14.0"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
   }
 }

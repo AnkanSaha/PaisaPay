@@ -3,7 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom"; // import the hook from react-router-dom
 
 // This file is use to display the error page when the user is not logged in
-import { Update_Document_Title, Update_Internet_Status } from "../../Services/Common"; // import the function to update the document title
+import { Update_Document_Title, Update_Internet_Status } from "../../Helper/Common"; // import the function to update the document title
 import { useSelector } from "react-redux"; // import the hook from react-redux
 
 // import Chakra UI

@@ -1,6 +1,5 @@
 import React from "react"; // import React
-import { AppName } from "../../App/App_Config"; // import the app name
-import { Update_Document_Title } from "../../Services/Common"; // import the function to update the document title
+import { Update_Document_Title } from "../../Helper/Common"; // import the function to update the document title
 import { useSelector } from "react-redux"; // import the useSelector hook
 
 // import Components
@@ -14,7 +13,7 @@ import "../../assets/css/General CSS/home.css"; // import the home css
 
 function HomePage() {
   // call the functions
-  Update_Document_Title(`Home - ${AppName}`); // update the document title
+  Update_Document_Title(`Home`); // update the document title
   // Load All State Values from Redux
   const ReduxState = useSelector((state) => state); // Load All State Values from Redux
 

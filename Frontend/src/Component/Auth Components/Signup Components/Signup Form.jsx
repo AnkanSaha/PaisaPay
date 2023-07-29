@@ -19,7 +19,8 @@ export default function SignupForm() {
   });
   const [profilePictureDetails, setProfilePictureDetails] = React.useState({
     file: null,
-    UploadButtonText:"Upload Now"
+    UploadButtonText:"Upload Now",
+    UploadStatus: false
   });
 
   // Handler

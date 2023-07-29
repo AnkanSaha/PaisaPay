@@ -117,7 +117,7 @@ export async function Load_General_App_Info() {
 // Function For Change Document Title
 export function Update_Document_Title(title) {
   const Update = useDispatch(); // initialize the useDispatch hook
-  document.title = title; // Change Document Title
+  document.title = `${title} - ${AppName}`; // Change Document Title
   Update(UpdateDocumentTitleInGeneralInfo(title)); // Update the Document Title in General Info
   Update(UpdatePageURLInGeneralInfo(window.location.href)); // Update the Page URL in General Info
   Update(UpdatePageEntryTimeInGeneralInfo(moment().format("hh:mm:ss A"))); // Update the Page Entry Time in General Info
