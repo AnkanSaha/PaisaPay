@@ -1,7 +1,6 @@
-import { Router } from "express"; // Import express router
+import {Router} from 'express'; // Import express router
 import CORS from 'cors'; // Import cors
-import {StringKeys} from '../../settings/keys/keys.js'; // Import keys
-
+import {StringKeys} from '../../settings/keys/keys'; // Import keys
 
 // Configure router
 const PostRequestManager = Router(); // Create router

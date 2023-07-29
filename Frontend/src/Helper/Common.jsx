@@ -14,6 +14,7 @@ import {
 
 import moment from "moment"; // import moment for date formatting
 import { publicIp } from "public-ip"; // import ip module
+import { SaveCache, GetCache } from "./Storage/Cache Storage Functions"; // import the SaveCache function
 
 // import All Required Infos
 import {
@@ -116,7 +117,7 @@ export async function Load_General_App_Info() {
 // Function For Change Document Title
 export function Update_Document_Title(title) {
   const Update = useDispatch(); // initialize the useDispatch hook
-  document.title = title; // Change Document Title
+  document.title = `${title} - ${AppName}`; // Change Document Title
   Update(UpdateDocumentTitleInGeneralInfo(title)); // Update the Document Title in General Info
   Update(UpdatePageURLInGeneralInfo(window.location.href)); // Update the Page URL in General Info
   Update(UpdatePageEntryTimeInGeneralInfo(moment().format("hh:mm:ss A"))); // Update the Page Entry Time in General Info
@@ -153,32 +154,31 @@ export async function Get_IP_Details() {
   const IP_Type = await IPChecker(); // Check if the IP address matches IPv4 or IPv6 regex
 
   // Store the IP Details
-  const LocalStoredIP = localStorage.getItem("IP_Details"); // Get the IP Details from Local Storage
-
-  if(LocalStoredIP === null || LocalStoredIP === undefined || LocalStoredIP === ''){
+  const CacheStoredIP = await GetCache("IP_Details", 'IP_Details'); // Get the IP Details from Cache Storage
+  console.log(CacheStoredIP)
+  if(CacheStoredIP === null || CacheStoredIP === undefined || CacheStoredIP === '' || CacheStoredIP.status === false){
     const IPDetails = await IPDetailsExtractor(); // Get the IP Details
-    localStorage.setItem("IP_Details", JSON.stringify({IP_Address: CurrentIP, IP_Type: IP_Type, Details: IPDetails})); // Store the IP Details in Local Storage
+    await SaveCache("IP_Details", "IP_Details", {IP_Address: CurrentIP, IP_Type: IP_Type, Details: IPDetails} ) // Store the IP Details in Cache Storage
     return {
       IP_Address: CurrentIP,
       IP_Type: IP_Type,
       IPDetails: IPDetails
     }
-  }else if(LocalStoredIP !== null || LocalStoredIP === undefined || LocalStoredIP === ''){
-    const LocalStoredIPDetails = JSON.parse(LocalStoredIP); // Parse the Local Storage IP Details
-    if(LocalStoredIPDetails.IP_Address !== CurrentIP){
+  }else if(CacheStoredIP !== null || CacheStoredIP === undefined || CacheStoredIP === '' || CacheStoredIP.status === true){
+    if(CacheStoredIP.data.IP_Address !== CurrentIP){
       const IPDetails = await IPDetailsExtractor(); // Get the IP Details
-      localStorage.setItem("IP_Details", JSON.stringify({IP_Address: CurrentIP, IP_Type: IP_Type, Details: IPDetails})); // Store the IP Details in Local Storage
+      await SaveCache("IP_Details", "IP_Details", {IP_Address: CurrentIP, IP_Type: IP_Type, Details: IPDetails} ) // Store the IP Details in Cache Storage
       return {
         IP_Address: CurrentIP,
         IP_Type: IP_Type,
         IPDetails: IPDetails
       }
     }
-    else if(LocalStoredIPDetails.IP_Address === CurrentIP){
+    else if(CacheStoredIP.data.IP_Address === CurrentIP){
       return {
         IP_Address: CurrentIP,
         IP_Type: IP_Type,
-        IPDetails: LocalStoredIPDetails.Details
+        IPDetails: CacheStoredIP.data.Details
       }
     }
   }

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react"; // Import React
 import { useSelector } from "react-redux"; // Import UseSelector
 
@@ -8,7 +9,7 @@ import { Button } from "@chakra-ui/react"; // Import Chakra UI Button
 // import React Modules
 import { Link, useNavigate, useLocation } from "react-router-dom"; // Import Link
 
-function GeneralNavbar() {
+function GeneralNavbar(props) {
   // initializes
   const navigate = useNavigate(); // Create navigate function
   const Location = useLocation(); // Create Location Function
@@ -33,6 +34,8 @@ function GeneralNavbar() {
     BgColorScheme = 'white' // set the color scheme to white
     TextColorScheme = 'black' // set the text color scheme to black
   }
+
+  // Logic For Navbar Button
 
   return (
     <div className={`navbar ${Location.pathname === '/' ? 'bg-transparent' : 'bg-white'} text-${TextColorScheme} rounded-b-lg`} data-aos={Selected}>
@@ -119,9 +122,15 @@ function GeneralNavbar() {
         </ul>
       </div>
       <div className="navbar-end">
-      <Button onClick={ () => navigate('/dashboard')} rightIcon={<BiSolidUserCircle />} className="mr-[2rem] lg:mr-5 rounded-full" colorScheme="blue">Sign In</Button>
+      <Button onClick={ () => navigate(props.Link)} rightIcon={<BiSolidUserCircle />} className="mr-[2rem] lg:mr-5 rounded-full" colorScheme="blue">{props.Text}</Button>
       </div>
     </div>
   );
 } // Export the function
 export default React.memo(GeneralNavbar); // Export the function
+
+// Default Props
+GeneralNavbar.defaultProps = {
+  Text: 'Login',
+  Link: '/auth/login'
+};
