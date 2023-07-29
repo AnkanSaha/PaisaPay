@@ -4,10 +4,11 @@
   "version": "1.5.3",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
-    "build": "vite build",
-    "test": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "dev": "npm test && vite --host",
+    "build": "npm test && vite build",
+    "test": "npm run lint",
+    "preview": "npm test && vite preview",
+    "lint": "eslint ./src/**/*.{js,jsx} --fix"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
@@ -30,7 +31,7 @@
     "autoprefixer": "^10.4.14",
     "daisyui": "^3.4.0",
     "eslint": "^8.45.0",
-    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react": "^7.33.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "flowbite": "^1.6.6",
