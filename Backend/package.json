@@ -1,0 +1,41 @@
+{
+  "name": "paisapay",
+  "version": "10.2.3",
+  "description": "A Node.js Backend for integrating with the PaisaPay API",
+  "main": "./source/settings/PaisaPay.js",
+  "type": "module",  
+  "scripts": {
+    "tests": "eslint ./source/**/*.js --fix",
+    "dev": "nodemon ./source/settings/PaisaPay.js",
+    "start": "pm2 start ./source/settings/PaisaPay.js --name PaisaPay --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AnkanSaha/PaisaPay-Backend.git"
+  },
+  "keywords": [
+    "paisapay",
+    "backend",
+    "payment",
+    "gateway",
+    "api",
+    "node"
+  ],
+  "author": "Ankan Saha",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jwt-destroy": "^2.5.5",
+    "mongoland": "^4.2.2",
+    "mongoose": "^7.4.0",
+    "nodemon": "^3.0.1",
+    "outers": "^2.3.5"
+  },
+  "devDependencies": {
+    "eslint": "^8.45.0",
+    "eslint-config-google": "^0.14.0"
+  }
+}

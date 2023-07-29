@@ -1,0 +1,43 @@
+/* eslint-disable react/prop-types */
+import React from "react";
+import { useNavigate } from "react-router-dom"; // import the hook from react-router-dom
+
+// This file is use to display the error page when the user is not logged in
+import { Update_Document_Title, Update_Internet_Status } from "../../Services/Common"; // import the function to update the document title
+import { useSelector } from "react-redux"; // import the hook from react-redux
+
+// import Chakra UI
+import { Button } from "@chakra-ui/react"; // import Button component
+
+// import components
+import GenetalNavbar from '../../Component/Navbar/General Navbar'; // Navbar
+import GeneralFooter from '../../Component/Footer/General Footer'; // Footer
+
+// import React Icons
+import { TfiBackLeft } from "react-icons/tfi"; // import the back icon
+
+export default function NotLoggedIn_Offline({Status, Message}) {
+    //Initializer
+const Navigate = useNavigate(); // initialize the navigate hook
+
+// Get All State from Redux Store
+const ReduxState = useSelector(state => state); // Get All State from Redux Store
+
+// Updaters
+Update_Document_Title(`${Status} - ${ReduxState.GeneralAppInfo.AppDetails.Static_Details.App_Name}`); // update the document title
+Update_Internet_Status(); // update the internet status
+
+return (
+    <>
+    <GenetalNavbar />
+    <div data-aos="fade-up">
+    <h1 className="text-center mt-[8.75rem] text-xl lg:mt-[8.5rem] font-mono lg:text-3xl text-red-500 font-bold">{Status}</h1>
+    <p className="text-center hidden lg:block lg:mt-5 lg:text-lg font-semibold lg:mx-80">
+        {Message} <br/> Thank you  from the team of <a className="bg-cyan-700 text-white px-3 py-1 rounded-full" href={`${window.location.protocol}//${window.location.hostname}`}>{ReduxState.GeneralAppInfo.AppDetails.Static_Details.App_Name}</a>
+    </p>
+    <Button className="ml-[7.25rem] lg:ml-[38.25rem] mt-[2.25rem]" leftIcon={<TfiBackLeft/>} colorScheme='facebook' onClick={()=>{Navigate(-1)}}>Go Back</Button>
+    </div>
+    <GeneralFooter />
+    </>
+)
+}

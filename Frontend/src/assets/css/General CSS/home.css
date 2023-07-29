@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Lumanosimo&display=swap'); /*Import  */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@500&display=swap');
+
+.herotext{
+    font-family: 'Lumanosimo', cursive;
+}
+.herosubtext{
+    font-family: 'Roboto Condensed', sans-serif;
+}
