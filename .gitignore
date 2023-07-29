@@ -1,5 +1,7 @@
 # Forntend
 /Frontend/PaisaPay
+/Frontend/node_modules
 
 #Backend
 /Backend/.env
+/Backend/node_modules

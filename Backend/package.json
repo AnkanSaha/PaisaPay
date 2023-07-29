@@ -3,7 +3,7 @@
   "version": "10.2.3",
   "description": "A Node.js Backend for integrating with the PaisaPay API",
   "main": "./source/settings/PaisaPay.js",
-  "type": "module",  
+  "type": "module",
   "scripts": {
     "tests": "eslint ./source/**/*.js --fix",
     "dev": "nodemon ./source/settings/PaisaPay.js",
@@ -35,7 +35,7 @@
     "outers": "^2.3.5"
   },
   "devDependencies": {
-    "eslint": "^8.45.0",
+    "eslint": "^8.46.0",
     "eslint-config-google": "^0.14.0"
   }
 }
