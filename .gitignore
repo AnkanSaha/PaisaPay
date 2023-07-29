@@ -1,9 +1,9 @@
 # Forntend
-/Frontend/PaisaPay
-/Frontend/node_modules
-/Frontend/.vite
+/Client/PaisaPay
+/Client/node_modules
+/Client/.vite
 
 #Backend
-/Backend/.env
-/Backend/node_modules
-/Backend/Build
+/Server/.env
+/Server/node_modules
+/Server/Build
