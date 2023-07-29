@@ -1,6 +1,7 @@
 # Forntend
 /Frontend/PaisaPay
 /Frontend/node_modules
+/Frontend/.vite
 
 #Backend
 /Backend/.env

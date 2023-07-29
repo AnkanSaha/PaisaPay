@@ -15,7 +15,6 @@ import "../../assets/css/General CSS/home.css"; // import the home css
 function HomePage() {
   // call the functions
   Update_Document_Title(`Home - ${AppName}`); // update the document title
-
   // Load All State Values from Redux
   const ReduxState = useSelector((state) => state); // Load All State Values from Redux
 

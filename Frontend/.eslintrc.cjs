@@ -29,7 +29,7 @@ module.exports = {
     ],
     "settings": {
         "react": {
-          "version": "18.2.0" // Change this to your React version if different
+          "version": "18.2.0" // React version, default to the latest React stable release
         }
       },
     "rules": {
