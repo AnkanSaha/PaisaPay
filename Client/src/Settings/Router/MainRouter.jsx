@@ -18,7 +18,7 @@ export default function Router() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/dashboard/*" element={<DashboardErrorHandler />} />
+      <Route path="/dashbaord/*" element={<DashboardErrorHandler />} />
       <Route path="/auth/*" element={<AuthErrorHandler />} />
       <Route path="*" element={<NotLoggedIn_Offline Status="No Page Found" Message="Seems like the page you are looking for is not available. Please check the URL and try again." />} />
     </Routes>

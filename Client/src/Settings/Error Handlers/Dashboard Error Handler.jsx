@@ -12,7 +12,6 @@ export default function DashboardErrorHandler() {
     // initialize the state
     const AccountDetails = useSelector((state) => state.AccountInfo); // get the state from the store
     const InternetStatus = useSelector((state) => state.GeneralAppInfo.ApplicationConfig.Frontend_Details.InternetStatus); // get the state from the store
-    console.log(InternetStatus)
     return InternetStatus === false ?  <LoadingScreen />
         : AccountDetails === null ? <NotLoggedIn_Offline Status="No User Logged In" Message="Seems like No User Logged In. Please login with your account, to continue using the app. without login you cannot use the app. please login to continue using the app." />
         :(<DashboardRouter />); // if the user is not logged in then display the not logged in component
