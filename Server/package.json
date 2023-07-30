@@ -32,7 +32,7 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jwt-destroy": "^2.5.5",
-    "mongoland": "^4.2.2",
+    "mongoland": "^4.2.3",
     "mongoose": "^7.4.0",
     "nodemon": "^3.0.1",
     "outers": "^2.3.5"

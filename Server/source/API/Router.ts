@@ -2,7 +2,7 @@
 import {Router} from 'express'; // Import Express
 
 // setup Router
-const MainRouter = Router(); // Create Router
+export const MainRouter = Router(); // Create Router
 
 // import All Sub Routers
 /* The code is importing different modules that handle different types of HTTP requests (GET, POST,
@@ -19,6 +19,3 @@ MainRouter.use('/get', GetRequestManager); // Use Get Request Manager
 MainRouter.use('/post', PostRequestManager); // Use Post Request Manager
 MainRouter.use('/put', PutRequestManager); // Use Post Request Manager
 MainRouter.use('/delete', Delete_Request_Manager); // Use Post Request Manager
-
-// Export Main Router
-export default MainRouter;
