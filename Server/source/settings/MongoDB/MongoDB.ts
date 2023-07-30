@@ -1,13 +1,10 @@
-import {Mongo} from 'mongoland'; // Import the Mongo class
-import {StringKeys} from '../keys/keys'; // Import the keys
+// Import All Sub Instances
+import { Client_Account_and_Connection_Instance } from "./config/Client Account Instances"; // Import MongoDB Connection
 
-// Export the Mongo Instance for Connection
-export const ConnectMongoInstance = new Mongo({
-	MongoURL: StringKeys.MongoDB,
-	NeverDisconnect: true,
-	Schema: {
-		Name: String,
-		Age: Number,
-	},
-	CollectionName: 'PaisaPay',
-}); // Create a new instance of Mongo
+// Link All Instances as MongoInstances
+const MongoInstances = {
+    ClientAccount: Client_Account_and_Connection_Instance,
+}
+
+// Export All Instances
+export default MongoInstances;

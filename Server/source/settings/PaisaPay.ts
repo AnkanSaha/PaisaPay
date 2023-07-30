@@ -7,7 +7,7 @@ import {cpus, platform, freemem} from 'os'; // Import OS
 import cluster from 'cluster'; // Import Cluster
 import {green, red, yellow, blue, magenta, bright} from 'outers'; // Import Outers
 import {NumberKeys} from './keys/keys'; // Import Keys
-import {ConnectMongoInstance} from './MongoDB/MongoDB'; // Import MongoDB Connection
+import MongoInstances from './MongoDB/MongoDB'; // Import MongoDB Connection
 import {MainRouter} from '../API/Router'; // Import Main Router
 
 // CPU Count
@@ -49,8 +49,8 @@ if (cluster.isPrimary) {
 	// Server Listen
 	try {
 		Server.listen(NumberKeys.PORT, async () => {
-			await ConnectMongoInstance.Connect(); // Connect to MongoDB
-			yellow(` 🚀 Finally, Database Connected & Server is listening on Port ${NumberKeys.PORT} 🚀`);
+			const DB_Connection_Status = await MongoInstances.ClientAccount.Connect(); // Connect to MongoDB
+			DB_Connection_Status.status === true ? yellow(` 🚀 Finally, Database Connected & Server is listening on Port ${NumberKeys.PORT} 🚀`) : red(` 🚀 Database Connection Failed & Server is listening on Port ${NumberKeys.PORT} 🚀`); // Print Server Status with Database Connection Status
 		});
 	} catch (err) {
 		red(err);
