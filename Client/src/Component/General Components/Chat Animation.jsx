@@ -5,7 +5,8 @@ export default function Chat_Animation() {
   return (
    <>
       {/* First Chat */}
-      <div className="lg:mt-[7rem] mt-[5.25rem] px-10">
+     <div className=" w-[68%] lg:w-[92%]">
+     <div className="lg:mt-[7rem] mt-[5.25rem]">
         <div className="chat chat-start" data-aos="fade-right">
           <div className="chat-bubble">
             Is Any Simple Way To Send Money? <br /> I'm Tired Of The Stress
@@ -20,7 +21,7 @@ export default function Chat_Animation() {
         </div>
         {/* Second  */}
       </div>
-      <div className="lg:mt-[7rem] mt-[5.25rem] px-10">
+      <div className="lg:mt-[7rem] mt-[5.25rem]">
         <div className="chat chat-start" data-aos="fade-right">
           <div className="chat-bubble">
             {" "}
@@ -36,7 +37,7 @@ export default function Chat_Animation() {
           </div>
         </div>
       </div>
-      <div className="lg:mt-[7rem] mt-[5.25rem] lg:py-24 pb-48 px-10">
+      <div className="lg:mt-[7rem] mt-[5.25rem] lg:py-24 pb-48">
         <div className="chat chat-start" data-aos="fade-right">
           <div className="chat-bubble">
             {" "}
@@ -50,6 +51,7 @@ export default function Chat_Animation() {
           </div>
         </div>
       </div>
+     </div>
    </>
   )
 }

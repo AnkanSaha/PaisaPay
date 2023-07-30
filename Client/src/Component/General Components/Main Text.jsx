@@ -1,7 +1,6 @@
 import React from 'react'
 import Typed from "typed.js"; // Import Typed.js
 import { AppName } from "../../App/App_Config"; // import the app name
-import { useSelector } from "react-redux"; // import the useSelector hook
 
 import { useNavigate } from "react-router-dom"; // import the useNavigate hook
 
@@ -35,26 +34,20 @@ export default function Main_Text() {
   }, []);
 
     // initialize the hook
-    const navigate = useNavigate(); // initialize the navigate hook
-
-    // Load All State Values from Redux
-    const ReduxState = useSelector((state) => state); // Load All State Values from Redux
-  
-  
+    const navigate = useNavigate(); // initialize the navigate hook  
 
   return (
    <>
-     <h1 className="herotext text-center text-white text-2xl font-semibold lg:text-6xl mt-[5.25rem] lg:mt-[8.25rem]">
+     <h1 className="herotext text-center text-white text-xl font-semibold lg:text-6xl mt-[5.25rem] lg:mt-[8.25rem]">
           <span ref={MainTextAnimation}></span>
         </h1>
         <Button
-          className="lg:ml-[34.25rem] ml-[3rem] mt-[6.25rem]"
+          className="lg:ml-[39.25rem] ml-[5rem] mt-[4.25rem] lg:mt-[6.25rem]"
           size={"lg"}
           colorScheme="whiteAlpha"
           onClick={() => navigate("/auth/create-account")}
         >
-          Get Started with{" "}
-          {ReduxState.GeneralAppInfo.AppDetails.Static_Details.App_Name}
+          Get Started
         </Button>
    </>
   )

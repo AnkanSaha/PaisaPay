@@ -25,12 +25,12 @@ function HomePage() {
     : (FotterStyle = "fixed");
   return (
     <div className="bg-black min-h-screen">
-      <GeneralNavbar />
-      <>
-        <Main_Text />
-        <ChatAnimation />
-      </>
+    <>
+      <GeneralNavbar Text="Dashboard" Link="/dashbaord" />
+      <Main_Text />
+      <ChatAnimation />
       <GeberalFooter FooterStyle={FotterStyle} />
+    </>
     </div> // if the user is not logged in then display the not logged in component
   );
 }

@@ -59,7 +59,7 @@ function GeneralNavbar(props) {
           </label>
           <ul
             tabIndex={0}
-            className={`menu menu-sm ${Location.pathname === '/' ? 'bg-transparent' : 'bg-white'} text-${TextColorScheme}  dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 z-50`}
+            className={`menu menu-sm 'bg-white' text-black  dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 z-50`}
           >
             <li>
             <Link to="/features">Features</Link>
@@ -103,7 +103,7 @@ function GeneralNavbar(props) {
           <li tabIndex={0} className="z-50" >
             <details>
               <summary>More Services</summary>
-              <ul className={`bg-${BgColorScheme} hover:text-${TextColorScheme} p-2`}>
+              <ul className={`bg-black hover:text-black p-2`}>
                 <li>
                   <Link to='/faq'>FAQ</Link>
                 </li>
