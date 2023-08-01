@@ -13,8 +13,6 @@ import {
 } from "../App/Redux/Slices/Status"; // import the action creator for updateInternetStatus
 
 import moment from "moment"; // import moment for date formatting
-import { publicIp } from "public-ip"; // import ip module
-import { SaveCache, GetCache } from "./Storage/Cache Storage Functions"; // import the SaveCache function
 
 // import All Required Infos
 import {
@@ -33,11 +31,11 @@ import {
   ServerFramework,
   ServerLocation,
   DeviceDetails,
-  IPINFO_API_KEY,
   Available_Databases,
   Process_Manager,
   Web_Server_Manager
 } from "../App/App_Config"; // import the App Name
+import Get_IP_Details from "./IP Details/Get IP Details"; // import the Get_IP_Details function
 
 // function to load all General Information about the application
 export async function Load_General_App_Info() {
@@ -116,11 +114,11 @@ export async function Load_General_App_Info() {
 
 // Function For Change Document Title
 export function Update_Document_Title(title) {
-  const Update = useDispatch(); // initialize the useDispatch hook
+  const Updater = useDispatch(); // initialize the useDispatch hook
   document.title = `${title} - ${AppName}`; // Change Document Title
-  Update(UpdateDocumentTitleInGeneralInfo(title)); // Update the Document Title in General Info
-  Update(UpdatePageURLInGeneralInfo(window.location.href)); // Update the Page URL in General Info
-  Update(UpdatePageEntryTimeInGeneralInfo(moment().format("hh:mm:ss A"))); // Update the Page Entry Time in General Info
+  Updater(UpdateDocumentTitleInGeneralInfo(title)); // Update the Document Title in General Info
+  Updater(UpdatePageURLInGeneralInfo(window.location.href)); // Update the Page URL in General Info
+  Updater(UpdatePageEntryTimeInGeneralInfo(moment().format("hh:mm:ss A"))); // Update the Page Entry Time in General Info
 }
 
 // function for Update the Internet Status
@@ -143,75 +141,3 @@ export async function Update_Internet_Status() {
   });
 }
 
-
-    //  IP Services Functions  //
-
-// Get All IP Details 
-export async function Get_IP_Details() {
-  const CurrentIP = await publicIp(); // Get the Current IP Address
-
-  // Regular expressions for IPv4 and IPv6 addresses
-  const IP_Type = await IPChecker(); // Check if the IP address matches IPv4 or IPv6 regex
-
-  // Store the IP Details
-  const CacheStoredIP = await GetCache("IP_Details", 'IP_Details'); // Get the IP Details from Cache Storage
-  console.log(CacheStoredIP)
-  if(CacheStoredIP === null || CacheStoredIP === undefined || CacheStoredIP === '' || CacheStoredIP.status === false){
-    const IPDetails = await IPDetailsExtractor(); // Get the IP Details
-    await SaveCache("IP_Details", "IP_Details", {IP_Address: CurrentIP, IP_Type: IP_Type, Details: IPDetails} ) // Store the IP Details in Cache Storage
-    return {
-      IP_Address: CurrentIP,
-      IP_Type: IP_Type,
-      IPDetails: IPDetails
-    }
-  }else if(CacheStoredIP !== null || CacheStoredIP === undefined || CacheStoredIP === '' || CacheStoredIP.status === true){
-    if(CacheStoredIP.data.IP_Address !== CurrentIP){
-      const IPDetails = await IPDetailsExtractor(); // Get the IP Details
-      await SaveCache("IP_Details", "IP_Details", {IP_Address: CurrentIP, IP_Type: IP_Type, Details: IPDetails} ) // Store the IP Details in Cache Storage
-      return {
-        IP_Address: CurrentIP,
-        IP_Type: IP_Type,
-        IPDetails: IPDetails
-      }
-    }
-    else if(CacheStoredIP.data.IP_Address === CurrentIP){
-      return {
-        IP_Address: CurrentIP,
-        IP_Type: IP_Type,
-        IPDetails: CacheStoredIP.data.Details
-      }
-    }
-  }
-}
-
-// function for check if IP Address is IPv4 or IPv6
-export async function IPChecker() {
-  try {
-    const CurrentIP = await publicIp(); // Get the Current IP Address
-    // Regular expressions for IPv4 and IPv6 addresses
-    const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
-    const ipv6Regex = /^([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}$/;
-
-    // Check if the IP address matches IPv4 or IPv6 regex
-    if (ipv4Regex.test(CurrentIP)) {
-      return Promise.resolve("IPv4");
-    } else if (ipv6Regex.test(CurrentIP)) {
-      return Promise.resolve("IPv6");
-    } else {
-      return Promise.reject(new Error("Invalid IP address"));
-    }
-  } catch (error) {
-    // If any error occurs, reject the Promise with the error
-    return Promise.reject(error);
-  }
-}
-
-// IP Details Extractor
-export async function IPDetailsExtractor() {
-  const CurrentIP = await publicIp(); // Get the Current IP Address
-  const Result = await fetch(
-    `https://ipinfo.io/${CurrentIP}?token=${IPINFO_API_KEY}`
-  ); // Fetch the IP Details
-  const FinalIPdetails = await Result.json(); // Convert the IP Details to JSON
-  return FinalIPdetails; // Return the IP Details
-}
