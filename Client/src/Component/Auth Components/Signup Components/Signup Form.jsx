@@ -131,7 +131,7 @@ export default function SignupForm() {
           <input
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder=""
             className="w-full p-3 border rounded outline-none"
             required
           />

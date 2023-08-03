@@ -13,7 +13,7 @@ export default function DashboardErrorHandler() {
     const AccountDetails = useSelector((state) => state.AccountInfo); // get the state from the store
     const InternetStatus = useSelector((state) => state.GeneralAppInfo.ApplicationConfig.Frontend_Details.InternetStatus); // get the state from the store
     return InternetStatus === false ?  <LoadingScreen />
-        : AccountDetails === null ? <NotLoggedIn_Offline/>
+        : AccountDetails === null ? <NotLoggedIn_Offline ButtonText="Go Home" ButtonLink="/"/>
         :(<DashboardRouter />); // if the user is not logged in then display the not logged in component
       
 } // export the error handler component
