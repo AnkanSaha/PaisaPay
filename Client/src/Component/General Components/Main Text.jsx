@@ -13,7 +13,6 @@ export default function Main_Text() {
   // Create reference to store the DOM element containing the animation
   const MainTextAnimation = React.useRef(null);
   React.useEffect(() => {
-    console.log(AppName);
     const typed = new Typed(MainTextAnimation.current, {
       strings: [
         `Welcome to ${AppName}`,
@@ -21,9 +20,9 @@ export default function Main_Text() {
         "Easy Way to Send Money",
         "Fast, Secure, and Reliable",
       ],
-      typeSpeed: 100,
+      typeSpeed: 60,
       loop: true,
-      fadeOut: true,
+      backSpeed: 10,
       cursorChar: "_",
     });
 
@@ -42,7 +41,7 @@ export default function Main_Text() {
           <span ref={MainTextAnimation}></span>
         </h1>
         <Button
-          className="lg:ml-[39.25rem] ml-[5rem] mt-[4.25rem] lg:mt-[6.25rem]"
+          className="herosubtext lg:ml-[39.25rem] ml-[5rem] mt-[4.25rem] lg:mt-[6.25rem]"
           size={"lg"}
           colorScheme="whiteAlpha"
           onClick={() => navigate("/auth/create-account")}

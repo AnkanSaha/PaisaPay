@@ -122,7 +122,7 @@ function GeneralNavbar(props) {
         </ul>
       </div>
       <div className="navbar-end">
-      <Button onClick={ () => navigate(props.Link)} rightIcon={<BiSolidUserCircle />} className="mr-[2rem] lg:mr-5 rounded-full" colorScheme="blue">{props.Text}</Button>
+      <Button onClick={ () => navigate(props.Link)} rightIcon={<BiSolidUserCircle />} className="herosubtext mr-[2rem] lg:mr-5 rounded-full" colorScheme="blue">{props.Text}</Button>
       </div>
     </div>
   );
