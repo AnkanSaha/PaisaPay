@@ -1,5 +1,3 @@
-import {CacheStorage} from 'react-caches'; // Import the Cache Storage Functions
-
 export const isDevelopmentMode = true; // Global Development Mode
 // Global App Configuration
 export const AppName = 'PaisaPay'; // Global App Name
@@ -62,7 +60,3 @@ export function DeviceDetailsSetter (){
 
 // IPInfo API Key
 export const IPINFO_API_KEY = '1987d4305bdd80'; // API Key
-
-
-// Client Side Storage Configuration
-export const IP_Cache_Storage = new CacheStorage('IP Details'); // IP Cache
