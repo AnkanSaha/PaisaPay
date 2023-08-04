@@ -1,11 +1,11 @@
 import IPChecker from "./IP Checker";
 import IPDetailsExtractor from "./IP Extractor";
 import {publicIp} from "public-ip";
-import {IP_Cache_Storage} from '../../App/App_Config'; // Import the Cache Storage Name
-
+import {CacheStorage} from 'react-caches'; // Import the Cache Storage Functions
 
 // Get All IP Details 
 export default async function Get_IP_Details() {
+  const IP_Cache_Storage = new CacheStorage('IP Details'); // IP Cache
     const CurrentIP = await publicIp(); // Get the Current IP Address
     // Regular expressions for IPv4 and IPv6 addresses
     const IP_Type = await IPChecker(); // Check if the IP address matches IPv4 or IPv6 regex

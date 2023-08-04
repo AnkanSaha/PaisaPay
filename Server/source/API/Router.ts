@@ -1,8 +1,11 @@
 /* eslint-disable new-cap */
-import {Router} from 'express'; // Import Express
-
+import { Router } from 'express'; // Import Express
 // setup Router
-export const MainRouter = Router(); // Create Router
+const MainRouter = Router(); // Create Router
+
+// Setup Response Mechanism
+import { SendResponse } from '../Helper/Response'; // Import Send Response Function
+import { StatusCodes } from '../settings/keys/keys'; // Import Status Codes
 
 // import All Sub Routers
 /* The code is importing different modules that handle different types of HTTP requests (GET, POST,
@@ -19,3 +22,23 @@ MainRouter.use('/get', GetRequestManager); // Use Get Request Manager
 MainRouter.use('/post', PostRequestManager); // Use Post Request Manager
 MainRouter.use('/put', PutRequestManager); // Use Post Request Manager
 MainRouter.use('/delete', Delete_Request_Manager); // Use Post Request Manager
+
+
+// Response Not Allowed Request
+MainRouter.all('*', (req, res) => {
+    SendResponse({
+        status: false,
+        statusCode: StatusCodes.NOT_FOUND,
+        message: 'Requested url is not allowed',
+        response: res,
+        data: {
+            requestedUrl: req.url,
+            requestedMethod: req.method,
+            requestedBody: req.body,
+            requestedHeaders: req.headers
+        }
+    }); // Send Response if Method is not allowed
+})
+
+// export Main Router
+export default MainRouter; // Export Main Router

@@ -7,7 +7,7 @@ type bool = boolean;
 // interfaces
 /* The `interface responseInterface` is defining the structure of an object that has the following
 properties: */
-interface responseInterface {
+export interface responseInterface {
     response: {
         status: (statusCode: int) => {
             json: (data: obj) => void
@@ -16,7 +16,7 @@ interface responseInterface {
     status: bool,
     statusCode: int,
     message: str,
-    data: obj
+    data: obj | undefined
 }
 
 /**
