@@ -2,6 +2,7 @@ POST http://localhost:5412/api/post/auth/create-new-account HTTP/1.1
 Content-Type: application/json
 
 {
-    "title": "Post 1",
-    "content": "Post 1 content"
+    "Email": "ankansahaofficial@gmail.com",
+    "PhoneNumber": "7063355213",
+    "ClientID": "1234567890"
 }

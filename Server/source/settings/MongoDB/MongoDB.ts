@@ -1,10 +1,9 @@
 // Import All Sub Instances
-import { Client_Account_and_Connection_Instance } from "./config/Client Account Instances"; // Import MongoDB Connection
+import { Client_Account_and_Connection_Instance, Transaction_Instance } from "./config/Build_Instance"; // Import All Instances
+
 
 // Link All Instances as MongoInstances
-const MongoInstances = {
+export default {
     ClientAccount: Client_Account_and_Connection_Instance,
-}
-
-// Export All Instances
-export default MongoInstances;
+    Transaction :Transaction_Instance
+}; // Export All Instances
