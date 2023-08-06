@@ -13,11 +13,11 @@ const AllowedMethods:str[] = ['POST', 'GET', 'PUT', 'DELETE']; // Allowed Method
 /* The `RequestInterface` interface is defining the structure of the request object that will be
 received by the `CheckHeader` function. It has the following properties: */
 export interface RequestInterface {
-    url: string,
-    method: string,
+    url: str,
+    method: str,
     headers: unknown,
     body: {
-        sessionID: string,
+        sessionID: str,
     }
 }
 
