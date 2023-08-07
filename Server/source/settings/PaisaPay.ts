@@ -2,7 +2,7 @@
 type int = number; // Integer
 
 // All Imports
-import express from 'express'; // Import Express
+import express, {json, urlencoded} from 'express'; // Import Express
 import { cpus, platform, freemem } from 'os'; // Import OS
 import cluster from 'cluster'; // Import Cluster
 const { isPrimary } = cluster; // Import isPrimary from Cluster
@@ -55,8 +55,12 @@ if (isPrimary) {
 	const Server = express(); // Create Express Server
 
 	// Link All Router as MainRouter
-	Server.use('/api', CheckHeader, MainRouter); // Link Main Router
+	Server.use('/api', json(), urlencoded({extended:true, limit:5000000 * 1000}), CheckHeader, MainRouter); // Link Main Router
 	magenta('Linked All API Endpoints with PaisaPay Server'); // Print Success Message
+
+
+	// Configure Static Folder
+	Server.use(express.static('Data')); // Configure Static Folder
 
 	// Server Listen
 	try {

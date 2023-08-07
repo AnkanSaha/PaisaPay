@@ -7,6 +7,8 @@ export default {
     National_ID_Type: {type: String, required: true},
     National_ID_Number: {type: String, required: true},
     ProfilePicturePath: {type: String, required: true},
+    ProfilePicSize: {type: Number, required: true},
+    ProfilePicFileName: {type: String, required: true},
     DateCreated: {type: Date, required: true, default: Date.now()},
     AccountStatus: {type: String, required: true, default: "Active"},
     AccountType: {type: String, required: true, default: "Client"},

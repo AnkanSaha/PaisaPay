@@ -4,7 +4,7 @@ import { Router } from 'express'; // Import Express
 const MainRouter = Router(); // Create Router
 
 // Setup Response Mechanism
-import { SendResponse } from '../Helper/Response'; // Import Send Response Function
+import { JSONSendResponse } from '../Helper/Response'; // Import Send Response Function
 import { StatusCodes } from '../settings/keys/keys'; // Import Status Codes
 
 // import All Sub Routers
@@ -26,9 +26,10 @@ MainRouter.use('/delete', Delete_Request_Manager); // Use Post Request Manager
 
 // Response Not Allowed Request
 MainRouter.all('*', (req, res) => {
-    SendResponse({
+    JSONSendResponse({
         status: false,
         statusCode: StatusCodes.NOT_FOUND,
+        Title: 'Not Allowed',
         message: 'Requested url is not allowed',
         response: res,
         data: {
