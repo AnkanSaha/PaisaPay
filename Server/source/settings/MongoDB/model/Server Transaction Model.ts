@@ -1,5 +1,6 @@
 export default {
-    Balance: {type: Number, required: true},
+    ClientID: {type: Number, required: true},
+    Balance: {type: Number, required: true, default: 0},
     LastTransactionDate: {type: Date, required: true, default: Date.now()},
     LastTransactionType: {type: String, required: true},
     LastTransactionAmount: {type: Number, required: true},

@@ -1,12 +1,12 @@
 import { StatusCodes } from "../settings/keys/keys"; // Import Status Codes
-import { SendResponse, responseInterface } from "./Response"; // Import Send Response Function
+import { JSONSendResponse, JSONresponseInterface,  } from "./Response"; // Import Send Response Function
 
 // types
 type str = string;
 type int = number;
 
 // All Variables for send response
-let ResponseContent: responseInterface;
+let ResponseContent: JSONresponseInterface;
 const AllowedMethods:str[] = ['POST', 'GET', 'PUT', 'DELETE']; // Allowed Methods
 
 // All Interfaces
@@ -22,10 +22,12 @@ export interface RequestInterface {
 }
 
 export interface ResponseInterface {
-    status: (statusCode: int) => { json: (data: object) => void; },
+    status: (statusCode: int) => { 
+        json: (data: object) => void
+    },
 }
 
-interface NextInterface {
+export interface NextInterface {
     (): void
 }
 
@@ -47,7 +49,8 @@ export function CheckHeader (req:RequestInterface, res:ResponseInterface, next:N
         ResponseContent = {
             status: false,
             statusCode: StatusCodes.FORBIDDEN,
-            message: 'Request Headers not found',
+            Title: 'Request Headers not found',
+            message: 'Request Headers not found or not set',
             response: res,
             data: {
                 requestedUrl: req.url,
@@ -56,13 +59,14 @@ export function CheckHeader (req:RequestInterface, res:ResponseInterface, next:N
                 requestedHeaders: req.headers
             }
         }
-        SendResponse(ResponseContent); // Send Response to Client
+        JSONSendResponse(ResponseContent); // Send Response to Client
     }
     else if(!AllowedMethods.includes(req.method)){
         ResponseContent = {
             status: false,
             statusCode: StatusCodes.METHOD_NOT_ALLOWED,
-            message: 'Request Method not allowed',
+            Title: 'Request Method not allowed',
+            message: 'Request Method not allowed for this url, please check the url and try again',
             response: res,
             data: {
                 requestedUrl: req.url,
@@ -71,7 +75,7 @@ export function CheckHeader (req:RequestInterface, res:ResponseInterface, next:N
                 requestedHeaders: req.headers
             }
         }
-        SendResponse(ResponseContent); // Send Response to Client
+        JSONSendResponse(ResponseContent); // Send Response to Client
     }
     else {
         next(); // Go to next middleware
