@@ -119,7 +119,7 @@ export async function Register (req: SignupRequestInterface , res: ResponseInter
 
     }
    }
-   catch{
+   catch (err){
     JSONSendResponse({
         status: false,
         statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
