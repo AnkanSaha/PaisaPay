@@ -2,7 +2,6 @@
 // Global types
 type str = string;
 
-
 // import Status Codes
 import { StatusCodes } from "../../settings/keys/keys"; // Import HTTP Status Codes
 

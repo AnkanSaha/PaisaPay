@@ -1,6 +1,6 @@
 import { StatusCodes } from "../settings/keys/keys"; // Import Status Codes
 import { JSONSendResponse, JSONresponseInterface,  } from "./Response"; // Import Send Response Function
-
+import { Request } from "express"; // Import Request from express
 // types
 type str = string;
 type int = number;
@@ -12,10 +12,9 @@ const AllowedMethods:str[] = ['POST', 'GET', 'PUT', 'DELETE']; // Allowed Method
 // All Interfaces
 /* The `RequestInterface` interface is defining the structure of the request object that will be
 received by the `CheckHeader` function. It has the following properties: */
-export interface RequestInterface {
+export interface RequestInterface extends Request {
     url: str,
     method: str,
-    headers: unknown,
     body: {
         sessionID: str,
     }

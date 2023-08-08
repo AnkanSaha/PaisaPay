@@ -59,7 +59,7 @@ function GeneralNavbar(props) {
           </label>
           <ul
             tabIndex={0}
-            className={`menu menu-sm 'bg-white' text-black  dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 z-50`}
+            className={`menu menu-sm 'bg-${BgColorScheme}' text-black  dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 z-50`}
           >
             <li>
             <Link to="/features">Features</Link>
@@ -102,8 +102,8 @@ function GeneralNavbar(props) {
           </li>
           <li tabIndex={0} className="z-50" >
             <details>
-              <summary>More Services</summary>
-              <ul className={`bg-black hover:text-black p-2`}>
+              <summary className="lg:hidden">More Services</summary>
+              <ul className={`bg-white hover:text-black p-2`}>
                 <li>
                   <Link to='/faq'>FAQ</Link>
                 </li>
@@ -122,7 +122,7 @@ function GeneralNavbar(props) {
         </ul>
       </div>
       <div className="navbar-end">
-      <Button onClick={ () => navigate(props.Link)} rightIcon={<BiSolidUserCircle />} className="herosubtext mr-[2rem] lg:mr-5 rounded-full" colorScheme="blue">{props.Text}</Button>
+      <Button onClick={ () => navigate(props.Link)} rightIcon={<BiSolidUserCircle />} className="herosubtext mr-[0rem] lg:mr-5 rounded-full" colorScheme="blue">{props.Text}</Button>
       </div>
     </div>
   );

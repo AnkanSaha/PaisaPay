@@ -29,8 +29,8 @@ MainRouter.all('*', (req, res) => {
     JSONSendResponse({
         status: false,
         statusCode: StatusCodes.NOT_FOUND,
-        Title: 'Not Allowed',
-        message: 'Requested url is not allowed',
+        Title: 'URL Not Found',
+        message: 'Requested url is not found on this server, please check your url and try again',
         response: res,
         data: {
             requestedUrl: req.url,

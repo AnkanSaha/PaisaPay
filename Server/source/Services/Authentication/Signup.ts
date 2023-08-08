@@ -9,6 +9,7 @@ import { StatusCodes } from "../../settings/keys/keys"; // Import HTTP Status Co
 import fs from "fs"; // Import fs
 import { Request } from "express"; // Import Request from express
 import { randomNumber } from "uniquegen"; // Import Uniquegen
+import JWT from "../../Helper/JWT.config"; // Import JWT Config
 
 // import Helpers
 import {AccountExistenceChecker} from "../../Helper/Account Existence Checker"; // Import Account Existence Checker
@@ -23,6 +24,7 @@ interface SignupRequestInterface extends Request {
     body: {
         Name: str,
         Email: str,
+        DOB: Date,
         PhoneNumber: int,
         Password: str,
         National_ID_Type: str,
@@ -51,27 +53,27 @@ interface PasswordEncryptionInterface {
  * to the client. It contains information such as the status code, headers, and the response body.
  */
 export async function Register (req: SignupRequestInterface , res: ResponseInterface){
-   try{
-    const {Name, Email, Password, National_ID_Type, National_ID_Number, PhoneNumber, LastLoginIP, LastLoginClientDetails} = req.body; // Destructure the request body
-    const AccountStatus = await AccountExistenceChecker(Email, PhoneNumber)
+    try{
+    const {Name, Email, DOB, Password, National_ID_Type, National_ID_Number, PhoneNumber, LastLoginIP, LastLoginClientDetails} = req.body; // Destructure the request body
+    const AccountStatus = await AccountExistenceChecker(Email, PhoneNumber); // Check if account exists
     if(AccountStatus.status == true){
         await fs.promises.rm(req.file.path)
         JSONSendResponse({
             status: false,
-            statusCode: StatusCodes.NOT_FOUND,
+            statusCode: StatusCodes.CONFLICT,
             Title: 'Account Exists',
-            message: 'Account exists with the same email or phone number',
+            message: 'Account exists with the same email or phone number or ID number',
             response: res,
             data: undefined
         })
     }
     else if(AccountStatus.status == false){
-     // Encrypt Password
+    // Encrypt Password
      const Rounds: int = await randomNumber(1, false, [1, 2, 3, 4, 5, 6, 7, 8, 9])
      const EncryptedResult : PasswordEncryptionInterface = await Encrypt(Password, Rounds);
      
      // Generate Client ID
-     const ClientID: int = await randomNumber(15, true); // Generate Client ID
+     const ClientID: int = await randomNumber(20, true); // Generate Client ID
 
      // Encrypt National ID Number
      const EncryptedNationalIDNumber: PasswordEncryptionInterface = await Encrypt(National_ID_Number, Rounds);
@@ -81,6 +83,7 @@ export async function Register (req: SignupRequestInterface , res: ResponseInter
             ClientID: ClientID,
             Name: Name,
             Email: Email,
+            DOB:DOB,
             PhoneNumber: PhoneNumber,
             Password: EncryptedResult.EncryptedData,
             National_ID_Type: National_ID_Type,
@@ -91,10 +94,12 @@ export async function Register (req: SignupRequestInterface , res: ResponseInter
             DateCreated: Date.now(),
             AccountStatus: "Active",
             AccountType: "Client",
-            LastLogin: Date.now(),
+            LastLoginTime: Date.now(),
             LastLoginIP: LastLoginIP,
-            LastLoginClientDetails: LastLoginClientDetails
+            LastLoginClientDetails: LastLoginClientDetails,
+            LastLoginToken: "None"
         }
+
         const AccountStatus = await MongoDB.ClientAccount.create(NewClientAccount); // Create Client Account in MongoDB
         if(AccountStatus.status === true){
             JSONSendResponse({
@@ -103,7 +108,9 @@ export async function Register (req: SignupRequestInterface , res: ResponseInter
                 Title: 'Account Created',
                 message: 'Account created successfully, you can now login',
                 response: res,
-                data: AccountStatus
+               data : {
+                AccountDetail: await JWT.generate(AccountStatus, '30d')
+               }
             })
         }
         else if(AccountStatus.status === false){

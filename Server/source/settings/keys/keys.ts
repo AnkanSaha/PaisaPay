@@ -12,6 +12,7 @@ export enum NumberKeys {
 export const StringKeys = {
     AppName: String('PaisaPay'),
 	CORS_URL: String(process.env.CORS_ORIGIN) || '*',
+    JWT_SECRET: String(process.env.JWT_SECRET),
 };
 
 export const Database_Keys = {

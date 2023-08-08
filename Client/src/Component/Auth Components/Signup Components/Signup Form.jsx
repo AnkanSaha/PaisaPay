@@ -1,46 +1,43 @@
-import React from 'react'
+import React from 'react'; // Import React
+import { useSelector } from 'react-redux'; // Import Use Selector
+import { Register } from '../../../Helper/Auth/Authentication'; // Import Register Function
 
 // Import Some Components
 import { Button } from '@chakra-ui/react'; // This is for Button
 import {RiAccountPinCircleFill} from 'react-icons/ri'; // This is for Account Icon
-import {FaUpload} from 'react-icons/fa'; // This is for Upload Icon
-
 export default function SignupForm() {
   // States
-  const [FormData, setFormData] = React.useState({
+  const [TempFormData, setFormData] = React.useState({
     firstName: '',
     lastName: '',
     email: '',
+    DOB: '',
     ID_Type: '',
     ID_Number: '',
+    PhoneNumber: '',
     password: '',
     confirmPassword: '',
-    Profile_Picture_Link: ''
+    profilePicture: '',
   });
-  const [profilePictureDetails, setProfilePictureDetails] = React.useState({
-    file: null,
-    UploadButtonText:"Upload Now",
-    UploadStatus: false
-  });
+  const IPDetails = useSelector(state => state.GeneralAppInfo.ClientDetails); // This is for IP Details
+  const API = useSelector(state => state.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL);
 
   // Handler
   const Handler = (e) => {
-    setFormData({ ...FormData, [e.target.name]: e.target.value });
-  }
-
-     // Handler for profile picture change
-     const handleProfilePictureChange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setProfilePictureDetails({...profilePictureDetails, file: file, UploadButtonText: "Selected, Upload Now"});
-        };
-        reader.readAsDataURL(file);
-      } else {
-        setProfilePictureDetails({...profilePictureDetails, file: null});
-      }
-    };
+    const { name, value } = e.target;
+  
+    if (name === 'profilePicture') {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: e.target.files[0], // Store the actual file object
+      }));
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
+  };
 
   // ID Number Regex
   const ID_Number_Regex = () => {
@@ -49,66 +46,119 @@ export default function SignupForm() {
       const IndianPanIDRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/; // This is for Indian Pan ID
       const IndianPassportRegex = /^[A-PR-WYa-pr-wy][1-9]\d\s?\d{4}[1-9]$/; // This is for Passport
 
-        if(FormData.ID_Type === "Adhaar Card"){
-          AdhaarCardRegx.test(FormData.ID_Number) === false ? alert("Please Enter Valid Adhaar Card Number") : null
+        if(TempFormData.ID_Type === "Adhaar Card"){
+          AdhaarCardRegx.test(TempFormData.ID_Number) === false ? alert("Please Enter Valid Adhaar Card Number") : null
         }
-        else if(FormData.ID_Type === "Voter Card"){
-          indianVoterIDRegex.test(FormData.ID_Number) === false ? alert("Please Enter Valid Indian Voter ID Number") : null
+        else if(TempFormData.ID_Type === "Voter Card"){
+          indianVoterIDRegex.test(TempFormData.ID_Number) === false ? alert("Please Enter Valid Indian Voter ID Number") : null
         }
-        else if(FormData.ID_Type === "PAN Card"){
-          IndianPanIDRegex.test(FormData.ID_Number) === false ? alert("Please Enter Valid Indian Pan ID Number") : null
+        else if(TempFormData.ID_Type === "PAN Card"){
+          IndianPanIDRegex.test(TempFormData.ID_Number) === false ? alert("Please Enter Valid Indian Pan ID Number") : null
         }
-        else if(FormData.ID_Type === "Passport"){
-          IndianPassportRegex.test(FormData.ID_Number) === false ? alert("Please Enter Valid Passport Number") : null
+        else if(TempFormData.ID_Type === "Passport"){
+          IndianPassportRegex.test(TempFormData.ID_Number) === false ? alert("Please Enter Valid Passport Number") : null
         }
   }
 
   // Logic For Some Animations
   let ID_Number_Visibility; // This is for ID_Number Visibility
   let ID_Number_Placeholder; // This is for ID_Number Placeholder
-  if(FormData.ID_Type === ""){
+  if(TempFormData.ID_Type === ""){
     ID_Number_Visibility = "hidden"
   }
-  else if(FormData.ID_Type !== "") {
+  else if(TempFormData.ID_Type !== "") {
     ID_Number_Visibility = "block"
-    ID_Number_Placeholder = `Enter Your ${FormData.ID_Type} Number`
+    ID_Number_Placeholder = `Enter Your ${TempFormData.ID_Type} Number`
   }
   
 
+  // Submit Handler
+  const SubmitHandler = async (e) => {
+    e.preventDefault();
+    const MainData = new FormData();
+    MainData.append('Name', `${TempFormData.firstName} ${TempFormData.lastName}`);
+    MainData.append('Email', TempFormData.email);
+    MainData.append('National_ID_Type', TempFormData.ID_Type);
+    MainData.append('National_ID_Number', TempFormData.ID_Number);
+    MainData.append('PhoneNumber', TempFormData.PhoneNumber);
+    MainData.append('DOB', TempFormData.DOB);
+  
+    if (TempFormData.password === TempFormData.confirmPassword) {
+      MainData.append('Password', TempFormData.password);
+    } else {
+      alert("Password and Confirm Password Must Be Same");
+      return; // Exit the function early
+    }
+  
+    MainData.append('ProfilePic', TempFormData.profilePicture);
+    MainData.append('LastLoginIP', IPDetails.ClientIP);
+    MainData.append('LastLoginClientDetails', JSON.stringify(IPDetails));
+  
+    // Log FormData for debugging
+    // for (let [key, value] of MainData.entries()) {
+    //   console.log(key, value);
+    // }
+
+    const Result = await Register(API, MainData); // Call Register Function
+    console.log(Result);
+  };
+  
   return (
     <div className="bg-gray-50 min-h-screen mx-10 my-10 rounded-xl">
     <div className="bg-white p-8 rounded shadow-lg">
       <h2 className=" text-xl lg:text-3xl font-extrabold mb-6">Create an Account</h2>
         <div className="mb-4">
+          <h1 className='mb-2 font-semibold'>Enter First Name </h1>
           <input
             type="text"
             name="firstName"
+            onChange={Handler}
+            value={TempFormData.firstName}
             placeholder="First Name"
             className="w-full p-3 border rounded outline-none"
             required
           />
         </div>
         <div className="mb-4">
+        <h1 className='mb-2 font-semibold'>Enter Last Name </h1>
           <input
             type="text"
             name="lastName"
+            value={TempFormData.lastName}
+            onChange={Handler}
             placeholder="Last Name"
             className="w-full p-3 border rounded outline-none"
             required
           />
         </div>
         <div className="mb-4">
+        <h1 className='mb-2 font-semibold'>Enter Email Address </h1>
           <input
             type="email"
+            value={TempFormData.email}
             name="email"
+            onChange={Handler}
             placeholder="Email"
             className="w-full p-3 border rounded outline-none"
             required
           />
         </div>
+        <div className="mb-4">
+        <h1 className='mb-2 font-semibold'>Enter Date of Birth </h1>
+          <input
+            type="date"
+            value={TempFormData.DOB}
+            name="DOB"
+            onChange={Handler}
+            placeholder="Date Of Birth"
+            className="w-full p-3 border rounded outline-none"
+            required
+          />
+        </div>
         <div className='mb-4'>
-          <select name="ID_Type" onChange={Handler} value={FormData.ID_Type} id="ID_Type" className='w-full p-3 border rounded outline-none'>
-            <option value="">Choose Goverment ID</option>
+        <h1 className='mb-2 font-semibold'>Choose Government ID </h1>
+          <select name="ID_Type" onChange={Handler} value={TempFormData.ID_Type} id="ID_Type" className='w-full p-3 border rounded outline-none'>
+            <option value="">Choose Government ID</option>
             <option value="Adhaar Card">Adhaar Card</option>
             <option value="Voter Card">National Voter Card</option>
             <option value="PAN Card">PAN Card</option>
@@ -116,40 +166,48 @@ export default function SignupForm() {
           </select>
         </div>
         <div className="mb-4">
+        <h1 className='mb-2 font-semibold'>{ID_Number_Placeholder}</h1>
           <input
             type="ID_Number"
             name="ID_Number"
             placeholder={ID_Number_Placeholder}
             onBlur={ID_Number_Regex}
             onChange={Handler}
-            value={FormData.ID_Number}
+            value={TempFormData.ID_Number}
             className={`w-full p-3 border rounded outline-none ${ID_Number_Visibility}`}
             required
           />
         </div>
         <div className="mb-4">
+        <h1 className='mb-2 font-semibold'>Enter Mobile Number</h1>
           <input
-            type="email"
-            name="email"
-            placeholder=""
+            type="number"
+            name="PhoneNumber"
+            placeholder="Phone Number"
+            onChange={Handler}
+            value={TempFormData.PhoneNumber}
             className="w-full p-3 border rounded outline-none"
             required
           />
         </div>
         <div className="mb-4">
+        <h1 className='mb-2 font-semibold'>Enter new password</h1>
           <input
             type="password"
             name="password"
+            onChange={Handler}
             placeholder="Password"
             className="w-full p-3 border rounded outline-none"
             required
           />
         </div>
         <div className="mb-4">
+        <h1 className='mb-2 font-semibold'>Confirm your password</h1>
           <input
             type="password"
             name="confirmPassword"
             placeholder="Confirm Password"
+            onChange={Handler}
             className="w-full p-3 border rounded outline-none"
             required
           />
@@ -161,15 +219,14 @@ export default function SignupForm() {
             name="profilePicture"
             accept='image/jpeg, image/png , image/jpg'
             size={1*1024*1024}
-            onChange={handleProfilePictureChange}
+            onChange={Handler}
             encType='multipart/form-data'
             placeholder="Upload Profile Picture"
-            className="w-full lg:w-6/12 lg:mr-5 p-3 mb-2 border rounded outline-none"
+            className="w-full lg:w-12/12 lg:mr-5 p-3 mb-2 border rounded outline-none"
             required
           />
-          <Button colorScheme='facebook' className='w-full lg:w-6/12' textAlign={'center'} textShadow={'dark-lg'} textColor="HighlightText" leftIcon={<FaUpload/>} rightIcon={<FaUpload/>}>{profilePictureDetails.UploadButtonText}</Button>
         </div>
-        <Button className='w-full lg:mt-2 mt-[1.25rem] lg:mb-4 mb-[8.28rem]' colorScheme='green' textColor="HighlightText" rightIcon={<RiAccountPinCircleFill/>} leftIcon={<RiAccountPinCircleFill/>}>Register Now</Button>
+        <Button onClick={SubmitHandler} className='w-full lg:mt-2 mt-[1.25rem] lg:mb-4 mb-[8.28rem]' colorScheme='green' textColor="HighlightText" rightIcon={<RiAccountPinCircleFill/>} leftIcon={<RiAccountPinCircleFill/>}>Register Now</Button>
     </div>
   </div>
   )
