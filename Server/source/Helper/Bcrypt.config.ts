@@ -58,7 +58,15 @@ export const Encrypt = async (Password: str, Rounds: int): Promise<obj> => {
  * database or any other storage medium.
  * @returns an object with the following properties:
  */
-export const Compare = async (UserPassword: str, EncryptedPassword: str): Promise<obj> => {
+
+interface ComparePasswordInterface {
+    status: bool,
+    statusCode: int,
+    isMatch: bool,
+    message?: str
+}
+
+export const Compare = async (UserPassword: str, EncryptedPassword: str): Promise<ComparePasswordInterface> => {
     try{
         const CompareResult: bool = await compare(UserPassword, EncryptedPassword); // Compare Password
         return {

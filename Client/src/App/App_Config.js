@@ -4,7 +4,7 @@ export const AppName = 'PaisaPay'; // Global App Name
 export const AppLaunchDate = '15-08-2023'; // Global App Launch Date
 import App_logo from '../assets/icons/Ruppe.svg'; // Global App Logo
 export const AppLogo = App_logo; // Global App Logo
-export const Live_URL = isDevelopmentMode === true ? "http://localhost:3201": window.location.origin; // Global Live URL
+export const Live_URL = isDevelopmentMode === true ? "http://localhost:5412": window.location.origin; // Global Live URL
 
 // Global App Owner Details
 export const OwnerName = 'Ankan Saha'; // Global App Owner Name
