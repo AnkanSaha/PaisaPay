@@ -7,7 +7,7 @@ type int = number;
 
 // All Variables for send response
 let ResponseContent: JSONresponseInterface;
-const AllowedMethods:str[] = ['POST', 'GET', 'PUT', 'DELETE']; // Allowed Methods
+const AllowedMethods:str[] = ['POST', 'GET', 'PUT', 'DELETE', 'OPTIONS']; // Allowed Methods
 
 // All Interfaces
 /* The `RequestInterface` interface is defining the structure of the request object that will be

@@ -26,7 +26,7 @@ import {Register} from "../../../Services/Authentication/Signup"; // Import Sign
 import { Login_PaisaPay } from "../../../Services/Authentication/Login"; // Import Login Service
 
 // Import Helpers
-import {Multer} from '../../../Helper/multerConfig'; // Import Multer
+import {Multer} from '../../../Helper/config/multerConfig'; // Import Multer
 
 // All Services 
 Authenticator.post('/create-new-account', Multer.single('ProfilePic'), Register); // Register Service with Multer

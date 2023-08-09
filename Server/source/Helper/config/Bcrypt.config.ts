@@ -2,7 +2,7 @@
 import { hash, compare } from 'bcrypt'; // Import Bcrypt
 
 // Import Status Codes
-import { StatusCodes } from '../settings/keys/keys'; // Import Status Codes
+import { StatusCodes } from '../../settings/keys/keys'; // Import Status Codes
 
 // Global Types
 type str = string;

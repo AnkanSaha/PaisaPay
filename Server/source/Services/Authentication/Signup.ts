@@ -9,11 +9,11 @@ import { StatusCodes } from "../../settings/keys/keys"; // Import HTTP Status Co
 import fs from "fs"; // Import fs
 import { Request } from "express"; // Import Request from express
 import { randomNumber } from "uniquegen"; // Import Uniquegen
-import JWT from "../../Helper/JWT.config"; // Import JWT Config
+import JWT from "../../Helper/config/JWT.config"; // Import JWT Config
 
 // import Helpers
 import { AccountExistenceChecker } from "../../Helper/Account Existence Checker"; // Import Account Existence Checker
-import { Encrypt } from '../../Helper/Bcrypt.config'; // Import Bcrypt Config
+import { Encrypt } from '../../Helper/config/Bcrypt.config'; // Import Bcrypt Config
 import MongoDB from "../../settings/MongoDB/MongoDB"; // Import MongoDB Instance
 
 // Import Interfaces
@@ -128,7 +128,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
                     message: 'Account created successfully, you can now login',
                     response: res,
                     data: {
-                        Token: LastLoginToken.toKen,
+                        SessionToken: LastLoginToken.toKen,
                         AccountDetail: await JWT.generate(AccountStatus, '30d')
                     }
                 })

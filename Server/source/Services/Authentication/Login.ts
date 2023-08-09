@@ -6,11 +6,11 @@ type bool = boolean;
 // Import Required Modules
 import { JSONSendResponse } from "../../Helper/Response"; // Import Send Response Function
 import { StatusCodes } from "../../settings/keys/keys"; // Import HTTP Status Codes
-import JWT from "../../Helper/JWT.config"; // Import JWT Config
+import JWT from "../../Helper/config/JWT.config"; // Import JWT Config
 import { Request } from "express"; // Import Request from express
 
 // import Helpers
-import { Compare } from '../../Helper/Bcrypt.config'; // Import Bcrypt Config
+import { Compare } from '../../Helper/config/Bcrypt.config'; // Import Bcrypt Config
 import MongoDB from "../../settings/MongoDB/MongoDB"; // Import MongoDB Instance
 
 

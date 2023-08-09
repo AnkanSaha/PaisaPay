@@ -2,6 +2,7 @@ import React from "react"; // Import React
 import { useSelector, useDispatch } from "react-redux"; // Import Use Selector
 import {addAccountDetails} from '../../../App/Redux/Slices/Account Slice'; // Import Account Slice
 import { useNavigate } from "react-router-dom"; // Import use Navigate
+import { useToast } from '@chakra-ui/react'
 
 // Import Some Components
 import { Button } from "@chakra-ui/react"; // This is for Button
@@ -16,6 +17,7 @@ export default function SignupForm() {
   // initial States
   const Dispatch = useDispatch(); // This is for Dispatch
   const Navigate = useNavigate(); // This is for Navigate
+  const toast = useToast() // This is for Toast
 
   // States
   const [TempFormData, setFormData] = React.useState({
@@ -133,13 +135,28 @@ export default function SignupForm() {
     setisLoading(true); // Set Loading Screen to True
     const Result = await Register(API, MainData); // Call Register Function
     if (Result.statusCode === 200) {
-      Dispatch(addAccountDetails(Result.data)); // Add Account Details to Redux
       setisLoading(false); // Set Loading Screen to True
+      toast({
+        title: 'Account created.',
+        description: "We've created your account for you.",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+      Dispatch(addAccountDetails(Result.data)); // Add Account Details to Redux
       Navigate("/auth/login"); // Navigate to Dashboard
     }
     else if(Result.statusCode === 409){
       setisLoading(false); // Set Loading Screen to True
-      alert(Result.Title) // Show Alert
+      toast({
+        title: Result.Title,
+        description: Result.message,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+      alert(Result.message) // Show Alert
+      Navigate("/auth/login"); // Navigate to Dashboard
     }
   }
   };
