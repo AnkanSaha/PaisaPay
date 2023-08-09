@@ -12,8 +12,8 @@ import { randomNumber } from "uniquegen"; // Import Uniquegen
 import JWT from "../../Helper/JWT.config"; // Import JWT Config
 
 // import Helpers
-import {AccountExistenceChecker} from "../../Helper/Account Existence Checker"; // Import Account Existence Checker
-import {Encrypt} from '../../Helper/Bcrypt.config'; // Import Bcrypt Config
+import { AccountExistenceChecker } from "../../Helper/Account Existence Checker"; // Import Account Existence Checker
+import { Encrypt } from '../../Helper/Bcrypt.config'; // Import Bcrypt Config
 import MongoDB from "../../settings/MongoDB/MongoDB"; // Import MongoDB Instance
 
 // Import Interfaces
@@ -30,9 +30,9 @@ interface SignupRequestInterface extends Request {
         National_ID_Type: str,
         National_ID_Number: str,
         LastLoginIP: str,
-        LastLoginClientDetails: unknown,
+        LastLoginClientDetails: str,
     },
-    file?:Express.Multer.File | any
+    file?: Express.Multer.File | any
 }
 
 // Inter\face for Password Encryption
@@ -52,88 +52,109 @@ interface PasswordEncryptionInterface {
  * @param {ResponseInterface} res - The `res` parameter is the response object that will be sent back
  * to the client. It contains information such as the status code, headers, and the response body.
  */
-export async function Register (req: SignupRequestInterface , res: ResponseInterface){
-    try{
-    const {Name, Email, DOB, Password, National_ID_Type, National_ID_Number, PhoneNumber, LastLoginIP, LastLoginClientDetails} = req.body; // Destructure the request body
-    const AccountStatus = await AccountExistenceChecker(Email, PhoneNumber); // Check if account exists
-    if(AccountStatus.status == true){
-        await fs.promises.rm(req.file.path)
-        JSONSendResponse({
-            status: false,
-            statusCode: StatusCodes.CONFLICT,
-            Title: 'Account Exists',
-            message: 'Account exists with the same email or phone number or ID number',
-            response: res,
-            data: undefined
-        })
-    }
-    else if(AccountStatus.status == false){
-    // Encrypt Password
-     const Rounds: int = await randomNumber(1, false, [1, 2, 3, 4, 5, 6, 7, 8, 9])
-     const EncryptedResult : PasswordEncryptionInterface = await Encrypt(Password, Rounds);
-     
-     // Generate Client ID
-     const ClientID: int = await randomNumber(20, true); // Generate Client ID
-
-     // Encrypt National ID Number
-     const EncryptedNationalIDNumber: PasswordEncryptionInterface = await Encrypt(National_ID_Number, Rounds);
-
-        // Create Client Account
-        const NewClientAccount = {
-            ClientID: ClientID,
-            Name: Name,
-            Email: Email,
-            DOB:DOB,
-            PhoneNumber: PhoneNumber,
-            Password: EncryptedResult.EncryptedData,
-            National_ID_Type: National_ID_Type,
-            National_ID_Number: EncryptedNationalIDNumber.EncryptedData,
-            ProfilePicturePath: req.file.path,
-            ProfilePicSize: req.file.size,
-            ProfilePicFileName: req.file.filename,
-            DateCreated: Date.now(),
-            AccountStatus: "Active",
-            AccountType: "Client",
-            LastLoginTime: Date.now(),
-            LastLoginIP: LastLoginIP,
-            LastLoginClientDetails: LastLoginClientDetails,
-            LastLoginToken: "None"
-        }
-
-        const AccountStatus = await MongoDB.ClientAccount.create(NewClientAccount); // Create Client Account in MongoDB
-        if(AccountStatus.status === true){
-            JSONSendResponse({
-                status: true,
-                statusCode: StatusCodes.OK,
-                Title: 'Account Created',
-                message: 'Account created successfully, you can now login',
-                response: res,
-               data : {
-                AccountDetail: await JWT.generate(AccountStatus, '30d')
-               }
-            })
-        }
-        else if(AccountStatus.status === false){
+export async function Register(req: SignupRequestInterface, res: ResponseInterface) {
+    try {
+        const { Name, Email, DOB, Password, National_ID_Type, National_ID_Number, PhoneNumber, LastLoginIP, LastLoginClientDetails } = req.body; // Destructure the request body
+        const AccountStatus = await AccountExistenceChecker(PhoneNumber, Email); // Check if account exists
+        if (AccountStatus.status == true) {
+            await fs.promises.rm(req.file.path)
             JSONSendResponse({
                 status: false,
-                statusCode: StatusCodes.BAD_REQUEST,
-                Title: 'Database Error',
-                message: 'Look like there is a problem with the database, please try again later',
+                statusCode: StatusCodes.CONFLICT,
+                Title: 'Account Exists',
+                message: 'Account exists with the same email or phone number or ID number',
                 response: res,
-                data: AccountStatus
+                data: undefined
             })
         }
+        else if (AccountStatus.status == false) {
+            // Encrypt Password
+            const Rounds: int = await randomNumber(1, false, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+            const EncryptedResult: PasswordEncryptionInterface = await Encrypt(Password, Rounds);
 
+            // Encrypt National ID Number
+            const EncryptedNationalIDNumber: PasswordEncryptionInterface = await Encrypt(National_ID_Number, Rounds);
+            const LastFourDigitsOfIDNumber: str = National_ID_Number.slice(-4); // Get Last Six Digits of ID Number
+            // Generate Client ID
+            const ClientID: int = await randomNumber(20, true); // Generate Client ID
+
+            // Generate Last Login Token
+            const LastLoginToken = await JWT.generateLoginToken({ EncryptedNationalIDNumber, LastFourDigitsOfIDNumber, Name, Email, DOB, Password, National_ID_Type, PhoneNumber, LastLoginIP, LastLoginClientDetails }, 7, '30d')
+
+
+            // Check if account exists with the same last six digits of ID number
+            const AccountDetails = await MongoDB.ClientAccount.find('OR', [{ LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber }]); // Find the account in the database
+            if (AccountDetails.Data.length > 0) {
+                await fs.promises.rm(req.file.path)
+                JSONSendResponse({
+                    status: false,
+                    statusCode: StatusCodes.CONFLICT,
+                    Title: 'Account Exists',
+                    message: 'Account exists with the same last six digits of ID number',
+                    response: res,
+                    data: undefined
+                })
+            }
+
+            // Create Client Account
+            const NewClientAccount = {
+                ClientID: ClientID,
+                Name: Name,
+                Email: Email,
+                DOB: DOB,
+                PhoneNumber: PhoneNumber,
+                Password: EncryptedResult.EncryptedData,
+                National_ID_Type: National_ID_Type,
+                National_ID_Number: EncryptedNationalIDNumber.EncryptedData,
+                LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber,
+                ProfilePicturePath: req.file.path,
+                ProfilePicSize: req.file.size,
+                ProfilePicFileName: req.file.filename,
+                DateCreated: Date.now(),
+                AccountStatus: "Active",
+                AccountType: "Client",
+                LastLoginTime: Date.now(),
+                LastLoginIP: LastLoginIP,
+                LastLoginClientDetails: JSON.parse(LastLoginClientDetails),
+                LastLoginToken: LastLoginToken.toKen
+            }
+
+            const AccountStatus = await MongoDB.ClientAccount.create(NewClientAccount); // Create Client Account in MongoDB
+            if (AccountStatus.status === true) {
+                JSONSendResponse({
+                    status: true,
+                    statusCode: StatusCodes.OK,
+                    Title: 'Account Created',
+                    message: 'Account created successfully, you can now login',
+                    response: res,
+                    data: {
+                        Token: LastLoginToken.toKen,
+                        AccountDetail: await JWT.generate(AccountStatus, '30d')
+                    }
+                })
+            }
+            else if (AccountStatus.status === false) {
+                JSONSendResponse({
+                    status: false,
+                    statusCode: StatusCodes.BAD_REQUEST,
+                    Title: 'Database Error',
+                    message: 'Look like there is a problem with the database, please try again later',
+                    response: res,
+                    data: AccountStatus
+                })
+            }
+
+        }
     }
-   }
-   catch (err){
-    JSONSendResponse({
-        status: false,
-        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-        Title: 'Internal Server Error',
-        message: 'Internal Server Error',
-        response: res,
-        data: []
-    })
-   }
+    catch (err) {
+        console.log(err)
+        JSONSendResponse({
+            status: false,
+            statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+            Title: 'Internal Server Error',
+            message: 'Internal Server Error',
+            response: res,
+            data: []
+        })
+    }
 }

@@ -3,7 +3,6 @@ export const Register = async (URL, Data) => {
     try {
         const Result = await fetch(`${URL}/post/auth/create-new-account`, {method: 'POST', body: Data}); // API Call for Create Account
         const Response = await Result.json(); // Get Response
-        console.log(Response);
         return Response; // Return Response
     }
     catch (error) {
