@@ -7,3 +7,4 @@
 /Server/.env
 /Server/node_modules
 /Server/Build
+/Server/Data

@@ -7,6 +7,7 @@ export default {
     Password: {type: String, required: true},
     National_ID_Type: {type: String, required: true, index: true},
     National_ID_Number: {type: String, required: true, unique: true},
+    LastFourDigitsOfIDNumber: {type: String, required: true, unique: true},
     ProfilePicturePath: {type: String, required: true},
     ProfilePicSize: {type: Number, required: true},
     ProfilePicFileName: {type: String, required: true},

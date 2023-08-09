@@ -31,9 +31,9 @@ export interface AccountDetailsInterface {
  * - message: a message describing the result of the operation
  * - Information: an array containing account details if the account exists, otherwise an empty array
  */
-export const AccountExistenceChecker = async (AccountEmail?: str, AccountPhoneNumber?: int) => {
+export const AccountExistenceChecker = async ( AccountPhoneNumber?: int, AccountEmail?: str) => {
     try {
-        const AccountDetails = await MongoDB.ClientAccount.find('OR', [{ Email: AccountEmail, PhoneNumber: AccountPhoneNumber }]); // Find the account in the database
+        const AccountDetails = await MongoDB.ClientAccount.find('OR', [{ Email: AccountEmail}, {PhoneNumber: AccountPhoneNumber }]); // Find the account in the database
         if (AccountDetails == null || AccountDetails == undefined || AccountDetails.Data.length == 0) {
             return {
                 status: false,
