@@ -26,7 +26,7 @@ function HomePage() {
   return (
     <div className="bg-black min-h-screen">
     <>
-      <GeneralNavbar Text="Dashboard" Link="/dashbaord" />
+      <GeneralNavbar Text="Dashboard" Link="/dashboard" />
       <Main_Text />
       <ChatAnimation />
       <GeberalFooter FooterStyle={FotterStyle} />
