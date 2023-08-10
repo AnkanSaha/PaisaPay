@@ -10,7 +10,7 @@ export default function LoginPage (){
     Update_Document_Title(`Login`) // ← changing the title of document (page)
     return (
        <>
-       <GeneralNavbar />
+       <GeneralNavbar Text="Create Account" Link="/auth/create-account"  />
        <LoginForm />
        <GeneralFooter />
        </>

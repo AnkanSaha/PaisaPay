@@ -14,10 +14,6 @@ function GeneralNavbar(props) {
   const navigate = useNavigate(); // Create navigate function
   const Location = useLocation(); // Create Location Function
 
-  // Random Function For Fade Animation
-  const AvailableAnimation  = ['zoom-in', 'zoom-in-down', 'zoom-in-up', 'zoom-out', 'zoom-out-up', 'zoom-out-down']; // Available Animation
-  const Selected = AvailableAnimation[Math.floor(Math.random() * AvailableAnimation.length)]; // Select Random Animation
-  
   // get All State from Redux Store
   const ReduxState = useSelector(state => state); // Get All State from Redux Store
 
@@ -38,7 +34,7 @@ function GeneralNavbar(props) {
   // Logic For Navbar Button
 
   return (
-    <div className={`navbar ${Location.pathname === '/' ? 'bg-transparent' : 'bg-white'} text-${TextColorScheme} rounded-b-lg`} data-aos={Selected}>
+    <div className={`navbar ${Location.pathname === '/' ? 'bg-transparent' : 'bg-white'} text-${TextColorScheme} rounded-b-lg`}>
       <div className="navbar-start z-50">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
