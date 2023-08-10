@@ -7,7 +7,7 @@
     "test": "eslint ./source/**/*.{js,ts} --fix",
     "build": "npm test && tsc && cp package.json ./Build/",
     "dev": "nodemon source/settings/PaisaPay.ts",
-    "start": "pm2 start ./Build/settings/PaisaPay.js --name PaisaPay --watch"
+    "start": "pm2 start ./settings/PaisaPay.js --name PaisaPay --watch"
   },
   "repository": {
     "type": "git",

@@ -22,6 +22,7 @@ import {
   } from '@chakra-ui/react'; // Importing Chakra UI Components
 
   import {BsFillShieldLockFill} from 'react-icons/bs'; // Importing Shield Icon
+  import {MdCreateNewFolder} from 'react-icons/md'; // Importing Create New Folder Icon
   import {addAccountDetails} from '../../../App/Redux/Slices/Account Slice'; // Importing Account Slice
   import {LoadingScreen} from '../../../Pages/Common Pages/Loading Screen'; // Importing Loading Screen
 
@@ -111,7 +112,7 @@ export default function LoginForm (){
             <Button colorScheme='whatsapp' rightIcon={<BsFillShieldLockFill/>} onClick={SubmitHandler} mr={3}>
                 Login Securely
             </Button>
-            <Button colorScheme="facebook" mr={3} onClick={()=>{navigate('/auth/create-account')}}>Create New Account</Button>
+            <Button colorScheme="facebook" rightIcon={<MdCreateNewFolder/>} mr={3} onClick={()=>{navigate('/auth/create-account')}}>Create Account</Button>
             <Button onClick={()=>{navigate('/')}}>Go Back</Button>
           </ModalFooter>
         </ModalContent>

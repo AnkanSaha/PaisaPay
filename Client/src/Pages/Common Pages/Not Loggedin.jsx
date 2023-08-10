@@ -13,11 +13,11 @@ import { useSelector } from "react-redux"; // import the hook from react-redux
 import { Button } from "@chakra-ui/react"; // import Button component
 
 // import components
-import GenetalNavbar from "../../Component/Navbar/General Navbar"; // Navbar
+import GeneralNavbar from "../../Component/Navbar/General Navbar"; // Navbar
 import GeneralFooter from "../../Component/Footer/General Footer"; // Footer
 
 // import React Icons
-import { TfiBackLeft } from "react-icons/tfi"; // import the back icon
+import { IoMdLogIn } from "react-icons/io"; // import the back icon
 
 export default function NotLoggedIn_Offline({
   Status,
@@ -39,7 +39,7 @@ export default function NotLoggedIn_Offline({
 
   return (
     <>
-      <GenetalNavbar />
+      <GeneralNavbar />
       <div data-aos="fade-up">
         <h1 className="text-center mt-[8.75rem] text-xl lg:mt-[8.5rem] font-mono lg:text-3xl text-red-500 font-bold">
           {Status}
@@ -55,8 +55,8 @@ export default function NotLoggedIn_Offline({
         </p>
         <Button
           className="ml-[7.25rem] lg:ml-[38.25rem] mt-[2.25rem]"
-          leftIcon={<TfiBackLeft />}
-          colorScheme="facebook"
+          leftIcon={<IoMdLogIn />}
+          colorScheme="green"
           onClick={() => {
             Navigate(ButtonLink);
           }}
