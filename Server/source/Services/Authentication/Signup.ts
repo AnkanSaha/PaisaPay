@@ -79,7 +79,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             const ClientID: int = await randomNumber(20, true); // Generate Client ID
 
             // Generate Last Login Token
-            const LastLoginToken = await JWT.generateLoginToken({ EncryptedNationalIDNumber, LastFourDigitsOfIDNumber, Name, Email, DOB, Password, National_ID_Type, PhoneNumber, LastLoginIP, LastLoginClientDetails }, 7, '30d')
+            const LastLoginToken = await JWT.generateLoginToken({ EncryptedNationalIDNumber, LastFourDigitsOfIDNumber, Name, Email, DOB, Password, National_ID_Type, PhoneNumber, LastLoginIP, LastLoginClientDetails }, 2, '30d')
 
 
             // Check if account exists with the same last six digits of ID number

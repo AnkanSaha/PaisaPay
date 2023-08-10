@@ -2,7 +2,7 @@
 type int = number; // Integer
 
 // All Imports
-import express, {json, urlencoded} from 'express'; // Import Express
+import express, {json, urlencoded, Express} from 'express'; // Import Express
 import { cpus, platform, freemem } from 'os'; // Import OS
 import cluster from 'cluster'; // Import Cluster
 const { isPrimary } = cluster; // Import isPrimary from Cluster
@@ -52,7 +52,10 @@ if (isPrimary) {
 		yellow(`Worker ${worker.process.pid} is listening on Port ${NumberKeys.PORT}`)
 	});
 } else {
-	const Server = express(); // Create Express Server
+	const Server: Express = express(); // Create Express Server
+
+	// Enable All Proxy Settings
+	Server.set('trust proxy', ()=> true); // Enable All Proxy Settings
 
 	// Link All Router as MainRouter
 	Server.use('/api', json(), urlencoded({extended:true, limit:5000000 * 1000}), CheckHeader, MainRouter); // Link Main Router

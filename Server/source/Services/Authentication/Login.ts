@@ -53,7 +53,7 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
             const isPasswordCorrect: isPasswordCorrectInterface = await Compare(Password, AccountStatus.Data[0].Password); // Compare the password
             if (isPasswordCorrect.isMatch === true) {
                 const JWTaccountDetails = await JWT.generate(AccountStatus.Data[0], '7d'); // Generate JWT
-                const LoginToken = await JWT.generateLoginToken(JWTaccountDetails, 5, '7d'); // Generate Login Token
+                const LoginToken = await JWT.generateLoginToken(JWTaccountDetails, 2, '7d'); // Generate Login Token
 
                 // Update Last Login IP and Last Login Client Details
                 const ToBeUpdateOptions = {
