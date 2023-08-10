@@ -6,6 +6,7 @@ import rateLimit from 'express-rate-limit'; // Import rate limit for limiting re
 // Setup Router
 const Authenticator = Router(); // Create a router
 Authenticator.use(CORS({origin:StringKeys.CORS_URL})); // Use CORS
+
 Authenticator.use(rateLimit({
     windowMs: 60 * 1000, // 1 minute
     max: 20, // 20 requests
