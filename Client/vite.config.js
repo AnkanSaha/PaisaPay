@@ -66,16 +66,16 @@ export default defineConfig({
     write: true,
     assetsInlineLimit: 5128
   },
-  server: {
-    port: 5173,
-    strictPort: true,
-    open: true,
-    cors: true,
-    hmr: true,
-    https: false,
-    host: "localhost",
-    force: false
-  },
+  // server: {
+  //   port: 5173,
+  //   strictPort: true,
+  //   open: true,
+  //   cors: true,
+  //   hmr: true,
+  //   https: false,
+  //   host: "localhost",
+  //   force: false
+  // },
   resolve: {
     alias: {
       "@": "/src",
