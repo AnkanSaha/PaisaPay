@@ -7,7 +7,7 @@
     "test": "eslint ./source/**/*.{js,ts} --fix",
     "build": "npm test && tsc && cp package.json ./Build/ && cp package-lock.json ./Build/ && cd ./Build && npm install",
     "dev": "nodemon source/PaisaPay.ts",
-    "start": "pm2 start ecosystem.config.js",
+    "start": "pm2 start ecosystem.config.js -f",
     "stop": "pm2 stop PaisaPay"
   },
   "repository": {
