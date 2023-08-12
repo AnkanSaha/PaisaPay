@@ -7,12 +7,12 @@ import { cpus, platform, freemem } from 'os'; // Import OS
 import cluster from 'cluster'; // Import Cluster
 const { isPrimary } = cluster; // Import isPrimary from Cluster
 import { green, red, yellow, blue, magenta, bright } from 'outers'; // Import Outers
-import { NumberKeys } from './keys/keys'; // Import Keys
-import MongoDB from './MongoDB/MongoDB'; // Import MongoDB Connection
+import { NumberKeys } from './settings/keys/keys'; // Import Keys
+import MongoDB from './settings/MongoDB/MongoDB'; // Import MongoDB Connection
 
 // Router Related Imports
-import MainRouter from '../API/Router'; // Import Main Router
-import { CheckHeader } from '../Helper/Incoming Request Checker';
+import MainRouter from './API/Router'; // Import Main Router
+import { CheckHeader } from './Helper/Incoming Request Checker';
 
 // CPU Count
 let CPUCount: int = cpus().length;

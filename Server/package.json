@@ -5,9 +5,9 @@
   "main": "./settings/PaisaPay.js",
   "scripts": {
     "test": "eslint ./source/**/*.{js,ts} --fix",
-    "build": "npm test && tsc && cp package.json ./Build/ && cp package-lock.json ./Build/ && npm install",
-    "dev": "nodemon source/settings/PaisaPay.ts",
-    "start": "pm2 start ./ecosystem.config.js",
+    "build": "npm test && tsc && cp package.json ./Build/ && cp package-lock.json ./Build/ && cd ./Build && npm install",
+    "dev": "nodemon source/PaisaPay.ts",
+    "start": "pm2 start ecosystem.config.js",
     "stop": "pm2 stop PaisaPay"
   },
   "repository": {
