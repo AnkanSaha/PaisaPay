@@ -4,9 +4,9 @@ import { useSelector } from "react-redux"; // import the useSelector hook
 
 // import Components
 import GeneralNavbar from "../../Component/Navbar/General Navbar"; // import the general navbar
-import GeberalFooter from "../../Component/Footer/General Footer"; // import the general footer
-import ChatAnimation from "../../Component/General Components/Chat Animation"; // import the chat animation
-import Main_Text from "../../Component/General Components/Main Text"; // import the main text
+import GeneralFooter from "../../Component/Footer/General Footer"; // import the general footer
+import ChatAnimation from "../../Component/General Components/Home Components/Chat Animation"; // import the chat animation
+import Main_Text from "../../Component/General Components/Home Components/Main Text"; // import the main text
 
 // import custom css
 import "../../assets/css/General CSS/home.css"; // import the home css
@@ -18,18 +18,18 @@ function HomePage() {
   const ReduxState = useSelector((state) => state); // Load All State Values from Redux
 
   // Footer Style for this page
-  let FotterStyle = "static";
+  let FooterStyle = "static";
   ReduxState.GeneralAppInfo.ClientDetails.ClientDeviceDetails
     .Device_DetailsDeviceType === "Mobile"
-    ? (FotterStyle = "static")
-    : (FotterStyle = "fixed");
+    ? (FooterStyle = "static")
+    : (FooterStyle = "fixed");
   return (
     <div className="bg-black min-h-screen">
     <>
       <GeneralNavbar Text="Dashboard" Link="/dashboard" />
       <Main_Text />
       <ChatAnimation />
-      <GeberalFooter FooterStyle={FotterStyle} />
+      <GeneralFooter FooterStyle={FooterStyle} />
     </>
     </div> // if the user is not logged in then display the not logged in component
   );

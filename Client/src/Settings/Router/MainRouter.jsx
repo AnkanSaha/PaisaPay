@@ -3,7 +3,8 @@ import React from "react"; // import React module
 import { Routes, Route } from "react-router-dom"; // import the React router DOM module
 
 // import All Pages
-import HomePage from "../../Pages/General Pages/Home";
+import HomePage from "../../Pages/General Pages/Home"; // import the home page
+import AboutUsPage from "../../Pages/General Pages/About Us"; // import the about us page
 
 // Import Error Handler
 import DashboardErrorHandler from "../Error Handlers/Dashboard Error Handler"; // import the dashboard error handler
@@ -18,6 +19,7 @@ export default function Router() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/about/" element={<AboutUsPage />} />
       <Route path="/dashboard/*" element={<DashboardErrorHandler />} />
       <Route path="/auth/*" element={<AuthErrorHandler />} />
       <Route path="*" element={<NotLoggedIn_Offline Status="No Page Found" Message="Seems like the page you are looking for is not available. Please check the URL and try again." ButtonText="Go Home" ButtonLink="/" />} />
