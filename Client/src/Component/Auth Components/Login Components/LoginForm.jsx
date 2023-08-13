@@ -22,7 +22,7 @@ import {
   } from '@chakra-ui/react'; // Importing Chakra UI Components
 
   import {BsFillShieldLockFill} from 'react-icons/bs'; // Importing Shield Icon
-  import {MdCreateNewFolder} from 'react-icons/md'; // Importing Create New Folder Icon
+  import {Si1Password} from 'react-icons/si'; // Importing Create New Folder Icon
   import {addAccountDetails} from '../../../App/Redux/Slices/Account Slice'; // Importing Account Slice
   import {LoadingScreen} from '../../../Pages/Common Pages/Loading Screen'; // Importing Loading Screen
 
@@ -68,6 +68,18 @@ export default function LoginForm (){
           Dispatch(addAccountDetails(LoginResult.data)); // Add Account Details to Redux Store
           navigate('/dashboard'); // Navigate to Dashboard
         }
+        else if(LoginResult.statusCode === 404){
+          toast({
+            title: LoginResult.Title,
+            description: LoginResult.message,
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+            icon: 'warning',
+          })
+  
+          navigate('/auth/create-account'); // Navigate to Create Account
+        }
         else {
           toast({
             title: LoginResult.Title,
@@ -81,6 +93,12 @@ export default function LoginForm (){
         }
       }
     }
+
+    // Closing Function
+    const CloseModal = () => {
+      onClose(); // Close the modal
+      navigate('/'); // Navigate to Home Page
+    }
     
     return (
       <>
@@ -91,6 +109,7 @@ export default function LoginForm (){
         scrollBehavior="inside"
         size={'xl'}
         variant={'ghost'}
+        onClose={CloseModal}
       >
         <ModalOverlay />
         <ModalContent>
@@ -112,8 +131,7 @@ export default function LoginForm (){
             <Button colorScheme='whatsapp' rightIcon={<BsFillShieldLockFill/>} onClick={SubmitHandler} mr={3}>
                 Login Securely
             </Button>
-            <Button colorScheme="facebook" rightIcon={<MdCreateNewFolder/>} mr={3} onClick={()=>{navigate('/auth/create-account')}}>Create Account</Button>
-            <Button onClick={()=>{navigate('/')}}>Go Back</Button>
+            <Button colorScheme="facebook" rightIcon={<Si1Password/>} mr={3} onClick={()=>{navigate('/auth/forget-password')}}>Reset Password</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

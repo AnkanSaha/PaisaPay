@@ -1,8 +1,8 @@
 import React from "react"; // Import React
 import { useSelector, useDispatch } from "react-redux"; // Import Use Selector
-import {addAccountDetails} from '../../../App/Redux/Slices/Account Slice'; // Import Account Slice
+import { addAccountDetails } from "../../../App/Redux/Slices/Account Slice"; // Import Account Slice
 import { useNavigate } from "react-router-dom"; // Import use Navigate
-import { useToast } from '@chakra-ui/react'
+import { useToast } from "@chakra-ui/react";
 
 // Import Some Components
 import { Button } from "@chakra-ui/react"; // This is for Button
@@ -17,7 +17,7 @@ export default function SignupForm() {
   // initial States
   const Dispatch = useDispatch(); // This is for Dispatch
   const Navigate = useNavigate(); // This is for Navigate
-  const toast = useToast() // This is for Toast
+  const toast = useToast(); // This is for Toast
 
   // States
   const [TempFormData, setFormData] = React.useState({
@@ -104,61 +104,59 @@ export default function SignupForm() {
     if (VerificatonResult === false) {
       setisLoading(false); // Set Loading Screen to True
       return; // Exit the function early
-    }
-    else if(VerificatonResult === true){
-    const MainData = new FormData();
-    MainData.append(
-      "Name",
-      `${TempFormData.firstName} ${TempFormData.lastName}`
-    );
-    MainData.append("Email", TempFormData.email);
-    MainData.append("National_ID_Type", TempFormData.ID_Type);
-    MainData.append("National_ID_Number", TempFormData.ID_Number);
-    MainData.append("PhoneNumber", TempFormData.PhoneNumber);
-    MainData.append("DOB", TempFormData.DOB);
+    } else if (VerificatonResult === true) {
+      const MainData = new FormData();
+      MainData.append(
+        "Name",
+        `${TempFormData.firstName} ${TempFormData.lastName}`
+      );
+      MainData.append("Email", TempFormData.email);
+      MainData.append("National_ID_Type", TempFormData.ID_Type);
+      MainData.append("National_ID_Number", TempFormData.ID_Number);
+      MainData.append("PhoneNumber", TempFormData.PhoneNumber);
+      MainData.append("DOB", TempFormData.DOB);
 
-    if (TempFormData.password === TempFormData.confirmPassword) {
-      MainData.append("Password", TempFormData.password);
-    } else {
-      alert("Password and Confirm Password Must Be Same");
-      return; // Exit the function early
-    }
+      if (TempFormData.password === TempFormData.confirmPassword) {
+        MainData.append("Password", TempFormData.password);
+      } else {
+        alert("Password and Confirm Password Must Be Same");
+        return; // Exit the function early
+      }
 
-    MainData.append("ProfilePic", TempFormData.profilePicture);
-    MainData.append("LastLoginIP", IPDetails.ClientIP);
-    MainData.append("LastLoginClientDetails", JSON.stringify(IPDetails));
+      MainData.append("ProfilePic", TempFormData.profilePicture);
+      MainData.append("LastLoginIP", IPDetails.ClientIP);
+      MainData.append("LastLoginClientDetails", JSON.stringify(IPDetails));
 
-    // Log FormData for debugging
-    // for (let [key, value] of MainData.entries()) {
-    //   console.log(key, value);
-    // }
-    setisLoading(true); // Set Loading Screen to True
-    const Result = await Register(API, MainData); // Call Register Function
-    if (Result.statusCode === 200) {
-      setisLoading(false); // Set Loading Screen to True
-      toast({
-        title: 'Account created.',
-        description: "We've created your account for you.",
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      })
-      Dispatch(addAccountDetails(Result.data)); // Add Account Details to Redux
-      Navigate("/auth/login"); // Navigate to Dashboard
+      // Log FormData for debugging
+      // for (let [key, value] of MainData.entries()) {
+      //   console.log(key, value);
+      // }
+      setisLoading(true); // Set Loading Screen to True
+      const Result = await Register(API, MainData); // Call Register Function
+      if (Result.statusCode === 200) {
+        setisLoading(false); // Set Loading Screen to True
+        toast({
+          title: "Account created.",
+          description: "We've created your account for you.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+        Dispatch(addAccountDetails(Result.data)); // Add Account Details to Redux
+        Navigate("/auth/login"); // Navigate to Dashboard
+      } else if (Result.statusCode === 409) {
+        setisLoading(false); // Set Loading Screen to True
+        toast({
+          title: Result.Title,
+          description: Result.message,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        alert(Result.message); // Show Alert
+        Navigate("/auth/login"); // Navigate to Dashboard
+      }
     }
-    else if(Result.statusCode === 409){
-      setisLoading(false); // Set Loading Screen to True
-      toast({
-        title: Result.Title,
-        description: Result.message,
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      })
-      alert(Result.message) // Show Alert
-      Navigate("/auth/login"); // Navigate to Dashboard
-    }
-  }
   };
 
   return isLoading === true ? (
@@ -166,9 +164,22 @@ export default function SignupForm() {
   ) : (
     <div className="bg-gray-50 min-h-screen mx-10 my-10 rounded-xl">
       <div className="bg-white p-8 rounded shadow-lg">
-        <h2 className=" text-xl lg:text-3xl font-extrabold mb-6">
-          Create an Account
-        </h2>
+        <div className="flex justify-between">
+          <h2 className=" text-xl lg:text-3xl font-extrabold mb-6">
+            Create an Account
+          </h2>
+          <div className="avatar lg:block hidden">
+            <div className="w-24 rounded-full">
+              <img
+                src={
+                  TempFormData.profilePicture
+                    ? URL.createObjectURL(TempFormData.profilePicture)
+                    : "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
+                }
+              />
+            </div>
+          </div>
+        </div>
         <div className="mb-4">
           <h1 className="mb-2 font-semibold">Enter First Name </h1>
           <input
@@ -287,13 +298,12 @@ export default function SignupForm() {
           <input
             type="file"
             name="profilePicture"
-            accept="image/jpeg, image/png , image/jpg"
+            accept="image/jpeg, image/png , image/jpg, image/webp"
             size={1 * 1024 * 1024}
             onChange={Handler}
             encType="multipart/form-data"
             placeholder="Upload Profile Picture"
-            className="w-full lg:w-12/12 lg:mr-5 p-3 mb-2 border rounded outline-none"
-            required
+            className="file-input file-input-bordered min-w-full max-w-xs"
           />
         </div>
         <Button
