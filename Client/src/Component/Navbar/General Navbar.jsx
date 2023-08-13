@@ -112,6 +112,6 @@ export default React.memo(GeneralNavbar); // Export the function
 
 // Default Props
 GeneralNavbar.defaultProps = {
-  Text: "Login",
-  Link: "/auth/login",
+  Text: "Dashboard",
+  Link: "/dashboard",
 };
