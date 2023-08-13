@@ -16,7 +16,7 @@ function Signup() {
   
   return (
     <>
-    <GeneralNavbar/>
+    <GeneralNavbar Text="Login" Link="/auth/login"/>
     <SignupForm />
     <GeneralFooter />
     </>
