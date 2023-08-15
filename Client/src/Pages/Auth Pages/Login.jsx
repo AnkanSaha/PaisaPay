@@ -3,14 +3,12 @@ import {Update_Document_Title} from '../../Helper/Common'; // ← Common functio
 
 // Import Components here
 import LoginForm from '../../Component/Auth Components/Login Components/LoginForm'; // ← Login Form Component
-import GeneralNavbar from '../../Component/Navbar/General Navbar'; // ← Navbar Component
 import GeneralFooter from '../../Component/Footer/General Footer'; // ← Footer Component
 
 export default function LoginPage (){
     Update_Document_Title(`Login`) // ← changing the title of document (page)
     return (
        <>
-       <GeneralNavbar Text="Create Account" Link="/auth/create-account"  />
        <LoginForm />
        <GeneralFooter />
        </>

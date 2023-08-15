@@ -55,11 +55,22 @@ interface PasswordEncryptionInterface {
 export async function Register(req: SignupRequestInterface, res: ResponseInterface) {
     try {
         const { Name, Email, DOB, Password, National_ID_Type, National_ID_Number, PhoneNumber, LastLoginIP, LastLoginClientDetails } = req.body; // Destructure the request body
+        if(!Name || !Email || !DOB || !Password || !National_ID_Type || !National_ID_Number || !PhoneNumber || !LastLoginIP || !LastLoginClientDetails) {
+            await fs.promises.rm(req.file.path)
+            JSONSendResponse({
+                status: false,
+                statusCode: StatusCodes.BAD_REQUEST,
+                Title: 'Information Missing in Request',
+                message: 'Please provide all the required information & try again',
+                response: res,
+                data: undefined
+            })
+            return; // Return if the request body is invalid
+        }
+        else {
         const AccountStatus = await AccountExistenceChecker(PhoneNumber, Email); // Check if account exists
         if (AccountStatus.status == true) {
-            console.log('Account exists')
             await fs.promises.rm(req.file.path)
-            console.log('Deleted File :', req.file)
             JSONSendResponse({
                 status: false,
                 statusCode: StatusCodes.CONFLICT,
@@ -70,35 +81,26 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             })
         }
         else if (AccountStatus.status == false) {
-            console.log('Account does not exist')
-            console.log('Uploaded File :', req.file)
             // Encrypt Password
             const Rounds: int = await randomNumber(1, false, [1, 2, 3, 4, 5, 6, 7, 8, 9])
-           console.log('Decided Rounds :', Rounds)
+
             const EncryptedResult: PasswordEncryptionInterface = await Encrypt(Password, Rounds);
-            console.log('Encrypted Password:', EncryptedResult)
 
             // Encrypt National ID Number
             const EncryptedNationalIDNumber: PasswordEncryptionInterface = await Encrypt(National_ID_Number, Rounds);
-            console.log('Encrypted National ID Number:', EncryptedNationalIDNumber)
 
             const LastFourDigitsOfIDNumber: str = National_ID_Number.slice(-4); // Get Last Six Digits of ID Number
-            console.log('Last Four Digits of ID Number:', LastFourDigitsOfIDNumber)
-            
+
             // Generate Client ID
             const ClientID: int = await randomNumber(20, true); // Generate Client ID
-            console.log('Client ID:', ClientID)
 
             // Generate Last Login Token
             const LastLoginToken = await JWT.generateLoginToken({ ClientID: ClientID, Email: Email, PhoneNumber: PhoneNumber }, 2, '7d')
-            console.log('Last Login Token:', LastLoginToken)
 
             // Check if account exists with the same last six digits of ID number
             const AccountDetails = await MongoDB.ClientAccount.find('OR', [{ LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber }]); // Find the account in the database
             if (AccountDetails.Data.length > 0) {
-                console.log('Account exists with the same last six digits of ID number')
                 await fs.promises.rm(req.file.path)
-                console.log('Deleted File :', req.file)
 
                 JSONSendResponse({
                     status: false,
@@ -135,7 +137,6 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 
             const AccountStatus = await MongoDB.ClientAccount.create(NewClientAccount); // Create Client Account in MongoDB
             if (AccountStatus.status === true) {
-                console.log('Account created successfully')
                 JSONSendResponse({
                     status: true,
                     statusCode: StatusCodes.OK,
@@ -149,7 +150,6 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
                 })
             }
             else if (AccountStatus.status === false) {
-                console.log('Account creation failed')
                 JSONSendResponse({
                     status: false,
                     statusCode: StatusCodes.BAD_REQUEST,
@@ -162,6 +162,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 
         }
     }
+}
     catch (err) {
         console.log(err)
         JSONSendResponse({

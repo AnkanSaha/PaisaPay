@@ -9,13 +9,13 @@ import { StatusCodes } from "../../settings/keys/keys"; // Import HTTP Status Co
 import { SendFileResponse } from "../../Helper/Response"; // Import Send Response Function
 
 // Import Interfaces
-import {RequestInterface} from '../../Helper/Incoming Request Checker'; // Import Response Interface
+import { RequestInterface } from "../../Helper/Incoming Request Checker"; // Import Response Interface
 
 // Extend The Request Interface
-interface FileFetchInterface extends RequestInterface{
-    params:{
-        ProfilePicID:str
-    }
+interface FileFetchInterface extends RequestInterface {
+  params: {
+    ProfilePicID: str;
+  };
 } // Import Request Interface
 
 // Function For File Fetch
@@ -28,11 +28,23 @@ interface FileFetchInterface extends RequestInterface{
  * @param {any} response - The `response` parameter is the HTTP response object that will be used to
  * send the file to the client.
  */
-export async function GetProfilePic (request: FileFetchInterface, response: any){
+export async function GetProfilePic(
+  request: FileFetchInterface,
+  response: any
+) {
+  if (!request.params.ProfilePicID) {
     SendFileResponse({
-        response: response,
-        statusCode: StatusCodes.OK,
-        Filename:`${request.params.ProfilePicID}`,
-        rootName: 'Data/'
-    })
+      rootName: "Data/",
+      response: response,
+      Filename: undefined,
+      statusCode: StatusCodes.BAD_REQUEST,
+    });
+  } else {
+    SendFileResponse({
+      response: response,
+      statusCode: StatusCodes.OK,
+      Filename: `${request.params.ProfilePicID}`,
+      rootName: "Data/",
+    });
+  }
 }

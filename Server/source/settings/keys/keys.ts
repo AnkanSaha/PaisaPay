@@ -18,8 +18,9 @@ export const StringKeys = {
 export const Database_Keys = {
     MongoDB: String(process.env.MONGODB_URL),
     ClientAccountCollectionName: String('ClientAccount'),
-    ServerTransactionCollectionName: String('ServerTransactionDetails'),
-    P2PTransactionCollectionName: String('P2PTransactionDetails'),
+    ServerTransactionCollectionName: String('ServerTransactionDetail'),
+    P2PTransactionCollectionName: String('P2PTransactionDetail'),
+    HelpCenterCollectionName: String('HelpCenterDetail'),
 }
 
 

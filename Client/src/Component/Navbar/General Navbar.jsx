@@ -61,9 +61,6 @@ function GeneralNavbar(props) {
             className={`menu menu-sm 'bg-${BgColorScheme}' text-black  dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 z-50`}
           >
             <li>
-              <Link to="/features">Features</Link>
-            </li>
-            <li>
               <Link to="/privacy">Privacy Policy</Link>
               <Link to="/about">About Us</Link>
               <Link to="/help">Help Center</Link>
@@ -81,9 +78,6 @@ function GeneralNavbar(props) {
         className={`navbar-center hidden lg:flex bg-${BgColorScheme} text-${TextColorScheme}`}
       >
         <ul className="menu menu-horizontal px-1 font-bold">
-          <li>
-            <Link to="/features">Features</Link>
-          </li>
           <li>
             <Link to="/privacy">Privacy Policy</Link>
           </li>
