@@ -44,7 +44,7 @@ interface FileResponseInterface {
         }
     },
     statusCode: int,
-    Filename: str,
+    Filename?: str,
     rootName: str
 }
 

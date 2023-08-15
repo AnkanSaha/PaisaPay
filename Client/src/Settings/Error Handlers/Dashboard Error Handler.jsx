@@ -5,7 +5,7 @@ import { useSelector } from "react-redux"; // import the hook from react-redux
 import DashboardRouter from "../Router/Sub Routers/Dashboard Router"; // import the dashboard router
 
 // import Components
-import NotLoggedIn_Offline from "../../Pages/Common Pages/Not Loggedin"; // import the component for not logged in
+import LoginPage from "../../Pages/Auth Pages/Login"; // import the component for not logged in
 import { LoadingScreen } from "../../Pages/Common Pages/Loading Screen"; // import the loading screen component
  
 export default function DashboardErrorHandler() {
@@ -13,7 +13,7 @@ export default function DashboardErrorHandler() {
     const AccountDetails = useSelector((state) => state.AccountInfo); // get the state from the store
     const InternetStatus = useSelector((state) => state.GeneralAppInfo.ApplicationConfig.Frontend_Details.InternetStatus); // get the state from the store
     return InternetStatus === false ?  <LoadingScreen />
-        : AccountDetails === null ? <NotLoggedIn_Offline ButtonText="Login" ButtonLink="/auth/login"/>
+        : AccountDetails === null ? <LoginPage/>
         :(<DashboardRouter />); // if the user is not logged in then display the not logged in component
       
 } // export the error handler component
