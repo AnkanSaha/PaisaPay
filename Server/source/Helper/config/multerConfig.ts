@@ -1,18 +1,12 @@
-// Global Types
-type str = string;
-
 import multer from 'multer'; // Import multer
 import { randomWord} from 'uniquegen'; // Import uniquegen
 import fs from 'fs'; // Import the fs module
 import {extname, join} from 'path'; // Import the path module
-
-
-// Dynamic Folder Value & Functions
-export const UploadFolderName: str = "Data"; // Declare a variable to store the folder name which can updated dynamically
+import { StringKeys } from '../../settings/keys/keys'; // Import the keys
 
 
 // Ensure 'uploads' directory exists
-  const uploadDirectory = join(`${UploadFolderName}/`);
+  const uploadDirectory = join(`${StringKeys.StaticDirectoryName}/`);
   if (!fs.existsSync(uploadDirectory)) {
       fs.mkdirSync(uploadDirectory, { recursive: true });
   }

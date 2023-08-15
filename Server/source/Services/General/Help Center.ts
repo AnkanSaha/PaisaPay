@@ -22,6 +22,7 @@ interface RequestInterface extends Request {
     TicketDescription?: str;
     ClientID?: str;
     CurrentClientDetails?: object;
+    SessionToken?: str;
   };
 }
 
@@ -42,8 +43,8 @@ export default async function HelpCenterService(
   response: ResponseInterface
 ) {
   try {
-    const { ClientID, TicketDescription, TicketTitle, CurrentClientDetails } = request.body; // Destructure the request body
-    if (!ClientID || !TicketDescription || !TicketTitle || !CurrentClientDetails) {
+    const { ClientID, TicketDescription, TicketTitle, CurrentClientDetails, SessionToken } = request.body; // Destructure the request body
+    if (!ClientID || !TicketDescription || !TicketTitle || !CurrentClientDetails || !SessionToken) {
       // Check if the request body is valid
       JSONSendResponse({
         data: undefined,
@@ -55,6 +56,8 @@ export default async function HelpCenterService(
       });
       return; // Return if the request body is invalid
     } else {
+      const JWTVerificationResult = await JWT.decode(SessionToken); // Verify the session token
+      if(JWTVerificationResult.status === 'Success'){ // Check if the session token is valid
       // Encrypt the request data
       const TicketTitle = await JWT.generate(request.body.TicketTitle);
       const TicketDescription = await JWT.generate(
@@ -95,6 +98,17 @@ export default async function HelpCenterService(
           response: response,
         });
       }
+    }
+    else if(JWTVerificationResult.status === 'Invalid'){
+      JSONSendResponse({
+        data: undefined,
+        Title: "Session Expired",
+        message: "Your session has expired, please login again",
+        status: false,
+        statusCode: StatusCodes.UNAUTHORIZED,
+        response: response,
+      });
+    }
     }
   } catch (error) {
     console.log(error);

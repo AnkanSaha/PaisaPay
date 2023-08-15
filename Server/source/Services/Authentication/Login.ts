@@ -85,7 +85,7 @@ export const Login_PaisaPay = async (
               Email: AccountStatus.Data[0].Email,
               PhoneNumber: PhoneNumber,
             },
-            "7d"
+            "1h"
           ); // Generate Login Token
 
           // Update Last Login IP and Last Login Client Details
