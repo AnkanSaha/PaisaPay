@@ -30,6 +30,7 @@ import {HelpCenter} from '../../../Helper/General/Help Center'; // Import Help C
     TicketTitle: "",
     TicketDescription: "",
     CurrentClientDetails: "",
+    SessionToken : "",
   }); // Set Form Data
 
   // redux state
@@ -48,6 +49,7 @@ import {HelpCenter} from '../../../Helper/General/Help Center'; // Import Help C
         ...prevFormData,
         ClientID: decodedAccountDetails.data.ClientID,
         CurrentClientDetails: GeneralInformation.ClientDetails,
+        SessionToken: EncryptedUserDetails.LoginToken
       }));
     } else {
       navigate("/auth/login"); // Navigate to Login Page

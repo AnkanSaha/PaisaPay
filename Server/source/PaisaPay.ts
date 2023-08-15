@@ -7,7 +7,7 @@ import { cpus, platform, freemem } from 'os'; // Import OS
 import cluster from 'cluster'; // Import Cluster
 const { isPrimary } = cluster; // Import isPrimary from Cluster
 import { green, red, yellow, blue, magenta, bright } from 'outers'; // Import Outers
-import { NumberKeys } from './settings/keys/keys'; // Import Keys
+import { NumberKeys, StringKeys } from './settings/keys/keys'; // Import Keys
 import MongoDB from './settings/MongoDB/MongoDB'; // Import MongoDB Connection
 
 // Router Related Imports
@@ -63,7 +63,7 @@ if (isPrimary) {
 
 
 	// Configure Static Folder
-	Server.use(express.static('Data')); // Configure Static Folder
+	Server.use(express.static(StringKeys.StaticDirectoryName)); // Configure Static Folder
 
 	// Server Listen
 	try {
