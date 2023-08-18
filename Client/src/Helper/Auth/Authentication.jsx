@@ -1,3 +1,5 @@
+// Import Storage
+
 // Function for Create Account
 export const Register = async (URL, Data) => {
     try {

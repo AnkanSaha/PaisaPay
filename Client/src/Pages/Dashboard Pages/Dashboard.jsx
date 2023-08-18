@@ -2,17 +2,14 @@
 import React from "react"; // import React
 
 // import Components
-import GeneralNavbar from "../../Component/Navbar/General Navbar"; // import the general navbar
+import DashboardNavbar from "../../Component/Navbar/Dashboard Navbar"; // import the general navbar
 
 // import Functions
 import {Update_Document_Title} from '../../Helper/Common'; // import the function to update the document title
 
-// import Global Details
-import { AppName } from "../../App/App_Config"; // import the app name
-
 // main component
 export default function Dashboard() {
-    Update_Document_Title(`Dashboard - ${AppName}`); // update the document title
+    Update_Document_Title(`Dashboard`); // update the document title
     document.addEventListener('contextmenu', event => event.preventDefault()); // disable the context menu'
     window.addEventListener('beforeunload', function (e) {
    
@@ -27,7 +24,7 @@ export default function Dashboard() {
 });
     return (
         <>
-        <GeneralNavbar />
+        <DashboardNavbar />
         <h1>This is Dashboard</h1>
         </>
     )
