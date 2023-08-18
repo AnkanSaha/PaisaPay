@@ -18,11 +18,11 @@ import { useSelector } from "react-redux"; // Import useSelector() Hook
 
 // Import Functions
 import HelpCenterDataValidator from "../../../validator/General/Help Center"; // Import Help Center Data Validator
-import {HelpCenter} from '../../../Helper/General/Help Center'; // Import Help Center Helper Function
+import { HelpCenter } from "../../../Helper/General/Help Center"; // Import Help Center Helper Function
 
- const ContactForm = () => {
+const ContactForm = () => {
   const navigate = useNavigate(); // Navigate to Other Pages
-  const toast = useToast() // Toast UI
+  const toast = useToast(); // Toast UI
 
   // Temp State For This Form
   const [formData, setFormData] = React.useState({
@@ -30,11 +30,11 @@ import {HelpCenter} from '../../../Helper/General/Help Center'; // Import Help C
     TicketTitle: "",
     TicketDescription: "",
     CurrentClientDetails: "",
-    SessionToken : "",
+    SessionToken: "",
   }); // Set Form Data
 
   // redux state
-  const ReduxStore = useSelector(state => state); // Initializing Redux Store
+  const ReduxStore = useSelector((state) => state); // Initializing Redux Store
   const EncryptedUserDetails = useSelector((state) => state.AccountInfo); // Get Encrypted User Details from Redux Store
   const GeneralInformation = useSelector((state) => state.GeneralAppInfo); // Get General Information from Redux Store
 
@@ -49,7 +49,7 @@ import {HelpCenter} from '../../../Helper/General/Help Center'; // Import Help C
         ...prevFormData,
         ClientID: decodedAccountDetails.data.ClientID,
         CurrentClientDetails: GeneralInformation.ClientDetails,
-        SessionToken: EncryptedUserDetails.LoginToken
+        SessionToken: EncryptedUserDetails.LoginToken,
       }));
     } else {
       navigate("/auth/login"); // Navigate to Login Page
@@ -69,29 +69,40 @@ import {HelpCenter} from '../../../Helper/General/Help Center'; // Import Help C
   const HandleSubmit = async (e) => {
     e.preventDefault(); // Prevent Default Form Submission
     const ValidateResult = await HelpCenterDataValidator(formData); // Validate Form Data
-    if(ValidateResult === true){
-      const ServerResult = await HelpCenter(ReduxStore.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL, formData); // Send Help Center Request
-    if(ServerResult.status === true){
+    if (ValidateResult.status === true) {
+      const ServerResult = await HelpCenter(
+        ReduxStore.GeneralAppInfo.ApplicationConfig.Frontend_Details
+          .Live_URL_FOR_API_CALL,
+        formData
+      ); // Send Help Center Request
+      if (ServerResult.status === true) {
+        toast({
+          title: ServerResult.Title,
+          description: ServerResult.message,
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+        navigate("/"); // Navigate to Dashboard
+      } else {
+        toast({
+          title: ServerResult.Title,
+          description: ServerResult.message,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    } else {
       toast({
-        title: ServerResult.Title,
-        description: ServerResult.message,
-        status: 'success',
+        title: ValidateResult.Title,
+        description: ValidateResult.Description,
+        status: "error",
         duration: 9000,
         isClosable: true,
-      })
-      navigate('/'); // Navigate to Dashboard
+      });
     }
-    else {
-      toast({
-        title: ServerResult.Title,
-        description: ServerResult.message,
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      })
-    }
-  }
-}
+  };
   return (
     <>
       <Box textAlign="center" py={8}>

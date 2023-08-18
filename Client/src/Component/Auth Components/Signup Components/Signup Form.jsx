@@ -100,11 +100,18 @@ export default function SignupForm() {
   // Submit Handler
   const SubmitHandler = async (e) => {
     e.preventDefault();
-    const VerificatonResult = await VerifyRegisterData(TempFormData); // Verify Register Data
-    if (VerificatonResult === false) {
+    const VerificationResult = await VerifyRegisterData(TempFormData); // Verify Register Data
+    if (VerificationResult.status === false) {
       setisLoading(false); // Set Loading Screen to True
+      toast({
+        title: VerificationResult.title,
+        description: VerificationResult.message,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      }); // This is for Toast
       return; // Exit the function early
-    } else if (VerificatonResult === true) {
+    } else if (VerificationResult.status === true) {
       const MainData = new FormData();
       MainData.append(
         "Name",
