@@ -1,5 +1,5 @@
 /* eslint-disable new-cap */
-import { Router } from 'express'; // Import Express
+import { Router, Request, Response } from 'express'; // Import Express
 // setup Router
 const MainRouter = Router(); // Create Router
 
@@ -25,18 +25,18 @@ MainRouter.use('/delete', Delete_Request_Manager); // Use Post Request Manager
 
 
 // Response Not Allowed Request
-MainRouter.all('*', (req, res) => {
+MainRouter.all('*', (Request: Request, Response: Response) => {
     JSONSendResponse({
         status: false,
         statusCode: StatusCodes.NOT_FOUND,
         Title: 'URL Not Found',
         message: 'Requested url is not found on this server, please check your url and try again',
-        response: res,
+        response: Response,
         data: {
-            requestedUrl: req.url,
-            requestedMethod: req.method,
-            requestedBody: req.body,
-            requestedHeaders: req.headers
+            requestedUrl: Request.url,
+            requestedMethod: Request.method,
+            requestedBody: Request.body,
+            requestedHeaders: Request.headers
         }
     }); // Send Response if Method is not allowed
 })

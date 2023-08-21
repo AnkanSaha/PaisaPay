@@ -10,7 +10,10 @@ import { Button, useToast } from "@chakra-ui/react"; // Import Chakra UI Button
 import { Link, useNavigate, useLocation } from "react-router-dom"; // Import Link
 
 // Import States Actions
-import {updateAccountDetails} from '../../App/Redux/Slices/Account Slice'; // Import Account Slice
+import {deleteAccountDetails} from '../../App/Redux/Slices/Account Slice'; // Import Account Slice
+
+// Import Storage Function
+import { Cache } from "../../App/App_Config"; // Import Cache from App_Config.jsx
 
 function GeneralNavbar() {
   // initializes
@@ -36,6 +39,11 @@ function GeneralNavbar() {
   }
 
   // Logic For Navbar Button
+
+const LogoutFunction = async () => {
+  await Cache.Account.clearCache(); // Clear Account Cache
+  Dispatch(deleteAccountDetails()); // Update Account Details
+};
 
   return (
     <div
@@ -97,7 +105,7 @@ function GeneralNavbar() {
       <div className="navbar-end">
         <Button
           onClick={() => {
-            Dispatch(updateAccountDetails(null)); // Update Account Details
+           LogoutFunction();
             Toast({
               title: "Logout Successful",
               description: "You have been logged out successfully, Redirecting you to the login page",

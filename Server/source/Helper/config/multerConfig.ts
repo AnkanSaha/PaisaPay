@@ -8,7 +8,7 @@ import { StringKeys } from '../../settings/keys/keys'; // Import the keys
 // Ensure 'uploads' directory exists
   const uploadDirectory = join(`${StringKeys.StaticDirectoryName}/`);
   if (!fs.existsSync(uploadDirectory)) {
-      fs.mkdirSync(uploadDirectory, { recursive: true });
+      fs.promises.mkdir(uploadDirectory, { recursive: true });
   }
 
 const storage = multer.diskStorage({

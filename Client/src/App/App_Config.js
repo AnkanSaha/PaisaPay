@@ -59,4 +59,14 @@ export function DeviceDetailsSetter (){
 }
 
 // IPInfo API Key
-export const IPINFO_API_KEY = '1987d4305bdd80'; // API Key
+export const IP_INFO_API_KEY = '1987d4305bdd80'; // API Key
+
+
+// Global Storage Functions Like LocalStorage, SessionStorage, CacheStorage, Cookies, etc.
+import { CacheStorage } from 'react-caches'; // Cache Storage
+
+// Global Cache Storage Functions
+export const Cache = {
+    IP: new CacheStorage('IP Details'), // IP Cache
+    Account: new CacheStorage('Account Details'), // Account Cache
+}

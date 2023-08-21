@@ -9,7 +9,7 @@ export default {
     National_ID_Number: {type: String, required: true, unique: true},
     LastFourDigitsOfIDNumber: {type: String, required: true, unique: true},
     ProfilePicturePath: {type: String, required: true},
-    ProfilePicSize: {type: Number, required: true},
+    ProfilePicSize: {type: String, required: true},
     ProfilePicFileName: {type: String, required: true},
     DateCreated: {type: Date, required: true, default: Date.now(), index: true},
     AccountStatus: {type: String, required: true, default: "Active"},

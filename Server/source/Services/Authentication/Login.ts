@@ -77,17 +77,18 @@ export const Login_PaisaPay = async (
         if (isPasswordCorrect.isMatch === true) {
           const JWTaccountDetails = await JWT.generate(
             AccountStatus.Data[0],
-            "7d"
-          ); // Generate JWT
+            "2h"
+          ); // Generate JWT Token for Account Details
+
           const LoginToken = await JWT.generate(
             {
               ClientID: AccountStatus.Data[0].ClientID,
-              Email: AccountStatus.Data[0].Email,
-              PhoneNumber: PhoneNumber,
+              LastLoginIP: LastLoginIP,
+              LastFourDigitsOfIDNumber: AccountStatus.Data[0].LastFourDigitsOfIDNumber,
             },
             "1h"
-          ); // Generate Login Token
-
+          ); // Generate Login Token for the user
+ 
           // Update Last Login IP and Last Login Client Details
           const ToBeUpdateOptions = {
             LastLoginTime: Date.now(),

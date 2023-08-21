@@ -11,6 +11,10 @@ import { SendFileResponse } from "../../Helper/Response"; // Import Send Respons
 // Import Interfaces
 import { RequestInterface } from "../../Helper/Incoming Request Checker"; // Import Response Interface
 
+// Import AppKey
+import { StringKeys } from "../../settings/keys/keys"; // Import String Keys
+
+
 // Extend The Request Interface
 interface FileFetchInterface extends RequestInterface {
   params: {
@@ -34,7 +38,7 @@ export async function GetProfilePic(
 ) {
   if (!request.params.ProfilePicID) {
     SendFileResponse({
-      rootName: "Data/",
+      rootName: `${StringKeys.StaticDirectoryName}/`,
       response: response,
       Filename: undefined,
       statusCode: StatusCodes.BAD_REQUEST,
@@ -44,7 +48,7 @@ export async function GetProfilePic(
       response: response,
       statusCode: StatusCodes.OK,
       Filename: `${request.params.ProfilePicID}`,
-      rootName: "Data/",
+      rootName: `${StringKeys.StaticDirectoryName}/`,
     });
   }
 }

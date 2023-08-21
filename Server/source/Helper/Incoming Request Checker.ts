@@ -1,6 +1,8 @@
 import { StatusCodes } from "../settings/keys/keys"; // Import Status Codes
 import { JSONSendResponse, JSONresponseInterface,  } from "./Response"; // Import Send Response Function
 import { Request } from "express"; // Import Request from express
+import JWT from "./config/JWT.config"; // Import JWT Config
+
 // types
 type str = string;
 type int = number;
@@ -78,5 +80,43 @@ export function CheckHeader (req:RequestInterface, res:ResponseInterface, next:N
     }
     else {
         next(); // Go to next middleware
+    }
+}
+
+
+// Session Validation
+export const SessionValidation = async (Request:RequestInterface, Response:ResponseInterface, next:NextInterface) => {
+    if(!Request.body.sessionID){
+        JSONSendResponse({
+            status: false,
+            statusCode: StatusCodes.UNAUTHORIZED,
+            Title: 'SessionID Required',
+            message: 'Session ID is required for this request, please check the url and try again',
+            response: Response,
+            data: {
+                requestedUrl: Request.url,
+                requestedMethod: Request.method,
+                requestedBody: Request.body,
+                requestedHeaders: Request.headers
+            }
+        }); // Send Response to Client
+        return; // Stop the function
+    }
+    else if(Request.body.sessionID){
+        const toKenValidation = await JWT.decode(Request.body.sessionID); // Verify Token
+        if(toKenValidation.status === 'Success'){
+            next(); // Go to next middleware
+        }
+        else if(toKenValidation.status === 'Invalid') {
+            JSONSendResponse({
+                data: undefined,
+                Title: "Session Expired",
+                message: "Your session has expired, please login again",
+                status: false,
+                statusCode: StatusCodes.UNAUTHORIZED,
+                response: Response,
+              }); // Send Response to Client
+            return; // Stop the function
+        }
     }
 }

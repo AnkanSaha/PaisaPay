@@ -7,7 +7,7 @@ const AccountInfo = createSlice({
   initialState: null,
   reducers: {
     addAccountDetails: (state, action) => {return action.payload},
-    deleteAccountDetails: (state, action) => {return {}},
+    deleteAccountDetails: (state, action) => {return null},
     updateAccountDetails: (state, action) => {return action.payload}
   }
 });
