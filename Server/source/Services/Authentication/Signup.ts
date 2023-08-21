@@ -67,7 +67,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             })
             return; // Return if the request body is invalid
         }
-        else {
+        else {           
         const AccountStatus = await AccountExistenceChecker(PhoneNumber, Email); // Check if account exists
         if (AccountStatus.status == true) {
             await fs.promises.rm(req.file.path)
@@ -95,7 +95,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             const ClientID: int = await randomNumber(20, true); // Generate Client ID
 
             // Generate Last Login Token
-            const LastLoginToken = await JWT.generateLoginToken({ ClientID: ClientID, Email: Email, PhoneNumber: PhoneNumber }, 2, '7d')
+            const LastLoginToken = await JWT.generateLoginToken({ ClientID: ClientID, Email: Email, PhoneNumber: PhoneNumber }, 2, '1h')
 
             // Check if account exists with the same last six digits of ID number
             const AccountDetails = await MongoDB.ClientAccount.find('OR', [{ LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber }]); // Find the account in the database
@@ -124,7 +124,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
                 National_ID_Number: EncryptedNationalIDNumber.EncryptedData,
                 LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber,
                 ProfilePicturePath: req.file.path,
-                ProfilePicSize: req.file.size,
+                ProfilePicSize: `${req.file.size / 1000 / 1000} MB`,
                 ProfilePicFileName: req.file.filename,
                 DateCreated: Date.now(),
                 AccountStatus: "Active",
@@ -136,6 +136,8 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             }
 
             const AccountStatus = await MongoDB.ClientAccount.create(NewClientAccount); // Create Client Account in MongoDB
+           const EncryptedAccountData = await JWT.generate(AccountStatus, '1d'); // Encrypt Account Data
+
             if (AccountStatus.status === true) {
                 JSONSendResponse({
                     status: true,
@@ -145,7 +147,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
                     response: res,
                     data: {
                         SessionToken: LastLoginToken.toKen,
-                        AccountDetail: await JWT.generate(AccountStatus, '30d')
+                        AccountDetail: EncryptedAccountData.toKen
                     }
                 })
             }

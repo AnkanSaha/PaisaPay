@@ -26,6 +26,10 @@ import {
   import {addAccountDetails} from '../../../App/Redux/Slices/Account Slice'; // Importing Account Slice
   import {LoadingScreen} from '../../../Pages/Common Pages/Loading Screen'; // Importing Loading Screen
 
+
+  // Import Client Side Storage
+  import { Cache } from "../../../App/App_Config"; // Importing Cache from App_Config.jsx
+
 export default function LoginForm (){
     // Initializing useNavigate
     const navigate = useNavigate();
@@ -65,6 +69,9 @@ export default function LoginForm (){
             duration: 9000,
             isClosable: true,
           })
+          Cache.Account.saveCache('Account_Details', LoginResult.data.AccountDetails); // Save Account Details to Cache Storage
+          Cache.Account.saveCache('Login_Token', LoginResult.data.LoginToken); // Save  Login Token to Cache Storage
+          
           Dispatch(addAccountDetails(LoginResult.data)); // Add Account Details to Redux Store
           navigate('/dashboard'); // Navigate to Dashboard
         }
@@ -99,6 +106,19 @@ export default function LoginForm (){
       onClose(); // Close the modal
       navigate('/'); // Navigate to Home Page
     }
+
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape'){
+        CloseModal(); // Close the modal
+      }
+      else if(e.key === 'Enter'){
+        SubmitHandler(e); // Submit the form
+      }
+      else if(e.ctrlKey && e.key === 'r' || e.ctrlKey && e.key === 'R'){
+        e.preventDefault();
+        navigate('/auth/forget-password') // Navigate to Forget Password Page
+      }
+    }) // Event Listener for Escape Key and Enter Key
     
     return (
       <>
