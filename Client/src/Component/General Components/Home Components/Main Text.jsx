@@ -1,6 +1,6 @@
 import React from 'react'
 import Typed from "typed.js"; // Import Typed.js
-import { AppName } from "../../../App/App_Config"; // import the app name
+import { AppName } from "@app/App_Config"; // import the app name
 
 import { useNavigate } from "react-router-dom"; // import the useNavigate hook
 

@@ -17,8 +17,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux"; // Import useSelector() Hook
 
 // Import Functions
-import HelpCenterDataValidator from "../../../validator/General/Help Center"; // Import Help Center Data Validator
-import { HelpCenter } from "../../../Helper/General/Help Center"; // Import Help Center Helper Function
+import HelpCenterDataValidator from "@validator/General/Help Center"; // Import Help Center Data Validator
+import { HelpCenter } from "@helper/General/Help Center"; // Import Help Center Helper Function
 
 const ContactForm = () => {
   const navigate = useNavigate(); // Navigate to Other Pages

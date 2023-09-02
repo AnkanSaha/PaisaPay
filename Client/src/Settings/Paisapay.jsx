@@ -4,7 +4,7 @@ import Global from "./Global"; // Main component
 
 // Configure Redux
 import { Provider } from "react-redux"; // Import Provider
-import ReduxStore from "../App/Redux/Config/Main Store"; // Import Store
+import ReduxStore from "@app/Redux/Config/Main Store"; // Import Store
 
 // Render the component
 const Root = ReactDOM.createRoot(document.getElementById("PaisaPay"));

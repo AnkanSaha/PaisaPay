@@ -1,17 +1,17 @@
 import React from "react"; // Import React
 import { useSelector, useDispatch } from "react-redux"; // Import Use Selector
-import { addAccountDetails } from "../../../App/Redux/Slices/Account Slice"; // Import Account Slice
+import { addAccountDetails } from "@app/Redux/Slices/Account Slice"; // Import Account Slice
 import { useNavigate } from "react-router-dom"; // Import use Navigate
 import { useToast } from "@chakra-ui/react";
 
 // Import Some Components
 import { Button } from "@chakra-ui/react"; // This is for Button
 import { RiAccountPinCircleFill } from "react-icons/ri"; // This is for Account Icon
-import { LoadingScreen } from "../../../Pages/Common Pages/Loading Screen"; // This is for Loading Screen
+import { LoadingScreen } from "@page/Common Pages/Loading Screen"; // This is for Loading Screen
 
 // Import Functions
-import { VerifyRegisterData } from "../../../validator/Auth/signup"; // Import Verify Register Data Function
-import { Register } from "../../../Helper/Auth/Authentication"; // Import Register Function
+import { VerifyRegisterData } from "@validator/Auth/signup"; // Import Verify Register Data Function
+import { Register } from "@helper/Auth/Authentication"; // Import Register Function
 
 export default function SignupForm() {
   // initial States

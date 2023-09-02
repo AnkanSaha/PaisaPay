@@ -2,7 +2,7 @@ export const isDevelopmentMode = false; // Global Development Mode
 // Global App Configuration
 export const AppName = 'PaisaPay'; // Global App Name
 export const AppLaunchDate = '15-08-2023'; // Global App Launch Date
-import App_logo from '../assets/icons/Ruppe.svg'; // Global App Logo
+import App_logo from '@public/icons/Ruppe.svg'; // Global App Logo
 export const AppLogo = App_logo; // Global App Logo
 export const Live_URL = isDevelopmentMode === true ? "http://localhost:5412": window.location.origin; // Global Live URL
 

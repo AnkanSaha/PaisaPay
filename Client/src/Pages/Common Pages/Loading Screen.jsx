@@ -5,9 +5,9 @@ import React from "react"; // Import React
 import { Spinner } from "@chakra-ui/react";
 
 // import Components
-import GeneralFooter from "../../Component/Footer/General Footer"; // Import Footer
+import GeneralFooter from "@component/Footer/General Footer"; // Import Footer
 
-// Main Fuction for Loading Screen
+// Main Function for Loading Screen
 export function LoadingScreen({StatusText}) {
     return (
         <>

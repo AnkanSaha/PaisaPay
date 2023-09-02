@@ -4,7 +4,7 @@ import React from "react"; // React 18
 import { BrowserRouter } from "react-router-dom"; // import the React router DOM module
 
 // import Tailwind CSS
-import "../assets/css/Tailwind.css"; // import the main CSS file
+import "@public/css/Tailwind.css"; // import the main CSS file
 
 // import Chakra UI
 import { ChakraProvider } from "@chakra-ui/react"; // Import Chakra Provider
@@ -30,6 +30,7 @@ import {
   Update_Internet_Status,
   Load_General_App_Info,
 } from "../Helper/Common"; // import the function to update the internet status
+
 
 export default function Main() {
   Update_Internet_Status(); // update the internet status

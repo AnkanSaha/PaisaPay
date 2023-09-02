@@ -1,7 +1,7 @@
 import IPChecker from "./IP Checker";
 import IPDetailsExtractor from "./IP Extractor";
 import {publicIp} from "public-ip";
-import { Cache } from "../../App/App_Config"; // Importing Cache Storage
+import { Cache } from "@app/App_Config"; // Importing Cache Storage
 
 // Get All IP Details 
 export default async function Get_IP_Details() {
