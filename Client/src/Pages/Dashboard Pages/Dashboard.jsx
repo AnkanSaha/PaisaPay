@@ -2,10 +2,10 @@
 import React from "react"; // import React
 
 // import Components
-import DashboardNavbar from "../../Component/Navbar/Dashboard Navbar"; // import the general navbar
+import DashboardNavbar from "@component/Navbar/Dashboard Navbar"; // import the general navbar
 
 // import Functions
-import {Update_Document_Title} from '../../Helper/Common'; // import the function to update the document title
+import {Update_Document_Title} from '@helper/Common'; // import the function to update the document title
 
 // main component
 export default function Dashboard() {

@@ -1,12 +1,12 @@
 import React from 'react'; // ← Main React library
 
 // import { useSelector, useDispatch } from 'react-redux'; // ← Main React Redux library
-import {Update_Document_Title} from '../../Helper/Common'; // ← Common functions
+import {Update_Document_Title} from '@helper/Common'; // ← Common functions
 
 // import Components here
-import GeneralNavbar from '../../Component/Navbar/General Navbar'; // ← Navbar Component
-import GeneralFooter from '../../Component/Footer/General Footer'; // ← Footer Component
-import SignupForm from '../../Component/Auth Components/Signup Components/Signup Form'; // ← Signup Form Component
+import GeneralNavbar from '@component/Navbar/General Navbar'; // ← Navbar Component
+import GeneralFooter from '@component/Footer/General Footer'; // ← Footer Component
+import SignupForm from '@component/Auth Components/Signup Components/Signup Form'; // ← Signup Form Component
 
 function Signup() {
   // react redux hooks

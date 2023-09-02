@@ -1,16 +1,16 @@
 import React from "react"; // import React
-import { Update_Document_Title } from "../../Helper/Common"; // import the function to update the document title
+import { Update_Document_Title } from "@helper/Common"; // import the function to update the document title
 import { useSelector } from "react-redux"; // import the useSelector hook
 import { useNavigate } from "react-router-dom"; // import the useNavigate hook
 
 // import Components
-import GeneralNavbar from "../../Component/Navbar/General Navbar"; // import the general navbar
-import GeneralFooter from "../../Component/Footer/General Footer"; // import the general footer
-import ChatAnimation from "../../Component/General Components/Home Components/Chat Animation"; // import the chat animation
-import Main_Text from "../../Component/General Components/Home Components/Main Text"; // import the main text
+import GeneralNavbar from "@component/Navbar/General Navbar"; // import the general navbar
+import GeneralFooter from "@component/Footer/General Footer"; // import the general footer
+import ChatAnimation from "@component/General Components/Home Components/Chat Animation"; // import the chat animation
+import Main_Text from "@component/General Components/Home Components/Main Text"; // import the main text
 
 // import custom css
-import "../../assets/css/General CSS/home.css"; // import the home css
+import "@public/css/General CSS/home.css"; // import the home css
 
 function HomePage() {
 

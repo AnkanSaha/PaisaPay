@@ -6,15 +6,15 @@ import { useNavigate } from "react-router-dom"; // import the hook from react-ro
 import {
   Update_Document_Title,
   Update_Internet_Status,
-} from "../../Helper/Common"; // import the function to update the document title
+} from "@helper/Common"; // import the function to update the document title
 import { useSelector } from "react-redux"; // import the hook from react-redux
 
 // import Chakra UI
 import { Button } from "@chakra-ui/react"; // import Button component
 
 // import components
-import GeneralNavbar from "../../Component/Navbar/General Navbar"; // Navbar
-import GeneralFooter from "../../Component/Footer/General Footer"; // Footer
+import GeneralNavbar from "@component/Navbar/General Navbar"; // Navbar
+import GeneralFooter from "@component/Footer/General Footer"; // Footer
 
 // import React Icons
 import { IoMdLogIn } from "react-icons/io"; // import the back icon

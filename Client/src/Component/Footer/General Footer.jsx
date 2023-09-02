@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 // import required modules
 import React from 'react'; // Import React
-import LinkedinLogo from '../../assets/icons/linkedin.svg'; // Import Linkedin Logo
+import LinkedinLogo from '@public/icons/linkedin.svg'; // Import Linkedin Logo
 import { useSelector } from 'react-redux'; // Import useSelector from react-redux
 
 export default function GeneralFooter({FooterStyle}) {
-  // Get All State Valuesfrom Redux
+  // Get All State Values from Redux
   const ReduxState = useSelector((state) => state); // Get All State Values
 
   // Make Start if IPV6

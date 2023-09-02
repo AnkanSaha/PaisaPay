@@ -2,8 +2,8 @@
 import {combineReducers} from '@reduxjs/toolkit'; // Import the combineReducers functions from the Redux Toolkit
 
 // import All Required Reducers here
-import AccountInfoReducer from '../Slices/Account Slice'; // Import the slice
-import {InternetStatusReducer, GeneralAppInfoReducer} from '../Slices/Status'; // Import the action creator
+import AccountInfoReducer from '@app/Redux/Slices/Account Slice'; // Import the slice
+import {InternetStatusReducer, GeneralAppInfoReducer} from '@app/Redux/Slices/Status'; // Import the action creator
 
 
 // Combine all the reducers into one

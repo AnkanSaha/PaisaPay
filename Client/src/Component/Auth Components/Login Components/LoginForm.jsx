@@ -1,8 +1,8 @@
 import React from "react"; // Importing react
 import { useNavigate } from "react-router-dom"; // Importing useNavigate from react-router-dom
 import { useSelector, useDispatch } from "react-redux"; // Importing useSelector from react-redux
-import { Login } from "../../../Helper/Auth/Authentication"; // Importing Login function from Authentication.jsx
-import VerifyLoginData from '../../../validator/Auth/Login'; // Importing VerifyLoginData function from Login.jsx 
+import { Login } from "@helper/Auth/Authentication"; // Importing Login function from Authentication.jsx
+import VerifyLoginData from '@validator/Auth/Login'; // Importing VerifyLoginData function from Login.jsx 
 
 // Import Components
 import {
@@ -23,12 +23,12 @@ import {
 
   import {BsFillShieldLockFill} from 'react-icons/bs'; // Importing Shield Icon
   import {Si1Password} from 'react-icons/si'; // Importing Create New Folder Icon
-  import {addAccountDetails} from '../../../App/Redux/Slices/Account Slice'; // Importing Account Slice
-  import {LoadingScreen} from '../../../Pages/Common Pages/Loading Screen'; // Importing Loading Screen
+  import {addAccountDetails} from '@app/Redux/Slices/Account Slice'; // Importing Account Slice
+  import {LoadingScreen} from '@page/Common Pages/Loading Screen'; // Importing Loading Screen
 
 
   // Import Client Side Storage
-  import { Cache } from "../../../App/App_Config"; // Importing Cache from App_Config.jsx
+  import { Cache } from "@app/App_Config"; // Importing Cache from App_Config.jsx
 
 export default function LoginForm (){
     // Initializing useNavigate

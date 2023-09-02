@@ -10,7 +10,7 @@ import {
   UpdateIpAddressInGeneralInfo,
   UpdateUpAddressTypeInGeneralInfo,
   UpdateIPLocationInGeneralInfo,
-} from "../App/Redux/Slices/Status"; // import the action creator for updateInternetStatus
+} from "@app/Redux/Slices/Status"; // import the action creator for updateInternetStatus
 
 import moment from "moment"; // import moment for date formatting
 
@@ -34,7 +34,7 @@ import {
   Available_Databases,
   Process_Manager,
   Web_Server_Manager
-} from "../App/App_Config"; // import the App Name
+} from "@app/App_Config"; // import the App Name
 import Get_IP_Details from "./IP Details/Get IP Details"; // import the Get_IP_Details function
 
 // function to load all General Information about the application

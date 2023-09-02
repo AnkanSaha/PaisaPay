@@ -1,5 +1,5 @@
 import { publicIp } from "public-ip"; // Import the Public IP Package
-import { IP_INFO_API_KEY } from "../../App/App_Config"; // Import the IPINFO API Key
+import { IP_INFO_API_KEY } from "@app/App_Config"; // Import the IPINFO API Key
 
 // IP Details Extractor
 export default async function IPDetailsExtractor() {
