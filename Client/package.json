@@ -4,8 +4,8 @@
   "version": "1.5.3",
   "type": "module",
   "scripts": {
-    "dev": "npm test && vite --host",
-    "build": "npm test && vite build",
+    "dev": "npm test && vite --host -- DEV=true",
+    "build": "npm test && vite build -- DEV=false",
     "test": "npm run lint",
     "preview": "npm test && vite preview",
     "lint": "eslint ./src/**/*.{js,jsx} --fix"

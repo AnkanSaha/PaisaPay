@@ -14,67 +14,67 @@ const InternetStatus = createSlice({
 const GeneralAppInfo = createSlice({
   name: "GeneralAppInfo",
   initialState: {
-    PageDetails : {
+    PageDetails: {
       Text_Info: {
-      PageTitle: document.title, // Page Title
-      PageURL: window.location.href, // Page URL
+        PageTitle: document.title, // Page Title
+        PageURL: window.location.href, // Page URL
       },
       Time_Info: {
-      PageEntryDate: "", // Current Date
-      PageEntryTime: "", // Current Time
-      }
-    }, 
-    AppDetails : {
+        PageEntryDate: "", // Current Date
+        PageEntryTime: "", // Current Time
+      },
+    },
+    AppDetails: {
       Static_Details: {
         App_Name: "", // Application Name
         App_Logo: "", // Application Logo
         App_Launch_Date: "", // Application Launch Date
       },
       Timing_Details: {
-      ApplicationEntryDate: "", // Current Date
-      ApplicationEntryTime: "", // Current Time
-      }
+        ApplicationEntryDate: "", // Current Date
+        ApplicationEntryTime: "", // Current Time
+      },
     },
-    ApplicationConfig : {
+    ApplicationConfig: {
       Frontend_Details: {
-      InternetStatus: true, // Internet Status
-      isDevelopmentMode: true, // Development Mode
-      Live_URL_FOR_API_CALL: "", // Application Live URL
+        InternetStatus: true, // Internet Status
+        isDevelopmentMode: true, // Development Mode
+        Live_URL_FOR_API_CALL: "", // Application Live URL
       },
       ServerDetails: {
         isServerRunning: true, // Server Status
         DatabaseDetails: {
           CurrentDatabase: "", // Current Database
-          Available_Databases : [], // Available Databases
+          Available_Databases: [], // Available Databases
         },
         MiddleServer: "", // Middle Server
         ServerLocation: "", // Server Location
         Web_Server_Details: {
-        ServerEngine: "", // Server Engine
-        ServerFramework: "", // Server Framework
-        Web_Server_Manager : "", // Web Server Manager
-        Process_Manager : "", // Process Manager
-        }
-      }
-    },
-    ClientDetails : {
-      ClientDeviceDetails: "", // Client Device Details
-        ClientIP: "***", // Client IP Address
-        IP_Type: "", // Client IP Type
-        Client_Location: "" // Client IP Location
-    },
-    OwnerDetails : {
-      Owner_Social_Media :{
-      Owner_LinkedIn: "", // Application Owner LinkedIn
-      Owner_Twitter: "", // Application Owner Twitter
-      Owner_Youtube: "", // Application Owner Youtube
+          ServerEngine: "", // Server Engine
+          ServerFramework: "", // Server Framework
+          Web_Server_Manager: "", // Web Server Manager
+          Process_Manager: "", // Process Manager
+        },
       },
-      Main_Details : {
+    },
+    ClientDetails: {
+      ClientDeviceDetails: "", // Client Device Details
+      ClientIP: "***", // Client IP Address
+      IP_Type: "", // Client IP Type
+      Client_Location: "", // Client IP Location
+    },
+    OwnerDetails: {
+      Owner_Social_Media: {
+        Owner_LinkedIn: "", // Application Owner LinkedIn
+        Owner_Twitter: "", // Application Owner Twitter
+        Owner_Youtube: "", // Application Owner Youtube
+      },
+      Main_Details: {
         Owner_Email: "", // Application Owner Email
         Owner_Name: "", // Application Owner Name
-      }
-    }
-},
+      },
+    },
+  },
   reducers: {
     updateGeneralAppInfo: (state, action) => {
       return action.payload;
@@ -94,7 +94,7 @@ const GeneralAppInfo = createSlice({
     UpdateIpAddressInGeneralInfo: (state, action) => {
       state.ClientDetails.ClientIP = action.payload;
     },
-    UpdateIPLocationInGeneralInfo : (state, action) => {
+    UpdateIPLocationInGeneralInfo: (state, action) => {
       state.ClientDetails.Client_Location = action.payload;
     },
     UpdateUpAddressTypeInGeneralInfo: (state, action) => {
@@ -112,7 +112,7 @@ export const {
   UpdatePageEntryTimeInGeneralInfo,
   UpdateIpAddressInGeneralInfo,
   UpdateUpAddressTypeInGeneralInfo,
-  UpdateIPLocationInGeneralInfo
+  UpdateIPLocationInGeneralInfo,
 } = GeneralAppInfo.actions; // export GeneralAppInfo actions
 export const { updateInternetStatus } = InternetStatus.actions; // export InternetStatus actions
 
