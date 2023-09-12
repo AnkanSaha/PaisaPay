@@ -49,12 +49,12 @@ export default function SignupForm() {
     const { name, value } = e.target;
 
     if (name === "profilePicture") {
-      setFormData((prevFormData) => ({
+      setFormData( prevFormData => ({
         ...prevFormData,
         [name]: e.target.files[0], // Store the actual file object
       }));
     } else {
-      setFormData((prevFormData) => ({
+      setFormData( prevFormData => ({
         ...prevFormData,
         [name]: value,
       }));

@@ -1,4 +1,4 @@
-export const isDevelopmentMode = false; // Global Development Mode
+export const isDevelopmentMode = import.meta.env.DEV; // Global Development Mode
 // Global App Configuration
 export const AppName = 'PaisaPay'; // Global App Name
 export const AppLaunchDate = '15-08-2023'; // Global App Launch Date
