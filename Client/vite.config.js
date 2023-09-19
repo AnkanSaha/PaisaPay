@@ -106,6 +106,8 @@ export default defineConfig({
       "@helper": "/src/Helper",
       "@setting": "/src/Settings",
       "@validator": "/src/Validator",
+      "@router": "/src/Settings/Router",
+      "@redux": "/src/App/Redux",
     },
   },
   optimizeDeps: {

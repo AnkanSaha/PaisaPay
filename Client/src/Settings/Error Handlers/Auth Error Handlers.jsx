@@ -5,7 +5,7 @@ import { useSelector } from "react-redux/es/hooks/useSelector"; // import the ho
 import AuthRouter from "../Router/Sub Routers/Auth Routers"; // import the dashboard router
 
 // import Components
-import { LoadingScreen } from "../../Pages/Common Pages/Loading Screen"; // import the loading screen component
+import { LoadingScreen } from "@page/Common Pages/Loading Screen"; // import the loading screen component
  
 export default function AuthErrorHandler() {
     // initialize the state

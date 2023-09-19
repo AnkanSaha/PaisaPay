@@ -2,12 +2,12 @@ import React from "react"; // import react
 import { Routes, Route } from "react-router-dom"; // import the routes component from react-router-dom
 
 // No Page Found Component
-import PageNotFound from "../../../Pages/Common Pages/Page Not Found"; // import the not logged in and offline page for No Page Found error
+import PageNotFound from "@page/Common Pages/Page Not Found"; // import the not logged in and offline page for No Page Found error
 
 // import Components & Pages
-import SignupPage from "../../../Pages/Auth Pages/Signup"; // import the signup page
-import LoginPage from '../../../Pages/Auth Pages/Login'; // import the login page
-import ForgetPasswordPage from '../../../Pages/Auth Pages/Forget Password'; // import the forget password page
+import SignupPage from "@page/Auth Pages/Signup"; // import the signup page
+import LoginPage from '@page/Auth Pages/Login'; // import the login page
+import ForgetPasswordPage from '@page/Auth Pages/Forget Password'; // import the forget password page
 
 export default function AuthRouter() {
     return (

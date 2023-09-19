@@ -1,6 +1,6 @@
 import React from "react"; // Import React
 import { useSelector, useDispatch } from "react-redux"; // Import Use Selector
-import { addAccountDetails } from "@app/Redux/Slices/Account Slice"; // Import Account Slice
+import { addAccountDetails } from "@redux/Slices/Account Slice"; // Import Account Slice
 import { useNavigate } from "react-router-dom"; // Import use Navigate
 import { useToast } from "@chakra-ui/react";
 

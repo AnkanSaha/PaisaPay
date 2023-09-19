@@ -64,6 +64,7 @@ function GeneralNavbar(props) {
               <Link to="/privacy">Privacy Policy</Link>
               <Link to="/about">About Us</Link>
               <Link to="/help">Help Center</Link>
+              <Link to="/refund-Policy">Refund Policy</Link>
             </li>
           </ul>
         </div>
@@ -86,6 +87,9 @@ function GeneralNavbar(props) {
           </li>
           <li>
             <Link to="/help">Help Center</Link>
+          </li>
+          <li>
+            <Link to="/refund-Policy">Refund Policy</Link>
           </li>
         </ul>
       </div>
