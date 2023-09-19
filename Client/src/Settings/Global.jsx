@@ -23,13 +23,13 @@ AOS.init({
 
 
 // Import Router
-import Router from "./Router/MainRouter"; // Main Router component for routing
+import Router from "@router/MainRouter"; // Main Router component for routing
 
 // import Functions
 import {
   Update_Internet_Status,
   Load_General_App_Info,
-} from "../Helper/Common"; // import the function to update the internet status
+} from "@helper/Common"; // import the function to update the internet status
 
 
 export default function Main() {

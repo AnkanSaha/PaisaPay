@@ -23,7 +23,7 @@ import {
 
   import {BsFillShieldLockFill} from 'react-icons/bs'; // Importing Shield Icon
   import {Si1Password} from 'react-icons/si'; // Importing Create New Folder Icon
-  import {addAccountDetails} from '@app/Redux/Slices/Account Slice'; // Importing Account Slice
+  import {addAccountDetails} from '@redux/Slices/Account Slice'; // Importing Account Slice
   import {LoadingScreen} from '@page/Common Pages/Loading Screen'; // Importing Loading Screen
 
 

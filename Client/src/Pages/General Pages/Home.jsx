@@ -28,6 +28,9 @@ function HomePage() {
       event.preventDefault(); // Prevent the default action
       navigate('/help'); // Navigate to Help Page
     }
+    else if(event.key === 'F2' || event.key === 'f2'){
+      navigate('/auth/login'); // Navigate to Login Page
+    }
     else if(event.key === 'F4' || event.key === 'f4'){
       event.preventDefault(); // Prevent the default action
       navigate('/about'); // Navigate to Create Account Page
@@ -35,6 +38,15 @@ function HomePage() {
     else if(event.key === 'F5' || event.key === 'f5'){
       event.preventDefault(); // Prevent the default action
       navigate('/privacy'); // Navigate to Login Page
+    }
+    else if(event.key === 'F6' || event.key === 'f6'){
+      navigate('/dashboard'); // Navigate to Dashboard Page
+    }
+    else if(event.key === 'F8' || event.key === 'f8'){
+      navigate('/refund-Policy'); // Navigate to Refund Policy Page
+    }
+    else if(event.key === 'F9' || event.key === 'f9'){
+      navigate('/auth/create-account'); // Navigate to Create Account Page
     }
   })
 

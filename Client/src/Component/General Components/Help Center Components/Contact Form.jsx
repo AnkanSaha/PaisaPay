@@ -30,7 +30,7 @@ const ContactForm = () => {
     TicketTitle: "",
     TicketDescription: "",
     CurrentClientDetails: "",
-    SessionToken: "",
+    sessionID: "",
   }); // Set Form Data
 
   // redux state
@@ -49,7 +49,7 @@ const ContactForm = () => {
         ...prevFormData,
         ClientID: decodedAccountDetails.data.ClientID,
         CurrentClientDetails: GeneralInformation.ClientDetails,
-        SessionToken: EncryptedUserDetails.LoginToken,
+        sessionID: EncryptedUserDetails.LoginToken,
       }));
     } else {
       navigate("/auth/login"); // Navigate to Login Page

@@ -10,7 +10,7 @@ import {
   UpdateIpAddressInGeneralInfo,
   UpdateUpAddressTypeInGeneralInfo,
   UpdateIPLocationInGeneralInfo,
-} from "@app/Redux/Slices/Status"; // import the action creator for updateInternetStatus
+} from "@redux/Slices/Status"; // import the action creator for updateInternetStatus
 
 import moment from "moment"; // import moment for date formatting
 
