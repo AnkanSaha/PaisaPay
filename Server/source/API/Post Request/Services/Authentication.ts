@@ -25,6 +25,7 @@ Authenticator.use(rateLimit({
 // Import All Services
 import {Register} from "../../../Services/Authentication/Signup"; // Import Signup Service
 import { Login_PaisaPay } from "../../../Services/Authentication/Login"; // Import Login Service
+import { ForgetPasswordUpdater } from "../../../Services/Authentication/Forget Password"; // Import Forget Password Service
 
 // Import Helpers
 import {Multer} from '../../../Helper/config/multerConfig'; // Import Multer
@@ -32,6 +33,7 @@ import {Multer} from '../../../Helper/config/multerConfig'; // Import Multer
 // All Services 
 Authenticator.post('/create-new-account', Multer.single('ProfilePic'), Register); // Register Service with Multer
 Authenticator.post('/login-with-paisapay', Login_PaisaPay); // Login Service with PaisaPay
+Authenticator.post('/Update-Password', ForgetPasswordUpdater); // Forget Password Service
 
 // Export Router
 export default Authenticator; // Export router

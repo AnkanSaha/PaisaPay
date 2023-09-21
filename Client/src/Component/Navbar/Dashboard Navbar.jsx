@@ -1,6 +1,10 @@
 /* eslint-disable react/prop-types */
 import React from "react"; // Import React
+
+// Redux
 import { useSelector, useDispatch } from "react-redux"; // Import UseSelector
+import { decodeToken } from "react-jwt"; // import jwt for decoding the jwt token
+import {UpdateUserImageURl} from "@redux/Slices/Transaction Details"; // Import General App Info Slice
 
 // import React Material-UI Components
 import { BiSolidUserCircle } from "react-icons/bi"; // Import HiUserCircle Icon
@@ -24,6 +28,11 @@ function GeneralNavbar() {
   // get All State from Redux Store
   const Dispatch = useDispatch(); // Create Dispatch Function
   const ReduxState = useSelector((state) => state); // Get All State from Redux Store
+  const AccountDetails = useSelector((state) => state.AccountInfo); // get the account details from the redux store
+    // Decode All Account Details
+    const Decoded_Account_Details = decodeToken(AccountDetails.AccountDetails); // decode the jwt token to get the account details
+  // Load User ProfileImageURL To Redux Store
+  Dispatch(UpdateUserImageURl(`${ReduxState.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL}/get/AccountDetails/ProfilePic/${Decoded_Account_Details.data.ProfilePicFileName}`))
 
   // logic for color scheme
   let BgColorScheme;
@@ -52,6 +61,7 @@ const LogoutFunction = async () => {
       } text-${TextColorScheme} rounded-b-lg`}
     >
       <div className="navbar-start z-50">
+        
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
             <svg
@@ -77,12 +87,18 @@ const LogoutFunction = async () => {
               <Link to="/privacy">Privacy Policy</Link>
               <Link to="/about">About Us</Link>
               <Link to="/help">Help Center</Link>
+              <Link to="/refund-Policy"> Refund Policy</Link>
             </li>
           </ul>
         </div>
+        <div className="avatar online">
+  <div className="w-16 mt-2 rounded-full ml-5">
+    <img src={ReduxState.TransactionDetails.UserProfileImageURl} />
+  </div>
+</div>
         <button
           onClick={() => navigate("/")}
-          className="btn btn-ghost normal-case text-xl"
+          className="btn btn-ghost normal-case text-xl mx-5"
         >
           {ReduxState.GeneralAppInfo.AppDetails.Static_Details.App_Name}
         </button>
@@ -99,6 +115,9 @@ const LogoutFunction = async () => {
           </li>
           <li>
             <Link to="/help">Help Center</Link>
+          </li>
+          <li>
+            <Link to="/refund-Policy"> Refund Policy</Link>
           </li>
         </ul>
       </div>
