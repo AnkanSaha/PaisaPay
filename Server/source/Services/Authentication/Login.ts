@@ -77,7 +77,7 @@ export const Login_PaisaPay = async (
         if (isPasswordCorrect.isMatch === true) {
           const JWTaccountDetails = await JWT.generate(
             AccountStatus.Data[0],
-            "2h"
+            "1h"
           ); // Generate JWT Token for Account Details
 
           const LoginToken = await JWT.generate(

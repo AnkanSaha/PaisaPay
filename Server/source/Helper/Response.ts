@@ -40,7 +40,7 @@ export const JSONSendResponse = ({ status, statusCode, Title, message, response,
 interface FileResponseInterface {
     response: {
         status: (statusCode: int) => {
-            sendFile: (Filename: unknown, { root }: { root: str }) => void
+            sendFile: (Filename: unknown, { root }: { root : str }) => void
         }
     },
     statusCode: int,
