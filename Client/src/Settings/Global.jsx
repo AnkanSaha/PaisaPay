@@ -35,12 +35,7 @@ import {
 export default function Main() {
   Update_Internet_Status(); // update the internet status
   Load_General_App_Info(); // load the general app info
-
-  document.addEventListener("contextmenu", (e) => {
-    e.preventDefault();
-  }); // disable right click
-
-  
+ 
   return (
     <ChakraProvider> {/* Chakra Provider */}
       <BrowserRouter> {/* Browser Router */}
