@@ -31,6 +31,19 @@ export const ForgetPasswordAccountFinder = async (
       [{ Email: SmelledEmail }],
       1
     );
+    
+    // Check if Account Details is Empty or not
+    if(AccountDetails.count === 0){
+      JSONSendResponse({
+        status: false,
+        statusCode: StatusCodes.NOT_FOUND,
+        message: "Account Not Found with this Email or Phone Number",
+        Title: "Account Not Found",
+        data: undefined,
+        response: response,
+      }); // Send Response to the Client
+      return;
+    }
 
     // Encrypt the Data and send it Using JWT
     const EncryptedData = await JWT.generate(AccountDetails.Data[0], "1h"); // Encrypt the Data and send it Using JWT

@@ -15,7 +15,7 @@ export default function Header() {
   
   return (
     <>
-      <h2 className="text-4xl text-green-900 text-center font-extrabold dark:text-white my-7">
+      <h2 className="text-sm lg:text-4xl text-green-900 text-center font-extrabold dark:text-white my-7">
         Welcome {Decoded_Account_Details.data.Name} To Your {AppName} Account
       </h2>
     </>

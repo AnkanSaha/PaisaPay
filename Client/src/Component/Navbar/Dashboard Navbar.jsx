@@ -4,7 +4,7 @@ import React from "react"; // Import React
 // Redux
 import { useSelector, useDispatch } from "react-redux"; // Import UseSelector
 import { decodeToken } from "react-jwt"; // import jwt for decoding the jwt token
-import {UpdateUserImageURl} from "@redux/Slices/Transaction Details"; // Import General App Info Slice
+import { UpdateUserImageURl } from "@redux/Slices/Transaction Details"; // Import General App Info Slice
 
 // import React Material-UI Components
 import { BiSolidUserCircle } from "react-icons/bi"; // Import HiUserCircle Icon
@@ -14,7 +14,7 @@ import { Button, useToast } from "@chakra-ui/react"; // Import Chakra UI Button
 import { Link, useNavigate, useLocation } from "react-router-dom"; // Import Link
 
 // Import States Actions
-import {deleteAccountDetails} from '../../App/Redux/Slices/Account Slice'; // Import Account Slice
+import { deleteAccountDetails } from "../../App/Redux/Slices/Account Slice"; // Import Account Slice
 
 // Import Storage Function
 import { Cache } from "../../App/App_Config"; // Import Cache from App_Config.jsx
@@ -29,10 +29,15 @@ function GeneralNavbar() {
   const Dispatch = useDispatch(); // Create Dispatch Function
   const ReduxState = useSelector((state) => state); // Get All State from Redux Store
   const AccountDetails = useSelector((state) => state.AccountInfo); // get the account details from the redux store
-    // Decode All Account Details
-    const Decoded_Account_Details = decodeToken(AccountDetails.AccountDetails); // decode the jwt token to get the account details
+  // Decode All Account Details
+  const Decoded_Account_Details = decodeToken(AccountDetails.AccountDetails); // decode the jwt token to get the account details
+
   // Load User ProfileImageURL To Redux Store
-  Dispatch(UpdateUserImageURl(`${ReduxState.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL}/get/AccountDetails/ProfilePic/${Decoded_Account_Details.data.ProfilePicFileName}`))
+  Dispatch(
+    UpdateUserImageURl(
+      `${ReduxState.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL}/get/AccountDetails/ProfilePic/${Decoded_Account_Details.data.ProfilePicFileName}`
+    )
+  );
 
   // logic for color scheme
   let BgColorScheme;
@@ -49,10 +54,10 @@ function GeneralNavbar() {
 
   // Logic For Navbar Button
 
-const LogoutFunction = async () => {
-  await Cache.Account.clearCache(); // Clear Account Cache
-  Dispatch(deleteAccountDetails()); // Update Account Details
-};
+  const LogoutFunction = async () => {
+    await Cache.Account.clearCache(); // Clear Account Cache
+    Dispatch(deleteAccountDetails()); // Update Account Details
+  };
 
   return (
     <div
@@ -61,7 +66,6 @@ const LogoutFunction = async () => {
       } text-${TextColorScheme} rounded-b-lg`}
     >
       <div className="navbar-start z-50">
-        
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
             <svg
@@ -91,14 +95,14 @@ const LogoutFunction = async () => {
             </li>
           </ul>
         </div>
-        <div className="avatar online">
-  <div className="w-16 mt-2 rounded-full ml-5">
-    <img src={ReduxState.TransactionDetails.UserProfileImageURl} />
-  </div>
-</div>
+        <div className={`avatar ${Decoded_Account_Details.data.AccountStatus === 'Active' ? 'online' : 'offline'}`}>
+          <div className="w-16 mt-2 rounded-full ml-5">
+            <img src={ReduxState.TransactionDetails.UserProfileImageURl} />
+          </div>
+        </div>
         <button
           onClick={() => navigate("/")}
-          className="btn btn-ghost normal-case text-xl mx-5"
+          className="btn btn-ghost normal-case text-xl mx-5 hidden lg:flex md:flex"
         >
           {ReduxState.GeneralAppInfo.AppDetails.Static_Details.App_Name}
         </button>
@@ -124,10 +128,11 @@ const LogoutFunction = async () => {
       <div className="navbar-end">
         <Button
           onClick={() => {
-           LogoutFunction();
+            LogoutFunction();
             Toast({
               title: "Logout Successful",
-              description: "You have been logged out successfully, Redirecting you to the login page",
+              description:
+                "You have been logged out successfully, Redirecting you to the login page",
               status: "warning",
               duration: 5000,
               isClosable: true,
