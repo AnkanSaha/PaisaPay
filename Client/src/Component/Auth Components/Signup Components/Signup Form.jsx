@@ -29,6 +29,7 @@ export default function SignupForm() {
     ID_Number: "",
     PhoneNumber: "",
     password: "",
+    PaymentID: "",
     confirmPassword: "",
     profilePicture: "",
   });
@@ -49,12 +50,12 @@ export default function SignupForm() {
     const { name, value } = e.target;
 
     if (name === "profilePicture") {
-      setFormData( prevFormData => ({
+      setFormData((prevFormData) => ({
         ...prevFormData,
         [name]: e.target.files[0], // Store the actual file object
       }));
     } else {
-      setFormData( prevFormData => ({
+      setFormData((prevFormData) => ({
         ...prevFormData,
         [name]: value,
       }));
@@ -67,7 +68,10 @@ export default function SignupForm() {
     const indianVoterIDRegex = /^[A-Z]{3}[0-9]{7}[A-Z]$/; // This is for Indian Voter ID
     const IndianPanIDRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/; // This is for Indian Pan ID
     const IndianPassportRegex = /^[A-PR-WYa-pr-wy][1-9]\d\s?\d{4}[1-9]$/; // This is for Passport
+    // Payment Id Must have @pp or @PP at the end
+    const PaymentIDRegex = /^.*@pp$|^.*@PP$/; // This is for Payment ID
 
+    // Test For ID Number
     if (TempFormData.ID_Type === "Adhaar Card") {
       AdhaarCardRegx.test(TempFormData.ID_Number) === false
         ? alert("Please Enter Valid Adhaar Card Number")
@@ -85,6 +89,11 @@ export default function SignupForm() {
         ? alert("Please Enter Valid Passport Number")
         : null;
     }
+
+    // Test For Payment ID
+    PaymentIDRegex.test(TempFormData.PaymentID) === false
+      ? alert("Please add @pp or @PP at the end of Payment ID")
+      : null;
   };
 
   // Logic For Some Animations
@@ -122,6 +131,7 @@ export default function SignupForm() {
       MainData.append("National_ID_Number", TempFormData.ID_Number);
       MainData.append("PhoneNumber", TempFormData.PhoneNumber);
       MainData.append("DOB", TempFormData.DOB);
+      MainData.append("PaymentID", TempFormData.PaymentID);
 
       if (TempFormData.password === TempFormData.confirmPassword) {
         MainData.append("Password", TempFormData.password);
@@ -160,7 +170,6 @@ export default function SignupForm() {
           duration: 9000,
           isClosable: true,
         });
-        alert(Result.message); // Show Alert
         Navigate("/auth/login"); // Navigate to Dashboard
       }
     }
@@ -272,6 +281,19 @@ export default function SignupForm() {
             placeholder="Phone Number"
             onChange={Handler}
             value={TempFormData.PhoneNumber}
+            className="w-full p-3 border rounded outline-none"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <h1 className="mb-2 font-semibold">Enter Payment ID</h1>
+          <input
+            type="text"
+            name="PaymentID"
+            onBlur={ID_Number_Regex}
+            placeholder="ex: Pay123@pp"
+            onChange={Handler}
+            value={TempFormData.PaymentID}
             className="w-full p-3 border rounded outline-none"
             required
           />

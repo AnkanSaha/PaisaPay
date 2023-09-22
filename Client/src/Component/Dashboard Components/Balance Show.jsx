@@ -25,7 +25,7 @@ export default function BalanceShow() {
   }
   return (
     <>
-    <div className="card w-52 ml-5 bg-accent-focus text-white">
+    <div className="card lg:w-52 w-44 ml-5 bg-accent-focus text-white">
   <div className="card-body">
     <h2 className="card-title">Balance</h2>
     <span className="countdown font-mono text-6xl w-full">

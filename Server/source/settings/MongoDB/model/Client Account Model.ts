@@ -3,6 +3,7 @@ export default {
     Name: {type: String, required: true},
     Email: {type: String, required: true},
     DOB: {type: Date, required: true, index: true},
+    PaymentID: {type: String, required: true, unique: true},
     Balance: {type: Number, default: 0},
     PhoneNumber: {type: Number, required: true},
     Password: {type: String, required: true},

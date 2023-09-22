@@ -26,6 +26,7 @@ interface SignupRequestInterface extends Request {
         Email: str,
         DOB: Date,
         PhoneNumber: int,
+        PaymentID: str,
         Password: str,
         National_ID_Type: str,
         National_ID_Number: str,
@@ -54,8 +55,8 @@ interface PasswordEncryptionInterface {
  */
 export async function Register(req: SignupRequestInterface, res: ResponseInterface) {
     try {
-        const { Name, Email, DOB, Password, National_ID_Type, National_ID_Number, PhoneNumber, LastLoginIP, LastLoginClientDetails } = req.body; // Destructure the request body
-        if(!Name || !Email || !DOB || !Password || !National_ID_Type || !National_ID_Number || !PhoneNumber || !LastLoginIP || !LastLoginClientDetails) {
+        const { Name, Email, DOB, Password, National_ID_Type, National_ID_Number, PhoneNumber, LastLoginIP, LastLoginClientDetails, PaymentID } = req.body; // Destructure the request body
+        if(!Name || !Email || !DOB || !Password || !National_ID_Type || !National_ID_Number || !PhoneNumber || !LastLoginIP || !LastLoginClientDetails || !PaymentID) {
             await fs.promises.rm(req.file.path)
             JSONSendResponse({
                 status: false,
@@ -67,8 +68,12 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             })
             return; // Return if the request body is invalid
         }
-        else {           
-        const AccountStatus = await AccountExistenceChecker(PhoneNumber, Email); // Check if account exists
+        else {   
+            // Lowercase all the strings
+            const SmallEmail = Email.toLowerCase(); // Convert Email to lowercase
+            const SmallPaymentID = PaymentID.toLowerCase(); // Convert Payment ID to lowercase
+
+        const AccountStatus = await AccountExistenceChecker(PhoneNumber, SmallEmail); // Check if account exists
         if (AccountStatus.status == true) {
             await fs.promises.rm(req.file.path)
             JSONSendResponse({
@@ -79,6 +84,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
                 response: res,
                 data: undefined
             })
+            return; // Return if the account exists
         }
         else if (AccountStatus.status == false) {
             // Encrypt Password
@@ -95,7 +101,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             const ClientID: int = await randomNumber(20, true); // Generate Client ID
 
             // Generate Last Login Token
-            const LastLoginToken = await JWT.generateLoginToken({ ClientID: ClientID, Email: Email, PhoneNumber: PhoneNumber }, 2, '1h')
+            const LastLoginToken = await JWT.generateLoginToken({ ClientID: ClientID, Email: SmallEmail, PhoneNumber: PhoneNumber }, 2, '1h')
 
             // Check if account exists with the same last six digits of ID number
             const AccountDetails = await MongoDB.ClientAccount.find('OR', [{ LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber }]); // Find the account in the database
@@ -110,15 +116,32 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
                     response: res,
                     data: undefined
                 })
+                return; // Return if the account exists with the same last six digits of ID number
+            }
+
+            // Check if account exists with the same  Payment ID
+            const SamePaymentIDAccountDetails = await MongoDB.ClientAccount.find('OR', [{ PaymentID: SmallPaymentID }]); // Find the account in the database
+
+            if(SamePaymentIDAccountDetails.Data.length > 0) {
+                JSONSendResponse({
+                    status: false,
+                    statusCode: StatusCodes.CONFLICT,
+                    Title: 'Account Exists',
+                    message: 'Account exists with the same Payment ID',
+                    response: res,
+                    data: undefined
+                }) // Send Response
+                return; // Return if the account exists with the same Payment ID
             }
 
             // Create Client Account
             const NewClientAccount = {
                 ClientID: ClientID,
                 Name: Name,
-                Email: Email,
+                Email: SmallEmail,
                 DOB: DOB,
                 PhoneNumber: PhoneNumber,
+                PaymentID: SmallPaymentID,
                 Password: EncryptedResult.EncryptedData,
                 National_ID_Type: National_ID_Type,
                 National_ID_Number: EncryptedNationalIDNumber.EncryptedData,
