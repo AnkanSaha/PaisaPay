@@ -70,7 +70,7 @@ export const ForgetPasswordAccountFinder = async (
 };
 
 // Interface for Forget Password Updater
-interface ForgetPasswordUpdaterInterface {
+interface ForgetPasswordUpdaterInterface extends Request {
   PhoneNumber: int;
   Email: str;
   Password: str;
@@ -88,7 +88,7 @@ export const ForgetPasswordUpdater = async (
       Password,
       LastLoginIP,
       LastLoginClientDetails,
-    }: ForgetPasswordUpdaterInterface = request.body; // Destructure the request body
+    } : ForgetPasswordUpdaterInterface = request.body; // Destructure the request body
 
     // Convert Email to lowercase
     const SmelledEmail: str = Email.toLowerCase(); // Convert Email to lowercase
@@ -172,6 +172,7 @@ export const ForgetPasswordUpdater = async (
       }); // Send Response to the Client
     }
   } catch (error) {
+    console.log(error);
     JSONSendResponse({
       status: false,
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
