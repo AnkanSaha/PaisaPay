@@ -1,5 +1,5 @@
 import React, { useState } from "react"; // Importing React
-import { useParams } from "react-router-dom"; // Import useParams from react-router-dom
+import { useParams, useNavigate } from "react-router-dom"; // Import useParams from react-router-dom
 
 // Encrypting and Decrypting
 import { decodeToken } from "react-jwt"; // Importing JWT
@@ -28,6 +28,7 @@ export default function ForgetPasswordValidator() {
   // Hooks
   const { AccountDetails } = useParams(); // Get Account Details from URL
   const Toast = useToast(); // Toast
+  const Navigate = useNavigate(); // Navigate
 
   // States
   const [UserData, setUserData] = useState({
@@ -61,6 +62,7 @@ export default function ForgetPasswordValidator() {
         duration: 5000,
         isClosable: true,
       })
+      Navigate(`/auth/reset-password/${AccountDetails}`); // Navigate to Reset Password Page
     }
   }; // Verify User Details
 
@@ -74,7 +76,7 @@ export default function ForgetPasswordValidator() {
   return (
     <>
       <Heading className="text-center font-mono mt-5">
-        Verify User Details To Reset Password
+        Verify User Details To Reset Password (Step 2 of 3)
       </Heading>
       <div className="w-6/12 m-auto mt-10 mb-10">
         <FormControl className="space-y-5" isRequired>
