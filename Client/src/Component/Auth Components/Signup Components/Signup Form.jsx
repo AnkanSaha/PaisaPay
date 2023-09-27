@@ -92,7 +92,11 @@ export default function SignupForm() {
 
     // Test For Payment ID
     PaymentIDRegex.test(TempFormData.PaymentID) === false
-      ? alert("Please add @pp or @PP at the end of Payment ID")
+      ?  toast({
+        title: `Payment ID Must Have @pp or @PP at the end`,
+        position: "top-right",
+        isClosable: true,
+      })
       : null;
   };
 
@@ -160,7 +164,7 @@ export default function SignupForm() {
           isClosable: true,
         });
         Dispatch(addAccountDetails(Result.data)); // Add Account Details to Redux
-        Navigate("/auth/login"); // Navigate to Dashboard
+        Navigate("/dashboard"); // Navigate to Dashboard
       } else if (Result.statusCode === 409) {
         setisLoading(false); // Set Loading Screen to True
         toast({

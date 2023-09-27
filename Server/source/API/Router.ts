@@ -1,11 +1,30 @@
 /* eslint-disable new-cap */
 import { Router, Request, Response } from 'express'; // Import Express
-// setup Router
-const MainRouter = Router(); // Create Router
+import { StatusCodes } from '../settings/keys/keys'; // Import Status Codes
+import rateLimit from 'express-rate-limit'; // Import rate limit for limiting request
 
 // Setup Response Mechanism
 import { JSONSendResponse } from '../Helper/Response'; // Import Send Response Function
-import { StatusCodes } from '../settings/keys/keys'; // Import Status Codes
+
+// setup Router
+const MainRouter = Router(); // Create Router
+
+// Implement Rate Limit
+MainRouter.use(rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: 10, // 15 requests
+    message: {
+        status: false,
+        statusCode: StatusCodes.TOO_MANY_REQUESTS,
+        Title: 'Too many requests',
+        message: 'Too many requests, please try again later',
+        response: undefined,
+    },
+    standardHeaders: true, // Include standard headers for request limit
+    legacyHeaders: false // Include legacy headers for request limit
+
+}))
+
 
 // import All Sub Routers
 /* The code is importing different modules that handle different types of HTTP requests (GET, POST,
@@ -22,7 +41,6 @@ MainRouter.use('/get', GetRequestManager); // Use Get Request Manager
 MainRouter.use('/post', PostRequestManager); // Use Post Request Manager
 MainRouter.use('/put', PutRequestManager); // Use Post Request Manager
 MainRouter.use('/delete', Delete_Request_Manager); // Use Post Request Manager
-
 
 // Response Not Allowed Request
 MainRouter.all('*', (Request: Request, Response: Response) => {

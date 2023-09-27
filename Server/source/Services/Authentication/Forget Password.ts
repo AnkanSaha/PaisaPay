@@ -44,8 +44,14 @@ export const ForgetPasswordAccountFinder = async (
       }); // Send Response to the Client
       return;
     }
-
     // Encrypt the Data and send it Using JWT
+    const LoginToken = await JWT.generate(
+      {
+        ClientID: AccountDetails.Data[0].ClientID,
+        LastFourDigitsOfIDNumber: AccountDetails.Data[0].LastFourDigitsOfIDNumber,
+      },
+      "1h"
+    ); // Generate Login Token for the user
     const EncryptedData = await JWT.generate(AccountDetails.Data[0], "1h"); // Encrypt the Data and send it Using JWT
 
     // Send Response to the Client
@@ -54,7 +60,10 @@ export const ForgetPasswordAccountFinder = async (
       statusCode: StatusCodes.OK,
       message: "Account Details Matched Successfully",
       Title: "Account Details",
-      data: EncryptedData.toKen,
+      data: {
+        LoginToken: LoginToken.toKen,
+        AccountDetails: EncryptedData.toKen,
+      },
       response: response,
     });
   } catch (error) {

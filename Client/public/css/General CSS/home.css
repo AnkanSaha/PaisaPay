@@ -88,6 +88,12 @@
   }
   
 
+  /* Home Page  */
 .herosubtext{
     font-family: 'Roboto Condensed', sans-serif;
+}
+
+/* Dashboard Page */
+.DashboardBalanceShow {
+  font-family: 'Dela Gothic One', cursive;
 }
