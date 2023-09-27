@@ -12,7 +12,7 @@ const MainRouter = Router(); // Create Router
 // Implement Rate Limit
 MainRouter.use(rateLimit({
     windowMs: 60 * 1000, // 1 minute
-    max: 10, // 15 requests
+    max: 15, // 15 requests
     message: {
         status: false,
         statusCode: StatusCodes.TOO_MANY_REQUESTS,
