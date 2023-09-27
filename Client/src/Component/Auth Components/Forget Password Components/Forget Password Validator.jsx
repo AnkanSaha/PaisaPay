@@ -148,7 +148,7 @@ export default function ForgetPasswordValidator() {
 
           <FormLabel>Last Four Digits of ID Number</FormLabel>
           <Input
-            type="number"
+            type="text"
             placeholder="ex: 1234"
             name="LastFourDigitsOfIDNumber"
             onChange={OnChange}

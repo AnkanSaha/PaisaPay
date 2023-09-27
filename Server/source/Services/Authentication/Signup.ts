@@ -141,6 +141,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
                 Email: SmallEmail,
                 DOB: DOB,
                 PhoneNumber: PhoneNumber,
+                Balance: 0,
                 PaymentID: SmallPaymentID,
                 Password: EncryptedResult.EncryptedData,
                 National_ID_Type: National_ID_Type,
@@ -156,11 +157,15 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
                 LastLoginIP: LastLoginIP,
                 LastLoginClientDetails: JSON.parse(LastLoginClientDetails),
                 LastLoginToken: LastLoginToken.toKen
-            }
+            } // Create New Client Account
 
+            // Create All Account Related Records in MongoDB
             const AccountStatus = await MongoDB.ClientAccount.create(NewClientAccount); // Create Client Account in MongoDB
-           const EncryptedAccountData = await JWT.generate(AccountStatus, '1d'); // Encrypt Account Data
 
+            // Generate JWT Token
+            const EncryptedAccountData = await JWT.generate(AccountStatus, '1d'); // Encrypt Account Data
+
+            // Send Response to Client
             if (AccountStatus.status === true) {
                 JSONSendResponse({
                     status: true,
@@ -169,8 +174,8 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
                     message: 'Account created successfully, you can now login',
                     response: res,
                     data: {
-                        SessionToken: LastLoginToken.toKen,
-                        AccountDetail: EncryptedAccountData.toKen
+                        LoginToken: LastLoginToken.toKen,
+                        AccountDetails: EncryptedAccountData.toKen
                     }
                 })
             }

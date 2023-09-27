@@ -55,7 +55,7 @@ export default function ForgetPasswordFinder() {
       setisLoading(true); // Set Loading Screen to True
       const Result = await StepOneFinder(API, EmailInput); // Get Result from StepOneFinder Function
       if (Result.statusCode === 200){
-        Navigate(`/auth/forget-password/${Result.data}`); // Navigate to Step 2
+        Navigate(`/auth/forget-password/${Result.data.AccountDetails}`); // Navigate to Step 2
         setisLoading(false); // Set Loading Screen to False
       }
       toast({
