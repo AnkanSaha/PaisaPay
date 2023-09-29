@@ -6,24 +6,16 @@ import { useSelector, useDispatch } from "react-redux"; // Import UseSelector
 import { decodeToken } from "react-jwt"; // import jwt for decoding the jwt token
 import { UpdateUserImageURl } from "@redux/Slices/Transaction Details"; // Import General App Info Slice
 
-// import React Material-UI Components
-import { BiSolidUserCircle } from "react-icons/bi"; // Import HiUserCircle Icon
-import { Button, useToast } from "@chakra-ui/react"; // Import Chakra UI Button
-
 // import React Modules
 import { Link, useNavigate, useLocation } from "react-router-dom"; // Import Link
 
-// Import States Actions
-import { deleteAccountDetails } from "../../App/Redux/Slices/Account Slice"; // Import Account Slice
-
-// Import Storage Function
-import { Cache } from "../../App/App_Config"; // Import Cache from App_Config.jsx
+// SideBar import 
+import Sidebar from '@component/Dashboard Components/Sidebar'; // import the sidebar component
 
 function GeneralNavbar() {
   // initializes
   const navigate = useNavigate(); // Create navigate function
   const Location = useLocation(); // Create Location Function
-  const Toast = useToast(); // Create Toast Function
 
   // get All State from Redux Store
   const Dispatch = useDispatch(); // Create Dispatch Function
@@ -52,12 +44,7 @@ function GeneralNavbar() {
     TextColorScheme = "black"; // set the text color scheme to black
   }
 
-  // Logic For Navbar Button
 
-  const LogoutFunction = async () => {
-    await Cache.Account.clearCache(); // Clear Account Cache
-    Dispatch(deleteAccountDetails()); // Update Account Details
-  };
 
   return (
     <div
@@ -126,24 +113,7 @@ function GeneralNavbar() {
         </ul>
       </div>
       <div className="navbar-end">
-        <Button
-          onClick={() => {
-            LogoutFunction();
-            Toast({
-              title: "Logout Successful",
-              description:
-                "You have been logged out successfully, Redirecting you to the login page",
-              status: "warning",
-              duration: 5000,
-              isClosable: true,
-            }); // Create Toast
-          }}
-          rightIcon={<BiSolidUserCircle />}
-          className="herosubtext mr-[0rem] lg:mr-5 rounded-full"
-          colorScheme="blue"
-        >
-          Logout
-        </Button>
+      <Sidebar/>
       </div>
     </div>
   );
