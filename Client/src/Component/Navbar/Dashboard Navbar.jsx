@@ -83,7 +83,7 @@ function GeneralNavbar() {
           </ul>
         </div>
         <div className={`avatar ${Decoded_Account_Details.data.AccountStatus === 'Active' ? 'online' : 'offline'}`}>
-          <div className="lg:w-16 w-12 mt-2 rounded-full ml-5 cursor-pointer" onClick={()=> navigate('/')}>
+          <div className="lg:w-14 w-12 mt-2 rounded-full ml-5 cursor-pointer" onClick={()=> navigate('/')}>
             <img src={ReduxState.TransactionDetails.UserProfileImageURl} />
           </div>
         </div>

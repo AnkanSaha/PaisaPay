@@ -1,9 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React from "react"; // import React
 import { decodeToken } from "react-jwt"; // import jwt for decoding the jwt token
+import { useNavigate } from "react-router-dom"; // Import Link
+import Typed from "typed.js"; // Import Typed.js
+import { useToast } from "@chakra-ui/react"; // Import Chakra UI Toast
 
 // Import Custom CSS
-import '@public/css/General CSS/home.css'; // import the home.css file
+import "@public/css/General CSS/home.css"; // import the home.css file
 
 // Import Functions
 import { ForgetPasswordFinder as AsyncBalanceUpdater } from "@helper/Auth/Authentication"; // ForgetPasswordFinder For Balance Update
@@ -12,16 +15,26 @@ import { ForgetPasswordFinder as AsyncBalanceUpdater } from "@helper/Auth/Authen
 import { useSelector, useDispatch } from "react-redux"; // import useSelector from react-redux
 import { UpdateBalance } from "@redux/Slices/Transaction Details"; // import the action creator
 import { addAccountDetails } from "@redux/Slices/Account Slice"; // import the action creator
-// Icons
-import {VscDebugRestart} from "react-icons/vsc"; // import the restart icon
-export default function BalanceShow() {
-  // Redux
 
-    const API = useSelector(
-      (state) =>
-        state.GeneralAppInfo.ApplicationConfig.Frontend_Details
-          .Live_URL_FOR_API_CALL
-    ); // Get API Link from Redux
+// Icons
+import { AiFillCopy } from "react-icons/ai"; // import the restart icon
+import { Button } from "@chakra-ui/react";
+
+export default function BalanceShow() {
+  // React State Variables
+  const [isLoading, setIsLoading] = React.useState(false); // set the loading state to false
+
+  // Redux
+  const ReduxState = useSelector((state) => state); // Get All State from Redux Store
+  const API = useSelector(
+    (state) =>
+      state.GeneralAppInfo.ApplicationConfig.Frontend_Details
+        .Live_URL_FOR_API_CALL
+  ); // Get API Link from Redux
+
+  // Hooks
+  const navigate = useNavigate(); // Create navigate function
+  const toast = useToast(); // use toast for the toast notification
 
   // Encrypted Account Details from Redux
   const AccountDetails = useSelector((state) => state.AccountInfo); // get the account details from the redux store
@@ -34,31 +47,87 @@ export default function BalanceShow() {
   const Balance = useSelector((state) => state.TransactionDetails.Balance); // get the balance from the redux store
 
   // Update Balance Function
-  const BalanceUpdater = async (event)=>{
+  const BalanceUpdater = async (event) => {
     event.preventDefault(); // prevent the default behavior
-    const Response = await AsyncBalanceUpdater(API, Decoded_Account_Details.data.Email); // call the function for balance update
-    
+    setIsLoading(true); // set the loading state to true
+    const Response = await AsyncBalanceUpdater(
+      API,
+      Decoded_Account_Details.data.Email
+    ); // call the function for balance update
+
     // Check if the response is 200 or not
-    if(Response.statusCode === 200){
+    if (Response.statusCode === 200) {
       dispatch(addAccountDetails(Response.data)); // update the account details in the redux store
       const Decoded_Account_Details = decodeToken(Response.data.AccountDetails); // decode the jwt token to get the account details
       dispatch(UpdateBalance(Decoded_Account_Details.data.Balance)); // update the balance in the redux store
     }
-  }
+    setIsLoading(false); // set the loading state to false
+  };
+
+  // Show Toast Notification when first time user login
+  React.useEffect(()=>{
+    toast({
+      title: `Your Payment ID is ${Decoded_Account_Details.data.PaymentID.toUpperCase()}`,
+      position: "top toast",
+      isClosable: true,
+    })
+  }, [Decoded_Account_Details.data.PaymentID])
+
   return (
     <>
-    <div className="card lg:w-52 w-44 ml-5 bg-accent-focus text-white">
-  <div className="card-body">
-    <h2 className="card-title">Balance</h2>
-    <span className="countdown font-mono text-6xl w-full">
-    ₹ <span style={{"--value":Balance,}} id="DashboardBalanceShow" ></span>  
-</span>
-    <div className="card-actions justify-end">
-      <button className="btn btn-neutral btn-outline btn-circle btn-sm" onClick={BalanceUpdater}><VscDebugRestart /> </button>
-    </div>
-  </div>
-</div>
-    
+      <div className="w-full ml-5 max-w-[18rem] mt-10 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div className="flex flex-col items-center pb-10">
+          <div className="avatar mt-5">
+            <div
+              className={`w-24 rounded-full ring ring-${
+                Decoded_Account_Details.data.AccountStatus === "Active"
+                  ? "success"
+                  : "error"
+              } ring-offset-base-100 ring-offset-2`}
+            >
+              <img src={ReduxState.TransactionDetails.UserProfileImageURl} />
+            </div>
+          </div>
+          <div className="flex flex-wrap space-x-2">
+          <h5
+            className="mb-1 text-xl font-medium text-gray-900 dark:text-white mt-5"
+          >{Decoded_Account_Details.data.PaymentID.toUpperCase()}</h5> 
+          <Button onClick={(e) => {
+              e.preventDefault(); // prevent the default right click menu from showing
+              // Copy the text to the clipboard
+              navigator.clipboard.writeText(
+                Decoded_Account_Details.data.PaymentID
+              );
+              toast({
+                title: `Payment ID Copied`,
+                position: "top-right",
+                isClosable: true,
+              });
+            }} size={"xs"}><AiFillCopy/></Button>
+         </div>
+          <span className="text-sm text-gray-500 dark:text-gray-400">
+            {" "}
+            Available Balance: ₹{Balance}
+          </span>
+          <div className="flex mt-4 space-x-3 md:mt-6">
+            <Button
+              onClick={BalanceUpdater}
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              colorScheme="facebook"
+              isLoading={isLoading}
+            >
+              Refresh
+            </Button>
+            <Button
+              onClick={() => navigate("/dashboard/add-funds")}
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700"
+              colorScheme="red"
+            >
+              Add Funds
+            </Button>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
