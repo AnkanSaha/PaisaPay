@@ -65,17 +65,18 @@ export default function BalanceShow() {
     }
     setIsLoading(false); // set the loading state to false
   };
-  
+
   return (
     <>
       <div className="w-full ml-5 max-w-[18rem] mt-10 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div className="flex flex-col items-center pb-10">
+        <div className="lg:tooltip" data-tip={Decoded_Account_Details.data.AccountStatus === "Active" ? "Your Account is Active" : "Your Account is Disabled by Admin"}>
           <div className="avatar mt-5">
             <div
-              className={`w-24 rounded-full ring ring-${
+              className={`w-24 rounded-full ring ${
                 Decoded_Account_Details.data.AccountStatus === "Active"
-                  ? "accent-focus"
-                  : "error"
+                  ? "ring-accent-focus"
+                  : "ring-error"
               } ring-offset-base-100 ring-offset-2`}
             >
               <img
@@ -85,6 +86,7 @@ export default function BalanceShow() {
                     : LocalAnonymousUserLogo
                 }
               />
+            </div>
             </div>
           </div>
           <div className="flex flex-wrap space-x-2">
