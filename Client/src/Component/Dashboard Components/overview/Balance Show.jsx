@@ -2,11 +2,13 @@
 import React from "react"; // import React
 import { decodeToken } from "react-jwt"; // import jwt for decoding the jwt token
 import { useNavigate } from "react-router-dom"; // Import Link
-import Typed from "typed.js"; // Import Typed.js
 import { useToast } from "@chakra-ui/react"; // Import Chakra UI Toast
 
 // Import Custom CSS
 import "@public/css/General CSS/home.css"; // import the home.css file
+
+// Local Images
+import { LocalAnonymousUserLogo } from "@app/App_Config"; // import the anonymous user logo
 
 // Import Functions
 import { ForgetPasswordFinder as AsyncBalanceUpdater } from "@helper/Auth/Authentication"; // ForgetPasswordFinder For Balance Update
@@ -64,47 +66,51 @@ export default function BalanceShow() {
     setIsLoading(false); // set the loading state to false
   };
 
-  // Show Toast Notification when first time user login
-  React.useEffect(()=>{
-    toast({
-      title: `Your Payment ID is ${Decoded_Account_Details.data.PaymentID.toUpperCase()}`,
-      position: "top toast",
-      isClosable: true,
-    })
-  }, [Decoded_Account_Details.data.PaymentID])
-console.log(Decoded_Account_Details.data.AccountStatus)
   return (
     <>
       <div className="w-full ml-5 max-w-[18rem] mt-10 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div className="flex flex-col items-center pb-10">
+        <div className="lg:tooltip" data-tip={Decoded_Account_Details.data.AccountStatus === "Active" ? "Your Account is Active" : "Your Account is Disabled by Admin"}>
           <div className="avatar mt-5">
             <div
-              className={`w-24 rounded-full ring ring-${
+              className={`w-24 rounded-full ring ${
                 Decoded_Account_Details.data.AccountStatus === "Active"
-                  ? "accent-focus"
-                  : "error"
+                  ? "ring-accent-focus"
+                  : "ring-error"
               } ring-offset-base-100 ring-offset-2`}
             >
-              <img src={ReduxState.TransactionDetails.UserProfileImageURl} />
+              <img
+                src={
+                  ReduxState.TransactionDetails.UserProfileImageURl
+                    ? ReduxState.TransactionDetails.UserProfileImageURl
+                    : LocalAnonymousUserLogo
+                }
+              />
+            </div>
             </div>
           </div>
           <div className="flex flex-wrap space-x-2">
-          <h5
-            className="mb-1 text-xl font-medium text-gray-900 dark:text-white mt-5"
-          >{Decoded_Account_Details.data.PaymentID.toUpperCase()}</h5> 
-          <Button onClick={(e) => {
-              e.preventDefault(); // prevent the default right click menu from showing
-              // Copy the text to the clipboard
-              navigator.clipboard.writeText(
-                Decoded_Account_Details.data.PaymentID
-              );
-              toast({
-                title: `Payment ID Copied`,
-                position: "top-right",
-                isClosable: true,
-              });
-            }} size={"xs"}><AiFillCopy/></Button>
-         </div>
+            <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white mt-5">
+              {Decoded_Account_Details.data.PaymentID.toUpperCase()}
+            </h5>
+            <Button
+              onClick={(e) => {
+                e.preventDefault(); // prevent the default right click menu from showing
+                // Copy the text to the clipboard
+                navigator.clipboard.writeText(
+                  Decoded_Account_Details.data.PaymentID
+                );
+                toast({
+                  title: `Payment ID Copied`,
+                  position: "top-right",
+                  isClosable: true,
+                });
+              }}
+              size={"xs"}
+            >
+              <AiFillCopy />
+            </Button>
+          </div>
           <span className="text-sm text-gray-500 dark:text-gray-400">
             {" "}
             Available Balance: ₹{Balance}

@@ -2,7 +2,10 @@ import React from "react"; // Import React
 import { useSelector, useDispatch } from "react-redux"; // Import Use Selector
 import { addAccountDetails } from "@redux/Slices/Account Slice"; // Import Account Slice
 import { useNavigate } from "react-router-dom"; // Import use Navigate
-import { useToast } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react"; // Import use Toast
+
+// Import Images
+import { LocalAnonymousUserLogo } from "@app/App_Config"; // Import Anonymous User Logo
 
 // Import Some Components
 import { Button } from "@chakra-ui/react"; // This is for Button
@@ -194,7 +197,7 @@ export default function SignupForm() {
                 src={
                   TempFormData.profilePicture
                     ? URL.createObjectURL(TempFormData.profilePicture)
-                    : "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
+                    : LocalAnonymousUserLogo
                 }
               />
             </div>

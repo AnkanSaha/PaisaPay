@@ -8,6 +8,8 @@ import { FaHistory } from "react-icons/fa"; // import FaHistory from react-icons
 import {MdOutlineSendToMobile} from "react-icons/md"; // import MdOutlineSendToMobile from react-icons/md
 import { BiMoneyWithdraw } from "react-icons/bi"; // import BiMoneyWithdraw from react-icons/bi
 import {CgProfile} from "react-icons/cg"; // import CgProfile from react-icons/cg
+import {LocalAnonymousUserLogo} from "@app/App_Config"; // import the anonymous user logo
+import {AiOutlineQrcode} from "react-icons/ai"; // import AiOutlineQrcode from react-icons/ai
 
 // React JWT
 import { decodeToken } from "react-jwt"; // import jwt for decoding the jwt token
@@ -77,7 +79,7 @@ export default function Sidebar() {
           >
             <img
               className="w-10 h-10 mr-3 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-              src={ReduxState.TransactionDetails.UserProfileImageURl}
+              src={ReduxState.TransactionDetails.UserProfileImageURl ? ReduxState.TransactionDetails.UserProfileImageURl : LocalAnonymousUserLogo}
               alt="User avatar"
             />
 
@@ -187,6 +189,23 @@ export default function Sidebar() {
                  <CgProfile />
                 </svg>
                 <span className="flex-1 ml-3 whitespace-nowrap">User Profile</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/dashboard/QR-Code"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <svg
+                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 16"
+                >
+                 <AiOutlineQrcode />
+                </svg>
+                <span className="flex-1 ml-3 whitespace-nowrap">View QR Code</span>
               </Link>
             </li>
             <li>
