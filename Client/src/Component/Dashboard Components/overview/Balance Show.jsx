@@ -72,7 +72,7 @@ export default function BalanceShow() {
       isClosable: true,
     })
   }, [Decoded_Account_Details.data.PaymentID])
-
+console.log(Decoded_Account_Details.data.AccountStatus)
   return (
     <>
       <div className="w-full ml-5 max-w-[18rem] mt-10 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -81,7 +81,7 @@ export default function BalanceShow() {
             <div
               className={`w-24 rounded-full ring ring-${
                 Decoded_Account_Details.data.AccountStatus === "Active"
-                  ? "success"
+                  ? "accent-focus"
                   : "error"
               } ring-offset-base-100 ring-offset-2`}
             >

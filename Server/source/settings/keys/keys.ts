@@ -13,6 +13,7 @@ export const StringKeys = {
     AppName: String('PaisaPay'),
 	CORS_URL: String(process.env.CORS_ORIGIN) || '*',
     JWT_SECRET: String(process.env.JWT_SECRET),
+    JWT_EXPIRES_IN: String(process.env.JWT_EXPIRES_IN) || '30d',
     StaticDirectoryName : String('Database'),
 };
 

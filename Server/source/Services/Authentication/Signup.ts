@@ -5,7 +5,7 @@ type int = number;
 type bool = boolean;
 
 import { JSONSendResponse } from "../../Helper/Response"; // Import Send Response Function
-import { StatusCodes } from "../../settings/keys/keys"; // Import HTTP Status Codes
+import { StatusCodes, StringKeys } from "../../settings/keys/keys"; // Import HTTP Status Codes
 import fs from "fs"; // Import fs
 import { Request } from "express"; // Import Request from express
 import { randomNumber } from "uniquegen"; // Import Uniquegen
@@ -101,7 +101,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             const ClientID: int = await randomNumber(20, true); // Generate Client ID
 
             // Generate Last Login Token
-            const LastLoginToken = await JWT.generateLoginToken({ ClientID: ClientID, Email: SmallEmail, PhoneNumber: PhoneNumber }, 2, '1h')
+            const LastLoginToken = await JWT.generateLoginToken({ ClientID: ClientID, Email: SmallEmail, PhoneNumber: PhoneNumber }, 2, StringKeys.JWT_EXPIRES_IN)
 
             // Check if account exists with the same last six digits of ID number
             const AccountDetails = await MongoDB.ClientAccount.find('OR', [{ LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber }]); // Find the account in the database
@@ -163,7 +163,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             const AccountStatus = await MongoDB.ClientAccount.create(NewClientAccount); // Create Client Account in MongoDB
 
             // Generate JWT Token
-            const EncryptedAccountData = await JWT.generate(AccountStatus, '1d'); // Encrypt Account Data
+            const EncryptedAccountData = await JWT.generate(AccountStatus, StringKeys.JWT_EXPIRES_IN); // Encrypt Account Data
 
             // Send Response to Client
             if (AccountStatus.status === true) {

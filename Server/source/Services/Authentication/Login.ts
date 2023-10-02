@@ -5,7 +5,7 @@ type bool = boolean;
 
 // Import Required Modules
 import { JSONSendResponse } from "../../Helper/Response"; // Import Send Response Function
-import { StatusCodes } from "../../settings/keys/keys"; // Import HTTP Status Codes
+import { StatusCodes, StringKeys } from "../../settings/keys/keys"; // Import HTTP Status Codes
 import JWT from "../../Helper/config/JWT.config"; // Import JWT Config
 import { Request } from "express"; // Import Request from express
 
@@ -77,7 +77,7 @@ export const Login_PaisaPay = async (
         if (isPasswordCorrect.isMatch === true) {
           const JWTaccountDetails = await JWT.generate(
             AccountStatus.Data[0],
-            "1h"
+            StringKeys.JWT_EXPIRES_IN
           ); // Generate JWT Token for Account Details
 
           const LoginToken = await JWT.generate(
@@ -86,7 +86,7 @@ export const Login_PaisaPay = async (
               LastLoginIP: LastLoginIP,
               LastFourDigitsOfIDNumber: AccountStatus.Data[0].LastFourDigitsOfIDNumber,
             },
-            "1h"
+            StringKeys.JWT_EXPIRES_IN
           ); // Generate Login Token for the user
  
           // Update Last Login IP and Last Login Client Details
