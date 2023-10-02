@@ -13,7 +13,6 @@ import { Update_Document_Title } from "@helper/Common"; // import the function t
 
 // Import Components
 import BalanceShow from "@component/Dashboard Components/overview/Balance Show"; // import the balance show component
-import Header from "@component/Dashboard Components/overview/Wellcome Header"; // import the header component
 
 // main component
 export default function Dashboard() {
@@ -39,7 +38,6 @@ export default function Dashboard() {
   return (
     <>
       <DashboardNavbar />
-      <Header />
       <BalanceShow />
     </>
   );

@@ -5,7 +5,7 @@ type str = string; // Define str
 
 // Imports
 import { JSONSendResponse } from "../../Helper/Response"; // Import Send Response Function
-import { StatusCodes } from "../../settings/keys/keys"; // Import HTTP Status Codes
+import { StatusCodes, StringKeys } from "../../settings/keys/keys"; // Import HTTP Status Codes
 import JWT from "../../Helper/config/JWT.config"; // Import JWT Config
 import { Encrypt } from "../../Helper/config/Bcrypt.config"; // Import Bcrypt Config
 import { Request } from "express"; // Import Request from express
@@ -50,9 +50,9 @@ export const ForgetPasswordAccountFinder = async (
         ClientID: AccountDetails.Data[0].ClientID,
         LastFourDigitsOfIDNumber: AccountDetails.Data[0].LastFourDigitsOfIDNumber,
       },
-      "1h"
+      StringKeys.JWT_EXPIRES_IN
     ); // Generate Login Token for the user
-    const EncryptedData = await JWT.generate(AccountDetails.Data[0], "1h"); // Encrypt the Data and send it Using JWT
+    const EncryptedData = await JWT.generate(AccountDetails.Data[0], StringKeys.JWT_EXPIRES_IN); // Encrypt the Data and send it Using JWT
 
     // Send Response to the Client
     JSONSendResponse({
@@ -128,7 +128,7 @@ export const ForgetPasswordUpdater = async (
         // Encrypt the Data and send it Using JWT
         const EncryptAccountData = await JWT.generate(
           UpdateStatus.UpdatedData,
-          "1h"
+          StringKeys.JWT_EXPIRES_IN
         ); // Encrypt the Data and send it Using JWT
 
         // Generate Login Token for the user
@@ -139,7 +139,7 @@ export const ForgetPasswordUpdater = async (
             LastFourDigitsOfIDNumber:
               UpdateStatus.UpdatedData.LastFourDigitsOfIDNumber,
           },
-          "1h"
+          StringKeys.JWT_EXPIRES_IN
         ); // Generate Login Token for the user
 
         // Update Last Login IP and Last Login Client Details

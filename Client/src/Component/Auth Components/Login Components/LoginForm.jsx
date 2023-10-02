@@ -24,13 +24,13 @@ import {
   import {BsFillShieldLockFill} from 'react-icons/bs'; // Importing Shield Icon
   import {Si1Password} from 'react-icons/si'; // Importing Create New Folder Icon
   import {addAccountDetails} from '@redux/Slices/Account Slice'; // Importing Account Slice
-  import {LoadingScreen} from '@page/Common Pages/Loading Screen'; // Importing Loading Screen
-
 
   // Import Client Side Storage
   import { Cache } from "@app/App_Config"; // Importing Cache from App_Config.jsx
 
 export default function LoginForm (){
+  // React State Variables
+  const [isLoading, setIsLoading] = React.useState(false); // Initializing isLoading state variable
     // Initializing useNavigate
     const navigate = useNavigate();
     const { isOpen, onOpen, onClose } = useDisclosure(); // Chakra UI Modal Hooks
@@ -58,10 +58,12 @@ export default function LoginForm (){
       }
       const VerificationResult = await VerifyLoginData(LoginData); // Verify Login Data
       if(VerificationResult === true){
-        onClose(); // Close the modal
+        setIsLoading(true); // Set isLoading to true
         const LoginResult = await Login(ReduxStore.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL, LoginData); // Login
         
         if(LoginResult.statusCode === 200){
+          setIsLoading(false); // Set isLoading to false
+          onClose(); // Close the modal
           toast({
             title: LoginResult.Title,
             description: LoginResult.message,
@@ -76,6 +78,7 @@ export default function LoginForm (){
           navigate('/dashboard'); // Navigate to Dashboard
         }
         else if(LoginResult.statusCode === 404){
+          setIsLoading(false); // Set isLoading to false
           toast({
             title: LoginResult.Title,
             description: LoginResult.message,
@@ -84,10 +87,10 @@ export default function LoginForm (){
             isClosable: true,
             icon: 'warning',
           })
-  
           navigate('/auth/create-account'); // Navigate to Create Account
         }
         else {
+          setIsLoading(false); // Set isLoading to false
           toast({
             title: LoginResult.Title,
             description: LoginResult.message,
@@ -148,14 +151,13 @@ export default function LoginForm (){
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme='whatsapp' rightIcon={<BsFillShieldLockFill/>} onClick={SubmitHandler} mr={3}>
-                Login Securely
+            <Button colorScheme='whatsapp' rightIcon={<BsFillShieldLockFill/>} onClick={SubmitHandler} isLoading={isLoading} mr={3}>
+                Login
             </Button>
-            <Button colorScheme="facebook" rightIcon={<Si1Password/>} mr={3} onClick={()=>{navigate('/auth/forget-password')}}>Reset Password</Button>
+            <Button colorScheme="facebook" rightIcon={<Si1Password/>} mr={3} onClick={()=>{navigate('/auth/forget-password')}}>Reset</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <LoadingScreen StatusText="Please wait while we are logging you in..." />
       </>
     )
 }
