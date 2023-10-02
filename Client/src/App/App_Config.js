@@ -70,3 +70,7 @@ export const Cache = {
     IP: new CacheStorage('IP Details'), // IP Cache
     Account: new CacheStorage('Account Details'), // Account Cache
 }
+
+// Global Other Use Variables
+import UserLogo from '@public/icons/user.png'; // Anonymous User Logo
+export const LocalAnonymousUserLogo = UserLogo; // Anonymous User Logo

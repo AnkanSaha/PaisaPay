@@ -8,6 +8,7 @@ import { FaHistory } from "react-icons/fa"; // import FaHistory from react-icons
 import {MdOutlineSendToMobile} from "react-icons/md"; // import MdOutlineSendToMobile from react-icons/md
 import { BiMoneyWithdraw } from "react-icons/bi"; // import BiMoneyWithdraw from react-icons/bi
 import {CgProfile} from "react-icons/cg"; // import CgProfile from react-icons/cg
+import {LocalAnonymousUserLogo} from "@app/App_Config"; // import the anonymous user logo
 
 // React JWT
 import { decodeToken } from "react-jwt"; // import jwt for decoding the jwt token
@@ -77,7 +78,7 @@ export default function Sidebar() {
           >
             <img
               className="w-10 h-10 mr-3 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-              src={ReduxState.TransactionDetails.UserProfileImageURl}
+              src={ReduxState.TransactionDetails.UserProfileImageURl ? ReduxState.TransactionDetails.UserProfileImageURl : LocalAnonymousUserLogo}
               alt="User avatar"
             />
 

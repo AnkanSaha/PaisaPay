@@ -9,6 +9,9 @@ import { UpdateUserImageURl } from "@redux/Slices/Transaction Details"; // Impor
 // import React Modules
 import { Link, useNavigate, useLocation } from "react-router-dom"; // Import Link
 
+// Import Icons
+import {LocalAnonymousUserLogo} from '@app/App_Config'; // import the anonymous user logo
+
 // SideBar import 
 import Sidebar from '@component/Dashboard Components/Sidebar'; // import the sidebar component
 
@@ -84,7 +87,7 @@ function GeneralNavbar() {
         </div>
         <div className={`avatar ${Decoded_Account_Details.data.AccountStatus === 'Active' ? 'online' : 'offline'}`}>
           <div className="lg:w-14 w-12 mt-2 rounded-full ml-5 cursor-pointer" onClick={()=> navigate('/')}>
-            <img src={ReduxState.TransactionDetails.UserProfileImageURl} />
+            <img src={ReduxState.TransactionDetails.UserProfileImageURl ? ReduxState.TransactionDetails.UserProfileImageURl : LocalAnonymousUserLogo} />
           </div>
         </div>
         <button
