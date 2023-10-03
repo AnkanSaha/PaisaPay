@@ -163,7 +163,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             const AccountStatus = await MongoDB.ClientAccount.create(NewClientAccount); // Create Client Account in MongoDB
 
             // Generate JWT Token
-            const EncryptedAccountData = await JWT.generate(AccountStatus, StringKeys.JWT_EXPIRES_IN); // Encrypt Account Data
+            const EncryptedAccountData = await JWT.generate(AccountStatus.NewData[0], StringKeys.JWT_EXPIRES_IN); // Encrypt Account Data
 
             // Send Response to Client
             if (AccountStatus.status === true) {

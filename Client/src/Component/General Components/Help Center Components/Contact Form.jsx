@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from "react";
 import {
   Input,
@@ -25,6 +26,15 @@ const ContactForm = () => {
   const toast = useToast(); // Toast UI
 
   // Temp State For This Form
+  const [PreTopic] = React.useState([
+    "Request for a new feature",
+    "Report a bug",
+    "Request for Account Deletion",
+    "Request for Account Recovery",
+    "Payment Related Issues",
+    "Balance Deducted but not added to account",
+    "Other",
+  ]); // Set Topic
   const [formData, setFormData] = React.useState({
     ClientID: "",
     TicketTitle: "",
@@ -131,13 +141,23 @@ const ContactForm = () => {
 
           <FormControl id="TicketTitle">
             <FormLabel>Topic *</FormLabel>
-            <Input
-              type="text"
-              placeholder="Enter Topic"
+            <select
               name="TicketTitle"
+              className="select select-bordered w-full min-w-full max-w-xs"
               onChange={InputHandler}
               value={formData.TicketTitle}
-            />
+            >
+              <option disabled selected>
+                Select Your Topic
+              </option>
+              {PreTopic.map((topic, index) => {
+                return (
+                  <option value={topic} key={index}>
+                    {topic}
+                  </option>
+                );
+              })}
+            </select>
           </FormControl>
 
           <FormControl id="TicketDescription">
