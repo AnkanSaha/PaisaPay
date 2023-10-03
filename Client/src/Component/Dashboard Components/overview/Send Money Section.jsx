@@ -13,9 +13,9 @@ import { useSelector } from "react-redux"; // import useSelector from react-redu
 // 1. Link to Send Money Page
 export default function SendMoneySection() {
   // Hooks
-    // Encrypted Account Details from Redux
-    const AccountDetails = useSelector((state) => state.AccountInfo); // get the account details from the redux store
-      // Decode All Account Details
+  // Encrypted Account Details from Redux
+  const AccountDetails = useSelector((state) => state.AccountInfo); // get the account details from the redux store
+  // Decode All Account Details
   const Decoded_Account_Details = decodeToken(AccountDetails.AccountDetails); // decode the jwt token to get the account details
 
   // States
@@ -34,12 +34,21 @@ export default function SendMoneySection() {
   // 1. Function to handle the change in the input fields
   const HandleChange = (event) => {
     event.preventDefault(); // prevent the default action
-    if(event.target.name === "ReceivingPaymentID") {
-        setPaymentInfo({ ...PaymentInfo, [event.target.name]: event.target.value.toLowerCase() }); // update the payment info
-        return;
+    if (event.target.name === "ReceivingPaymentID") {
+      setPaymentInfo({
+        ...PaymentInfo,
+        [event.target.name]: event.target.value.toLowerCase(),
+      }); // update the payment info
+      return;
     }
     setPaymentInfo({ ...PaymentInfo, [event.target.name]: event.target.value }); // update the payment info
   }; // end of function to handle the change in the input fields
+
+  // Submission Function
+  const SubmitHandler = (event) => {
+    event.preventDefault(); // prevent the default action
+    console.log(PaymentInfo); // log the payment info
+  }; // end of submission function
   return (
     <>
       <form className="w-6/12 ml-[23rem] absolute top-[25%] space-y-5">
@@ -93,6 +102,7 @@ export default function SendMoneySection() {
             className="input input-bordered input-accent m-w-full w-full"
           />
           <Button
+            onClick={SubmitHandler}
             leftIcon={<FaRupeeSign />}
             colorScheme="teal"
             variant="solid"
