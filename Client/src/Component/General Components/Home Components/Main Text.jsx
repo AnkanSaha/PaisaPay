@@ -1,11 +1,6 @@
 import React from 'react'
 import Typed from "typed.js"; // Import Typed.js
-import { AppName, Cache } from "@app/App_Config"; // import the app name
-
-// Import Redux Store
-import { useDispatch } from "react-redux"; // import the useSelector hook
-import {addAccountDetails} from '@redux/Slices/Account Slice'; // Importing Account Slice
-
+import { AppName } from "@app/App_Config"; // import the app name
 
 import { useNavigate } from "react-router-dom"; // import the useNavigate hook
 
@@ -39,19 +34,7 @@ export default function Main_Text() {
 
     // initialize the hook
     const navigate = useNavigate(); // initialize the navigate hook  
-    const Dispatch = useDispatch(); // initialize the useDispatch hook
 
-    // Load Cache Account Data
-    const LoadAccountData = async () => {
-      const LoginToken =await Cache.Account.GetCache('Login_Token');
-      const AccountDetails = await Cache.Account.GetCache('Account_Details');
-      const Details = {
-        LoginToken: LoginToken.Code === 404 ? null : LoginToken.data,
-        AccountDetails: AccountDetails.Code === 404 ? null : AccountDetails.data
-      } // Create Details Object to be added to Redux Store
-      Dispatch(addAccountDetails(Details)); // Add Account Details to Redux Store
-    }
-    LoadAccountData();
   return (
    <>
      <h1 className="herotext text-center text-white text-xl font-semibold lg:text-6xl mt-[5.25rem] lg:mt-[8.25rem]">
