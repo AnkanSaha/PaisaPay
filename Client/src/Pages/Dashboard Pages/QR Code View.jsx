@@ -19,7 +19,9 @@ import { useSelector } from "react-redux"; // import useSelector from react-redu
 export default function ViewQRCode() {
   // Hooks
   const AccountDetails = useSelector((state) => state.AccountInfo); // get the account details from the redux store
-  const AppName = useSelector((state) => state.GeneralAppInfo.AppDetails.Static_Details.App_Name); // get the app name from the redux store
+  const AppName = useSelector(
+    (state) => state.GeneralAppInfo.AppDetails.Static_Details.App_Name
+  ); // get the app name from the redux store
   // Decode All Account Details
   const Decoded_Account_Details = decodeToken(AccountDetails.AccountDetails); // decode the jwt token to get the account details
 
@@ -48,7 +50,8 @@ export default function ViewQRCode() {
           For {Decoded_Account_Details.data.Name}
         </h1>
         <p className="text-lg font-normal text-center text-gray-500 lg:text-xl dark:text-gray-400">
-          Scan the QR Code to make a payment to {Decoded_Account_Details.data.Name} (Only for {AppName})
+          Scan the QR Code to make a payment to{" "}
+          {Decoded_Account_Details.data.Name} (Only for {AppName})
         </p>
         <div className="ml-[35rem] absolute top-[16rem]">
           <QRCode value={Decoded_Account_Details.data.PaymentID} />
