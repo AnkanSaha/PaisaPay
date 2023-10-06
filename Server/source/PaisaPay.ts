@@ -23,10 +23,6 @@ if (isPrimary) {
 	bright(`${CPUCount} CPU(s) detected With ${platform()} server : ${(freemem() / 1024 / 1024 / 1024).toFixed(2)} GB Free Ram : ${cpus()[0].model}`);
 
 	// Fork Cluster
-	/* The code block `while (CPUCount > 0) {
-		cluster.fork();
-		CPUCount--;
-	}` is creating multiple worker processes using the `cluster.fork()` method. */
 	while (CPUCount > 0) {
 		cluster.fork();
 		CPUCount--;
@@ -58,7 +54,7 @@ if (isPrimary) {
 	Server.set('trust proxy', ()=> true); // Enable All Proxy Settings
 
 	// Link All Router as MainRouter
-	Server.use('/api', json(), urlencoded({extended:true, limit:5000000 * 1000}), CheckHeader, MainRouter); // Link Main Router
+	Server.use('/api', json({limit:'999mb'}), urlencoded({extended:true, limit:5000000 * 1000}), CheckHeader, MainRouter); // Link Main Router
 	magenta('Linked All API Endpoints with PaisaPay Server'); // Print Success Message
 
 
