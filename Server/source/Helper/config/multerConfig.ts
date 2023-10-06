@@ -1,5 +1,5 @@
 import multer from 'multer'; // Import multer
-import { randomWord} from 'uniquegen'; // Import uniquegen
+import {randomNumber} from 'uniquegen'; // Import uniquegen
 import fs from 'fs'; // Import the fs module
 import {extname, join} from 'path'; // Import the path module
 import { StringKeys } from '../../settings/keys/keys'; // Import the keys
@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
     cb(null, uploadDirectory); // Set the destination folder where uploaded files will be saved
   },
   filename: (_req, file, cb) => {
-    randomWord(100, true).then(RandomValue => { // It will generate a random string of 21 characters
+    randomNumber(100, true).then(RandomValue => { // It will generate a random string of 21 characters
       const uniqueSuffix =  `${RandomValue}-${Date.now()}`; // Generate a unique suffix
       cb(null, `${Date.now()}-${uniqueSuffix}-${Date.now()}${extname(file.originalname)}`); // Set the filename
     })
