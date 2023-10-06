@@ -1,10 +1,12 @@
 export const isDevelopmentMode = import.meta.env.DEV; // Global Development Mode
+export const BACKEND_Dev_PORT = import.meta.env.PROD === false ? 5413 : 5412; // Global Development Port
+
 // Global App Configuration
 export const AppName = 'PaisaPay'; // Global App Name
 export const AppLaunchDate = '15-08-2023'; // Global App Launch Date
 import App_logo from '@public/icons/Ruppe.svg'; // Global App Logo
 export const AppLogo = App_logo; // Global App Logo
-export const Live_URL = isDevelopmentMode === true ? "http://localhost:5412": window.location.origin; // Global Live URL
+export const Live_URL = isDevelopmentMode === true ? `http://localhost:${BACKEND_Dev_PORT}`: window.location.origin; // Global Live URL
 
 // Global App Owner Details
 export const OwnerName = 'Ankan Saha'; // Global App Owner Name
