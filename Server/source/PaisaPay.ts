@@ -9,7 +9,6 @@ const { isPrimary } = cluster; // Import isPrimary from Cluster
 import { green, red, yellow, blue, magenta, bright } from 'outers'; // Import Outers
 import { NumberKeys, StringKeys } from './settings/keys/keys'; // Import Keys
 import MongoDB from './settings/MongoDB/MongoDB'; // Import MongoDB Connection
-import helmet from 'helmet'; // Import Helmet for Security
 
 // Router Related Imports
 import MainRouter from './API/Router'; // Import Main Router
@@ -24,10 +23,6 @@ if (isPrimary) {
 	bright(`${CPUCount} CPU(s) detected With ${platform()} server : ${(freemem() / 1024 / 1024 / 1024).toFixed(2)} GB Free Ram : ${cpus()[0].model}`);
 
 	// Fork Cluster
-	/* The code block `while (CPUCount > 0) {
-		cluster.fork();
-		CPUCount--;
-	}` is creating multiple worker processes using the `cluster.fork()` method. */
 	while (CPUCount > 0) {
 		cluster.fork();
 		CPUCount--;
@@ -53,16 +48,13 @@ if (isPrimary) {
 		yellow(`Worker ${worker.process.pid} is listening on Port ${NumberKeys.PORT}`)
 	});
 } else {
-	const Server: Express = express(); // Create Express Server Instance
+	const Server: Express = express(); // Create Express Server
 
-	// Enable Trust Proxy Settings
-	Server.set('trust proxy', ()=> true); // Enable Trust Proxy Settings
-
-	// Enable Helmet Security Settings
-	Server.use(helmet()); // Enable Helmet Security Settings
+	// Enable All Proxy Settings
+	Server.set('trust proxy', ()=> true); // Enable All Proxy Settings
 
 	// Link All Router as MainRouter
-	Server.use('/api', json({limit: "999mb"}), urlencoded({extended:true, limit:5000000 * 1000}), CheckHeader, MainRouter); // Link Main Router
+	Server.use('/api', json({limit:'999mb'}), urlencoded({extended:true, limit:5000000 * 1000}), CheckHeader, MainRouter); // Link Main Router
 	magenta('Linked All API Endpoints with PaisaPay Server'); // Print Success Message
 
 
