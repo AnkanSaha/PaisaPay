@@ -9,6 +9,7 @@ const { isPrimary } = cluster; // Import isPrimary from Cluster
 import { green, red, yellow, blue, magenta, bright } from 'outers'; // Import Outers
 import { NumberKeys, StringKeys } from './settings/keys/keys'; // Import Keys
 import MongoDB from './settings/MongoDB/MongoDB'; // Import MongoDB Connection
+import helmet from 'helmet'; // Import Helmet for Security
 
 // Router Related Imports
 import MainRouter from './API/Router'; // Import Main Router
@@ -52,13 +53,16 @@ if (isPrimary) {
 		yellow(`Worker ${worker.process.pid} is listening on Port ${NumberKeys.PORT}`)
 	});
 } else {
-	const Server: Express = express(); // Create Express Server
+	const Server: Express = express(); // Create Express Server Instance
 
-	// Enable All Proxy Settings
-	Server.set('trust proxy', ()=> true); // Enable All Proxy Settings
+	// Enable Trust Proxy Settings
+	Server.set('trust proxy', ()=> true); // Enable Trust Proxy Settings
+
+	// Enable Helmet Security Settings
+	Server.use(helmet()); // Enable Helmet Security Settings
 
 	// Link All Router as MainRouter
-	Server.use('/api', json(), urlencoded({extended:true, limit:5000000 * 1000}), CheckHeader, MainRouter); // Link Main Router
+	Server.use('/api', json({limit: "999mb"}), urlencoded({extended:true, limit:5000000 * 1000}), CheckHeader, MainRouter); // Link Main Router
 	magenta('Linked All API Endpoints with PaisaPay Server'); // Print Success Message
 
 
