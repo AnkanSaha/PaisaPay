@@ -49,8 +49,7 @@ export default function BalanceShow() {
   const Balance = useSelector((state) => state.TransactionDetails.Balance); // get the balance from the redux store
 
   // Update Balance Function
-  const BalanceUpdater = async (event) => {
-    event.preventDefault(); // prevent the default behavior
+  const BalanceUpdater = async () => {
     setIsLoading(true); // set the loading state to true
     const Response = await AsyncBalanceUpdater(
       API,
@@ -65,6 +64,11 @@ export default function BalanceShow() {
     }
     setIsLoading(false); // set the loading state to false
   };
+
+  // Use Effect
+  React.useEffect(()=>{
+    BalanceUpdater()
+  }, []); // call the balance updater function on component mount
 
   return (
     <>

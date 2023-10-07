@@ -5,7 +5,6 @@ type str = string; // Define str
 // Imports
 import { JSONSendResponse } from "../../Helper/Response"; // Import Send Response Function
 import { StatusCodes, Payment_Keys } from "../../settings/keys/keys"; // Import HTTP Status Codes
-// import JWT from "../../Helper/config/JWT.config"; // Import JWT Config
 import { Request } from "express"; // Import Request from express
 import MongoDB from "../../settings/MongoDB/MongoDB"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../Helper/Account Existence Checker"; // Import Account Existence Checker
@@ -47,18 +46,17 @@ export const AddMoney = async (
     }
 
     // User Account Details From Payload
-    const NumberWithoutCountryCode = removeCountryCode(
-      payload.payment.entity.notes.phone
-    ); // Remove Country Code From Phone Number
+    const NumberWithoutCountryCode = removeCountryCode(payload.payment.entity.notes.phone); // Remove Country Code From Phone Number
     const Email = payload.payment.entity.notes.email.toLowerCase(); // Email From Payload
     const TransactionID = payload.payment.entity.id; // Transaction ID From Payload
-    const TransactionAmount = payload.payment.entity.amount / 100; // Transaction Amount From Payload
+    const TransactionAmount = payload.payment.entity.amount === undefined ? 0: payload.payment.entity.amount / 100; // Transaction Amount From Payload
     const Method = payload.payment.entity.method; // Transaction Method From Payload
+    const Description = payload.payment.entity.notes.description === undefined ? "No Description Provided": payload.payment.entity.notes.description; // Transaction Description From Payload
 
     // Check if payment is captured
     if (event === "payment.captured") {
       const AccountDetails = await AccountExistenceChecker(NumberWithoutCountryCode, Email); // Check if account exists
-      const RecordStatus = await UpdateTransaction("Transaction Success", AccountDetails, Response, TransactionID, NumberWithoutCountryCode, TransactionAmount, Method);
+      const RecordStatus = await UpdateTransaction("Transaction Success", AccountDetails, Response, TransactionID, NumberWithoutCountryCode, TransactionAmount, Method, Description);
       
       // Check if Payment Record is created or not
       if(RecordStatus === false){
@@ -94,7 +92,7 @@ export const AddMoney = async (
         Email
       ); // Check if account exists
       // Ready The Data To Be Inserted if Payment Failed
-      const RecordStatus = await UpdateTransaction("Transaction Failed", AccountDetails, Response, TransactionID, NumberWithoutCountryCode, TransactionAmount, Method);
+      const RecordStatus = await UpdateTransaction("Transaction Failed", AccountDetails, Response, TransactionID, NumberWithoutCountryCode, TransactionAmount, Method, Description);
       
         if(RecordStatus === true){
           JSONSendResponse({
@@ -131,7 +129,7 @@ function removeCountryCode(phoneNumber: int | any) {
 }
 
 // Common  Update Function for All type of Transactions in Add Money
-export const UpdateTransaction = async (TransactionStatus: str, AccountDetails, Response, TransactionID, NumberWithoutCountryCode, TransactionAmount, Method) => {
+export const UpdateTransaction = async (TransactionStatus: str, AccountDetails, Response, TransactionID, NumberWithoutCountryCode, TransactionAmount, Method, Description) => {
   try{
           // Check if account exists or not
           if (AccountDetails.status === false) {
@@ -143,7 +141,7 @@ export const UpdateTransaction = async (TransactionStatus: str, AccountDetails, 
               data: undefined,
               response: Response,
             });
-            return; // Return from here if account does not exist
+            return false; // Return from here if account does not exist
           }
           // Check if transaction id is already present
           const isTransactionIDPresent =
@@ -162,7 +160,7 @@ export const UpdateTransaction = async (TransactionStatus: str, AccountDetails, 
               data: undefined,
               response: Response,
             });
-            return; // Return from here if transaction id is already present
+            return false; // Return from here if transaction id is already present
           }
     
           // Ready The Data To Be Inserted if Payment Failed
@@ -176,7 +174,7 @@ export const UpdateTransaction = async (TransactionStatus: str, AccountDetails, 
             TransactionDate: Date.now(),
             TransactionType: "Add Funds",
             TransactionAmount: TransactionAmount,
-            TransactionDescription: "No description provided.",
+            TransactionDescription: Description,
             TransactionStatus: TransactionStatus,
             TransactionMethod: Method,
             TransactionFee: 0,
