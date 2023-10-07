@@ -12,3 +12,7 @@ Payment.use(CORS({origin:StringKeys.CORS_URL})); // Use CORS
 
 // All Services
 Payment.post('/add-money', AddMoney); // Add Money Service
+
+
+// Export Router
+export default Payment; // Export router

@@ -25,6 +25,10 @@ export const Database_Keys = {
     HelpCenterCollectionName: String('HelpCenterDetail'),
 }
 
+// Payment Related Keys
+export const Payment_Keys = {
+    MERCHANT_ID: String(process.env.RAZORPAY_MERCHANT_ID),
+}
 
 // Export Status Codes for Global Use
 /* The `export enum StatusCodes` is defining an enumeration in TypeScript. It assigns numeric values to
