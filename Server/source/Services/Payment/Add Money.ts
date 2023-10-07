@@ -17,8 +17,7 @@ export const AddMoney = async (
   Response: ResponseInterface
 ) => {
   try {
-    const { account_id, event, payload } = Request.body;
-
+    const { account_id, event, payload } = Request.body; // Get Data From Request Body
     // Check if account id is valid & payment done by merchant
     if (account_id.replace("acc_", "") !== Payment_Keys.MERCHANT_ID) {
       JSONSendResponse({
