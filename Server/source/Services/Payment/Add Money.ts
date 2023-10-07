@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type int = number; // Define int
-// type str = string; // Define str
+type str = string; // Define str
 
 // Imports
 import { JSONSendResponse } from "../../Helper/Response"; // Import Send Response Function
@@ -57,58 +57,14 @@ export const AddMoney = async (
 
     // Check if payment is captured
     if (event === "payment.captured") {
-      const AccountDetails = await AccountExistenceChecker(
-        NumberWithoutCountryCode,
-        Email
-      ); // Check if account exists
-      // Check if account exists or not
-      if (AccountDetails.status === false) {
-        JSONSendResponse({
-          statusCode: StatusCodes.BAD_REQUEST,
-          status: false,
-          message: "Account Does Not Exist",
-          Title: "Account Does Not Exist",
-          data: undefined,
-          response: Response,
-        });
-        return; // Return from here if account does not exist
-      }
-      // Check if transaction id is already present
-      const isTransactionIDPresent =
-        await MongoDB.ServerTransaction.findAndCount("AND", [
-          { TransactionID: TransactionID },
-          { UserClientID: AccountDetails.Information.Data[0].ClientID },
-        ]);
-
-      // Check if transaction id is already present
-      if (isTransactionIDPresent.count > 0) {
-        JSONSendResponse({
-          statusCode: StatusCodes.BAD_REQUEST,
-          status: false,
-          message: "Transaction ID Already Present",
-          Title: "Transaction ID Already Present",
-          data: undefined,
-          response: Response,
-        });
-        return; // Return from here if transaction id is already present
+      const AccountDetails = await AccountExistenceChecker(NumberWithoutCountryCode, Email); // Check if account exists
+      const RecordStatus = await UpdateTransaction("Transaction Success", AccountDetails, Response, TransactionID, NumberWithoutCountryCode, TransactionAmount, Method);
+      
+      // Check if Payment Record is created or not
+      if(RecordStatus === false){
+        return; // Return from here if payment record is not created
       }
 
-      // Ready The Data To Be Inserted
-      const NewPaymentRecord = {
-        UserClientID: AccountDetails.Information.Data[0].ClientID,
-        UserPaymentID: AccountDetails.Information.Data[0].PaymentID,
-        UserName: AccountDetails.Information.Data[0].Name,
-        UserEmail: AccountDetails.Information.Data[0].Email,
-        UserPhone: NumberWithoutCountryCode,
-        TransactionID: TransactionID,
-        TransactionDate: Date.now(),
-        TransactionType: "Add Funds",
-        TransactionAmount: TransactionAmount,
-        TransactionDescription: "No description provided.",
-        TransactionStatus: "Success",
-        TransactionMethod: Method,
-        TransactionFee: 0,
-      };
       // Update Account Balance
       const AccountBalanceToUpdate =
         AccountDetails.Information.Data[0].Balance + TransactionAmount; // Calculate New Balance
@@ -122,15 +78,7 @@ export const AddMoney = async (
         false
       ); // Update Account Balance
 
-      // Create a new payment record in Server Transaction Collection
-      const PaymentRecordStatus = await MongoDB.ServerTransaction.create(
-        NewPaymentRecord
-      );
-
-      if (
-        PaymentRecordStatus.NewCount !== 0 &&
-        AccountBalanceToUpdateStatus.UpdatedCount !== 0
-      ) {
+      if (AccountBalanceToUpdateStatus.UpdatedCount !== 0) {
         JSONSendResponse({
           statusCode: StatusCodes.OK,
           status: true,
@@ -140,9 +88,27 @@ export const AddMoney = async (
           response: Response,
         }); // Send Response To Client if payment record is created
       }
+    } else if (event === "payment.failed") {
+      const AccountDetails = await AccountExistenceChecker(
+        NumberWithoutCountryCode,
+        Email
+      ); // Check if account exists
+      // Ready The Data To Be Inserted if Payment Failed
+      const RecordStatus = await UpdateTransaction("Transaction Failed", AccountDetails, Response, TransactionID, NumberWithoutCountryCode, TransactionAmount, Method);
+      
+        if(RecordStatus === true){
+          JSONSendResponse({
+            statusCode: StatusCodes.OK,
+            status: true,
+            message: "Success",
+            Title: "Success",
+            data: undefined,
+            response: Response,
+          }); // Send Response To Client if payment record is created
+        }
     }
   } catch (error) {
-    console.log(error);
+    console.log(error); // Log Error
   }
 };
 
@@ -163,3 +129,70 @@ function removeCountryCode(phoneNumber: int | any) {
     return phoneNumber;
   }
 }
+
+// Common  Update Function for All type of Transactions in Add Money
+export const UpdateTransaction = async (TransactionStatus: str, AccountDetails, Response, TransactionID, NumberWithoutCountryCode, TransactionAmount, Method) => {
+  try{
+          // Check if account exists or not
+          if (AccountDetails.status === false) {
+            JSONSendResponse({
+              statusCode: StatusCodes.BAD_REQUEST,
+              status: false,
+              message: "Account Does Not Exist",
+              Title: "Account Does Not Exist",
+              data: undefined,
+              response: Response,
+            });
+            return; // Return from here if account does not exist
+          }
+          // Check if transaction id is already present
+          const isTransactionIDPresent =
+            await MongoDB.ServerTransaction.findAndCount("AND", [
+              { TransactionID: TransactionID },
+              { UserClientID: AccountDetails.Information.Data[0].ClientID },
+            ]);
+    
+          // Check if transaction id is already present
+          if (isTransactionIDPresent.count > 0) {
+            JSONSendResponse({
+              statusCode: StatusCodes.BAD_REQUEST,
+              status: false,
+              message: "Transaction ID Already Present",
+              Title: "Transaction ID Already Present",
+              data: undefined,
+              response: Response,
+            });
+            return; // Return from here if transaction id is already present
+          }
+    
+          // Ready The Data To Be Inserted if Payment Failed
+          const NewPaymentRecord = { 
+            UserClientID: AccountDetails.Information.Data[0].ClientID,
+            UserPaymentID: AccountDetails.Information.Data[0].PaymentID,
+            UserName: AccountDetails.Information.Data[0].Name,
+            UserEmail: AccountDetails.Information.Data[0].Email,
+            UserPhone: NumberWithoutCountryCode,
+            TransactionID: TransactionID,
+            TransactionDate: Date.now(),
+            TransactionType: "Add Funds",
+            TransactionAmount: TransactionAmount,
+            TransactionDescription: "No description provided.",
+            TransactionStatus: TransactionStatus,
+            TransactionMethod: Method,
+            TransactionFee: 0,
+          }; // Ready The Data To Be Inserted if Payment Failed
+    
+          // Create a new payment record in Server Transaction Collection if Payment Failed
+          const PaymentRecordStatus = await MongoDB.ServerTransaction.create(NewPaymentRecord );
+    
+          if (PaymentRecordStatus.NewCount !== 0) {
+            return true;
+          }
+          else {
+            return false;
+          }
+  }
+  catch (error) {
+    console.log(error); // Log Error
+  }
+};
