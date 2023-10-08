@@ -6,10 +6,13 @@ export default {
     UserPhone: {type: String, required: true},
     TransactionID: {type: String, default: '00000', required: true},
     TransactionDate: {type: Date, required: true, default: Date.now()},
-    TransactionType: {type: String, required: true, default: "Add Funds"},
     TransactionAmount: {type: Number, required: true},
-    TransactionDescription: {type: String, required: true, default: "No description provided."},
     TransactionStatus: {type: String, required: true, default: "Success"},
-    TransactionMethod: {type: String, required: true, default: "Unknown"},
     TransactionFee: {type: Number, required: true, default: 0},
-} // export the transaction data model
+    BankName: {type: String, required: true, default: "Unknown"},
+    BankAccountName: {type: String, required: true, default: "Unknown"},
+    BankAccountNumber: {type: Number, required: true, default: "Unknown"},
+    BankAccountType: {type: String, required: true, default: "Savings"},
+    BankAccountBranch: {type: String, required: true, default: "Unknown"},
+    IFSCCode: {type: String, required: true, default: "Unknown"},
+}

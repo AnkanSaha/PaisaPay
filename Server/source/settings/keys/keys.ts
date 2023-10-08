@@ -23,6 +23,7 @@ export const Database_Keys = {
     ServerTransactionCollectionName: String('ServerTransactionDetail'),
     P2PTransactionCollectionName: String('P2PTransactionDetail'),
     HelpCenterCollectionName: String('HelpCenterDetail'),
+    WithdrawalCollectionName: String('WithdrawalDetail'),
 }
 
 // Payment Related Keys
