@@ -1,7 +1,7 @@
-import React from "react";
+import React from "react"; // Importing React
 
 export default function ShowPayButton() {
-  const LoadRazorPay = () => {
+  const LoadRazorPay = async () => {
     // Check if the Razorpay script is already loaded
     if (!document.querySelector('script[src="https://checkout.razorpay.com/v1/payment-button.js"]')) {
       const script = document.createElement("script");
