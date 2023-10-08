@@ -6,6 +6,7 @@ import ClientAccountModel from '../model/Client Account Model'; // Import the cl
 import ServerTransactionModel from '../model/Server Transaction Model'; // Import the transaction data model
 import P2PTransactionModel from '../model/P2P Transaction Model';
 import HelpCenterModel from '../model/Help Center Model'; // Import the help center data model
+import WithdrawalModel from '../model/Withdrawal Model'; // Import the withdrawal data model
 
 // Export the Mongo Instance for Connection & Client Account creation
 export const Client_Account_and_Connection_Instance = new Mongo({
@@ -40,3 +41,10 @@ export const Help_Center_Instance = new Mongo({
 	Schema: HelpCenterModel,
 	CollectionName: Database_Keys.HelpCenterCollectionName
 }); // Create a new instance of Mongo for Store All Help Center Details like TicketID, TicketTitle, etc.
+
+export const Withdrawal_Instance = new Mongo({
+	MongoURL: Database_Keys.MongoDB,
+	NeverDisconnect: true,
+	CollectionName: Database_Keys.WithdrawalCollectionName,
+	Schema: WithdrawalModel
+}); // Create a new instance of Mongo for Store All Withdrawal Details like UserClientID, UserPaymentID, etc.

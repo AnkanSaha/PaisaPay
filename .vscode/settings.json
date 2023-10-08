@@ -1,21 +1,20 @@
 {
     "cSpell.words": [
-        "BACKENDPORT",
-        "chakra",
-        "Qrcode",
-        "RAZORPAY",
-        "Regx",
-        "setis",
         "Adhaar",
         "Ankan",
+        "BACKENDPORT",
         "chakra",
         "Dela",
         "herosubtext",
         "herotext",
+        "IFSC",
+        "mongoland",
         "Ofuscator",
         "paisapay",
         "Paytm",
         "qrcode",
+        "Qrcode",
+        "RAZORPAY",
         "reduxjs",
         "Regx",
         "Ruppe",
@@ -25,9 +24,8 @@
         "signup",
         "theankan",
         "theankansaha",
+        "uniquegen",
         "webp",
-        "Wellcome",
-        "mongoland",
-        "uniquegen"
+        "Wellcome"
     ]
 }

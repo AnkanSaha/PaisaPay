@@ -17,7 +17,7 @@ PostRequestManager.use(CORS({origin: StringKeys.CORS_URL})); // Use cors
 // All Sub Routes
 PostRequestManager.use('/auth', Authenticator); // Use authenticator
 PostRequestManager.use('/help-center', SessionValidation, HelpCenter); // Use help center
-PostRequestManager.use('/WebhookPayment',WebhookPayment); // Use payment webhook manager 
+PostRequestManager.use('/WebhookPayment', WebhookPayment); // Use payment webhook manager 
 
 // Export router
 export default PostRequestManager; // Export router

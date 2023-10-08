@@ -106,6 +106,14 @@ export const AddMoney = async (
     }
   } catch (error) {
     console.log(error); // Log Error
+    JSONSendResponse({
+      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      status: false,
+      message: "Internal Server Error",
+      Title: "Internal Server Error",
+      data: undefined,
+      response: Response,
+    }); // Send Response To Client
   }
 };
 
@@ -171,7 +179,7 @@ export const UpdateTransaction = async (TransactionStatus: str, AccountDetails, 
             UserPhone: NumberWithoutCountryCode,
             TransactionID: TransactionID,
             TransactionDate: Date.now(),
-            TransactionType: "Add Funds",
+            TransactionType: "Deposit To Wallet",
             TransactionAmount: TransactionAmount,
             TransactionDescription: Description,
             TransactionStatus: TransactionStatus,

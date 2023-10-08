@@ -9,6 +9,7 @@ import PageNotFound from "@page/Common Pages/Page Not Found"; // import the not 
 import Dashboard from "@page/Dashboard Pages/Dashboard"; // import the dashboard page
 import ViewQRCode from "@page/Dashboard Pages/QR Code View"; // import the view qr code page
 import AddMoney from "@page/Dashboard Pages/Add Money"; // import the add money page
+import PaymentHistory from "@page/Dashboard Pages/Payment History"; // import the payment history page
 
 export default function DashboardRouter() {
     return (
@@ -17,6 +18,7 @@ export default function DashboardRouter() {
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/QR-Code' element={<ViewQRCode />} />
             <Route path='/add-funds' element={<AddMoney />} />
+            <Route path='/Transactions-history' element={<PaymentHistory />} />
             <Route path="*" element={<PageNotFound Status="No Page Found" Message="Seems like the page you are looking for is not available. Please check the URL and try again." ButtonText="Go Home" ButtonLink="/" />} />
         </Routes>
     ); // return the dashboard router
