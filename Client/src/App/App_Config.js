@@ -1,5 +1,5 @@
 export const isDevelopmentMode = import.meta.env.DEV; // Global Development Mode
-export const BACKEND_Dev_PORT = import.meta.env.PROD === false ? 5412 : 5412; // Global Development Port
+export const BACKEND_Dev_PORT = import.meta.env.DEV === true ? 5413 : 5412; // Global Development Port
 
 // Global App Configuration
 export const AppName = 'PaisaPay'; // Global App Name

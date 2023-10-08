@@ -117,7 +117,7 @@ export default function BalanceShow() {
           </div>
           <span className="text-sm text-gray-500 dark:text-gray-400">
             {" "}
-            Available Balance: ₹{Balance}
+            Available Balance: ₹{Balance.toFixed(2)}
           </span>
           <div className="flex mt-4 space-x-3 md:mt-6">
             <Button

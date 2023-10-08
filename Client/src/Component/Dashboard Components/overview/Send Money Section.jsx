@@ -49,6 +49,13 @@ export default function SendMoneySection() {
     event.preventDefault(); // prevent the default action
     console.log(PaymentInfo); // log the payment info
   }; // end of submission function
+
+  // Force User To Enter Integer Only
+  function HandleInputs(event) {
+    if (!/^\d+$/.test(event.target.value)) {
+      event.target.value = event.target.value.replace(/[^\d]/g, '');
+    }
+  }
   return (
     <>
       <form className="w-6/12 ml-[23rem] absolute top-[25%] space-y-5">
@@ -85,9 +92,12 @@ export default function SendMoneySection() {
             required
           />
           <input
+            step='1'
             type="number"
+            id="PaymentNumber"
             name="TransactionAmount"
             onChange={HandleChange}
+            onInput={HandleInputs}
             value={PaymentInfo.TransactionAmount}
             placeholder="Enter Amount"
             className="input input-bordered input-accent m-w-full w-full"
