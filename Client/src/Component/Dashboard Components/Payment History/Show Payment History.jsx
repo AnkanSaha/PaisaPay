@@ -3,6 +3,7 @@ import { decodeToken } from "react-jwt"; // import jwt for decoding the jwt toke
 import { useToast } from "@chakra-ui/react"; // Import Chakra UI Toast
 import { useSelector, useDispatch } from "react-redux"; // import useSelector from react-redux
 import { UpdateTransactions } from "@redux/Slices/Transaction Details"; // import the UpdateTransactions action from the Transaction Details slice
+import Moment from "moment"; // import moment for date formatting
 
 // Component
 import { LoadingScreen } from "@page/Common Pages/Loading Screen"; // import the loading screen component
@@ -82,20 +83,20 @@ export default function PaymentHistoryS() {
                 </tr>
               </thead>
               <tbody>
-                {
-                    ReduxState.TransactionDetails.Transactions.map((item, index)=>{
-                        return(
-                            <tr key={index}>
-                                <th>{item.TransactionID}</th>
-                                <td>{item.TransactionAmount}</td>
-                                <td>{item.TransactionDate}</td>
-                                <td>{item.TransactionType}</td>
-                                <td>{item.TransactionStatus}</td>
-                                <td>{item.TransactionDescription}</td>
-                            </tr>
-                        )
-                    })
-                }
+                {ReduxState.TransactionDetails.Transactions.map(
+                  (item, index) => {
+                    return (
+                      <tr key={index}>
+                        <th>{item.TransactionID}</th>
+                        <td>{item.TransactionAmount}</td>
+                        <td>{Moment(item.TransactionDate).format('DD-MM-YYYY HH:mm:ss A')}</td>
+                        <td>{item.TransactionType}</td>
+                        <td>{item.TransactionStatus}</td>
+                        <td>{item.TransactionDescription}</td>
+                      </tr>
+                    );
+                  }
+                )}
               </tbody>
             </table>
           </div>
