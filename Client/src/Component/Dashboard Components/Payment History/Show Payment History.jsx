@@ -4,6 +4,7 @@ import { useToast } from "@chakra-ui/react"; // Import Chakra UI Toast
 import { useSelector, useDispatch } from "react-redux"; // import useSelector from react-redux
 import { UpdateTransactions } from "@redux/Slices/Transaction Details"; // import the UpdateTransactions action from the Transaction Details slice
 import Moment from "moment"; // import moment for date formatting
+import {Cryptography} from '../../../Helper/Common'; // import the Crypto function from the Common file
 
 // Component
 import { LoadingScreen } from "@page/Common Pages/Loading Screen"; // import the loading screen component
@@ -33,12 +34,14 @@ export default function PaymentHistoryS() {
     fetch(
       `${API}/get/Payment/TransactionHistory/${Decoded_Account_Details.data.PhoneNumber}/${Decoded_Account_Details.data.Email}`
     ).then((res) => {
-      res.json().then((data) => {
-        dispatch(UpdateTransactions(decodeToken(data.data).data));
-        if (data.statusCode === 200) {
+      res.json().then((Response) => {
+        Cryptography.Decrypt(Response.data).then((ParsedData) => {
+          dispatch(UpdateTransactions(ParsedData));
+        });
+        if (Response.statusCode === 200) {
           toast({
             title: "Payment History",
-            description: data.message,
+            description: Response.message,
             status: "success",
             duration: 3000,
             isClosable: true,
@@ -47,7 +50,7 @@ export default function PaymentHistoryS() {
         } else {
           toast({
             title: "Payment History",
-            description: data.message,
+            description: Response.message,
             status: "error",
             duration: 3000,
             isClosable: true,

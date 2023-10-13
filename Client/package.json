@@ -4,8 +4,8 @@
   "version": "1.5.3",
   "type": "module",
   "scripts": {
-    "dev": "npm test && vite --host -- DEV=true",
-    "build": "npm test && vite build -- DEV=false",
+    "dev": "npm test && vite --host",
+    "build": "npm test && vite build",
     "test": "npm run lint",
     "preview": "npm test && vite preview",
     "lint": "eslint ./src/**/*.{js,jsx} --fix"
@@ -17,7 +17,7 @@
     "moment": "^2.29.4",
     "public-ip": "^6.0.1",
     "react": "^18.2.0",
-    "react-caches": "^4.2.5",
+    "react-caches": "^4.3.0",
     "react-dom": "^18.2.0",
     "react-jwt": "^1.2.0",
     "react-qr-code": "^2.0.12",

@@ -141,3 +141,7 @@ export async function Update_Internet_Status() {
   });
 }
 
+// Encryption Configuration
+import {React} from 'react-caches'; // import the encryption configuration
+
+export const Cryptography = new React.ReactEncrypt("AN65CDERE584GRT1RB5TR16TR4BT4NVERGREGRE45V84TR1B215");

@@ -25,12 +25,12 @@
   "author": "Ankan Saha",
   "license": "MIT",
   "dependencies": {
-    "@types/bcrypt": "^5.0.0",
+    "@types/bcryptjs": "^2.4.4",
     "@types/cors": "^2.8.13",
     "@types/multer": "^1.4.7",
     "@types/node": "^20.4.5",
     "@types/nodemon": "^1.19.2",
-    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
@@ -39,7 +39,7 @@
     "mongoland": "^4.4.1",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.0.1",
-    "outers": "^2.3.5",
+    "outers": "^2.4.8",
     "uniquegen": "^8.4.5"
   },
   "devDependencies": {
