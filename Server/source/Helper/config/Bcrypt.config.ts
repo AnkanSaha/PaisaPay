@@ -1,5 +1,5 @@
 // Import The Bcrypt module
-import { hash, compare } from 'bcrypt'; // Import Bcrypt
+import { hash, compare } from 'bcryptjs'; // Import Bcrypt
 
 // Import Status Codes
 import { StatusCodes } from '../../settings/keys/keys'; // Import Status Codes

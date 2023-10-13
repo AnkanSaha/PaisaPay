@@ -3,11 +3,11 @@
 
 // Imports
 import { JSONSendResponse } from "../../Helper/Response"; // Import Send Response Function
-import { StatusCodes, StringKeys } from "../../settings/keys/keys"; // Import HTTP Status Codes
+import { StatusCodes } from "../../settings/keys/keys"; // Import HTTP Status Codes
 import { Request } from "express"; // Import Request from express
 import MongoDB from "../../settings/MongoDB/MongoDB"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../Helper/Account Existence Checker"; // Import Account Existence Checker
-import JWT from "../../Helper/config/JWT.config"; // Import JWT Config
+import EncryptConfig from "../../Helper/config/Encrypt.config"; // Import Encrypt Config
 
 // Import Interfaces
 import { ResponseInterface } from "../../Helper/Incoming Request Checker"; // Import Response Interface
@@ -58,14 +58,14 @@ export const GetTransactionHistory = async (
     ]; // Spread All Server Transaction Data
     
     // Encrypt All Transaction Data
-    const NewEncryptedResponseData = await JWT.generate(NewUnencryptedResponseData, StringKeys.JWT_EXPIRES_IN)
+    const EncryptedData = await EncryptConfig.Encrypt(NewUnencryptedResponseData)
 
     JSONSendResponse({
         status: true,
         statusCode: StatusCodes.OK,
         message: "Transaction History Received",
         Title: "Transaction History Received Successfully",
-        data: NewEncryptedResponseData.toKen,
+        data: EncryptedData,
         response: Response,
         });
   } catch (error) {
