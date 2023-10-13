@@ -4,6 +4,8 @@ type int = number; // Define int
 type str = string; // Define str
 
 // Imports
+// Import Required Modules
+import { red } from "outers";
 import { JSONSendResponse } from "../../Helper/Response"; // Import Send Response Function
 import { StatusCodes, StringKeys } from "../../settings/keys/keys"; // Import HTTP Status Codes
 import JWT from "../../Helper/config/JWT.config"; // Import JWT Config
@@ -67,6 +69,7 @@ export const ForgetPasswordAccountFinder = async (
       response: response,
     });
   } catch (error) {
+    red(error); // Log the error to the console
     JSONSendResponse({
       status: false,
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
@@ -181,7 +184,7 @@ export const ForgetPasswordUpdater = async (
       }); // Send Response to the Client
     }
   } catch (error) {
-    console.log(error);
+    red(error); // Log the error to the console
     JSONSendResponse({
       status: false,
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
