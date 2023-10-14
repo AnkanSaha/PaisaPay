@@ -18,6 +18,7 @@ import MongoDB from "../../settings/MongoDB/MongoDB"; // Import MongoDB Instance
 
 // Import Interfaces
 import { ResponseInterface } from "../../Helper/Incoming Request Checker"; // Import Response Interface
+import { red } from "outers";
 
 // Interfaces for Signup
 interface SignupRequestInterface extends Request {
@@ -194,7 +195,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
     }
 }
     catch (err) {
-        console.log(err)
+        red(err); // Log Error to Console
         JSONSendResponse({
             status: false,
             statusCode: StatusCodes.INTERNAL_SERVER_ERROR,

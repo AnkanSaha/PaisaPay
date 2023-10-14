@@ -2,12 +2,13 @@
 type str = string; // Type Declaration for string
 
 import { Request } from "express"; // Import Request from express
+import { red } from "outers"; // Import red from outers
 
 // Import Required Modules
 import { JSONSendResponse } from "../../Helper/Response"; // Import Send Response Function
 import { StatusCodes } from "../../settings/keys/keys"; // Import HTTP Status Codes
 import { randomWord } from "uniquegen"; // Import Unique ID Generator
-import JWT from "../../Helper/config/JWT.config"; // Import JWT Config
+import Cryptography from "../../Helper/config/Encrypt.config"; // Import JWT Config
 
 // Import Helpers
 import MongoDB from "../../settings/MongoDB/MongoDB"; // Import MongoDB Instance
@@ -62,16 +63,14 @@ export default async function HelpCenterService(
       return; // Return if the request body is invalid
     } else {
       // Encrypt the request data
-      const TicketTitle = await JWT.generate(request.body.TicketTitle);
-      const TicketDescription = await JWT.generate(
-        request.body.TicketDescription
-      );
+      const EncryptedTicketTitle = await Cryptography.Encrypt(request.body.TicketTitle); // Encrypt the request Title
+      const EncryptedTicketDescription = await Cryptography.Encrypt(request.body.TicketDescription); // Encrypt the request data
 
       const RequestDataToBeSave = {
         ClientID: ClientID,
         TicketID: await randomWord(15, true),
-        TicketTitle: TicketTitle.toKen,
-        TicketDescription: TicketDescription.toKen,
+        TicketTitle: EncryptedTicketTitle,
+        TicketDescription: EncryptedTicketDescription,
         TicketStatus: "Pending",
         CurrentClientDetails: CurrentClientDetails,
         RequestDate: Date.now(),
@@ -83,7 +82,7 @@ export default async function HelpCenterService(
       // Check if the request data was saved successfully
       if (DBResult.status === true) {
         JSONSendResponse({
-          data: undefined,
+          data: DBResult.NewData[0],
           Title: "Ticket Created Successfully",
           message:
             "Your ticket has been created successfully, we will get back to you soon",
@@ -103,7 +102,7 @@ export default async function HelpCenterService(
       }
     }
   } catch (error) {
-    console.log(error);
+    red(error);
     JSONSendResponse({
       data: undefined,
       Title: "Internal Server Error",

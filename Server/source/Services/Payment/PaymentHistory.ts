@@ -8,6 +8,7 @@ import { Request } from "express"; // Import Request from express
 import MongoDB from "../../settings/MongoDB/MongoDB"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../Helper/Account Existence Checker"; // Import Account Existence Checker
 import EncryptConfig from "../../Helper/config/Encrypt.config"; // Import Encrypt Config
+import { red } from "outers"; // Import red from outers
 
 // Import Interfaces
 import { ResponseInterface } from "../../Helper/Incoming Request Checker"; // Import Response Interface
@@ -69,6 +70,7 @@ export const GetTransactionHistory = async (
         response: Response,
         });
   } catch (error) {
+    red(error); // Log Error
     JSONSendResponse({
       status: false,
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,

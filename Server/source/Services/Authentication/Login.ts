@@ -8,6 +8,8 @@ import { JSONSendResponse } from "../../Helper/Response"; // Import Send Respons
 import { StatusCodes, StringKeys } from "../../settings/keys/keys"; // Import HTTP Status Codes
 import JWT from "../../Helper/config/JWT.config"; // Import JWT Config
 import { Request } from "express"; // Import Request from express
+// Import Required Modules
+import { red } from "outers";
 
 // import Helpers
 import { Compare } from "../../Helper/config/Bcrypt.config"; // Import Bcrypt Config
@@ -142,6 +144,7 @@ export const Login_PaisaPay = async (
       }
     }
   } catch (err) {
+    red(err); // Log the error to the console
     JSONSendResponse({
       status: false,
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
