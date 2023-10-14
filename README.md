@@ -21,3 +21,19 @@
 
 
 ### PaisaPay aims to simplify the payment experience for users while ensuring the security and convenience of their financial transactions. With its React-based implementation and utilization of the MERN technology stack, it offers a powerful and efficient payment network for managing finances and facilitating family payments.
+
+## Installation
+
+- Clone the repository
+- change directory to the cloned repository
+- change to Server directory and run `npm install`
+- add .env file in Server directory and add the following variables
+  - PORT
+  - CORS_ORIGIN
+  - JWT_SECRET
+  - JWT_EXPIRES_IN
+  - MONGODB_URL
+  - RAZORPAY_MERCHANT_ID
+- change to Client directory and run `npm install`
+- run `npm run dev` in Server directory  to Start Server
+- run `npm start` in Client directory to Start Client
