@@ -63,7 +63,7 @@ export const ForgetPasswordAccountFinder = async (
       message: "Account Details Matched Successfully",
       Title: "Account Details",
       data: {
-        LoginToken: LoginToken.toKen,
+        sessionID: LoginToken.toKen,
         AccountDetails: EncryptedData.toKen,
       },
       response: response,

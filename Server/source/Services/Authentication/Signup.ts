@@ -175,7 +175,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
                     message: 'Account created successfully, you can now login',
                     response: res,
                     data: {
-                        LoginToken: LastLoginToken.toKen,
+                        sessionID: LastLoginToken.toKen,
                         AccountDetails: EncryptedAccountData.toKen
                     }
                 })

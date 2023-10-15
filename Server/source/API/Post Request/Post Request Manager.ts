@@ -9,6 +9,8 @@ import { SessionValidation } from '../../Helper/Incoming Request Checker'; // Im
 import Authenticator from './Services/Authentication'; // Import authenticator
 import HelpCenter from './Services/Help Center'; // Import help center
 import WebhookPayment from './Services/Payment'; // Import payment
+import PaymentService from './Services/Payment'; // Import Payment
+
 
 // Configure router
 const PostRequestManager = Router(); // Create router
@@ -18,6 +20,7 @@ PostRequestManager.use(CORS({origin: StringKeys.CORS_URL})); // Use cors
 PostRequestManager.use('/auth', Authenticator); // Use authenticator
 PostRequestManager.use('/help-center', SessionValidation, HelpCenter); // Use help center
 PostRequestManager.use('/WebhookPayment', WebhookPayment); // Use payment webhook manager 
+PostRequestManager.use('/Payment', PaymentService); // Use Payment Service
 
 // Export router
 export default PostRequestManager; // Export router

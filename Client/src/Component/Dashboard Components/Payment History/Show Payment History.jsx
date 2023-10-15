@@ -4,7 +4,9 @@ import { useToast } from "@chakra-ui/react"; // Import Chakra UI Toast
 import { useSelector, useDispatch } from "react-redux"; // import useSelector from react-redux
 import { UpdateTransactions } from "@redux/Slices/Transaction Details"; // import the UpdateTransactions action from the Transaction Details slice
 import Moment from "moment"; // import moment for date formatting
-import {Cryptography} from '../../../Helper/Common'; // import the Crypto function from the Common file
+import {Cryptography} from '@helper/Common'; // import the Crypto function from the Common file
+import {React as Service} from 'react-caches'; // import the react-caches library
+
 
 // Component
 import { LoadingScreen } from "@page/Common Pages/Loading Screen"; // import the loading screen component
@@ -31,35 +33,33 @@ export default function PaymentHistoryS() {
   ); // decode the jwt token to get the account details
 
   React.useEffect(() => {
-    fetch(
-      `${API}/get/Payment/TransactionHistory/${Decoded_Account_Details.data.PhoneNumber}/${Decoded_Account_Details.data.Email}`
-    ).then((res) => {
-      res.json().then((Response) => {
-        Cryptography.Decrypt(Response.data).then((ParsedData) => {
-          dispatch(UpdateTransactions(ParsedData));
-        });
-        if (Response.statusCode === 200) {
-          toast({
-            title: "Payment History",
-            description: Response.message,
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-            position: "top-right",
+    Cryptography.Encrypt(Decoded_Account_Details.data.PhoneNumber).then(PhoneNumber => {
+      Cryptography.Encrypt(Decoded_Account_Details.data.Email).then(Email => {
+        Service.Fetch.Post(`${API}/post/Payment/TransactionHistory`, {
+          Number: PhoneNumber,
+          Email: Email,
+          sessionID: ReduxState.AccountInfo.sessionID
+        }).then((Response) => {
+            if (!Response.statusCode === 200) {
+              toast({
+                title: "Payment History",
+                description: Response.message,
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: "top-right",
+              });
+            }
+            else if(Response.statusCode === 200){
+              Cryptography.Decrypt(Response.data).then((ParsedData) => {
+                dispatch(UpdateTransactions(ParsedData));
+              });
+            }
+            setIsLoading(false);
           });
-        } else {
-          toast({
-            title: "Payment History",
-            description: Response.message,
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-            position: "top-right",
-          });
-        }
-        setIsLoading(false);
-      });
-    });
+      })
+    })
+    
   }, []); // useEffect
 
   return (
@@ -91,7 +91,7 @@ export default function PaymentHistoryS() {
                     return (
                       <tr key={index}>
                         <th>{item.TransactionID}</th>
-                        <td>{item.TransactionAmount}</td>
+                         <td>₹ {item.TransactionAmount}</td>
                         <td>{Moment(item.TransactionDate).format('DD-MM-YYYY HH:mm:ss A')}</td>
                         <td>{item.TransactionType}</td>
                         <td>{item.TransactionStatus}</td>

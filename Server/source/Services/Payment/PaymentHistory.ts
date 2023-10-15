@@ -1,5 +1,5 @@
-// type int = number; // Define int
-// type str = string; // Define str
+type int = number; // Define int
+type str = string; // Define str
 
 // Imports
 import { JSONSendResponse } from "../../Helper/Response"; // Import Send Response Function
@@ -19,10 +19,14 @@ export const GetTransactionHistory = async (
   Response: ResponseInterface
 ) => {
   try {
-    const { PhoneNumber, EmailID } = Request.params; // Get Data From Request Params
+    const { Number, Email} = Request.body; // Get Data From Request Params
+    
+    // Decrypt Phone Number & Email ID
+    const MobNumber: int = +await EncryptConfig.Decrypt(String(Number)) // Decrypt Phone Number
+    const EmailID: str = JSON.parse(await EncryptConfig.Decrypt(String(Email))) // Decrypt Email ID
 
     const AccountStatus = await AccountExistenceChecker(
-      parseInt(PhoneNumber),
+      MobNumber,
       EmailID
     ); // Check Account Existence
 
@@ -38,13 +42,14 @@ export const GetTransactionHistory = async (
       });
       return;
     }
+
     // Get All Transaction from MongoDB Server Transaction Model
     const AllServerTransaction = await MongoDB.ServerTransaction.find("AND", [
       { UserClientID: AccountStatus.Information.Data[0].ClientID },
       { UserPaymentID: AccountStatus.Information.Data[0].PaymentID },
       { UserEmail: EmailID },
     ]); // Get All Server Transaction
-    
+
     // Get All Transaction from MongoDB P2P Transaction Model
     const AllP2PTransaction = await MongoDB.P2PTransaction.find("AND", [
       { ReceivingClientID: AccountStatus.Information.Data[0].ClientID },
