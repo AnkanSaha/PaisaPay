@@ -115,7 +115,7 @@ export const Login_PaisaPay = async (
             message:
               "You have successfully logged in, please wait while we redirect you to your dashboard",
             data: {
-              LoginToken: LoginToken.toKen,
+              sessionID: LoginToken.toKen,
               AccountDetails: JWTaccountDetails.toKen,
             },
             response: Response,

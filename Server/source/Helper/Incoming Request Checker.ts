@@ -45,6 +45,7 @@ export interface NextInterface {
  * next middleware function in the request-response cycle. It is typically called as `next()` to invoke
  * the next middleware function.
  */
+
 export function CheckHeader (req:RequestInterface, res:ResponseInterface, next:NextInterface){
     if(!req.headers){
         ResponseContent = {
@@ -87,20 +88,59 @@ export function CheckHeader (req:RequestInterface, res:ResponseInterface, next:N
 // Session Validation
 export const SessionValidation = async (Request:RequestInterface, Response:ResponseInterface, next:NextInterface) => {
     if(!Request.body.sessionID){
-        JSONSendResponse({
-            status: false,
-            statusCode: StatusCodes.UNAUTHORIZED,
-            Title: 'SessionID Required',
-            message: 'Session ID is required for this request, please check the url and try again',
-            response: Response,
-            data: {
-                requestedUrl: Request.url,
-                requestedMethod: Request.method,
-                requestedBody: Request.body,
-                requestedHeaders: Request.headers
+        if(!Request.params.sessionID){
+            if(!Request.query.sessionID){
+                JSONSendResponse({
+                    status: false,
+                    statusCode: StatusCodes.UNAUTHORIZED,
+                    Title: 'SessionID Required',
+                    message: 'Session ID is required for this request, please check the url and try again',
+                    response: Response,
+                    data: {
+                        requestedUrl: Request.url,
+                        requestedMethod: Request.method,
+                        requestedBody: Request.body,
+                        requestedHeaders: Request.headers
+                    }
+                }); // Send Response to Client
+                return; // Stop the function
             }
-        }); // Send Response to Client
-        return; // Stop the function
+            else if(Request.query.sessionID){
+                const toKenValidation = await JWT.decode(String(Request.query.sessionID)); // Verify Token
+                if(toKenValidation.status === 'Success'){
+                    next(); // Go to next middleware
+                }
+                else if(toKenValidation.status === 'Invalid') {
+                    JSONSendResponse({
+                        data: undefined,
+                        Title: "Session Expired",
+                        message: "Your session has expired, please login again",
+                        status: false,
+                        statusCode: StatusCodes.UNAUTHORIZED,
+                        response: Response,
+                      }); // Send Response to Client
+                    return; // Stop the function
+                }
+            }
+           
+        }
+        else if(Request.params.sessionID){
+            const toKenValidation = await JWT.decode(Request.params.sessionID); // Verify Token
+            if(toKenValidation.status === 'Success'){
+                next(); // Go to next middleware
+            }
+            else if(toKenValidation.status === 'Invalid') {
+                JSONSendResponse({
+                    data: undefined,
+                    Title: "Session Expired",
+                    message: "Your session has expired, please login again",
+                    status: false,
+                    statusCode: StatusCodes.UNAUTHORIZED,
+                    response: Response,
+                  }); // Send Response to Client
+                return; // Stop the function
+            }
+        }
     }
     else if(Request.body.sessionID){
         const toKenValidation = await JWT.decode(Request.body.sessionID); // Verify Token
