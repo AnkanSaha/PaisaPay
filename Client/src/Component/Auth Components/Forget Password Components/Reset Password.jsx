@@ -1,8 +1,9 @@
 import React from "react"; // Importing React
-import { useNavigate, useParams } from "react-router-dom"; // Import useParams from react-router-dom
+import { useNavigate } from "react-router-dom"; // Import useParams from react-router-dom
 
 // Encrypting and Decrypting
-import { decodeToken } from "react-jwt"; // Importing JWT
+import {Cryptography } from '../../../Helper/Common'; // Importing Common Functions
+
 
 // Redux
 import { useSelector, useDispatch } from "react-redux"; // Importing useSelector from react-redux
@@ -44,18 +45,19 @@ export default function ResetPassword() {
   ); // Get API from Redux
 
   // Parameters
-  const { AccountDetails } = useParams(); // Get Account Details from URL
+  const AccountDetails = useSelector(state => state.AccountInfo.AccountDetails); // Get Account Details from URL
+
   // Decrypting
-  const DecryptedToken = decodeToken(AccountDetails); // Decrypting Token
+  const DecryptedToken = JSON.parse(Cryptography.DecryptSync(AccountDetails)); // Decrypting Token
 
   // Input State
   const [input, setInput] = React.useState({
-    PhoneNumber: DecryptedToken.data.PhoneNumber,
-    Email: DecryptedToken.data.Email,
+    PhoneNumber: Cryptography.EncryptSync(DecryptedToken.PhoneNumber),
+    Email: Cryptography.EncryptSync(DecryptedToken.Email),
     Password: "",
     confirmPassword: "",
-    LastLoginIP: ReactState.GeneralAppInfo.ClientDetails.ClientIP,
-    LastLoginClientDetails: ReactState.GeneralAppInfo.ClientDetails,
+    LastLoginIP: Cryptography.EncryptSync(ReactState.GeneralAppInfo.ClientDetails.ClientIP),
+    LastLoginClientDetails: Cryptography.EncryptSync(ReactState.GeneralAppInfo.ClientDetails),
   });
 
   // Input Handler
@@ -68,8 +70,16 @@ export default function ResetPassword() {
     e.preventDefault();
     const Result = StepThree(input); // Step Three Function from Validator/Auth/Forget Password
     if (Result === true) {
+      // Reset Data Object for API
+      const ResetData = {
+        PhoneNumber: input.PhoneNumber,
+        Email: input.Email,
+        Password: Cryptography.EncryptSync(input.Password),
+        LastLoginIP: Cryptography.EncryptSync(input.LastLoginIP),
+        LastLoginClientDetails: Cryptography.EncryptSync(input.LastLoginClientDetails),
+      }
       setLoading(true); // Set Loading to true
-      const Response = await Rester(API, input); // Reset Password Function from Helper/Auth/Authentication
+      const Response = await Rester(API, ResetData); // Reset Password Function from Helper/Auth/Authentication
       if (Response.statusCode === 200) {
         setLoading(false); // Set Loading to false
         dispatch(addAccountDetails(Response.data)); // Add Account Details to Redux

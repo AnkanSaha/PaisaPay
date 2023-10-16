@@ -103,8 +103,15 @@ export const ForgetPasswordUpdater = async (
       LastLoginClientDetails,
     } : ForgetPasswordUpdaterInterface = request.body; // Destructure the request body
 
+    // Decrypt the Data
+    const DecryptEmail = JSON.parse(await Crypto.Decrypt(Email)); // Decrypt the Data
+    const DecryptPhoneNumber = JSON.parse( await Crypto.Decrypt(String(PhoneNumber))); // Decrypt the Data
+    const DecryptPassword = JSON.parse(await Crypto.Decrypt(Password)); // Decrypt the Data
+    const DecryptLastLoginIP = JSON.parse(await Crypto.Decrypt(LastLoginIP)); // Decrypt the Data
+    const DecryptLastLoginClientDetails = JSON.parse(await Crypto.Decrypt(String(LastLoginClientDetails))); // Decrypt the Data
+   
     // Convert Email to lowercase
-    const SmelledEmail: str = Email.toLowerCase(); // Convert Email to lowercase
+    const SmelledEmail: str = DecryptEmail.toLowerCase(); // Convert Email to lowercase
 
     // Encrypt the Password
     const Rounds: int = await randomNumber(
@@ -112,17 +119,17 @@ export const ForgetPasswordUpdater = async (
       false,
       [1, 2, 3, 4, 5, 6, 7, 8, 9]
     );
-    const EncryptedPassword: any = await Encrypt(Password, Rounds); // Encrypt the Password
+    const EncryptedPassword: any = await Encrypt(DecryptPassword, Rounds); // Encrypt the Password
 
     // Find the Account in the Database
     const AccountStatus = await AccountExistenceChecker(
-      PhoneNumber,
+      DecryptPhoneNumber,
       SmelledEmail
     ); // Find the Account in the Database
 
     if (AccountStatus.status === true) {
       const UpdateStatus = await MongoDB.ClientAccount.update(
-        [{ Email: SmelledEmail }, { PhoneNumber: PhoneNumber }],
+        [{ Email: SmelledEmail }, { PhoneNumber: DecryptPhoneNumber }],
         { Password: EncryptedPassword.EncryptedData },
         false
       );
@@ -130,16 +137,15 @@ export const ForgetPasswordUpdater = async (
 
       if (UpdateStatus.status === true) {
         // Encrypt the Data and send it Using JWT
-        const EncryptAccountData = await JWT.generate(
-          UpdateStatus.UpdatedData,
-          StringKeys.JWT_EXPIRES_IN
+        const EncryptAccountData = await Crypto.Encrypt(
+          UpdateStatus.UpdatedData
         ); // Encrypt the Data and send it Using JWT
 
         // Generate Login Token for the user
         const LoginToken = await JWT.generate(
           {
             ClientID: UpdateStatus.UpdatedData.ClientID,
-            LastLoginIP: LastLoginIP,
+            LastLoginIP: DecryptLastLoginIP,
             LastFourDigitsOfIDNumber:
               UpdateStatus.UpdatedData.LastFourDigitsOfIDNumber,
           },
@@ -149,13 +155,13 @@ export const ForgetPasswordUpdater = async (
         // Update Last Login IP and Last Login Client Details
         const ToBeUpdateOptions = {
           LastLoginTime: Date.now(),
-          LastLoginIP: LastLoginIP,
-          LastLoginClientDetails: LastLoginClientDetails,
+          LastLoginIP: DecryptLastLoginIP,
+          LastLoginClientDetails: DecryptLastLoginClientDetails,
           LastLoginToken: LoginToken.toKen,
         }; // Options to be updated
         await MongoDB.ClientAccount.update(
           [
-            { PhoneNumber: PhoneNumber },
+            { PhoneNumber: DecryptPhoneNumber },
             { ClientID: UpdateStatus.UpdatedData.ClientID },
           ],
           { $set: ToBeUpdateOptions },
@@ -169,7 +175,7 @@ export const ForgetPasswordUpdater = async (
           Title: "Password Updated",
           data: {
             sessionID: LoginToken.toKen,
-            AccountDetails: EncryptAccountData.toKen,
+            AccountDetails: EncryptAccountData,
           },
           response: response,
         }); // Send Response to the Client

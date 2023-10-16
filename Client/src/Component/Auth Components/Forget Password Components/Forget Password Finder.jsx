@@ -1,6 +1,7 @@
 // Imports
 import React from "react"; // Importing React
-import { useSelector } from "react-redux"; // Importing useSelector from react-redux
+import { useSelector, useDispatch } from "react-redux"; // Importing useSelector from react-redux
+import {updateAccountDetails} from '../../../App/Redux/Slices/Account Slice'
 
 // Components Chakra Ui
 import {
@@ -33,6 +34,7 @@ export default function ForgetPasswordFinder() {
   const isError = EmailInput === "";
   const toast = useToast(); // Toast
   const Navigate = useNavigate(); // Navigate
+  const dispatch = useDispatch();
 
   // Redux 
   const API = useSelector(
@@ -55,7 +57,8 @@ export default function ForgetPasswordFinder() {
       setisLoading(true); // Set Loading Screen to True
       const Result = await StepOneFinder(API, EmailInput); // Get Result from StepOneFinder Function
       if (Result.statusCode === 200){
-        Navigate(`/auth/forget-password/${Result.data.AccountDetails}`); // Navigate to Step 2
+        dispatch(updateAccountDetails(Result.data));
+        Navigate(`/auth/forget-password/Verify`); // Navigate to Step 2
         setisLoading(false); // Set Loading Screen to False
       }
       toast({

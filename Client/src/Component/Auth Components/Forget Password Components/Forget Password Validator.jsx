@@ -1,8 +1,9 @@
 import React, { useState } from "react"; // Importing React
-import { useParams, useNavigate } from "react-router-dom"; // Import useParams from react-router-dom
+import { useNavigate } from "react-router-dom"; // Import useParams from react-router-dom
+import { useSelector } from "react-redux"; // Importing useSelector from react-redux
 
 // Encrypting and Decrypting
-import { decodeToken } from "react-jwt"; // Importing JWT
+import {Cryptography } from '@helper/Common'; // Importing Common Functions
 
 // Chakra-UI
 import {
@@ -26,7 +27,7 @@ import { StepTwo } from "@validator/Auth/Forget Password"; // Importing StepTwo 
 
 export default function ForgetPasswordValidator() {
   // Hooks
-  const { AccountDetails } = useParams(); // Get Account Details from URL
+  const AccountDetails  = useSelector((state) => state.AccountInfo.AccountDetails); // Get Account Details from Redux (Encrypted
   const Toast = useToast(); // Toast
   const Navigate = useNavigate(); // Navigate
 
@@ -40,11 +41,11 @@ export default function ForgetPasswordValidator() {
   }); // User Data
 
   // Decrypting
-  const DecryptedToken = decodeToken(AccountDetails); // Decrypting Token
+  const DecryptedToken = JSON.parse(Cryptography.DecryptSync(AccountDetails)); // Decrypting Token
 
   // Functions
   const VerifyUserDetails = () => {
-    const Result = StepTwo(DecryptedToken.data, UserData); // Calling StepTwo Function
+    const Result = StepTwo(DecryptedToken, UserData); // Calling StepTwo Function
     if(Result === false){
       Toast({
         title: "Error",
@@ -62,7 +63,7 @@ export default function ForgetPasswordValidator() {
         duration: 5000,
         isClosable: true,
       })
-      Navigate(`/auth/reset-password/${AccountDetails}`); // Navigate to Reset Password Page
+      Navigate(`/auth/reset-password/Update`); // Navigate to Reset Password Page
     }
   }; // Verify User Details
 
