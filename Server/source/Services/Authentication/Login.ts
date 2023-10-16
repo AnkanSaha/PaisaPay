@@ -73,8 +73,6 @@ export const Login_PaisaPay = async (
       const DecryptedLastLoginIP = JSON.parse(await Crypto.Decrypt(LastLoginIP)); // Decrypt Last Login IP
       const DecryptedLastLoginClientDetails = JSON.parse(await Crypto.Decrypt(String(LastLoginClientDetails))); // Decrypt Last Login Client Details
 
-      console.log(DecryptedPhoneNumber, DecryptedPassword, DecryptedLastLoginIP, DecryptedLastLoginClientDetails);
-
       const AccountStatus = await MongoDB.ClientAccount.find(
         "OR",
         [{ PhoneNumber: DecryptedPhoneNumber }],
@@ -86,9 +84,8 @@ export const Login_PaisaPay = async (
           AccountStatus.Data[0].Password
         ); // Compare the password
         if (isPasswordCorrect.isMatch === true) {
-          const JWTaccountDetails = await JWT.generate(
-            AccountStatus.Data[0],
-            StringKeys.JWT_EXPIRES_IN
+          const EncryptedaccountDetails = await Crypto.Encrypt(
+            AccountStatus.Data[0]
           ); // Generate JWT Token for Account Details
 
           const LoginToken = await JWT.generate(
@@ -125,7 +122,7 @@ export const Login_PaisaPay = async (
               "You have successfully logged in, please wait while we redirect you to your dashboard",
             data: {
               sessionID: LoginToken.toKen,
-              AccountDetails: JWTaccountDetails.toKen,
+              AccountDetails: EncryptedaccountDetails,
             },
             response: Response,
           }); // Send Response to the user

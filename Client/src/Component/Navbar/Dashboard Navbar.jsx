@@ -3,8 +3,8 @@ import React from "react"; // Import React
 
 // Redux
 import { useSelector, useDispatch } from "react-redux"; // Import UseSelector
-import { decodeToken } from "react-jwt"; // import jwt for decoding the jwt token
 import { UpdateUserImageURl } from "@redux/Slices/Transaction Details"; // Import General App Info Slice
+import {Cryptography} from '@helper/Common'; 
 
 // import React Modules
 import { Link, useNavigate, useLocation } from "react-router-dom"; // Import Link
@@ -25,12 +25,12 @@ function GeneralNavbar() {
   const ReduxState = useSelector((state) => state); // Get All State from Redux Store
   const AccountDetails = useSelector((state) => state.AccountInfo); // get the account details from the redux store
   // Decode All Account Details
-  const Decoded_Account_Details = decodeToken(AccountDetails.AccountDetails); // decode the jwt token to get the account details
+  const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(AccountDetails.AccountDetails)); // decode the jwt token to get the account details
 
   // Load User ProfileImageURL To Redux Store
   Dispatch(
     UpdateUserImageURl(
-      `${ReduxState.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL}/get/AccountDetails/ProfilePic/${Decoded_Account_Details.data.ProfilePicFileName}`
+      `${ReduxState.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL}/get/AccountDetails/ProfilePic/${Decoded_Account_Details.ProfilePicFileName}`
     )
   );
 
@@ -85,7 +85,7 @@ function GeneralNavbar() {
             </li>
           </ul>
         </div>
-        <div className={`avatar ${Decoded_Account_Details.data.AccountStatus === 'Active' ? 'online' : 'offline'}`}>
+        <div className={`avatar ${Decoded_Account_Details.AccountStatus === 'Active' ? 'online' : 'offline'}`}>
           <div className="lg:w-14 w-12 mt-2 rounded-full ml-5 cursor-pointer" onClick={()=> navigate('/')}>
             <img src={ReduxState.TransactionDetails.UserProfileImageURl ? ReduxState.TransactionDetails.UserProfileImageURl : LocalAnonymousUserLogo} />
           </div>

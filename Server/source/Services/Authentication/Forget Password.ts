@@ -14,6 +14,7 @@ import { Request } from "express"; // Import Request from express
 import { randomNumber } from "uniquegen"; // Import Uniquegen
 import MongoDB from "../../settings/MongoDB/MongoDB"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../Helper/Account Existence Checker"; // Import Account Existence Checker
+import Crypto from '../../Helper/config/Encrypt.config'; // Import Crypto Config
 
 // Import Interfaces
 import { ResponseInterface } from "../../Helper/Incoming Request Checker"; // Import Response Interface
@@ -54,7 +55,7 @@ export const ForgetPasswordAccountFinder = async (
       },
       StringKeys.JWT_EXPIRES_IN
     ); // Generate Login Token for the user
-    const EncryptedData = await JWT.generate(AccountDetails.Data[0], StringKeys.JWT_EXPIRES_IN); // Encrypt the Data and send it Using JWT
+    const EncryptedData = await Crypto.Encrypt(AccountDetails.Data[0]); // Encrypt the Data and send it Using JWT
 
     // Send Response to the Client
     JSONSendResponse({
@@ -64,7 +65,7 @@ export const ForgetPasswordAccountFinder = async (
       Title: "Account Details",
       data: {
         sessionID: LoginToken.toKen,
-        AccountDetails: EncryptedData.toKen,
+        AccountDetails: EncryptedData,
       },
       response: response,
     });

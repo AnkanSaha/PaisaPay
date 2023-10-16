@@ -13,7 +13,7 @@ import {AiOutlineQrcode} from "react-icons/ai"; // import AiOutlineQrcode from r
 import { BiSolidHelpCircle } from "react-icons/bi"; // import BiSolidHelpCircle from react-icons/bi
 
 // React JWT
-import { decodeToken } from "react-jwt"; // import jwt for decoding the jwt token
+import {Cryptography} from '@helper/Common'
 
 // Import Storage Function
 import { Cache } from "@app/App_Config"; // Import Cache from App_Config.jsx
@@ -35,7 +35,7 @@ export default function Sidebar() {
   // Encrypted Account Details from Redux
   const AccountDetails = useSelector((state) => state.AccountInfo); // get the account details from the redux store
   // Decode All Account Details
-  const Decoded_Account_Details = decodeToken(AccountDetails.AccountDetails); // decode the jwt token to get the account details
+  const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(AccountDetails.AccountDetails)); // decode the jwt token to get the account details
 
     // Logic For Navbar Button
 
@@ -85,7 +85,7 @@ export default function Sidebar() {
             />
 
             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-              {Decoded_Account_Details.data.Name}
+              {Decoded_Account_Details.Name}
             </span>
           </Link>
           <ul className="space-y-2 font-medium">
