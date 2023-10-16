@@ -167,7 +167,7 @@ export const ForgetPasswordUpdater = async (
           message: "Password Updated Successfully",
           Title: "Password Updated",
           data: {
-            LoginToken: LoginToken.toKen,
+            sessionID: LoginToken.toKen,
             AccountDetails: EncryptAccountData.toKen,
           },
           response: response,
