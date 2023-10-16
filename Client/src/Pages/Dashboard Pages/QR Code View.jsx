@@ -1,7 +1,7 @@
 // import Required Modules
 import React from "react"; // import React
 import QRCode from "react-qr-code"; // import the QR Code component
-import { decodeToken } from "react-jwt"; // import jwt for decoding the jwt token
+import {Cryptography} from '@helper/Common'
 
 // import Components
 import DashboardNavbar from "@component/Navbar/Dashboard Navbar"; // import the general navbar
@@ -23,7 +23,7 @@ export default function ViewQRCode() {
     (state) => state.GeneralAppInfo.AppDetails.Static_Details.App_Name
   ); // get the app name from the redux store
   // Decode All Account Details
-  const Decoded_Account_Details = decodeToken(AccountDetails.AccountDetails); // decode the jwt token to get the account details
+  const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(AccountDetails.AccountDetails)); // decode the jwt token to get the account details
 
   Update_Document_Title("View QR Code"); // update the document title
   document.addEventListener("contextmenu", (event) => event.preventDefault()); // disable the context menu'
@@ -47,14 +47,14 @@ export default function ViewQRCode() {
           <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
             QR Code
           </span>{" "}
-          For {Decoded_Account_Details.data.Name}
+          For {Decoded_Account_Details.Name}
         </h1>
         <p className="text-lg font-normal text-center text-gray-500 lg:text-xl dark:text-gray-400">
           Scan the QR Code to make a payment to{" "}
-          {Decoded_Account_Details.data.Name} (Only for {AppName})
+          {Decoded_Account_Details.Name} (Only for {AppName})
         </p>
         <div className="ml-[35rem] absolute top-[16rem]">
-          <QRCode value={Decoded_Account_Details.data.PaymentID} />
+          <QRCode value={Decoded_Account_Details.PaymentID} />
         </div>
       </div>
       <GeneralFooter FooterStyle="fixed" />

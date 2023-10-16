@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from "react"; // import React
-import { decodeToken } from "react-jwt"; // import jwt for decoding the jwt token
 import { useNavigate } from "react-router-dom"; // Import Link
 import { useToast } from "@chakra-ui/react"; // Import Chakra UI Toast
+import {Cryptography} from '@helper/Common'; // Import Cryptography
 
 // Import Custom CSS
 import "@public/css/General CSS/home.css"; // import the home.css file
@@ -41,11 +41,11 @@ export default function BalanceShow() {
   // Encrypted Account Details from Redux
   const AccountDetails = useSelector((state) => state.AccountInfo); // get the account details from the redux store
   // Decode All Account Details
-  const Decoded_Account_Details = decodeToken(AccountDetails.AccountDetails); // decode the jwt token to get the account details
+  const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(AccountDetails.AccountDetails)); // decode the jwt token to get the account details
   const dispatch = useDispatch(); // create a dispatch variable to dispatch actions
 
   // Update Balance To Redux Store
-  dispatch(UpdateBalance(Decoded_Account_Details.data.Balance)); // update the balance in the redux store
+  dispatch(UpdateBalance(Decoded_Account_Details.Balance)); // update the balance in the redux store
   const Balance = useSelector((state) => state.TransactionDetails.Balance); // get the balance from the redux store
 
   // Update Balance Function
@@ -53,14 +53,14 @@ export default function BalanceShow() {
     setIsLoading(true); // set the loading state to true
     const Response = await AsyncBalanceUpdater(
       API,
-      Decoded_Account_Details.data.Email
+      Decoded_Account_Details.Email
     ); // call the function for balance update
 
     // Check if the response is 200 or not
     if (Response.statusCode === 200) {
       dispatch(addAccountDetails(Response.data)); // update the account details in the redux store
-      const Decoded_Account_Details = decodeToken(Response.data.AccountDetails); // decode the jwt token to get the account details
-      dispatch(UpdateBalance(Decoded_Account_Details.data.Balance)); // update the balance in the redux store
+      const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(Response.data.AccountDetails)); // decode the jwt token to get the account details
+      dispatch(UpdateBalance(Decoded_Account_Details.Balance)); // update the balance in the redux store
     }
     setIsLoading(false); // set the loading state to false
   };
@@ -74,11 +74,11 @@ export default function BalanceShow() {
     <>
       <div className="w-full ml-5 max-w-[18rem] mt-10 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div className="flex flex-col items-center pb-10">
-        <div className="lg:tooltip" data-tip={Decoded_Account_Details.data.AccountStatus === "Active" ? "Your Account is Active" : "Your Account is Disabled by Admin"}>
+        <div className="lg:tooltip" data-tip={Decoded_Account_Details.AccountStatus === "Active" ? "Your Account is Active" : "Your Account is Disabled by Admin"}>
           <div className="avatar mt-5">
             <div
               className={`w-24 rounded-full ring ${
-                Decoded_Account_Details.data.AccountStatus === "Active"
+                Decoded_Account_Details.AccountStatus === "Active"
                   ? "ring-accent-focus"
                   : "ring-error"
               } ring-offset-base-100 ring-offset-2`}
@@ -95,14 +95,14 @@ export default function BalanceShow() {
           </div>
           <div className="flex flex-wrap space-x-2">
             <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white mt-5">
-              {Decoded_Account_Details.data.PaymentID.toUpperCase()}
+              {Decoded_Account_Details.PaymentID.toUpperCase()}
             </h5>
             <Button
               onClick={(e) => {
                 e.preventDefault(); // prevent the default right click menu from showing
                 // Copy the text to the clipboard
                 navigator.clipboard.writeText(
-                  Decoded_Account_Details.data.PaymentID
+                  Decoded_Account_Details.PaymentID
                 );
                 toast({
                   title: `Payment ID Copied`,

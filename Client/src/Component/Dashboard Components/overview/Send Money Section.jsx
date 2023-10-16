@@ -1,5 +1,5 @@
 import React from "react"; // import react for the component
-import { decodeToken } from "react-jwt"; // import jwt for decoding the jwt token
+import {Cryptography} from '@helper/Common'; // import the cryptography function
 
 // Import Icons
 import { FaRupeeSign } from "react-icons/fa"; // import the rupee sign icon
@@ -16,17 +16,16 @@ export default function SendMoneySection() {
   // Encrypted Account Details from Redux
   const AccountDetails = useSelector((state) => state.AccountInfo); // get the account details from the redux store
   // Decode All Account Details
-  const Decoded_Account_Details = decodeToken(AccountDetails.AccountDetails); // decode the jwt token to get the account details
-
+  const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(AccountDetails.AccountDetails)); // decode the jwt token to get the account details
   // States
   const [PaymentInfo, setPaymentInfo] = React.useState({
     ReceivingPaymentID: "",
     TransactionAmount: "",
-    SendingClientID: Decoded_Account_Details.data.ClientID,
-    SendingPaymentID: Decoded_Account_Details.data.PaymentID,
-    SenderName: Decoded_Account_Details.data.Name,
-    SenderEmail: Decoded_Account_Details.data.Email,
-    SenderPhone: Decoded_Account_Details.data.PhoneNumber,
+    SendingClientID: Decoded_Account_Details.ClientID,
+    SendingPaymentID: Decoded_Account_Details.PaymentID,
+    SenderName: Decoded_Account_Details.Name,
+    SenderEmail: Decoded_Account_Details.Email,
+    SenderPhone: Decoded_Account_Details.PhoneNumber,
     TransactionDescription: "",
   }); // state to store the payment info
 

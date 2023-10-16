@@ -1,5 +1,4 @@
 import React from "react"; // import React
-import { decodeToken } from "react-jwt"; // import jwt for decoding the jwt token
 import { useToast } from "@chakra-ui/react"; // Import Chakra UI Toast
 import { useSelector, useDispatch } from "react-redux"; // import useSelector from react-redux
 import { UpdateTransactions } from "@redux/Slices/Transaction Details"; // import the UpdateTransactions action from the Transaction Details slice
@@ -28,13 +27,13 @@ export default function PaymentHistoryS() {
   ); // Get API Link from Redux
 
   // Decode All Account Details
-  const Decoded_Account_Details = decodeToken(
+  const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(
     ReduxState.AccountInfo.AccountDetails
-  ); // decode the jwt token to get the account details
-
+  )); // decode the jwt token to get the account details
+    console.log(Decoded_Account_Details);
   React.useEffect(() => {
-    Cryptography.Encrypt(Decoded_Account_Details.data.PhoneNumber).then(PhoneNumber => {
-      Cryptography.Encrypt(Decoded_Account_Details.data.Email).then(Email => {
+    Cryptography.Encrypt(Decoded_Account_Details.PhoneNumber).then(PhoneNumber => {
+      Cryptography.Encrypt(Decoded_Account_Details.Email).then(Email => {
         Service.Fetch.Post(`${API}/post/Payment/TransactionHistory`, {
           Number: PhoneNumber,
           Email: Email,
@@ -52,7 +51,7 @@ export default function PaymentHistoryS() {
             }
             else if(Response.statusCode === 200){
               Cryptography.Decrypt(Response.data).then((ParsedData) => {
-                dispatch(UpdateTransactions(ParsedData));
+                dispatch(UpdateTransactions(JSON.parse(ParsedData)));
               });
             }
             setIsLoading(false);
@@ -69,7 +68,7 @@ export default function PaymentHistoryS() {
       ) : (
         <>
           <h1 className="text-center text-4xl font-mono font-bold mb-5 mt-[1.25rem]">
-            Payment History of {Decoded_Account_Details.data.Name}
+            Payment History of {Decoded_Account_Details.Name}
           </h1>
 
           <div className="overflow-x-auto w-[79%] ml-5">
@@ -86,7 +85,8 @@ export default function PaymentHistoryS() {
                 </tr>
               </thead>
               <tbody>
-                {ReduxState.TransactionDetails.Transactions.map(
+                {
+                ReduxState.TransactionDetails.Transactions.map(
                   (item, index) => {
                     return (
                       <tr key={index}>
