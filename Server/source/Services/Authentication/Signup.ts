@@ -10,6 +10,7 @@ import fs from "fs"; // Import fs
 import { Request } from "express"; // Import Request from express
 import { randomNumber } from "uniquegen"; // Import Uniquegen
 import JWT from "../../Helper/config/JWT.config"; // Import JWT Config
+import Crypto from '../../Helper/config/Encrypt.config'; // Import Crypto Config
 
 // import Helpers
 import { AccountExistenceChecker } from "../../Helper/Account Existence Checker"; // Import Account Existence Checker
@@ -69,12 +70,24 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             })
             return; // Return if the request body is invalid
         }
-        else {   
-            // Lowercase all the strings
-            const SmallEmail = Email.toLowerCase(); // Convert Email to lowercase
-            const SmallPaymentID = PaymentID.toLowerCase(); // Convert Payment ID to lowercase
+        else {
+            // Decrypt All the Strings
+            const DecryptedName = JSON.parse(await Crypto.Decrypt(Name)) // Decrypt Name
+            const DecryptedDOB = JSON.parse(await Crypto.Decrypt(String(DOB))) // Decrypt DOB
+            const DecryptedPassword = JSON.parse(await Crypto.Decrypt(Password)) // Decrypt Password
+            const DecryptedNational_ID_Type = JSON.parse(await Crypto.Decrypt(National_ID_Type)) // Decrypt National ID Type
+            const DecryptedNational_ID_Number = JSON.parse(await Crypto.Decrypt(National_ID_Number)) // Decrypt National ID Number
+            const DecryptedPhoneNumber = JSON.parse(await Crypto.Decrypt(String(PhoneNumber))) // Decrypt Phone Number
+            const DecryptedLastLoginIP = JSON.parse(await Crypto.Decrypt(LastLoginIP)) // Decrypt Last Login IP
+            const DecryptedLastLoginClientDetails = JSON.parse(await Crypto.Decrypt(LastLoginClientDetails)) // Decrypt Last Login Client Details
+            const DecryptedPaymentID = JSON.parse(await Crypto.Decrypt(PaymentID)) // Decrypt Payment ID
+            const DecryptedEmail = JSON.parse(await Crypto.Decrypt(Email)) // Decrypt Email
 
-        const AccountStatus = await AccountExistenceChecker(PhoneNumber, SmallEmail); // Check if account exists
+            // Lowercase all the strings
+            const SmallEmail = DecryptedEmail.toLowerCase(); // Convert Email to lowercase
+            const SmallPaymentID = DecryptedPaymentID.toLowerCase(); // Convert Payment ID to lowercase
+
+        const AccountStatus = await AccountExistenceChecker(DecryptedPhoneNumber, SmallEmail); // Check if account exists
         if (AccountStatus.status == true) {
             await fs.promises.rm(req.file.path)
             JSONSendResponse({
@@ -91,18 +104,18 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             // Encrypt Password
             const Rounds: int = await randomNumber(1, false, [1, 2, 3, 4, 5, 6, 7, 8, 9])
 
-            const EncryptedResult: PasswordEncryptionInterface = await Encrypt(Password, Rounds);
+            const EncryptedResult: PasswordEncryptionInterface = await Encrypt(DecryptedPassword, Rounds);
 
             // Encrypt National ID Number
-            const EncryptedNationalIDNumber: PasswordEncryptionInterface = await Encrypt(National_ID_Number, Rounds);
+            const EncryptedNationalIDNumber: PasswordEncryptionInterface = await Encrypt(DecryptedNational_ID_Number, Rounds);
 
-            const LastFourDigitsOfIDNumber: str = National_ID_Number.slice(-4); // Get Last Six Digits of ID Number
+            const LastFourDigitsOfIDNumber: str = DecryptedNational_ID_Number.slice(-4); // Get Last Six Digits of ID Number
 
             // Generate Client ID
             const ClientID: int = await randomNumber(20, true); // Generate Client ID
 
             // Generate Last Login Token
-            const LastLoginToken = await JWT.generateLoginToken({ ClientID: ClientID, Email: SmallEmail, PhoneNumber: PhoneNumber }, 2, StringKeys.JWT_EXPIRES_IN)
+            const LastLoginToken = await JWT.generateLoginToken({ ClientID: ClientID, Email: SmallEmail, PhoneNumber: DecryptedPhoneNumber }, 2, StringKeys.JWT_EXPIRES_IN)
 
             // Check if account exists with the same last six digits of ID number
             const AccountDetails = await MongoDB.ClientAccount.find('OR', [{ LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber }]); // Find the account in the database
@@ -138,14 +151,14 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             // Create Client Account
             const NewClientAccount = {
                 ClientID: ClientID,
-                Name: Name,
+                Name: DecryptedName,
                 Email: SmallEmail,
-                DOB: DOB,
-                PhoneNumber: PhoneNumber,
+                DOB: DecryptedDOB,
+                PhoneNumber: DecryptedPhoneNumber,
                 Balance: 0,
                 PaymentID: SmallPaymentID,
                 Password: EncryptedResult.EncryptedData,
-                National_ID_Type: National_ID_Type,
+                National_ID_Type: DecryptedNational_ID_Type,
                 National_ID_Number: EncryptedNationalIDNumber.EncryptedData,
                 LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber,
                 ProfilePicturePath: req.file.path,
@@ -155,8 +168,8 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
                 AccountStatus: "Active",
                 AccountType: "Client",
                 LastLoginTime: Date.now(),
-                LastLoginIP: LastLoginIP,
-                LastLoginClientDetails: JSON.parse(LastLoginClientDetails),
+                LastLoginIP: DecryptedLastLoginIP,
+                LastLoginClientDetails: DecryptedLastLoginClientDetails,
                 LastLoginToken: LastLoginToken.toKen
             } // Create New Client Account
 
@@ -164,7 +177,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             const AccountStatus = await MongoDB.ClientAccount.create(NewClientAccount); // Create Client Account in MongoDB
 
             // Generate JWT Token
-            const EncryptedAccountData = await JWT.generate(AccountStatus.NewData[0], StringKeys.JWT_EXPIRES_IN); // Encrypt Account Data
+            const EncryptedAccountData = await Crypto.Encrypt(AccountStatus.NewData[0]); // Encrypt Account Data
 
             // Send Response to Client
             if (AccountStatus.status === true) {
@@ -176,7 +189,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
                     response: res,
                     data: {
                         sessionID: LastLoginToken.toKen,
-                        AccountDetails: EncryptedAccountData.toKen
+                        AccountDetails: EncryptedAccountData
                     }
                 })
             }
