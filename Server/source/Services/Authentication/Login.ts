@@ -14,6 +14,7 @@ import { red } from "outers";
 // import Helpers
 import { Compare } from "../../Helper/config/Bcrypt.config"; // Import Bcrypt Config
 import MongoDB from "../../settings/MongoDB/MongoDB"; // Import MongoDB Instance
+import Crypto from '../../Helper/config/Encrypt.config'; // Import Encrypt Config
 
 // Import Interfaces
 import { ResponseInterface } from "../../Helper/Incoming Request Checker"; // Import Response Interface
@@ -66,14 +67,22 @@ export const Login_PaisaPay = async (
       return; // Return if the request body is invalid
     
     } else {
+      // Decrypt All Credentials
+      const DecryptedPhoneNumber = JSON.parse(await Crypto.Decrypt(String(PhoneNumber))); // Decrypt Phone Number
+      const DecryptedPassword = JSON.parse(await Crypto.Decrypt(Password)); // Decrypt Password
+      const DecryptedLastLoginIP = JSON.parse(await Crypto.Decrypt(LastLoginIP)); // Decrypt Last Login IP
+      const DecryptedLastLoginClientDetails = JSON.parse(await Crypto.Decrypt(String(LastLoginClientDetails))); // Decrypt Last Login Client Details
+
+      console.log(DecryptedPhoneNumber, DecryptedPassword, DecryptedLastLoginIP, DecryptedLastLoginClientDetails);
+
       const AccountStatus = await MongoDB.ClientAccount.find(
         "OR",
-        [{ PhoneNumber: PhoneNumber }],
+        [{ PhoneNumber: DecryptedPhoneNumber }],
         1
       ); // Find the account in the database
       if (AccountStatus.count > 0) {
         const isPasswordCorrect: isPasswordCorrectInterface = await Compare(
-          Password,
+          DecryptedPassword,
           AccountStatus.Data[0].Password
         ); // Compare the password
         if (isPasswordCorrect.isMatch === true) {
@@ -85,7 +94,7 @@ export const Login_PaisaPay = async (
           const LoginToken = await JWT.generate(
             {
               ClientID: AccountStatus.Data[0].ClientID,
-              LastLoginIP: LastLoginIP,
+              LastLoginIP: DecryptedLastLoginIP,
               LastFourDigitsOfIDNumber: AccountStatus.Data[0].LastFourDigitsOfIDNumber,
             },
             StringKeys.JWT_EXPIRES_IN
@@ -94,13 +103,13 @@ export const Login_PaisaPay = async (
           // Update Last Login IP and Last Login Client Details
           const ToBeUpdateOptions = {
             LastLoginTime: Date.now(),
-            LastLoginIP: LastLoginIP,
-            LastLoginClientDetails: LastLoginClientDetails,
+            LastLoginIP: DecryptedLastLoginIP,
+            LastLoginClientDetails: DecryptedLastLoginClientDetails,
             LastLoginToken: LoginToken.toKen,
           }; // Options to be updated
           await MongoDB.ClientAccount.update(
             [
-              { PhoneNumber: PhoneNumber },
+              { PhoneNumber: DecryptedPhoneNumber },
               { ClientID: AccountStatus.Data[0].ClientID },
             ],
             { $set: ToBeUpdateOptions },

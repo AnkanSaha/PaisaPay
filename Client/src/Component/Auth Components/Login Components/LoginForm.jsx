@@ -1,7 +1,6 @@
 import React from "react"; // Importing react
 import { useNavigate } from "react-router-dom"; // Importing useNavigate from react-router-dom
 import { useSelector, useDispatch } from "react-redux"; // Importing useSelector from react-redux
-import { Login } from "@helper/Auth/Authentication"; // Importing Login function from Authentication.jsx
 import VerifyLoginData from '@validator/Auth/Login'; // Importing VerifyLoginData function from Login.jsx 
 
 // Import Components
@@ -27,6 +26,8 @@ import {
 
   // Import Client Side Storage
   import { Cache } from "@app/App_Config"; // Importing Cache from App_Config.jsx
+  import {Cryptography} from '../../../Helper/Common'; // Importing Cryptography from Common.jsx
+  import {React as Service} from 'react-caches'; // Importing React as Service from react-caches
 
 export default function LoginForm (){
   // React State Variables
@@ -59,7 +60,15 @@ export default function LoginForm (){
       const VerificationResult = await VerifyLoginData(LoginData); // Verify Login Data
       if(VerificationResult === true){
         setIsLoading(true); // Set isLoading to true
-        const LoginResult = await Login(ReduxStore.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL, LoginData); // Login
+
+        // Encrypting Login Credentials
+        const LoginCredentials = {
+          PhoneNumber: await Cryptography.Encrypt(LoginData.PhoneNumber),
+          Password: await Cryptography.Encrypt(LoginData.Password),
+          LastLoginIP: await Cryptography.Encrypt(LoginData.LastLoginIP),
+          LastLoginClientDetails: await Cryptography.Encrypt(LoginData.LastLoginClientDetails),
+        }
+        const LoginResult = await Service.Fetch.Post(`${ReduxStore.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL}/post/auth/login-with-paisapay`, LoginCredentials); // API Call for Login
         
         if(LoginResult.statusCode === 200){
           setIsLoading(false); // Set isLoading to false
@@ -72,7 +81,7 @@ export default function LoginForm (){
             isClosable: true,
           })
           Cache.Account.saveCache('Account_Details', LoginResult.data.AccountDetails); // Save Account Details to Cache Storage
-          Cache.Account.saveCache('Login_Token', LoginResult.data.LoginToken); // Save  Login Token to Cache Storage
+          Cache.Account.saveCache('sessionID', LoginResult.data.sessionID); // Save  Login Token to Cache Storage
           
           Dispatch(addAccountDetails(LoginResult.data)); // Add Account Details to Redux Store
           navigate('/dashboard'); // Navigate to Dashboard

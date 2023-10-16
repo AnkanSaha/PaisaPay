@@ -22,7 +22,7 @@ export const GetTransactionHistory = async (
     const { Number, Email} = Request.body; // Get Data From Request Params
     
     // Decrypt Phone Number & Email ID
-    const MobNumber: int = +await EncryptConfig.Decrypt(String(Number)) // Decrypt Phone Number
+    const MobNumber: int = JSON.parse(await EncryptConfig.Decrypt(String(Number))) // Decrypt Phone Number
     const EmailID: str = JSON.parse(await EncryptConfig.Decrypt(String(Email))) // Decrypt Email ID
 
     const AccountStatus = await AccountExistenceChecker(
