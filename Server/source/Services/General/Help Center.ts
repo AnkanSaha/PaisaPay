@@ -2,11 +2,8 @@
 type str = string; // Type Declaration for string
 
 import { Request } from "express"; // Import Request from express
-import { red } from "outers"; // Import red from outers
+import { Console, StatusCodes, Response} from "outers"; // Import red from outers
 
-// Import Required Modules
-import { JSONSendResponse } from "../../Helper/Response"; // Import Send Response Function
-import { StatusCodes } from "../../settings/keys/keys"; // Import HTTP Status Codes
 import { randomWord } from "uniquegen"; // Import Unique ID Generator
 import Cryptography from "../../Helper/config/Encrypt.config"; // Import JWT Config
 
@@ -52,7 +49,7 @@ export default async function HelpCenterService(
       !CurrentClientDetails
     ) {
       // Check if the request body is valid
-      JSONSendResponse({
+      Response.JSON({
         data: undefined,
         Title: "Information Missing in Request",
         message: "Please provide all the required information & try again",
@@ -81,7 +78,7 @@ export default async function HelpCenterService(
 
       // Check if the request data was saved successfully
       if (DBResult.status === true) {
-        JSONSendResponse({
+        Response.JSON({
           data: DBResult.NewData[0],
           Title: "Ticket Created Successfully",
           message:
@@ -91,7 +88,7 @@ export default async function HelpCenterService(
           response: response,
         });
       } else {
-        JSONSendResponse({
+        Response.JSON({
           data: undefined,
           Title: "Ticket Creation Failed",
           message: "Your ticket could not be created, please try again",
@@ -102,8 +99,8 @@ export default async function HelpCenterService(
       }
     }
   } catch (error) {
-    red(error);
-    JSONSendResponse({
+    Console.red(error);
+    Response.JSON({
       data: undefined,
       Title: "Internal Server Error",
       message:

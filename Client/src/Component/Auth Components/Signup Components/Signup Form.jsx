@@ -136,7 +136,7 @@ export default function SignupForm() {
       MainData.append("National_ID_Number", Cryptography.EncryptSync(TempFormData.ID_Number));
       MainData.append("PhoneNumber", Cryptography.EncryptSync(TempFormData.PhoneNumber));
       MainData.append("DOB", Cryptography.EncryptSync(TempFormData.DOB));
-      MainData.append("PaymentID", Cryptography.EncryptSync(TempFormData.PaymentID));
+      MainData.append("PaymentID", TempFormData.PaymentID);
 
       if (TempFormData.password === TempFormData.confirmPassword) {
         MainData.append("Password", Cryptography.EncryptSync(TempFormData.password));

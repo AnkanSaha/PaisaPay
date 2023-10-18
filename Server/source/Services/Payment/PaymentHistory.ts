@@ -2,13 +2,12 @@ type int = number; // Define int
 type str = string; // Define str
 
 // Imports
-import { JSONSendResponse } from "../../Helper/Response"; // Import Send Response Function
 import { StatusCodes } from "../../settings/keys/keys"; // Import HTTP Status Codes
 import { Request } from "express"; // Import Request from express
 import MongoDB from "../../settings/MongoDB/MongoDB"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../Helper/Account Existence Checker"; // Import Account Existence Checker
 import EncryptConfig from "../../Helper/config/Encrypt.config"; // Import Encrypt Config
-import { red } from "outers"; // Import red from outers
+import { Console, Response as Serve } from "outers"; // Import red from outers
 
 // Import Interfaces
 import { ResponseInterface } from "../../Helper/Incoming Request Checker"; // Import Response Interface
@@ -32,7 +31,7 @@ export const GetTransactionHistory = async (
 
     // Check Account Status
     if (AccountStatus.status === false) {
-      JSONSendResponse({
+      Serve.JSON({
         status: false,
         statusCode: StatusCodes.BAD_REQUEST,
         message: AccountStatus.message,
@@ -66,7 +65,7 @@ export const GetTransactionHistory = async (
     // Encrypt All Transaction Data
     const EncryptedData = await EncryptConfig.Encrypt(NewUnencryptedResponseData)
 
-    JSONSendResponse({
+    Serve.JSON({
         status: true,
         statusCode: StatusCodes.OK,
         message: "Transaction History Received",
@@ -75,8 +74,8 @@ export const GetTransactionHistory = async (
         response: Response,
         });
   } catch (error) {
-    red(error); // Log Error
-    JSONSendResponse({
+    Console.red(error); // Log Error
+    Serve.JSON({
       status: false,
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
       message: "Internal Server Error",

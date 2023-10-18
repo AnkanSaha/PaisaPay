@@ -3,11 +3,11 @@ type int = number; // Define int
 type str = string; // Define str
 
 // Imports
-import { JSONSendResponse } from "../../Helper/Response"; // Import Send Response Function
-import { StatusCodes, Payment_Keys } from "../../settings/keys/keys"; // Import HTTP Status Codes
+import { Payment_Keys } from "../../settings/keys/keys"; // Import HTTP Status Codes
 import { Request } from "express"; // Import Request from express
 import MongoDB from "../../settings/MongoDB/MongoDB"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../Helper/Account Existence Checker"; // Import Account Existence Checker
+import { Console, Response as Serve, StatusCodes } from "outers"; // Import Console
 
 // Import Interfaces
 import { ResponseInterface } from "../../Helper/Incoming Request Checker"; // Import Response Interface
@@ -20,7 +20,7 @@ export const AddMoney = async (
     const { account_id, event, payload } = Request.body; // Get Data From Request Body
     // Check if account id is valid & payment done by merchant
     if (account_id.replace("acc_", "") !== Payment_Keys.MERCHANT_ID) {
-      JSONSendResponse({
+      Serve.JSON({
         statusCode: StatusCodes.BAD_REQUEST,
         status: false,
         message: "Invalid Account ID",
@@ -33,7 +33,7 @@ export const AddMoney = async (
 
     // Check if service is PaisaPay
     if (payload.payment.entity.notes.choose_service !== "PaisaPay Services") {
-      JSONSendResponse({
+      Serve.JSON({
         statusCode: StatusCodes.BAD_REQUEST,
         status: false,
         message: "Invalid Service",
@@ -76,7 +76,7 @@ export const AddMoney = async (
       ); // Update Account Balance
 
       if (AccountBalanceToUpdateStatus.UpdatedCount !== 0) {
-        JSONSendResponse({
+        Serve.JSON({
           statusCode: StatusCodes.OK,
           status: true,
           message: "Success",
@@ -94,7 +94,7 @@ export const AddMoney = async (
       const RecordStatus = await UpdateTransaction("Transaction Failed", AccountDetails, Response, TransactionID, NumberWithoutCountryCode, TransactionAmount, Method, Description);
       
         if(RecordStatus === true){
-          JSONSendResponse({
+          Serve.JSON({
             statusCode: StatusCodes.OK,
             status: true,
             message: "Success",
@@ -106,7 +106,7 @@ export const AddMoney = async (
     }
   } catch (error) {
     console.log(error); // Log Error
-    JSONSendResponse({
+    Serve.JSON({
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
       status: false,
       message: "Internal Server Error",
@@ -140,7 +140,7 @@ export const UpdateTransaction = async (TransactionStatus: str, AccountDetails, 
   try{
           // Check if account exists or not
           if (AccountDetails.status === false) {
-            JSONSendResponse({
+            Serve.JSON({
               statusCode: StatusCodes.BAD_REQUEST,
               status: false,
               message: "Account Does Not Exist",
@@ -159,7 +159,7 @@ export const UpdateTransaction = async (TransactionStatus: str, AccountDetails, 
     
           // Check if transaction id is already present
           if (isTransactionIDPresent.count > 0) {
-            JSONSendResponse({
+            Serve.JSON({
               statusCode: StatusCodes.BAD_REQUEST,
               status: false,
               message: "Transaction ID Already Present",
@@ -198,6 +198,6 @@ export const UpdateTransaction = async (TransactionStatus: str, AccountDetails, 
           }
   }
   catch (error) {
-    console.log(error); // Log Error
+    Console.red(error); // Log Error
   }
 };

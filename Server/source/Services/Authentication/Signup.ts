@@ -4,8 +4,7 @@ type str = string;
 type int = number;
 type bool = boolean;
 
-import { JSONSendResponse } from "../../Helper/Response"; // Import Send Response Function
-import { StatusCodes, StringKeys } from "../../settings/keys/keys"; // Import HTTP Status Codes
+import {  StringKeys } from "../../settings/keys/keys"; // Import HTTP Status Codes
 import fs from "fs"; // Import fs
 import { Request } from "express"; // Import Request from express
 import { randomNumber } from "uniquegen"; // Import Uniquegen
@@ -19,7 +18,7 @@ import MongoDB from "../../settings/MongoDB/MongoDB"; // Import MongoDB Instance
 
 // Import Interfaces
 import { ResponseInterface } from "../../Helper/Incoming Request Checker"; // Import Response Interface
-import { red } from "outers";
+import { Console, StatusCodes, Response } from "outers"; // Import Console & Status Codes
 
 // Interfaces for Signup
 interface SignupRequestInterface extends Request {
@@ -60,7 +59,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
         const { Name, Email, DOB, Password, National_ID_Type, National_ID_Number, PhoneNumber, LastLoginIP, LastLoginClientDetails, PaymentID } = req.body; // Destructure the request body
         if(!Name || !Email || !DOB || !Password || !National_ID_Type || !National_ID_Number || !PhoneNumber || !LastLoginIP || !LastLoginClientDetails || !PaymentID) {
             await fs.promises.rm(req.file.path)
-            JSONSendResponse({
+            Response.JSON({
                 status: false,
                 statusCode: StatusCodes.BAD_REQUEST,
                 Title: 'Information Missing in Request',
@@ -80,7 +79,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             const DecryptedPhoneNumber = JSON.parse(await Crypto.Decrypt(String(PhoneNumber))) // Decrypt Phone Number
             const DecryptedLastLoginIP = JSON.parse(await Crypto.Decrypt(LastLoginIP)) // Decrypt Last Login IP
             const DecryptedLastLoginClientDetails = JSON.parse(await Crypto.Decrypt(LastLoginClientDetails)) // Decrypt Last Login Client Details
-            const DecryptedPaymentID = JSON.parse(await Crypto.Decrypt(PaymentID)) // Decrypt Payment ID
+            const DecryptedPaymentID = PaymentID // Decrypt Payment ID
             const DecryptedEmail = JSON.parse(await Crypto.Decrypt(Email)) // Decrypt Email
 
             // Lowercase all the strings
@@ -90,7 +89,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
         const AccountStatus = await AccountExistenceChecker(DecryptedPhoneNumber, SmallEmail); // Check if account exists
         if (AccountStatus.status == true) {
             await fs.promises.rm(req.file.path)
-            JSONSendResponse({
+            Response.JSON({
                 status: false,
                 statusCode: StatusCodes.CONFLICT,
                 Title: 'Account Exists',
@@ -122,7 +121,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             if (AccountDetails.Data.length > 0) {
                 await fs.promises.rm(req.file.path)
 
-                JSONSendResponse({
+                Response.JSON({
                     status: false,
                     statusCode: StatusCodes.CONFLICT,
                     Title: 'Account Exists',
@@ -137,7 +136,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             const SamePaymentIDAccountDetails = await MongoDB.ClientAccount.find('OR', [{ PaymentID: SmallPaymentID }]); // Find the account in the database
 
             if(SamePaymentIDAccountDetails.Data.length > 0) {
-                JSONSendResponse({
+                Response.JSON({
                     status: false,
                     statusCode: StatusCodes.CONFLICT,
                     Title: 'Account Exists',
@@ -181,7 +180,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 
             // Send Response to Client
             if (AccountStatus.status === true) {
-                JSONSendResponse({
+                Response.JSON({
                     status: true,
                     statusCode: StatusCodes.OK,
                     Title: 'Account Created',
@@ -194,7 +193,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
                 })
             }
             else if (AccountStatus.status === false) {
-                JSONSendResponse({
+                Response.JSON({
                     status: false,
                     statusCode: StatusCodes.BAD_REQUEST,
                     Title: 'Database Error',
@@ -208,8 +207,8 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
     }
 }
     catch (err) {
-        red(err); // Log Error to Console
-        JSONSendResponse({
+        Console.red(err); // Log Error to Console
+        Response.JSON({
             status: false,
             statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Title: 'Internal Server Error',
