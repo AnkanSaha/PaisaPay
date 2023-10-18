@@ -1,10 +1,7 @@
 /* eslint-disable new-cap */
 import { Router, Request, Response } from 'express'; // Import Express
-import { StatusCodes } from '../settings/keys/keys'; // Import Status Codes
+import { StatusCodes, Response as Serve } from 'outers'; // Import Status Codes
 import rateLimit from 'express-rate-limit'; // Import rate limit for limiting request
-
-// Setup Response Mechanism
-import { JSONSendResponse } from '../Helper/Response'; // Import Send Response Function
 
 // setup Router
 const MainRouter = Router(); // Create Router
@@ -44,7 +41,7 @@ MainRouter.use('/delete', Delete_Request_Manager); // Use Post Request Manager
 
 // Response Not Allowed Request
 MainRouter.all('*', (Request: Request, Response: Response) => {
-    JSONSendResponse({
+    Serve.JSON({
         status: false,
         statusCode: StatusCodes.NOT_FOUND,
         Title: 'URL Not Found',

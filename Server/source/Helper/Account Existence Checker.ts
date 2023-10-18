@@ -4,7 +4,7 @@ type int = number;
 type str = string;
 
 // Import Status Codes
-import { StatusCodes } from '../settings/keys/keys'; // Import HTTP Status Codes
+import { StatusCodes } from 'outers'; // Import HTTP Status Codes
 
 // Find the account in the database
 import MongoDB from '../settings/MongoDB/MongoDB'; // Import MongoDB Instance
