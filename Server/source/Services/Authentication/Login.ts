@@ -4,12 +4,11 @@ type int = number;
 type bool = boolean;
 
 // Import Required Modules
-import { JSONSendResponse } from "../../Helper/Response"; // Import Send Response Function
-import { StatusCodes, StringKeys } from "../../settings/keys/keys"; // Import HTTP Status Codes
+import { StringKeys } from "../../settings/keys/keys"; // Import HTTP Status Codes
 import JWT from "../../Helper/config/JWT.config"; // Import JWT Config
 import { Request } from "express"; // Import Request from express
 // Import Required Modules
-import { red } from "outers";
+import { Console, StatusCodes, Response as Serve } from "outers";
 
 // import Helpers
 import { Compare } from "../../Helper/config/Bcrypt.config"; // Import Bcrypt Config
@@ -56,7 +55,7 @@ export const Login_PaisaPay = async (
       request.body; // Destructure the request body
     
       if (!PhoneNumber || !Password || !LastLoginIP || !LastLoginClientDetails) {
-      JSONSendResponse({
+        Serve.JSON({
         data: undefined,
         Title: "Information Missing in Request",
         message: "Please provide all the required information & try again",
@@ -114,7 +113,7 @@ export const Login_PaisaPay = async (
           );
 
           // Send Response
-          JSONSendResponse({
+          Serve.JSON({
             status: true,
             statusCode: StatusCodes.OK,
             Title: "Login Successful",
@@ -127,7 +126,7 @@ export const Login_PaisaPay = async (
             response: Response,
           }); // Send Response to the user
         } else if (isPasswordCorrect.isMatch === false) {
-          JSONSendResponse({
+          Serve.JSON({
             status: false,
             statusCode: StatusCodes.UNAUTHORIZED,
             Title: "Unauthorized",
@@ -138,7 +137,7 @@ export const Login_PaisaPay = async (
           });
         }
       } else if (AccountStatus.count === 0) {
-        JSONSendResponse({
+        Serve.JSON({
           status: false,
           statusCode: StatusCodes.NOT_FOUND,
           Title: "Not Found",
@@ -150,8 +149,8 @@ export const Login_PaisaPay = async (
       }
     }
   } catch (err) {
-    red(err); // Log the error to the console
-    JSONSendResponse({
+    Console.red(err); // Log the error to the console
+    Serve.JSON({
       status: false,
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
       Title: "Internal Server Error",

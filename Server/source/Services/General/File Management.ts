@@ -2,18 +2,13 @@
 // Global types
 type str = string;
 
-// import Status Codes
-import { StatusCodes } from "../../settings/keys/keys"; // Import HTTP Status Codes
-
-// Import Responses
-import { SendFileResponse } from "../../Helper/Response"; // Import Send Response Function
-
 // Import Interfaces
 import { RequestInterface } from "../../Helper/Incoming Request Checker"; // Import Response Interface
 
 // Import AppKey
 import { StringKeys } from "../../settings/keys/keys"; // Import String Keys
 
+import { StatusCodes, Response } from "outers"; // Import HTTP Status Codes
 
 // Extend The Request Interface
 interface FileFetchInterface extends RequestInterface {
@@ -37,14 +32,14 @@ export async function GetProfilePic(
   response: any
 ) {
   if (!request.params.ProfilePicID) {
-    SendFileResponse({
+    Response.File({
       rootName: `${StringKeys.StaticDirectoryName}/`,
       response: response,
       Filename: undefined,
       statusCode: StatusCodes.BAD_REQUEST,
     });
   } else {
-    SendFileResponse({
+    Response.File({
       response: response,
       statusCode: StatusCodes.OK,
       Filename: `${request.params.ProfilePicID}`,

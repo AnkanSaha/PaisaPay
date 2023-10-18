@@ -5,9 +5,8 @@ type str = string; // Define str
 
 // Imports
 // Import Required Modules
-import { red } from "outers";
-import { JSONSendResponse } from "../../Helper/Response"; // Import Send Response Function
-import { StatusCodes, StringKeys } from "../../settings/keys/keys"; // Import HTTP Status Codes
+import { Console, Response, StatusCodes} from "outers";
+import {StringKeys } from "../../settings/keys/keys"; // Import HTTP Status Codes
 import JWT from "../../Helper/config/JWT.config"; // Import JWT Config
 import { Encrypt } from "../../Helper/config/Bcrypt.config"; // Import Bcrypt Config
 import { Request } from "express"; // Import Request from express
@@ -37,7 +36,7 @@ export const ForgetPasswordAccountFinder = async (
     
     // Check if Account Details is Empty or not
     if(AccountDetails.count === 0){
-      JSONSendResponse({
+      Response.JSON({
         status: false,
         statusCode: StatusCodes.NOT_FOUND,
         message: "Account Not Found with this Email or Phone Number",
@@ -58,7 +57,7 @@ export const ForgetPasswordAccountFinder = async (
     const EncryptedData = await Crypto.Encrypt(AccountDetails.Data[0]); // Encrypt the Data and send it Using JWT
 
     // Send Response to the Client
-    JSONSendResponse({
+    Response.JSON({
       status: true,
       statusCode: StatusCodes.OK,
       message: "Account Details Matched Successfully",
@@ -70,8 +69,8 @@ export const ForgetPasswordAccountFinder = async (
       response: response,
     });
   } catch (error) {
-    red(error); // Log the error to the console
-    JSONSendResponse({
+    Console.red(error); // Log the error to the console
+    Response.JSON({
       status: false,
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
       message: "Internal Server Error",
@@ -168,7 +167,7 @@ export const ForgetPasswordUpdater = async (
           false
         );
 
-        JSONSendResponse({
+        Response.JSON({
           status: true,
           statusCode: StatusCodes.OK,
           message: "Password Updated Successfully",
@@ -181,7 +180,7 @@ export const ForgetPasswordUpdater = async (
         }); // Send Response to the Client
       }
     } else if (AccountStatus.status === false) {
-      JSONSendResponse({
+      Response.JSON({
         status: false,
         statusCode: StatusCodes.NOT_FOUND,
         message: "Account Not Found with this Email or Phone Number",
@@ -191,8 +190,8 @@ export const ForgetPasswordUpdater = async (
       }); // Send Response to the Client
     }
   } catch (error) {
-    red(error); // Log the error to the console
-    JSONSendResponse({
+    Console.red(error); // Log the error to the console
+    Response.JSON({
       status: false,
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
       message: "Internal Server Error",
