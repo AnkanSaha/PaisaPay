@@ -2,12 +2,11 @@ type int = number; // Define int
 type str = string; // Define str
 
 // Imports
-import { StatusCodes } from "../../settings/keys/keys"; // Import HTTP Status Codes
 import { Request } from "express"; // Import Request from express
 import MongoDB from "../../settings/MongoDB/MongoDB"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../Helper/Account Existence Checker"; // Import Account Existence Checker
 import EncryptConfig from "../../Helper/config/Encrypt.config"; // Import Encrypt Config
-import { Console, Response as Serve } from "outers"; // Import red from outers
+import { Console, Response as Serve, StatusCodes } from "outers"; // Import red from outers
 
 // Import Interfaces
 import { ResponseInterface } from "../../Helper/Incoming Request Checker"; // Import Response Interface

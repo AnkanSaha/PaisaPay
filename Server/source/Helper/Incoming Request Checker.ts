@@ -1,5 +1,4 @@
-import { StatusCodes } from "../settings/keys/keys"; // Import Status Codes
-import { JSONSendResponse, JSONresponseInterface,  } from "./Response"; // Import Send Response Function
+import { StatusCodes, Response as Serve } from "outers"; // Import Status Codes
 import { Request } from "express"; // Import Request from express
 import JWT from "./config/JWT.config"; // Import JWT Config
 
@@ -8,7 +7,6 @@ type str = string;
 type int = number;
 
 // All Variables for send response
-let ResponseContent: JSONresponseInterface;
 const AllowedMethods:str[] = ['POST', 'GET', 'PUT', 'DELETE', 'OPTIONS']; // Allowed Methods
 
 // All Interfaces
@@ -48,7 +46,7 @@ export interface NextInterface {
 
 export function CheckHeader (req:RequestInterface, res:ResponseInterface, next:NextInterface){
     if(!req.headers){
-        ResponseContent = {
+        const ResponseContent = {
             status: false,
             statusCode: StatusCodes.FORBIDDEN,
             Title: 'Request Headers not found',
@@ -61,10 +59,10 @@ export function CheckHeader (req:RequestInterface, res:ResponseInterface, next:N
                 requestedHeaders: req.headers
             }
         }
-        JSONSendResponse(ResponseContent); // Send Response to Client
+        Serve.JSON(ResponseContent); // Send Response to Client
     }
     else if(!AllowedMethods.includes(req.method)){
-        ResponseContent = {
+        const ResponseContent = {
             status: false,
             statusCode: StatusCodes.METHOD_NOT_ALLOWED,
             Title: 'Request Method not allowed',
@@ -77,7 +75,7 @@ export function CheckHeader (req:RequestInterface, res:ResponseInterface, next:N
                 requestedHeaders: req.headers
             }
         }
-        JSONSendResponse(ResponseContent); // Send Response to Client
+        Serve.JSON(ResponseContent); // Send Response to Client
     }
     else {
         next(); // Go to next middleware
@@ -90,7 +88,7 @@ export const SessionValidation = async (Request:RequestInterface, Response:Respo
     if(!Request.body.sessionID){
         if(!Request.params.sessionID){
             if(!Request.query.sessionID){
-                JSONSendResponse({
+                Serve.JSON({
                     status: false,
                     statusCode: StatusCodes.UNAUTHORIZED,
                     Title: 'SessionID Required',
@@ -111,7 +109,7 @@ export const SessionValidation = async (Request:RequestInterface, Response:Respo
                     next(); // Go to next middleware
                 }
                 else if(toKenValidation.status === 'Invalid') {
-                    JSONSendResponse({
+                    Serve.JSON({
                         data: undefined,
                         Title: "Session Expired",
                         message: "Your session has expired, please login again",
@@ -130,7 +128,7 @@ export const SessionValidation = async (Request:RequestInterface, Response:Respo
                 next(); // Go to next middleware
             }
             else if(toKenValidation.status === 'Invalid') {
-                JSONSendResponse({
+                Serve.JSON({
                     data: undefined,
                     Title: "Session Expired",
                     message: "Your session has expired, please login again",
@@ -148,7 +146,7 @@ export const SessionValidation = async (Request:RequestInterface, Response:Respo
             next(); // Go to next middleware
         }
         else if(toKenValidation.status === 'Invalid') {
-            JSONSendResponse({
+            Serve.JSON({
                 data: undefined,
                 Title: "Session Expired",
                 message: "Your session has expired, please login again",

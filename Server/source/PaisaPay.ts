@@ -6,7 +6,7 @@ import express, {json, urlencoded, Express} from 'express'; // Import Express
 import { cpus, platform, freemem } from 'os'; // Import OS
 import cluster from 'cluster'; // Import Cluster
 const { isPrimary } = cluster; // Import isPrimary from Cluster
-import { green, red, yellow, blue, magenta, bright } from 'outers'; // Import Outers
+import { Console } from 'outers'; // Import Outers
 import { NumberKeys, StringKeys } from './settings/keys/keys'; // Import Keys
 import MongoDB from './settings/MongoDB/MongoDB'; // Import MongoDB Connection
 
@@ -20,7 +20,7 @@ let CPUCount: int = cpus().length;
 cores. */
 if (isPrimary) {
 	// Print CPU Count
-	bright(`${CPUCount} CPU(s) detected With ${platform()} server : ${(freemem() / 1024 / 1024 / 1024).toFixed(2)} GB Free Ram : ${cpus()[0].model}`);
+	Console.bright(`${CPUCount} CPU(s) detected With ${platform()} server : ${(freemem() / 1024 / 1024 / 1024).toFixed(2)} GB Free Ram : ${cpus()[0].model}`);
 
 	// Fork Cluster
 	while (CPUCount > 0) {
@@ -32,20 +32,20 @@ if (isPrimary) {
 	/* The `cluster.on('online', worker => { ... })` code block is an event listener that is triggered when
 	a worker process in the cluster becomes online and starts running. */
 	cluster.on('online', worker => {
-		green(`🚀 Worker ${worker.process.pid} started 🚀`);
-		blue(`Environment Variables Loaded Successfully in Worker : ${worker.process.pid}`)
-		yellow(`Worker ${worker.process.pid} is listening on Port ${NumberKeys.PORT}`)
+		Console.green(`🚀 Worker ${worker.process.pid} started 🚀`);
+		Console.blue(`Environment Variables Loaded Successfully in Worker : ${worker.process.pid}`)
+		Console.yellow(`Worker ${worker.process.pid} is listening on Port ${NumberKeys.PORT}`)
 
 	});
 	// Listen for Cluster Exit
 	/* The code block `cluster.on('exit', worker => { ... })` is an event listener that is triggered when a
 	worker process in the cluster exits or dies. */
 	cluster.on('exit', worker => {
-		red(`Worker ${worker.process.pid} died`);
+		Console.red(`Worker ${worker.process.pid} died`);
 		cluster.fork();
-		green(`🚀 Worker ${worker.process.pid} restarted 🚀`);
-		blue(`Environment Variables Loaded Successfully in Worker : ${worker.process.pid}`)
-		yellow(`Worker ${worker.process.pid} is listening on Port ${NumberKeys.PORT}`)
+		Console.green(`🚀 Worker ${worker.process.pid} restarted 🚀`);
+		Console.blue(`Environment Variables Loaded Successfully in Worker : ${worker.process.pid}`)
+		Console.yellow(`Worker ${worker.process.pid} is listening on Port ${NumberKeys.PORT}`)
 	});
 } else {
 	const Server: Express = express(); // Create Express Server
@@ -55,7 +55,7 @@ if (isPrimary) {
 
 	// Link All Router as MainRouter
 	Server.use('/api', json({limit:'999mb'}), urlencoded({extended:true, limit:5000000 * 1000}), CheckHeader, MainRouter); // Link Main Router
-	magenta('Linked All API Endpoints with PaisaPay Server'); // Print Success Message
+	Console.magenta('Linked All API Endpoints with PaisaPay Server'); // Print Success Message
 
 
 	// Configure Static Folder
@@ -65,9 +65,9 @@ if (isPrimary) {
 	try {
 		Server.listen(NumberKeys.PORT, async () => {
 			const DB_Connection_Status = await MongoDB.ClientAccount.Connect(); // Connect to MongoDB
-			DB_Connection_Status.status === true ? yellow(` 🚀 Finally, Database Connected & Server is listening on Port ${NumberKeys.PORT} 🚀`) : red(` 🚀 Database Connection Failed & Server is listening on Port ${NumberKeys.PORT} 🚀`); // Print Server Status with Database Connection Status
+			DB_Connection_Status.status === true ? Console.yellow(` 🚀 Finally, Database Connected & Server is listening on Port ${NumberKeys.PORT} 🚀`) : Console.red(` 🚀 Database Connection Failed & Server is listening on Port ${NumberKeys.PORT} 🚀`); // Print Server Status with Database Connection Status
 		});
 	} catch (err) {
-		red(err);
+		Console.red(err);
 	}
 }
