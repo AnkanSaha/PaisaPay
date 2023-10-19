@@ -1,4 +1,7 @@
 export const VerifyRegisterData = async (Data) => {
+    // Payment Id Must have @pp or @PP at the end
+    const PaymentIDRegex = /^.*@pp$|^.*@PP$/; // This is for Payment ID
+
     if(Data.firstName === undefined || Data.firstName === null || Data.firstName === ""){
        return {
             status: false,
@@ -67,6 +70,13 @@ export const VerifyRegisterData = async (Data) => {
             status: false,
             message: "Please Upload a Profile Picture, a Profile Picture is Required for Registration",
             title: "Error, Profile Picture"
+       };
+    }
+    else if(PaymentIDRegex.test(Data.PaymentID) === false){
+      return {
+            status: false,
+            message: "Please Enter a Valid Payment ID, It is Required for Registration",
+            title: "Error, Payment ID"
        };
     }
     else{

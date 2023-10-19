@@ -7,7 +7,6 @@ type bool = boolean;
 import {  StringKeys } from "../../settings/keys/keys"; // Import HTTP Status Codes
 import fs from "fs"; // Import fs
 import { Request } from "express"; // Import Request from express
-import { randomNumber } from "uniquegen"; // Import Uniquegen
 import JWT from "../../Helper/config/JWT.config"; // Import JWT Config
 import Crypto from '../../Helper/config/Encrypt.config'; // Import Crypto Config
 
@@ -18,7 +17,7 @@ import MongoDB from "../../settings/MongoDB/MongoDB"; // Import MongoDB Instance
 
 // Import Interfaces
 import { ResponseInterface } from "../../Helper/Incoming Request Checker"; // Import Response Interface
-import { Console, StatusCodes, Response } from "outers"; // Import Console & Status Codes
+import { Console, StatusCodes, Response, UniqueGenerator } from "outers"; // Import Console & Status Codes
 
 // Interfaces for Signup
 interface SignupRequestInterface extends Request {
@@ -79,7 +78,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             const DecryptedPhoneNumber = JSON.parse(await Crypto.Decrypt(String(PhoneNumber))) // Decrypt Phone Number
             const DecryptedLastLoginIP = JSON.parse(await Crypto.Decrypt(LastLoginIP)) // Decrypt Last Login IP
             const DecryptedLastLoginClientDetails = JSON.parse(await Crypto.Decrypt(LastLoginClientDetails)) // Decrypt Last Login Client Details
-            const DecryptedPaymentID = PaymentID // Decrypt Payment ID
+            const DecryptedPaymentID = JSON.parse(await Crypto.Decrypt(PaymentID)); // Decrypt Payment ID
             const DecryptedEmail = JSON.parse(await Crypto.Decrypt(Email)) // Decrypt Email
 
             // Lowercase all the strings
@@ -100,8 +99,12 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             return; // Return if the account exists
         }
         else if (AccountStatus.status == false) {
+            // Register Unique ID Generator
+            const RoundGenerator = new UniqueGenerator(1); // Create Unique ID Generator
+            const ClientGenerator = new UniqueGenerator(20); // Create Unique ID Generator
+            
             // Encrypt Password
-            const Rounds: int = await randomNumber(1, false, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+            const Rounds: int = RoundGenerator.RandomNumber(false, [1, 2, 3, 4, 5, 6, 7, 8, 9]); // Generate Rounds
 
             const EncryptedResult: PasswordEncryptionInterface = await Encrypt(DecryptedPassword, Rounds);
 
@@ -111,7 +114,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
             const LastFourDigitsOfIDNumber: str = DecryptedNational_ID_Number.slice(-4); // Get Last Six Digits of ID Number
 
             // Generate Client ID
-            const ClientID: int = await randomNumber(20, true); // Generate Client ID
+            const ClientID: int =  ClientGenerator.RandomNumber(true); // Generate Client ID
 
             // Generate Last Login Token
             const LastLoginToken = await JWT.generateLoginToken({ ClientID: ClientID, Email: SmallEmail, PhoneNumber: DecryptedPhoneNumber }, 2, StringKeys.JWT_EXPIRES_IN)

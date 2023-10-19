@@ -39,8 +39,7 @@
     "mongoland": "^4.4.1",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.0.1",
-    "outers": "^3.5.7",
-    "uniquegen": "^8.4.5"
+    "outers": "^3.5.7"
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
