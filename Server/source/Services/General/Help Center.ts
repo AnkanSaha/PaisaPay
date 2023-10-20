@@ -2,9 +2,7 @@
 type str = string; // Type Declaration for string
 
 import { Request } from "express"; // Import Request from express
-import { Console, StatusCodes, Response} from "outers"; // Import red from outers
-
-import { randomWord } from "uniquegen"; // Import Unique ID Generator
+import { Console, StatusCodes, Response, UniqueGenerator} from "outers"; // Import red from outers
 import Cryptography from "../../Helper/config/Encrypt.config"; // Import JWT Config
 
 // Import Helpers
@@ -63,9 +61,12 @@ export default async function HelpCenterService(
       const EncryptedTicketTitle = await Cryptography.Encrypt(request.body.TicketTitle); // Encrypt the request Title
       const EncryptedTicketDescription = await Cryptography.Encrypt(request.body.TicketDescription); // Encrypt the request data
 
+      //  Register Ticket ID Generator
+      const TicketIDGenerator = new UniqueGenerator(20); // Create a new Unique ID Generator
+
       const RequestDataToBeSave = {
         ClientID: ClientID,
-        TicketID: await randomWord(15, true),
+        TicketID: TicketIDGenerator.RandomNumber(true),
         TicketTitle: EncryptedTicketTitle,
         TicketDescription: EncryptedTicketDescription,
         TicketStatus: "Pending",

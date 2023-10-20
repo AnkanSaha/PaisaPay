@@ -72,9 +72,7 @@ export default function SignupForm() {
     const indianVoterIDRegex = /^[A-Z]{3}[0-9]{7}[A-Z]$/; // This is for Indian Voter ID
     const IndianPanIDRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/; // This is for Indian Pan ID
     const IndianPassportRegex = /^[A-PR-WYa-pr-wy][1-9]\d\s?\d{4}[1-9]$/; // This is for Passport
-    // Payment Id Must have @pp or @PP at the end
-    const PaymentIDRegex = /^.*@pp$|^.*@PP$/; // This is for Payment ID
-
+  
     // Test For ID Number
     if (TempFormData.ID_Type === "Adhaar Card") {
       AdhaarCardRegx.test(TempFormData.ID_Number) === false
@@ -93,16 +91,20 @@ export default function SignupForm() {
         ? alert("Please Enter Valid Passport Number")
         : null;
     }
-
-    // Test For Payment ID
-    PaymentIDRegex.test(TempFormData.PaymentID) === false
-      ?  toast({
-        title: `Payment ID Must Have @pp or @PP at the end`,
-        position: "top-right",
-        isClosable: true,
-      })
-      : null;
   };
+
+  const Test_PaymentID = () => {
+     // Payment Id Must have @pp or @PP at the end
+     const PaymentIDRegex = /^.*@pp$|^.*@PP$/; // This is for Payment ID
+        // Test For Payment ID
+        PaymentIDRegex.test(TempFormData.PaymentID) === false
+        ?  toast({
+          title: `Payment ID Must Have @pp or @PP at the end`,
+          position: "top-right",
+          isClosable: true,
+        })
+        : null;
+  }
 
   // Logic For Some Animations
   let ID_Number_Visibility; // This is for ID_Number Visibility
@@ -136,7 +138,7 @@ export default function SignupForm() {
       MainData.append("National_ID_Number", Cryptography.EncryptSync(TempFormData.ID_Number));
       MainData.append("PhoneNumber", Cryptography.EncryptSync(TempFormData.PhoneNumber));
       MainData.append("DOB", Cryptography.EncryptSync(TempFormData.DOB));
-      MainData.append("PaymentID", TempFormData.PaymentID);
+      MainData.append("PaymentID", Cryptography.EncryptSync(TempFormData.PaymentID));
 
       if (TempFormData.password === TempFormData.confirmPassword) {
         MainData.append("Password", Cryptography.EncryptSync(TempFormData.password));
@@ -295,7 +297,7 @@ export default function SignupForm() {
           <input
             type="text"
             name="PaymentID"
-            onBlur={ID_Number_Regex}
+            onBlur={Test_PaymentID}
             placeholder="ex: Pay123@pp"
             onChange={Handler}
             value={TempFormData.PaymentID}
