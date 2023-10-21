@@ -103,6 +103,10 @@ export const Login_PaisaPay = async (
             LastLoginClientDetails: DecryptedLastLoginClientDetails,
             LastLoginToken: LoginToken.toKen,
           }; // Options to be updated
+
+          Console.green(ToBeUpdateOptions); // Log the options to be updated
+
+          // Update the account details in the database with the new login details
           await MongoDB.ClientAccount.update(
             [
               { PhoneNumber: DecryptedPhoneNumber },
