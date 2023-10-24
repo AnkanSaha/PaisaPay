@@ -18,6 +18,7 @@ export const AddMoney = async (
 ) => {
   try {
     const { account_id, event, payload } = Request.body; // Get Data From Request Body
+    console.log(Request.body);
     // Check if account id is valid & payment done by merchant
     if (account_id.replace("acc_", "") !== Payment_Keys.MERCHANT_ID) {
       Serve.JSON({
@@ -56,7 +57,7 @@ export const AddMoney = async (
     if (event === "payment.captured") {
       const AccountDetails = await AccountExistenceChecker(NumberWithoutCountryCode, Email); // Check if account exists
       const RecordStatus = await UpdateTransaction("Transaction Success", AccountDetails, Response, TransactionID, NumberWithoutCountryCode, TransactionAmount, Method, Description);
-      
+
       // Check if Payment Record is created or not
       if(RecordStatus === false){
         return; // Return from here if payment record is not created

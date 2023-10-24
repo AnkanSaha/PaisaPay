@@ -62,7 +62,7 @@ export const GetTransactionHistory = async (
     ]; // Spread All Server Transaction Data
     
     // Encrypt All Transaction Data
-    const EncryptedData = await EncryptConfig.Encrypt(NewUnencryptedResponseData)
+    const EncryptedData = await EncryptConfig.Encrypt(NewUnencryptedResponseData.reverse()); // Encrypt All Transaction Data
 
     Serve.JSON({
         status: true,
