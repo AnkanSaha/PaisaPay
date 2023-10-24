@@ -5,6 +5,7 @@ export default {
     UserEmail: {type: String, required: true},
     UserPhone: {type: String, required: true},
     TransactionID: {type: String, default: '00000', required: true},
+    TransactionMethod: {type: String, required: true, default: "Unknown"},
     TransactionDate: {type: Date, required: true, default: Date.now()},
     TransactionAmount: {type: Number, required: true},
     TransactionStatus: {type: String, required: true, default: "Success"},

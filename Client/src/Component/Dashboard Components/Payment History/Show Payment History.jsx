@@ -30,7 +30,7 @@ export default function PaymentHistoryS() {
   const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(
     ReduxState.AccountInfo.AccountDetails
   )); // decode the jwt token to get the account details
-    console.log(Decoded_Account_Details);
+
   React.useEffect(() => {
     Cryptography.Encrypt(Decoded_Account_Details.PhoneNumber).then(PhoneNumber => {
       Cryptography.Encrypt(Decoded_Account_Details.Email).then(Email => {
