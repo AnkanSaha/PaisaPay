@@ -1,20 +1,32 @@
 import React from "react"; // import react for the component
 import {Cryptography} from '@helper/Common'; // import the cryptography function
 import SendMoneyValidate from '@validator/Payment/Send Money'; // import the validator function
-
+import {React as Serve} from 'react-caches'; // import the react caches
 // Import Icons
 import { FaRupeeSign } from "react-icons/fa"; // import the rupee sign icon
 
+// Import Redux Actions
+import {UpdateBalance} from '@redux/Slices/Transaction Details'; // import the transaction details slice
+
 // Import Components
-import { Button } from "@chakra-ui/react"; // import the button component from chakra ui
+import { Button, useToast } from "@chakra-ui/react"; // import the button component from chakra ui
 
 // Redux
-import { useSelector } from "react-redux"; // import useSelector from react-redux
+import { useSelector, useDispatch } from "react-redux"; // import useSelector from react-redux
 
 // 1. Link to Send Money Page
 export default function SendMoneySection() {
   // Hooks
- 
+ const toast = useToast(); // initialize the toast component
+  const dispatch = useDispatch(); // initialize the useDispatch hook
+
+  // Redux Store
+  const API = useSelector(
+    (state) =>
+      state.GeneralAppInfo.ApplicationConfig.Frontend_Details
+        .Live_URL_FOR_API_CALL
+  ); // Get API Link from Redux
+
   // Encrypted Account Details from Redux
   const AccountDetails = useSelector((state) => state.AccountInfo); // get the account details from the redux store
  
@@ -51,11 +63,56 @@ export default function SendMoneySection() {
   }; // end of function to handle the change in the input fields
 
   // Submission Function
-  const SubmitHandler = (event) => {
+  const SubmitHandler = async (event) => {
     event.preventDefault(); // prevent the default action
     setLoading(true); // set the loading to true
     const Result = SendMoneyValidate(PaymentInfo)
-    console.log(Result)
+
+    // Check if the validation is successful
+    if(Result.status === false) {
+      toast({
+        title: Result.Title,
+        description: Result.message,
+        status: 'error',
+        duration: 1000,
+        isClosable: true,
+      })
+      setLoading(false)
+      return
+    }
+
+    // Encrypt the Payment Info
+    const Encrypted_Payment_Info = await Cryptography.Encrypt(PaymentInfo)
+  
+    // API Call
+    const Response = await Serve.Fetch.Post(`${API}/post/Payment/NewTransaction`, {
+      sessionID: AccountDetails.sessionID,
+      Encrypted_PaymentInfo: Encrypted_Payment_Info
+    })
+    if(Response.statusCode !== 200) {
+      toast({
+        title: "Error",
+        description: Response.message,
+        status: 'error',
+        duration: 1000,
+        isClosable: true,
+      })
+      setLoading(false)
+      return
+    }
+
+    // Update the Balance
+    const Decrypted_Balance = JSON.parse(Cryptography.DecryptSync(Response.data)); // decrypt the balance
+    dispatch(UpdateBalance(Decrypted_Balance.NewBalance)) // update the balance
+   
+    setLoading(false)
+    toast({
+      title: "Success",
+      description: Response.message,
+      status: 'success',
+      duration: 9000,
+      isClosable: true,
+    })
   }; // end of submission function
 
   // Force User To Enter Integer Only
