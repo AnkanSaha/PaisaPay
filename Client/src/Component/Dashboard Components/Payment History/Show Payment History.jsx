@@ -6,6 +6,10 @@ import Moment from "moment"; // import moment for date formatting
 import {Cryptography} from '@helper/Common'; // import the Crypto function from the Common file
 import {React as Service} from 'react-caches'; // import the react-caches library
 
+// Icons
+import { List, ListItem, ListIcon } from "@chakra-ui/react"; // import the list components from Chakra UI
+import { MdCheckCircle } from "react-icons/md"; // import the check circle icon from react icons
+import { GiCrossMark } from "react-icons/gi"; // import the cross mark icon from react icons
 
 // Component
 import { LoadingScreen } from "@page/Common Pages/Loading Screen"; // import the loading screen component
@@ -94,7 +98,32 @@ export default function PaymentHistoryS() {
                          <td>₹ {item.TransactionAmount}</td>
                         <td>{Moment(item.TransactionDate).format('DD-MM-YYYY HH:mm:ss A')}</td>
                         <td>{item.TransactionType}</td>
-                        <td>{item.TransactionStatus}</td>
+                        <td>
+                        <List>
+                            <ListItem key={index}>
+                              <ListIcon
+                                as={
+                                  item.TransactionStatus ===
+                                  "Transaction Failed"
+                                    ? GiCrossMark
+                                    : MdCheckCircle
+                                }
+                                color={
+                                  item.TransactionStatus ===
+                                  "Transaction Failed"
+                                    ? "red.500"
+                                    : "green.500"
+                                }
+                              />
+                              {item.TransactionStatus === "Transaction Failed"
+                                ? "Failed"
+                                : item.TransactionStatus ===
+                                  "Transaction Success"
+                                ? "Success"
+                                : "Pending"}
+                            </ListItem>
+                          </List>
+                          </td>
                         <td>{item.TransactionDescription}</td>
                       </tr>
                     );

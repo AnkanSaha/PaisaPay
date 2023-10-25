@@ -57,7 +57,7 @@ export default function SendMoneySection() {
   }
   return (
     <>
-      <form className="w-6/12 ml-[23rem] absolute top-[130%] space-y-5">
+      <form className="w-6/12 ml-[25rem] absolute top-[60%] space-y-5">
         <h1 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-black md:text-5xl lg:text-6xl">
           <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
             Pay Using
