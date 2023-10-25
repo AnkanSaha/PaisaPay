@@ -14,9 +14,8 @@ Payment.use(CORS({origin:StringKeys.CORS_URL})); // Use CORS
 
 // All Services
 Payment.post('/add-money', AddMoney); // Add Money Service
-// Service 
 Payment.post('/TransactionHistory', SessionValidation, GetTransactionHistory); // Get Transaction History
-
+Payment.post('/NewTransaction', SessionValidation, GetTransactionHistory); // Get Transaction History
 
 // Export Router
 export default Payment; // Export router

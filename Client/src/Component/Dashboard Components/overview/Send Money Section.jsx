@@ -1,5 +1,6 @@
 import React from "react"; // import react for the component
 import {Cryptography} from '@helper/Common'; // import the cryptography function
+import SendMoneyValidate from '@validator/Payment/Send Money'; // import the validator function
 
 // Import Icons
 import { FaRupeeSign } from "react-icons/fa"; // import the rupee sign icon
@@ -13,10 +14,13 @@ import { useSelector } from "react-redux"; // import useSelector from react-redu
 // 1. Link to Send Money Page
 export default function SendMoneySection() {
   // Hooks
+ 
   // Encrypted Account Details from Redux
   const AccountDetails = useSelector((state) => state.AccountInfo); // get the account details from the redux store
+ 
   // Decode All Account Details
   const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(AccountDetails.AccountDetails)); // decode the jwt token to get the account details
+ 
   // States
   const [PaymentInfo, setPaymentInfo] = React.useState({
     ReceivingPaymentID: "",
@@ -26,8 +30,11 @@ export default function SendMoneySection() {
     SenderName: Decoded_Account_Details.Name,
     SenderEmail: Decoded_Account_Details.Email,
     SenderPhone: Decoded_Account_Details.PhoneNumber,
+    sessionID: AccountDetails.sessionID,
     TransactionDescription: "",
   }); // state to store the payment info
+
+  const [Loading, setLoading] = React.useState(false); // state to store the loading status
 
   // Functions
   // 1. Function to handle the change in the input fields
@@ -46,7 +53,9 @@ export default function SendMoneySection() {
   // Submission Function
   const SubmitHandler = (event) => {
     event.preventDefault(); // prevent the default action
-    console.log(PaymentInfo); // log the payment info
+    setLoading(true); // set the loading to true
+    const Result = SendMoneyValidate(PaymentInfo)
+    console.log(Result)
   }; // end of submission function
 
   // Force User To Enter Integer Only
@@ -113,6 +122,7 @@ export default function SendMoneySection() {
           <Button
             onClick={SubmitHandler}
             leftIcon={<FaRupeeSign />}
+            isLoading={Loading}
             colorScheme="teal"
             variant="solid"
             type="submit"
