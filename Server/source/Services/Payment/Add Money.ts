@@ -50,7 +50,7 @@ export const AddMoney = async (
     const Email = payload.payment.entity.notes.email.toLowerCase(); // Email From Payload
     const TransactionID = payload.payment.entity.id; // Transaction ID From Payload
     const TransactionAmount = payload.payment.entity.amount === undefined ? 0: payload.payment.entity.amount / 100; // Transaction Amount From Payload
-    const Method = payload.payment.entity.method; // Transaction Method From Payload
+    const Method = `RazorPay's ${payload.payment.entity.method}`; // Transaction Method From Payload
     const Description = payload.payment.entity.notes.description === undefined ? "No Description Provided": payload.payment.entity.notes.description; // Transaction Description From Payload
 
     // Check if payment is captured
