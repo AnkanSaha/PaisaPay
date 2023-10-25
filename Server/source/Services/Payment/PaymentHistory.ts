@@ -48,17 +48,25 @@ export const GetTransactionHistory = async (
       { UserEmail: EmailID },
     ]); // Get All Server Transaction
 
-    // Get All Transaction from MongoDB P2P Transaction Model
-    const AllP2PTransaction = await MongoDB.P2PTransaction.find("AND", [
+    // Get All Receiving Transaction from MongoDB P2P Transaction Model
+    const AllReceivingTransaction = await MongoDB.P2PTransaction.find("AND", [
       { ReceivingClientID: AccountStatus.Information.Data[0].ClientID },
       { ReceivingPaymentID: AccountStatus.Information.Data[0].PaymentID },
       { ReceivingEmail: EmailID },
     ]);
- 
+
+    // Get All Sending Transaction from MongoDB P2P Transaction Model
+    const AllSendingTransaction = await MongoDB.P2PTransaction.find("AND", [
+      { SendingClientID: AccountStatus.Information.Data[0].ClientID },
+      { SendingPaymentID: AccountStatus.Information.Data[0].PaymentID },
+      { SenderEmail: EmailID },
+    ]);
+
     // Combine All Transaction Data with Spread Operator
     const NewUnencryptedResponseData = [
       ...AllServerTransaction.Data,
-      ...AllP2PTransaction.Data,
+      ...AllReceivingTransaction.Data,
+      ...AllSendingTransaction.Data,
     ]; // Spread All Server Transaction Data
     
     // Encrypt All Transaction Data

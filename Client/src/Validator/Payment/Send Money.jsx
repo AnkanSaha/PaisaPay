@@ -17,12 +17,19 @@ export default (InputData) => {
             message: "Please enter the transaction amount"
         }
     }
-    else if(PaymentIDRegex.test(InputData.PaymentID) === false){
+    else if(PaymentIDRegex.test(InputData.ReceivingPaymentID) === false){
         return {
               status: false,
               message: "Please Enter a Valid Payment ID, It is Required for Registration",
               title: "Error, Payment ID"
          };
+      }
+      else if(InputData.SendingPaymentID === InputData.ReceivingPaymentID) {
+        return {
+            status: false,
+            title : "Cannot Send Money to Yourself",
+            message: "You cannot send money to yourself, Please enter a different payment id"
+        }
       }
     return {
         status: true,

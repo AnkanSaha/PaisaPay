@@ -95,12 +95,14 @@ export default function PaymentHistoryS() {
                 {
                 ReduxState.TransactionDetails.Transactions.map(
                   (item, index) => {
+                    console.log(Decoded_Account_Details)
+                    console.log(item)
                     return (
                       <tr key={index}>
                         <th>{item.TransactionID}</th>
                          <td>₹ {item.TransactionAmount}</td>
-                        <td>{Moment(item.TransactionDate).format('DD-MM-YYYY HH:mm:ss A')}</td>
-                        <td>{item.TransactionType}</td>
+                        <td>{Moment(item.TransactionDate).format('DD-MM-YY HH:mm')}</td>
+                        <td>{item.ReceivingPaymentID === Decoded_Account_Details.PaymentID ? `Received from ${item.TransactionType}` : item.SendingPaymentID === Decoded_Account_Details.PaymentID ? `Sent To ${item.TransactionType}` : item.TransactionType}</td>
                         <td>
                         <List>
                             <ListItem key={index}>

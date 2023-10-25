@@ -77,12 +77,12 @@ export default function RecentTransactions() {
           <h1 className="text-base font-mono font-bold mb-5 mt-[1.25rem] ml-5">
             Transaction History of {Decoded_Account_Details.Name}
           </h1>
-          <List spacing={3} className="ml-5  border-4 p-1 w-[21rem]">
+          <List spacing={3} className="ml-5  border-4 p-1 w-[21rem] absolute">
           {ReduxState.TransactionDetails.Transactions.map((item, index)=>{
             return(
               <ListItem key={index} className="text-xs">
               <ListIcon as={item.TransactionStatus === "Transaction Failed" ? GiCrossMark : MdCheckCircle } color={item.TransactionStatus === "Transaction Failed" ? "red.500" : "green.500"} />
-              ₹ {item.TransactionAmount} {item.TransactionType} on {Moment(item.TransactionDate).format('DD-MM-YYYY HH:mm:ss A')}
+              ₹ {item.TransactionAmount} {item.ReceivingPaymentID === Decoded_Account_Details.PaymentID ? `Received from ${item.TransactionType}` : item.SendingPaymentID === Decoded_Account_Details.PaymentID ? `Sent To ${item.TransactionType}` : item.TransactionType} on {Moment(item.TransactionDate).format('DD-MM-YY HH:mm')}
             </ListItem>
             )
           })}
