@@ -68,9 +68,14 @@ export const GetTransactionHistory = async (
       ...AllReceivingTransaction.Data,
       ...AllSendingTransaction.Data,
     ]; // Spread All Server Transaction Data
-    
+
+    // Short All Transaction Data by Latest to Oldest
+    const SortedUnencryptedResponseData = NewUnencryptedResponseData.sort((item1, item2) => {
+        return new Date(item2.TransactionDate).getTime() - new Date(item1.TransactionDate).getTime()
+    }); // Sort All Transaction Data
+
     // Encrypt All Transaction Data
-    const EncryptedData = await EncryptConfig.Encrypt(NewUnencryptedResponseData.reverse()); // Encrypt All Transaction Data
+    const EncryptedData = await EncryptConfig.Encrypt(SortedUnencryptedResponseData); // Encrypt All Transaction Data
 
     Serve.JSON({
         status: true,
