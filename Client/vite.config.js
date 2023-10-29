@@ -101,7 +101,7 @@ export default defineConfig({
       "@src": "/src",
       "@public": "/public",
       "@app": "/src/App",
-      "@component": "/src/Component",
+      "@component": "/src/Components",
       "@page": "/src/Pages",
       "@helper": "/src/Helper",
       "@setting": "/src/Settings",
