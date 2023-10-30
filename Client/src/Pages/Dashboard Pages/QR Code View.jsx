@@ -10,7 +10,7 @@ import DashboardNavbar from "@component/Navbar/Dashboard Navbar"; // import the 
 import { Update_Document_Title } from "@helper/Common"; // import the function to update the document title
 
 // Import Components
-import GeneralFooter from "../../Component/Footer/General Footer"; // import the general footer
+import GeneralFooter from "@component/Footer/General Footer"; // import the general footer
 
 // Redux
 import { useSelector } from "react-redux"; // import useSelector from react-redux
