@@ -13,7 +13,7 @@ import {AiOutlineQrcode} from "react-icons/ai"; // import AiOutlineQrcode from r
 import { BiSolidHelpCircle } from "react-icons/bi"; // import BiSolidHelpCircle from react-icons/bi
 
 // React JWT
-import {Cryptography} from '@helper/Common'
+import {Cryptography} from '@helper/Common'; // import Cryptography from Common.jsx
 
 // Import Storage Function
 import { Cache } from "@app/App_Config"; // Import Cache from App_Config.jsx

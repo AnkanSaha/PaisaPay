@@ -144,4 +144,13 @@ export async function Update_Internet_Status() {
 // Encryption Configuration
 import {React} from 'react-caches'; // import the encryption configuration
 
-export const Cryptography = new React.ReactEncrypt("AN65CDERE584GRT1RB5TR16TR4BT4NVERGREGRE45V84TR1B215");
+// Register Class Based Encryption Function
+export const Cryptography = new React.ClassBasedFunctions.ReactEncrypt("AN65CDERE584GRT1RB5TR16TR4BT4NVERGREGRE45V84TR1B215");
+
+// Register Class Based API Call Function
+export const API = new React.ClassBasedFunctions.API({
+  APIBaseDomain: `${Live_URL}/api`, // API Base Domain
+  Headers: {
+    "Content-Type": "application/json" // Content Type
+  }
+}); // API Call Function

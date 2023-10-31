@@ -127,7 +127,6 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
             SenderPhone: SenderAccountExists.Information.Data[0].PhoneNumber,
             TransactionID: TransactionID,
             TransactionDate: Date.now(),
-            TransactionType: `${ReceiverAccountDetails.Data[0].Name}`,
             TransactionAmount: PaymentInfo.TransactionAmount,
             TransactionDescription: PaymentInfo.TransactionDescription === "" ? "No Description Provided" : PaymentInfo.TransactionDescription,
             TransactionStatus: "Transaction Success",
