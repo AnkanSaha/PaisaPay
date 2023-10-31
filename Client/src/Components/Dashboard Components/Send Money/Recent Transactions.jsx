@@ -2,8 +2,7 @@ import React from "react"; // import React
 import { useToast } from "@chakra-ui/react"; // Import Chakra UI Toast
 import { useSelector, useDispatch } from "react-redux"; // import useSelector from react-redux
 import { UpdateTransactions } from "@redux/Slices/Transaction Details"; // import the UpdateTransactions action from the Transaction Details slice
-import { Cryptography } from "@helper/Common"; // import the Crypto function from the Common file
-import { React as Service } from "react-caches"; // import the react-caches library
+import { Cryptography, API as Service} from "@helper/Common"; // import the Crypto function from the Common file
 import Moment from "moment"; // import moment for date formatting
 
 // Component
@@ -27,12 +26,7 @@ export default function RecentTransactions() {
 
   // Redux Store
   const ReduxState = useSelector((state) => state); // get the account details from the redux store
-  const API = useSelector(
-    (state) =>
-      state.GeneralAppInfo.ApplicationConfig.Frontend_Details
-        .Live_URL_FOR_API_CALL
-  ); // Get API Link from Redux
-
+  
   // Decode All Account Details
   const Decoded_Account_Details = JSON.parse(
     Cryptography.DecryptSync(ReduxState.AccountInfo.AccountDetails)
@@ -42,7 +36,7 @@ export default function RecentTransactions() {
     Cryptography.Encrypt(Decoded_Account_Details.PhoneNumber).then(
       (PhoneNumber) => {
         Cryptography.Encrypt(Decoded_Account_Details.Email).then((Email) => {
-          Service.Fetch.Post(`${API}/post/Payment/TransactionHistory`, {
+          Service.Post(`/post/Payment/TransactionHistory`, {
             Number: PhoneNumber,
             Email: Email,
             sessionID: ReduxState.AccountInfo.sessionID,
@@ -82,7 +76,7 @@ export default function RecentTransactions() {
             return(
               <ListItem key={index} className="text-xs">
               <ListIcon as={item.TransactionStatus === "Transaction Failed" ? GiCrossMark : MdCheckCircle } color={item.TransactionStatus === "Transaction Failed" ? "red.500" : "green.500"} />
-              ₹ {item.TransactionAmount} {item.ReceivingPaymentID === Decoded_Account_Details.PaymentID ? `Received from ${item.TransactionType}` : item.SendingPaymentID === Decoded_Account_Details.PaymentID ? `Sent To ${item.TransactionType}` : item.TransactionType} on {Moment(item.TransactionDate).format('DD-MM-YY HH:mm')}
+              ₹ {item.TransactionAmount} {item.ReceivingPaymentID === Decoded_Account_Details.PaymentID ? `Received from ${item.SenderName}` : item.SendingPaymentID === Decoded_Account_Details.PaymentID ? `Sent To ${item.ReceivingName}` : item.TransactionType} on {Moment(item.TransactionDate).format('DD-MM-YY HH:mm')}
             </ListItem>
             )
           })}

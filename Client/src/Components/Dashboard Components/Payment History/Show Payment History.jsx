@@ -3,8 +3,8 @@ import { useToast } from "@chakra-ui/react"; // Import Chakra UI Toast
 import { useSelector, useDispatch } from "react-redux"; // import useSelector from react-redux
 import { UpdateTransactions } from "@redux/Slices/Transaction Details"; // import the UpdateTransactions action from the Transaction Details slice
 import Moment from "moment"; // import moment for date formatting
-import {Cryptography} from '@helper/Common'; // import the Crypto function from the Common file
-import {React as Service} from 'react-caches'; // import the react-caches library
+import {Cryptography, API as Service} from '@helper/Common'; // import the Crypto function from the Common file
+
 import { CSVLink } from "react-csv"; // import the CSVLink component from react-csv
 import {AppName} from '@app/App_Config'; // import the AppName from the App_Config file
 
@@ -26,11 +26,6 @@ export default function PaymentHistoryS() {
 
   // Redux Store
   const ReduxState = useSelector((state) => state); // get the account details from the redux store
-  const API = useSelector(
-    (state) =>
-      state.GeneralAppInfo.ApplicationConfig.Frontend_Details
-        .Live_URL_FOR_API_CALL
-  ); // Get API Link from Redux
 
   // Decode All Account Details
   const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(
@@ -40,7 +35,7 @@ export default function PaymentHistoryS() {
   React.useEffect(() => {
     Cryptography.Encrypt(Decoded_Account_Details.PhoneNumber).then(PhoneNumber => {
       Cryptography.Encrypt(Decoded_Account_Details.Email).then(Email => {
-        Service.Fetch.Post(`${API}/post/Payment/TransactionHistory`, {
+        Service.Post("/post/Payment/TransactionHistory", {
           Number: PhoneNumber,
           Email: Email,
           sessionID: ReduxState.AccountInfo.sessionID
@@ -95,14 +90,12 @@ export default function PaymentHistoryS() {
                 {
                 ReduxState.TransactionDetails.Transactions.map(
                   (item, index) => {
-                    console.log(Decoded_Account_Details)
-                    console.log(item)
                     return (
                       <tr key={index}>
                         <th>{item.TransactionID}</th>
                          <td>₹ {item.TransactionAmount}</td>
                         <td>{Moment(item.TransactionDate).format('DD-MM-YY HH:mm')}</td>
-                        <td>{item.ReceivingPaymentID === Decoded_Account_Details.PaymentID ? `Received from ${item.TransactionType}` : item.SendingPaymentID === Decoded_Account_Details.PaymentID ? `Sent To ${item.TransactionType}` : item.TransactionType}</td>
+                        <td>{item.ReceivingPaymentID === Decoded_Account_Details.PaymentID ? `Received from ${item.SenderName}` : item.SendingPaymentID === Decoded_Account_Details.PaymentID ? `Sent To ${item.ReceivingName}` : item.TransactionType}</td>
                         <td>
                         <List>
                             <ListItem key={index}>
