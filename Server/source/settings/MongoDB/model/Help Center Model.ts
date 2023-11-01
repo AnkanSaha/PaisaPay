@@ -3,7 +3,7 @@ export default {
     TicketID : {type: String, required: true, unique: true},
     TicketTitle : {type: String, required: true, index : true},
     TicketDescription : {type: String, required: true},
-    TicketStatus : {type: String, default: 'Pending', index: true},
+    TicketStatus : {type: String, default: 'Pending', index: true, enum: ['Pending', 'In Progress', 'Resolved']},
     CurrentClientDetails: {type: Object, default: {}},
     RequestDate : {type: Number, default: Date.now(), index: true},
     AdminResponse : {type: String, default: 'No response yet', required: true}
