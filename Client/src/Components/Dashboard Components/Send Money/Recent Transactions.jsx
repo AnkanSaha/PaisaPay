@@ -2,7 +2,7 @@ import React from "react"; // import React
 import { useToast } from "@chakra-ui/react"; // Import Chakra UI Toast
 import { useSelector, useDispatch } from "react-redux"; // import useSelector from react-redux
 import { UpdateTransactions } from "@redux/Slices/Transaction Details"; // import the UpdateTransactions action from the Transaction Details slice
-import { Cryptography, API as Service} from "@helper/Common"; // import the Crypto function from the Common file
+import { Cryptography, API as Service } from "@helper/Common"; // import the Crypto function from the Common file
 import Moment from "moment"; // import moment for date formatting
 
 // Component
@@ -14,7 +14,8 @@ import { List, ListItem, ListIcon } from "@chakra-ui/react"; // import the list 
 
 // import icons
 import { MdCheckCircle } from "react-icons/md"; // import the check circle and settings icon from react icons
-import {GiCrossMark} from "react-icons/gi"; // import the cross mark icon from meronex icons
+import { GiCrossMark } from "react-icons/gi"; // import the cross mark icon from meronex icons
+import { IoMdTimer } from "react-icons/io"; // import the timer icon from react icons
 
 export default function RecentTransactions() {
   //States
@@ -26,7 +27,7 @@ export default function RecentTransactions() {
 
   // Redux Store
   const ReduxState = useSelector((state) => state); // get the account details from the redux store
-  
+
   // Decode All Account Details
   const Decoded_Account_Details = JSON.parse(
     Cryptography.DecryptSync(ReduxState.AccountInfo.AccountDetails)
@@ -72,15 +73,36 @@ export default function RecentTransactions() {
             Transaction History
           </h1>
           <List spacing={3} className="ml-3  border-4 p-1 w-[26rem] absolute">
-          {ReduxState.TransactionDetails.Transactions.map((item, index)=>{
-            return(
-              <ListItem key={index} className="text-sm">
-              <ListIcon as={item.TransactionStatus === "Transaction Failed" ? GiCrossMark : MdCheckCircle } color={item.TransactionStatus === "Transaction Failed" ? "red.500" : "green.500"} />
-              ₹ {item.TransactionAmount} {item.ReceivingPaymentID === Decoded_Account_Details.PaymentID ? `Received from ${item.SenderName}` : item.SendingPaymentID === Decoded_Account_Details.PaymentID ? `Sent To ${item.ReceivingName}` : item.TransactionType} on {Moment(item.TransactionDate).format('DD-MM-YY HH:mm')}
-            </ListItem>
-            )
-          })}
-          
+            {ReduxState.TransactionDetails.Transactions.map((item, index) => {
+              return (
+                <ListItem key={index} className="text-sm">
+                  <ListIcon
+                    as={
+                      item.TransactionStatus === "Transaction Failed"
+                        ? GiCrossMark
+                        : item.TransactionStatus === "Processing"
+                        ? IoMdTimer
+                        : MdCheckCircle
+                    }
+                    color={
+                      item.TransactionStatus === "Transaction Failed"
+                        ? "red.500"
+                        : item.TransactionStatus === "Processing"
+                        ? "yellow.500"
+                        : "green.500"
+                    }
+                  />
+                  ₹ {item.TransactionAmount}{" "}
+                  {item.ReceivingPaymentID === Decoded_Account_Details.PaymentID
+                    ? `Received from ${item.SenderName}`
+                    : item.SendingPaymentID ===
+                      Decoded_Account_Details.PaymentID
+                    ? `Sent To ${item.ReceivingName}`
+                    : item.TransactionType}{" "}
+                  on {Moment(item.TransactionDate).format("DD-MM-YY HH:mm")}
+                </ListItem>
+              );
+            })}
           </List>
         </div>
       )}
