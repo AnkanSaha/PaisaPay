@@ -15,5 +15,5 @@ export default {
     TransactionType: { type: String, default: "P2P Deposit" },
     TransactionAmount: { type: Number, required: true },
     TransactionDescription: { type: String, required: true, default: "No description provided." },
-    TransactionStatus: { type: String, required: true, default: "Pending" },
+    TransactionStatus: { type: String, required: true, default: "Pending", enum: ['Pending', 'Transaction Success', 'Transaction Failed'] },
 };

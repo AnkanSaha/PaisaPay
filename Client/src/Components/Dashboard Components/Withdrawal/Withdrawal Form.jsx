@@ -2,7 +2,7 @@ import React, { useState } from "react"; // Import react
 
 // Import Functions
 import WithdrawalVerify from '@validator/Payment/Withdrawal'; // Import Functions
-import {API, Cryptography} from '../../../Helper/Common'; // Import Functions
+import {API, Cryptography} from '@helper/Common'; // Import Functions
 
 // Component Imports
 import {

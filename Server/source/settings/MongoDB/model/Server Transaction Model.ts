@@ -9,7 +9,7 @@ export default {
     TransactionType: {type: String, required: true, default: "Add Funds"},
     TransactionAmount: {type: Number, required: true, default: 0},
     TransactionDescription: {type: String, required: true, default: "No description provided."},
-    TransactionStatus: {type: String, required: true, default: "Success", index: true, enum: ["Success", "Pending", "Failed", "Cancelled", "Processing"]},
+    TransactionStatus: {type: String, required: true, default: "Transaction Success", index: true, enum: ["Transaction Success", "Pending", "Transaction Failed", "Cancelled", "Processing"]},
     TransactionMethod: {type: String, required: true, default: "Unknown"},
     TransactionFee: {type: Number, required: true, default: 0},
 } // export the transaction data model
