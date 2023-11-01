@@ -68,10 +68,10 @@ export default function RecentTransactions() {
       ) : (
         <div>
           <SendMoneySection />
-          <h1 className="text-base font-mono font-bold mb-5 mt-[1.25rem] ml-5">
-            Transaction History of {Decoded_Account_Details.Name}
+          <h1 className="text-xl font-mono font-bold mb-5 mt-[1.25rem] ml-10">
+            Transaction History
           </h1>
-          <List spacing={3} className="ml-5  border-4 p-1 w-[21rem] absolute">
+          <List spacing={3} className="ml-3  border-4 p-1 w-[21rem] absolute">
           {ReduxState.TransactionDetails.Transactions.map((item, index)=>{
             return(
               <ListItem key={index} className="text-xs">

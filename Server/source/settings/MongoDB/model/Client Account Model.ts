@@ -14,7 +14,7 @@ export default {
     ProfilePicSize: {type: String, required: true, default: "0 KB", index: true},
     ProfilePicFileName: {type: String, required: true, unique: true},
     DateCreated: {type: Date, required: true, default: Date.now(), index: true},
-    AccountStatus: {type: String, required: true, default: "Active"},
+    AccountStatus: {type: String, required: true, default: "Active", enum: ["Active", "Suspended", "Disabled", "Deleted"]},
     AccountType: {type: String, required: true, default: "Client"},
     LastLoginTime: {type: Date, required: true, default: Date.now()},
     LastLoginIP: {type: String, required: true, default: "192.168.0.1"},

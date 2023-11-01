@@ -74,7 +74,7 @@ export default function BalanceShow() {
     <>
       <div className="w-full ml-5 max-w-[18rem] mt-10 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div className="flex flex-col items-center pb-10">
-        <div className="lg:tooltip" data-tip={Decoded_Account_Details.AccountStatus === "Active" ? "Your Account is Active" : "Your Account is Disabled by Admin"}>
+        <div className="lg:tooltip" data-tip={Decoded_Account_Details.AccountStatus === "Active" ? `Your Account is ${Decoded_Account_Details.AccountStatus}` : `Your Account is ${Decoded_Account_Details.AccountStatus} by Server`}>
           <div className="avatar mt-5">
             <div
               className={`w-24 rounded-full ring ${
