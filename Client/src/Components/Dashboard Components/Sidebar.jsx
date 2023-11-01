@@ -1,19 +1,18 @@
-import {useToast } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import React from "react"; // import react
 import { Link } from "react-router-dom"; // import Link from react-router-dom
 
 // Import Icons
 import { BiDollarCircle } from "react-icons/bi"; // import AiOutlineDollar from react-icons/ai
 import { FaHistory } from "react-icons/fa"; // import FaHistory from react-icons/fa
-import {MdOutlineSendToMobile} from "react-icons/md"; // import MdOutlineSendToMobile from react-icons/md
+import { MdOutlineSendToMobile } from "react-icons/md"; // import MdOutlineSendToMobile from react-icons/md
 import { BiMoneyWithdraw } from "react-icons/bi"; // import BiMoneyWithdraw from react-icons/bi
-import {CgProfile} from "react-icons/cg"; // import CgProfile from react-icons/cg
-import {LocalAnonymousUserLogo} from "@app/App_Config"; // import the anonymous user logo
-import {AiOutlineQrcode} from "react-icons/ai"; // import AiOutlineQrcode from react-icons/ai
+import { CgProfile } from "react-icons/cg"; // import CgProfile from react-icons/cg
+import { AiOutlineQrcode } from "react-icons/ai"; // import AiOutlineQrcode from react-icons/ai
 import { BiSolidHelpCircle } from "react-icons/bi"; // import BiSolidHelpCircle from react-icons/bi
 
 // React JWT
-import {Cryptography} from '@helper/Common'; // import Cryptography from Common.jsx
+import { Cryptography } from "@helper/Common"; // import Cryptography from Common.jsx
 
 // Import Storage Function
 import { Cache } from "@app/App_Config"; // Import Cache from App_Config.jsx
@@ -24,6 +23,9 @@ import { useSelector, useDispatch } from "react-redux"; // import useSelector fr
 // Import States Actions
 import { deleteAccountDetails } from "@redux/Slices/Account Slice"; // Import Account Slice
 
+// Import Icons
+import { BsFillCaretLeftSquareFill } from "react-icons/bs"; // import BsFillCaretLeftSquareFill from react-icons/bs
+import { AiOutlineDoubleRight } from "react-icons/ai"; // import AiOutlineDoubleRight from react-icons/ai
 
 export default function Sidebar() {
   // Hooks
@@ -31,18 +33,19 @@ export default function Sidebar() {
   const Toast = useToast(); // Create Toast Function
 
   // React Stores
-  const ReduxState = useSelector((state) => state); // Get All State from Redux Store
   // Encrypted Account Details from Redux
   const AccountDetails = useSelector((state) => state.AccountInfo); // get the account details from the redux store
   // Decode All Account Details
-  const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(AccountDetails.AccountDetails)); // decode the jwt token to get the account details
+  const Decoded_Account_Details = JSON.parse(
+    Cryptography.DecryptSync(AccountDetails.AccountDetails)
+  ); // decode the jwt token to get the account details
 
-    // Logic For Navbar Button
+  // Logic For Navbar Button
 
-    const LogoutFunction = async () => {
-      await Cache.Account.clearCache(); // Clear Account Cache
-      Dispatch(deleteAccountDetails()); // Update Account Details
-    };
+  const LogoutFunction = async () => {
+    await Cache.Account.clearCache(); // Clear Account Cache
+    Dispatch(deleteAccountDetails()); // Update Account Details
+  };
   return (
     <>
       <button
@@ -67,27 +70,32 @@ export default function Sidebar() {
           ></path>
         </svg>
       </button>
-
+      <div
+        onClick={() => {
+          document.getElementById("logo-sidebar").classList.toggle("hidden");
+        }}
+      >
+        <BsFillCaretLeftSquareFill className="w-10 h-10 mr-3 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500" />
+      </div>
       <aside
         id="logo-sidebar"
-        className="fixed top-0 right-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        className="fixed top-0 right-0 hidden z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <Link
-           to='/dashboard'
+          <div
             className="flex items-center pl-2.5 mb-5"
+            onClick={() => {
+              document
+                .getElementById("logo-sidebar")
+                .classList.toggle("hidden");
+            }}
           >
-            <img
-              className="w-10 h-10 mr-3 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-              src={ReduxState.TransactionDetails.UserProfileImageURl ? ReduxState.TransactionDetails.UserProfileImageURl : LocalAnonymousUserLogo}
-              alt="User avatar"
-            />
-
+            <AiOutlineDoubleRight className="w-10 h-10 mr-3 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500" />
             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
               {Decoded_Account_Details.Name}
             </span>
-          </Link>
+          </div>
           <ul className="space-y-2 font-medium">
             <li>
               <Link
@@ -119,9 +127,11 @@ export default function Sidebar() {
                   fill="currentColor"
                   viewBox="0 0 18 18"
                 >
-                  <BiDollarCircle/>
+                  <BiDollarCircle />
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Add Funds </span>
+                <span className="flex-1 ml-3 whitespace-nowrap">
+                  Add Funds{" "}
+                </span>
               </Link>
             </li>
             <li>
@@ -155,7 +165,9 @@ export default function Sidebar() {
                 >
                   <MdOutlineSendToMobile />
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Send Money</span>
+                <span className="flex-1 ml-3 whitespace-nowrap">
+                  Send Money
+                </span>
               </Link>
             </li>
             <li>
@@ -172,7 +184,9 @@ export default function Sidebar() {
                 >
                   <BiMoneyWithdraw />
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Withdraw Funds</span>
+                <span className="flex-1 ml-3 whitespace-nowrap">
+                  Withdraw Funds
+                </span>
               </Link>
             </li>
             <li>
@@ -187,9 +201,11 @@ export default function Sidebar() {
                   fill="none"
                   viewBox="0 0 18 16"
                 >
-                 <CgProfile />
+                  <CgProfile />
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">User Profile</span>
+                <span className="flex-1 ml-3 whitespace-nowrap">
+                  User Profile
+                </span>
               </Link>
             </li>
             <li>
@@ -204,9 +220,11 @@ export default function Sidebar() {
                   fill="none"
                   viewBox="0 0 18 16"
                 >
-                 <AiOutlineQrcode />
+                  <AiOutlineQrcode />
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">View QR Code</span>
+                <span className="flex-1 ml-3 whitespace-nowrap">
+                  View QR Code
+                </span>
               </Link>
             </li>
             <li>
@@ -221,9 +239,11 @@ export default function Sidebar() {
                   fill="none"
                   viewBox="0 0 18 16"
                 >
-                 <BiSolidHelpCircle />
+                  <BiSolidHelpCircle />
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Help & Support</span>
+                <span className="flex-1 ml-3 whitespace-nowrap">
+                  Help & Support
+                </span>
               </Link>
             </li>
             <li>
@@ -241,7 +261,7 @@ export default function Sidebar() {
                 }}
                 className="cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-                 <svg
+                <svg
                   className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
