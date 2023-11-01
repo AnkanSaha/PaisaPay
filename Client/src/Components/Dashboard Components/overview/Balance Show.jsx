@@ -72,12 +72,12 @@ export default function BalanceShow() {
 
   return (
     <>
-      <div className="w-full ml-5 max-w-[18rem] mt-10 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <div className="w-full ml-10 max-w-[25rem] mt-10 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div className="flex flex-col items-center pb-10">
         <div className="lg:tooltip" data-tip={Decoded_Account_Details.AccountStatus === "Active" ? `Your Account is ${Decoded_Account_Details.AccountStatus}` : `Your Account is ${Decoded_Account_Details.AccountStatus} by Server`}>
           <div className="avatar mt-5">
             <div
-              className={`w-24 rounded-full ring ${
+              className={`w-28 rounded-full ring ${
                 Decoded_Account_Details.AccountStatus === "Active"
                   ? "ring-accent-focus"
                   : "ring-error"
@@ -94,7 +94,7 @@ export default function BalanceShow() {
             </div>
           </div>
           <div className="flex flex-wrap space-x-2">
-            <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white mt-5">
+            <h5 className="mb-1 text-xl font-extrabold text-gray-900 dark:text-white mt-5">
               {Decoded_Account_Details.PaymentID.toUpperCase()}
             </h5>
             <Button
@@ -110,19 +110,19 @@ export default function BalanceShow() {
                   isClosable: true,
                 });
               }}
-              size={"xs"}
+              size={"sm"}
             >
               <AiFillCopy />
             </Button>
           </div>
-          <span className="text-sm text-gray-500 dark:text-gray-400">
+          <span className="text-xl text-gray-500 dark:text-gray-400">
             {" "}
             Available Balance: ₹{Balance.toFixed(2)}
           </span>
           <div className="flex mt-4 space-x-3 md:mt-6">
             <Button
               onClick={BalanceUpdater}
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="inline-flex items-center px-8 py-6 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               colorScheme="facebook"
               isLoading={isLoading}
             >
@@ -130,7 +130,7 @@ export default function BalanceShow() {
             </Button>
             <Button
               onClick={() => navigate("/dashboard/add-funds")}
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700"
+              className="inline-flex items-center px-8 py-6 text-base font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700"
               colorScheme="red"
             >
               Add Funds

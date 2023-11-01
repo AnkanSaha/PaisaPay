@@ -20,7 +20,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 
         // Check If Sender Account Exists
         const SenderAccountExists = await AccountExistenceChecker(PaymentInfo.SenderPhone, PaymentInfo.SenderEmail);
-        console.log(SenderAccountExists.Information.Data[0].AccountStatus)
+
         // Check If Sender Account Exists
         if(SenderAccountExists.status === false){
             Serve.JSON({

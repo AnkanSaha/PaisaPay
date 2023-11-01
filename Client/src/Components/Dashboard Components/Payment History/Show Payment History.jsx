@@ -72,7 +72,7 @@ export default function PaymentHistoryS() {
             Payment History of {Decoded_Account_Details.Name}
           </h1>
 
-          <div className="overflow-x-auto w-[79%] ml-5">
+          <div className="overflow-x-auto w-full ml-5">
             <table className="table">
               {/* head */}
               <thead>
@@ -133,7 +133,7 @@ export default function PaymentHistoryS() {
             <CSVLink
               data={ReduxState.TransactionDetails.Transactions}
               filename={`${AppName} Payment History.csv`}
-              className="btn btn-accent fixed right-[18rem] bottom-5 text-black font-bold"
+              className="btn btn-accent fixed right-[2rem] bottom-5 text-black font-bold"
               download={true}
             >
               Download Payment History
