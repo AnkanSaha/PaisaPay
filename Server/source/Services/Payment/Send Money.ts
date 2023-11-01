@@ -20,7 +20,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 
         // Check If Sender Account Exists
         const SenderAccountExists = await AccountExistenceChecker(PaymentInfo.SenderPhone, PaymentInfo.SenderEmail);
-
+        console.log(SenderAccountExists.Information.Data[0].AccountStatus)
         // Check If Sender Account Exists
         if(SenderAccountExists.status === false){
             Serve.JSON({
@@ -28,6 +28,19 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
                 statusCode: StatusCodes.NOT_FOUND,
                 message: "Sender Account Does Not Exists, Please Create An Account",
                 Title: SenderAccountExists.message,
+                data: undefined,
+                response: Response,
+            }) // Send Error Response
+            return;
+        }
+
+        // Check If Sender Account Is Active
+        if(SenderAccountExists.Information.Data[0].AccountStatus !== "Active"){
+            Serve.JSON({
+                status: false,
+                statusCode: StatusCodes.NOT_ACCEPTABLE,
+                message: `Your Account Is ${SenderAccountExists.Information.Data[0].AccountStatus}, Please Contact Support`,
+                Title: "Account Not Active",
                 data: undefined,
                 response: Response,
             }) // Send Error Response
@@ -44,6 +57,19 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
                 statusCode: StatusCodes.NOT_FOUND,
                 message: "No User Found With The Provided Payment ID",
                 Title: "Not Found",
+                data: undefined,
+                response: Response,
+            }) // Send Error Response
+            return;
+        }
+
+        // Check If Receiver Account Is Active
+        if(ReceiverAccountDetails.Data[0].AccountStatus !== "Active"){
+            Serve.JSON({
+                status: false,
+                statusCode: StatusCodes.NOT_ACCEPTABLE,
+                message: `Receiver Account Is ${ReceiverAccountDetails.Data[0].AccountStatus}, Please Contact Support`,
+                Title: "Account Not Active",
                 data: undefined,
                 response: Response,
             }) // Send Error Response
