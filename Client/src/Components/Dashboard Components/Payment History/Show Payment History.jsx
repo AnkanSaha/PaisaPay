@@ -97,16 +97,16 @@ export default function PaymentHistoryS() {
                         <td>₹ {item.TransactionAmount}</td>
                         <td>
                           {Moment(item.TransactionDate).format(
-                            "DD-MM-YY HH:mm"
+                            "DD-MM-YY HH:mm:ss A"
                           )}
                         </td>
                         <td>
                           {item.ReceivingPaymentID ===
                           Decoded_Account_Details.PaymentID
-                            ? `Received from ${item.SenderName}`
+                            ? `Received from ${item.SendingPaymentID}`
                             : item.SendingPaymentID ===
                               Decoded_Account_Details.PaymentID
-                            ? `Sent To ${item.ReceivingName}`
+                            ? `Sent To ${item.ReceivingPaymentID}`
                             : item.TransactionType}
                         </td>
                         <td>
