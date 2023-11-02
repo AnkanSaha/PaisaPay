@@ -16,6 +16,7 @@ import { IoMdTimer } from "react-icons/io"; // import the timer icon from react 
 
 // Component
 import { LoadingScreen } from "@page/Common Pages/Loading Screen"; // import the loading screen component
+import Footer from '@component/Footer/General Footer'; // import the footer component
 
 export default function PaymentHistoryS() {
   //States
@@ -73,7 +74,7 @@ export default function PaymentHistoryS() {
             Payment History of {Decoded_Account_Details.Name}
           </h1>
 
-          <div className="overflow-x-auto w-full ml-5">
+          <div className="overflow-x-auto w-full ml-5 mb-[5rem]">
             <table className="table">
               {/* head */}
               <thead>
@@ -134,7 +135,7 @@ export default function PaymentHistoryS() {
                                 : item.TransactionStatus ===
                                   "Transaction Success"
                                 ? "Success"
-                                : "Pending"}
+                                : item.TransactionStatus === "Processing" ? "Processing" : "Pending"}
                             </ListItem>
                           </List>
                         </td>
@@ -155,6 +156,7 @@ export default function PaymentHistoryS() {
               Download Payment History
             </CSVLink>
           </div>
+            <Footer FooterStyle="fixed"/>
         </>
       )}
     </>
