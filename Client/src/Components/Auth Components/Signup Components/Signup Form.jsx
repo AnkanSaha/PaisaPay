@@ -22,6 +22,13 @@ export default function SignupForm() {
   const Dispatch = useDispatch(); // This is for Dispatch
   const Navigate = useNavigate(); // This is for Navigate
   const toast = useToast(); // This is for Toast
+    // Redux 
+    const API = useSelector(
+      (state) =>
+        state.GeneralAppInfo.ApplicationConfig.Frontend_Details
+          .Live_URL_FOR_API_CALL
+    ); // Get API from Redux
+  
 
   // States
   const [TempFormData, setFormData] = React.useState({
@@ -151,7 +158,7 @@ export default function SignupForm() {
       //   console.log(key, value);
       // }
       setisLoading(true); // Set Loading Screen to True
-      const Result = await Register(MainData); // Call Register Function
+      const Result = await Register(API, MainData); // Call Register Function
       if (Result.statusCode === 200) {
         setisLoading(false); // Set Loading Screen to True
         toast({
