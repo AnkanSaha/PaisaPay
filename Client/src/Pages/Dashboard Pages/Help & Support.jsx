@@ -1,17 +1,17 @@
-// import Required Modules
-import React from "react"; // import React
+import React from "react"; // import react for the function component
 
 // Components
 import Navbar from "@component/Navbar/Dashboard Navbar"; // import the general navbar component
-import PaymentHistoryS from "@component/Dashboard Components/Payment History/Show Payment History";
+import HelpAndSupport from "../../Components/Dashboard Components/Help & Support/Help & Support"; // import the help and support component
 
 // import Functions
 import { Update_Document_Title } from "@helper/Common"; // import the function to update the document title
 
-// Main Function
-export default function PaymentHistory() {
-    // Update Document Title
-    Update_Document_Title("Payment History"); // update the document title
+
+export default function HelpAndSupportPage() {
+  console.log(HelpAndSupport)
+    // Update the document title using the imported function
+    Update_Document_Title("Help & Support"); // update the document title
 
     document.addEventListener("contextmenu", (event) => event.preventDefault()); // disable the context menu'
   
@@ -28,7 +28,7 @@ export default function PaymentHistory() {
     return (
         <>
         <Navbar />
-        <PaymentHistoryS />
+        <HelpAndSupport/>
         </>
-    );
+    )
 }

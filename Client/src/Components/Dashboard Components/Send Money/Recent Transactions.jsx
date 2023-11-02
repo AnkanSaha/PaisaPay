@@ -72,7 +72,7 @@ export default function RecentTransactions() {
           <h1 className="text-xl font-mono font-bold mb-5 mt-[1.25rem] ml-[6rem]">
             Transaction History
           </h1>
-          <List spacing={3} className="ml-3  border-4 p-1 w-[26rem] absolute">
+          <List spacing={3} className="ml-3  border-4 rounded-lg py-5 pl-3 p-1 w-[26rem] absolute">
             {ReduxState.TransactionDetails.Transactions.map((item, index) => {
               return (
                 <ListItem key={index} className="text-sm">
@@ -94,12 +94,12 @@ export default function RecentTransactions() {
                   />
                   ₹ {item.TransactionAmount}{" "}
                   {item.ReceivingPaymentID === Decoded_Account_Details.PaymentID
-                    ? `Received from ${item.SenderName}`
+                    ? `Received from ${item.SendingPaymentID}`
                     : item.SendingPaymentID ===
                       Decoded_Account_Details.PaymentID
-                    ? `Sent To ${item.ReceivingName}`
+                    ? `Sent To ${item.ReceivingPaymentID}`
                     : item.TransactionType}{" "}
-                  on {Moment(item.TransactionDate).format("DD-MM-YY HH:mm")}
+                  on {Moment(item.TransactionDate).format("DD-MM-YY HH:mm A")}
                 </ListItem>
               );
             })}

@@ -12,15 +12,13 @@ import {
   Heading,
 } from "@chakra-ui/react";
 
-import { decodeToken } from "react-jwt"; // Import JWT Features
+import { Cryptography, API } from "../../../Helper/Common"; // Import JWT Features
 import { useNavigate } from "react-router-dom";
 // Import Redux Features
 import { useSelector } from "react-redux"; // Import useSelector() Hook
 
 // Import Functions
 import HelpCenterDataValidator from "@validator/General/Help Center"; // Import Help Center Data Validator
-import { HelpCenter } from "@helper/General/Help Center"; // Import Help Center Helper Function
-
 const ContactForm = () => {
   const navigate = useNavigate(); // Navigate to Other Pages
   const toast = useToast(); // Toast UI
@@ -44,22 +42,21 @@ const ContactForm = () => {
   }); // Set Form Data
 
   // redux state
-  const ReduxStore = useSelector((state) => state); // Initializing Redux Store
   const EncryptedUserDetails = useSelector((state) => state.AccountInfo); // Get Encrypted User Details from Redux Store
   const GeneralInformation = useSelector((state) => state.GeneralAppInfo); // Get General Information from Redux Store
 
   React.useEffect(() => {
     if (EncryptedUserDetails !== null) {
-      const decodedAccountDetails = decodeToken(
+      const decodedAccountDetails = JSON.parse(Cryptography.DecryptSync(
         EncryptedUserDetails.AccountDetails
-      ); // Decode User Details
+      )); // Decode User Details
 
       // Update Form Data
       setFormData((prevFormData) => ({
         ...prevFormData,
-        ClientID: decodedAccountDetails.data.ClientID,
+        ClientID: decodedAccountDetails.ClientID,
         CurrentClientDetails: GeneralInformation.ClientDetails,
-        sessionID: EncryptedUserDetails.LoginToken,
+        sessionID: EncryptedUserDetails.sessionID,
       }));
     } else {
       navigate("/auth/login"); // Navigate to Login Page
@@ -79,12 +76,9 @@ const ContactForm = () => {
   const HandleSubmit = async (e) => {
     e.preventDefault(); // Prevent Default Form Submission
     const ValidateResult = await HelpCenterDataValidator(formData); // Validate Form Data
+    
     if (ValidateResult.status === true) {
-      const ServerResult = await HelpCenter(
-        ReduxStore.GeneralAppInfo.ApplicationConfig.Frontend_Details
-          .Live_URL_FOR_API_CALL,
-        formData
-      ); // Send Help Center Request
+      const ServerResult = await API.Post('/post/help-center/create-new-ticket', formData) // Send Help Center Request
       if (ServerResult.status === true) {
         toast({
           title: ServerResult.Title,
@@ -147,7 +141,7 @@ const ContactForm = () => {
               onChange={InputHandler}
               value={formData.TicketTitle}
             >
-              <option disabled selected>
+              <option selected>
                 Select Your Topic
               </option>
               {PreTopic.map((topic, index) => {

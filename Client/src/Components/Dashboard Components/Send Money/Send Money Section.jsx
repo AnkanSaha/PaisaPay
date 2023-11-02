@@ -106,7 +106,7 @@ export default function SendMoneySection() {
   }
   return (
     <>
-      <form className="w-7/12 ml-[30rem] absolute top-[95%] space-y-5">
+      <form className="w-7/12 ml-[30rem] absolute top-[93%] space-y-10">
         <h1 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-black md:text-5xl lg:text-7xl">
           <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
             Pay Using
@@ -119,7 +119,7 @@ export default function SendMoneySection() {
         >
           Search
         </label>
-        <div className="relative space-y-4">
+        <div className="relative space-y-10">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
               className="w-4 h-4 text-gray-500 dark:text-gray-400"
