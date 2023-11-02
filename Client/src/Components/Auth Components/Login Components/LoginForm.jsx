@@ -26,8 +26,7 @@ import {
 
   // Import Client Side Storage
   import { Cache } from "@app/App_Config"; // Importing Cache from App_Config.jsx
-  import {Cryptography} from '../../../Helper/Common'; // Importing Cryptography from Common.jsx
-  import {React as Service} from 'react-caches'; // Importing React as Service from react-caches
+  import {Cryptography, API} from '@helper/Common'; // Importing Cryptography from Common.jsx
 
 export default function LoginForm (){
   // React State Variables
@@ -68,7 +67,7 @@ export default function LoginForm (){
           LastLoginIP: await Cryptography.Encrypt(LoginData.LastLoginIP),
           LastLoginClientDetails: await Cryptography.Encrypt(LoginData.LastLoginClientDetails),
         }
-        const LoginResult = await Service.Fetch.Post(`${ReduxStore.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL}/post/auth/login-with-paisapay`, LoginCredentials); // API Call for Login
+        const LoginResult = await API.Post(`/post/auth/login-with-paisapay`, LoginCredentials); // API Call for Login
         
         if(LoginResult.statusCode === 200){
           setIsLoading(false); // Set isLoading to false

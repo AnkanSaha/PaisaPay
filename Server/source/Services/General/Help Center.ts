@@ -10,6 +10,7 @@ import MongoDB from "../../settings/MongoDB/MongoDB"; // Import MongoDB Instance
 
 // Import Interfaces
 import { ResponseInterface } from "../../Helper/Incoming Request Checker"; // Import Response Interface
+import { AccountExistenceChecker } from "../../Helper/Account Existence Checker"; // Import Account Existence Checker
 
 // Interface for Request
 interface RequestInterface extends Request {
@@ -112,3 +113,67 @@ export default async function HelpCenterService(
     }); // Send an empty response
   }
 }
+
+
+// Get All Tickets
+export const GetAllTickets = async (request: Request, response: ResponseInterface) => {
+  try {
+    const {Email, PhoneNumber} = request.query; // Destructure the request body
+
+    // Find the client data
+    const ClientData = await AccountExistenceChecker(Number(PhoneNumber), String(Email)); // Check if the client exists
+
+    // Check if the client exists
+    if(ClientData.status === false){
+      Response.JSON({
+        data: undefined,
+        Title: "Client Not Found",
+        message: "The client with the provided details does not exist",
+        status: false,
+        statusCode: StatusCodes.NOT_FOUND,
+        response: response,
+      });
+      return;
+    }
+
+    // Find the client tickets in the database
+    const ClientAllTickets = await MongoDB.HelpCenter.find('AND', [{ClientID: ClientData.Information.Data[0].ClientID}]); // Find the client tickets in the database
+
+    // Check if the client has any tickets
+    if(ClientAllTickets.count === 0){
+      Response.JSON({
+        data: undefined,
+        Title: "No Tickets Found",
+        message: "The client has not created any tickets yet",
+        status: false,
+        statusCode: StatusCodes.NOT_FOUND,
+        response: response,
+      });
+      return;
+    }
+    // Encrypt All Tickets
+    const EncryptedAllTickets = await Cryptography.Encrypt(ClientAllTickets.Data); // Encrypt All Tickets
+    
+    // Send the response
+    Response.JSON({
+      data: EncryptedAllTickets,
+      Title: "Tickets Found",
+      message: "The client tickets were found successfully",
+      status: true,
+      statusCode: StatusCodes.OK,
+      response: response,
+    });
+  }
+  catch (error) {
+    Console.red(error);
+    Response.JSON({
+      data: undefined,
+      Title: "Internal Server Error",
+      message:
+        "An error occurred while processing your request, please try again",
+      status: false,
+      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      response: response,
+    }); // Send an empty response
+  }
+};

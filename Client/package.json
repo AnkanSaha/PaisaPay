@@ -17,7 +17,7 @@
     "moment": "^2.29.4",
     "public-ip": "^6.0.1",
     "react": "^18.2.0",
-    "react-caches": "^4.3.6",
+    "react-caches": "^4.3.7",
     "react-csv": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-jwt": "^1.2.0",

@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'; // Import the configureStore and combineReducers functions from the Redux Toolkit
 
 // import Some General App Info
-import { isDevelopmentMode } from '../../App_Config'; // Import the development mode checker
+import { isDevelopmentMode } from '@app/App_Config'; // Import the development mode checker
 
 // Import Main Combined Reducer
 import RootReducer from './Combine All Reducers'; // Import the root reducer

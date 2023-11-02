@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"; // Import Use Selector
 import { addAccountDetails } from "@redux/Slices/Account Slice"; // Import Account Slice
 import { useNavigate } from "react-router-dom"; // Import use Navigate
 import { useToast } from "@chakra-ui/react"; // Import use Toast
-import {Cryptography} from '../../../Helper/Common'; // Import Common Functions
+import {Cryptography} from '@helper/Common'; // Import Common Functions
 
 // Import Images
 import { LocalAnonymousUserLogo } from "@app/App_Config"; // Import Anonymous User Logo
@@ -40,11 +40,6 @@ export default function SignupForm() {
 
   // Values from Redux
   const IPDetails = useSelector((state) => state.GeneralAppInfo.ClientDetails); // This is for IP Details
-  const API = useSelector(
-    (state) =>
-      state.GeneralAppInfo.ApplicationConfig.Frontend_Details
-        .Live_URL_FOR_API_CALL
-  );
 
   // Loading Screen States
   const [isLoading, setisLoading] = React.useState(false); // This is for Loading Screen
@@ -156,7 +151,7 @@ export default function SignupForm() {
       //   console.log(key, value);
       // }
       setisLoading(true); // Set Loading Screen to True
-      const Result = await Register(API, MainData); // Call Register Function
+      const Result = await Register(MainData); // Call Register Function
       if (Result.statusCode === 200) {
         setisLoading(false); // Set Loading Screen to True
         toast({

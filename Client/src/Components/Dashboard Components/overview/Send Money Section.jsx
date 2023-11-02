@@ -100,10 +100,9 @@ export default function SendMoneySection() {
       setLoading(false)
       return
     }
-
     // Update the Balance
     const Decrypted_Balance = JSON.parse(Cryptography.DecryptSync(Response.data)); // decrypt the balance
-    dispatch(UpdateBalance(Decrypted_Balance.NewBalance)) // update the balance
+    dispatch(UpdateBalance(Decrypted_Balance.Balance)); // update the balance in the redux store
    
     setLoading(false)
     toast({
