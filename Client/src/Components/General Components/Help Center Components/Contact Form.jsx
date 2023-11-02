@@ -12,7 +12,7 @@ import {
   Heading,
 } from "@chakra-ui/react";
 
-import { Cryptography, API } from "../../../Helper/Common"; // Import JWT Features
+import { Cryptography, API } from "@helper/Common"; // Import JWT Features
 import { useNavigate } from "react-router-dom";
 // Import Redux Features
 import { useSelector } from "react-redux"; // Import useSelector() Hook

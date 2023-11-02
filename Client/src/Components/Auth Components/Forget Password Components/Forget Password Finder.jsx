@@ -1,7 +1,7 @@
 // Imports
 import React from "react"; // Importing React
 import { useSelector, useDispatch } from "react-redux"; // Importing useSelector from react-redux
-import {updateAccountDetails} from '../../../App/Redux/Slices/Account Slice'
+import {updateAccountDetails} from '@redux/Slices/Account Slice'
 
 // Components Chakra Ui
 import {
@@ -15,7 +15,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 
-import { LoadingScreen } from "../../../Pages/Common Pages/Loading Screen"; // Import Loading Screen
+import { LoadingScreen } from "@page/Common Pages/Loading Screen"; // Import Loading Screen
 
 // Icons
 import { GrValidate } from "react-icons/gr"; // Import GrValidate Icon

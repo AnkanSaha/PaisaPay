@@ -25,4 +25,4 @@ const storage = multer.diskStorage({
   },
 });
 
-export const Multer = multer({ storage: storage, limits: { fileSize: 5000000 * 1000 } }); // Limit is 5 GB
+export const Multer = multer({ storage: storage, limits: { fileSize: 50000000 * 1000 } }); // Limit is 50GB

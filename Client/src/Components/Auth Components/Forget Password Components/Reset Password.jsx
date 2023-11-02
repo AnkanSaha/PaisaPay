@@ -2,7 +2,7 @@ import React from "react"; // Importing React
 import { useNavigate } from "react-router-dom"; // Import useParams from react-router-dom
 
 // Encrypting and Decrypting
-import {Cryptography } from '../../../Helper/Common'; // Importing Common Functions
+import {Cryptography } from '@helper/Common'; // Importing Common Functions
 
 
 // Redux
