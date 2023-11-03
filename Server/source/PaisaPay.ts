@@ -3,7 +3,7 @@ type int = number; // Integer
 
 // All Imports
 import express, { json, urlencoded, Express } from 'express'; // Import Express
-import { cpus, platform, freemem } from 'os'; // Import OS
+import { cpus, platform, freemem, arch } from 'os'; // Import OS
 import cluster from 'cluster'; // Import Cluster
 const { isPrimary } = cluster; // Import isPrimary from Cluster
 import { Console } from 'outers'; // Import Outers
@@ -21,7 +21,7 @@ cores. */
 if (isPrimary) {
 	// Print CPU Count
 	Console.bright(
-		`${CPUCount} CPU(s) detected With ${platform()} server : ${(freemem() / 1024 / 1024 / 1024).toFixed(2)} GB Free Ram : ${cpus()[0].model}`
+		`${CPUCount} CPU(s) detected With ${platform()} ${arch()} server : ${(freemem() / 1024 / 1024 / 1024).toFixed(2)} GB Free Ram : ${cpus()[0].model}`
 	);
 
 	// Fork Cluster

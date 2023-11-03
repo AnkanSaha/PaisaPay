@@ -67,18 +67,25 @@ export default function HelpAndSupport() {
 														: ticket.TicketStatus === 'Resolved'
 														? 'green.500'
 														: 'red.500'
-												}>
+												}
+												color={
+													ticket.TicketStatus === 'Pending'
+														? 'black'
+														: ticket.TicketStatus === 'In Progress'
+														? 'white'
+														: ticket.TicketStatus === 'Resolved'
+														? 'white'
+														: 'white'
+												}
+												borderRadius="md"
+												boxShadow="md"
+												>
 												<CardHeader>
 													<Heading size="md"> {JSON.parse(Cryptography.DecryptSync(ticket.TicketTitle))}</Heading>
 												</CardHeader>
 												<CardBody>
 													<Text>
 														Registered : {moment(ticket.RequestDate).format('DD-MM-YY HH:mm:ss A')} <br />
-													</Text>
-													<br />
-													<Text>
-														<p className="font-bold">Description : </p>
-														{JSON.parse(Cryptography.DecryptSync(ticket.TicketDescription))} <br />
 													</Text>
 												</CardBody>
 											</Card>

@@ -8,7 +8,7 @@ import { StringKeys } from '../../settings/keys/keys'; // Import HTTP Status Cod
 import JWT from '../../Helper/config/JWT.config'; // Import JWT Config
 import { Request } from 'express'; // Import Request from express
 // Import Required Modules
-import { Console, StatusCodes, Response as Serve } from 'outers';
+import { Console, StatusCodes, Response as Serve, UniqueGenerator } from 'outers'; // Import Console & Status Codes
 
 // import Helpers
 import { Compare } from '../../Helper/config/Bcrypt.config'; // Import Bcrypt Config
@@ -69,17 +69,22 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 
 			const AccountStatus = await MongoDB.ClientAccount.find('OR', [{ PhoneNumber: DecryptedPhoneNumber }], 1); // Find the account in the database
 
+			// Check if the account exists
 			if (AccountStatus.count > 0) {
 				const isPasswordCorrect: isPasswordCorrectInterface = await Compare(DecryptedPassword, AccountStatus.Data[0].Password); // Compare the password
 				if (isPasswordCorrect.isMatch === true) {
 					const EncryptedaccountDetails = await Crypto.Encrypt(AccountStatus.Data[0]); // Generate JWT Token for Account Details
 
-					const LoginToken = await JWT.generate(
+					// Register Login Token Round Generator
+					const Generator = new UniqueGenerator(1); // Create a new Unique Generator
+					
+					// Generate Login Token
+					const LoginToken = await JWT.generateLoginToken(
 						{
 							ClientID: AccountStatus.Data[0].ClientID,
 							LastLoginIP: DecryptedLastLoginIP,
 							LastFourDigitsOfIDNumber: AccountStatus.Data[0].LastFourDigitsOfIDNumber,
-						},
+						}, Generator.RandomNumber(false, [4, 5, 6, 7]) ,
 						StringKeys.JWT_EXPIRES_IN
 					); // Generate Login Token for the user
 
