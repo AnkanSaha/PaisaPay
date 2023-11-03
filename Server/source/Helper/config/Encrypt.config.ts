@@ -1,4 +1,4 @@
-import {CryptoGraphy} from 'outers'; // Import Outers
+import { CryptoGraphy } from 'outers'; // Import Outers
 
 import { StringKeys } from '../../settings/keys/keys'; // Import String Keys
 

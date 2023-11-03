@@ -16,35 +16,32 @@ export const Client_Account_and_Connection_Instance = new Mongo({
 	CollectionName: Database_Keys.ClientAccountCollectionName,
 }); // Create a new instance of Mongo
 
-
-
 /* The code is creating a new instance of the `Mongo` class and assigning it to the
 `Server_Transaction_Instance` constant. This instance is configured with the following properties: */
 export const Server_Transaction_Instance = new Mongo({
 	MongoURL: Database_Keys.MongoDB,
 	NeverDisconnect: true,
 	Schema: ServerTransactionModel,
-	CollectionName: Database_Keys.ServerTransactionCollectionName
+	CollectionName: Database_Keys.ServerTransactionCollectionName,
 }); // Create a new instance of Mongo for Store All Transaction Details between Server and Client like Deposit, Withdraw, etc.
-
 
 export const P2P_Transaction_Instance = new Mongo({
 	MongoURL: Database_Keys.MongoDB,
 	NeverDisconnect: true,
 	Schema: P2PTransactionModel,
-	CollectionName: Database_Keys.P2PTransactionCollectionName
+	CollectionName: Database_Keys.P2PTransactionCollectionName,
 }); // Create a new instance of Mongo for Store All Transaction Details between Client and Client like Send, Receive, etc.
 
 export const Help_Center_Instance = new Mongo({
 	MongoURL: Database_Keys.MongoDB,
 	NeverDisconnect: true,
 	Schema: HelpCenterModel,
-	CollectionName: Database_Keys.HelpCenterCollectionName
+	CollectionName: Database_Keys.HelpCenterCollectionName,
 }); // Create a new instance of Mongo for Store All Help Center Details like TicketID, TicketTitle, etc.
 
 export const Withdrawal_Instance = new Mongo({
 	MongoURL: Database_Keys.MongoDB,
 	NeverDisconnect: true,
 	CollectionName: Database_Keys.WithdrawalCollectionName,
-	Schema: WithdrawalModel
+	Schema: WithdrawalModel,
 }); // Create a new instance of Mongo for Store All Withdrawal Details like UserClientID, UserPaymentID, etc.
