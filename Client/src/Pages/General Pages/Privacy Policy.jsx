@@ -11,20 +11,20 @@ import ThirdSection from '@component/General Components/Privacy Policy Component
 import FourthSection from '@component/General Components/Privacy Policy Components/Fourth Section'; // Importing Fourth Section
 
 // Import Functions
-import {Update_Document_Title} from '@helper/Common'; // ← Common functions
+import { Update_Document_Title } from '@helper/Common'; // ← Common functions
 
 function PrivacyPolicy() {
-  Update_Document_Title('Privacy Policy'); // Updating Document Title by Calling Function
-  return (
-    <>
-      <GeneralNavbar />
-      <FirstSection />
-      <SecondSection />
-      <ThirdSection />
-      <FourthSection />
-      <GeneralFooter FooterStyle="static"/>
-    </>
-  )
+	Update_Document_Title('Privacy Policy'); // Updating Document Title by Calling Function
+	return (
+		<>
+			<GeneralNavbar />
+			<FirstSection />
+			<SecondSection />
+			<ThirdSection />
+			<FourthSection />
+			<GeneralFooter FooterStyle="static" />
+		</>
+	);
 }
 
 export default PrivacyPolicy; // Exporting Privacy Policy Page
