@@ -3,18 +3,18 @@
 type str = string;
 
 // Import Interfaces
-import { RequestInterface } from "../../Helper/Incoming Request Checker"; // Import Response Interface
+import { RequestInterface } from '../../Helper/Incoming Request Checker'; // Import Response Interface
 
 // Import AppKey
-import { StringKeys } from "../../settings/keys/keys"; // Import String Keys
+import { StringKeys } from '../../settings/keys/keys'; // Import String Keys
 
-import { StatusCodes, Response } from "outers"; // Import HTTP Status Codes
+import { StatusCodes, Response } from 'outers'; // Import HTTP Status Codes
 
 // Extend The Request Interface
 interface FileFetchInterface extends RequestInterface {
-  params: {
-    ProfilePicID: str;
-  };
+	params: {
+		ProfilePicID: str;
+	};
 } // Import Request Interface
 
 // Function For File Fetch
@@ -27,23 +27,20 @@ interface FileFetchInterface extends RequestInterface {
  * @param {any} response - The `response` parameter is the HTTP response object that will be used to
  * send the file to the client.
  */
-export async function GetProfilePic(
-  request: FileFetchInterface,
-  response: any
-) {
-  if (!request.params.ProfilePicID) {
-    Response.File({
-      rootName: `${StringKeys.StaticDirectoryName}/`,
-      response: response,
-      Filename: undefined,
-      statusCode: StatusCodes.BAD_REQUEST,
-    });
-  } else {
-    Response.File({
-      response: response,
-      statusCode: StatusCodes.OK,
-      Filename: `${request.params.ProfilePicID}`,
-      rootName: `${StringKeys.StaticDirectoryName}/`,
-    });
-  }
+export async function GetProfilePic(request: FileFetchInterface, response: any) {
+	if (!request.params.ProfilePicID) {
+		Response.File({
+			rootName: `${StringKeys.StaticDirectoryName}/`,
+			response: response,
+			Filename: undefined,
+			statusCode: StatusCodes.BAD_REQUEST,
+		});
+	} else {
+		Response.File({
+			response: response,
+			statusCode: StatusCodes.OK,
+			Filename: `${request.params.ProfilePicID}`,
+			rootName: `${StringKeys.StaticDirectoryName}/`,
+		});
+	}
 }

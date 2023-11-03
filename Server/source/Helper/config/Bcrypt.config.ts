@@ -29,24 +29,22 @@ type bool = boolean;
  * specified number of rounds.
  */
 export const Encrypt = async (Password: str, Rounds: int): Promise<obj> => {
-    try {
-        return {
-            status: true,
-            statusCode: StatusCodes.OK,
-            message: 'Encrypted Successfully',
-            EncryptedData: await hash(Password, Rounds)
-        }
-    }
-    catch {
-        return {
-            status: false,
-            statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-            message: 'Internal Server Error',
-            EncryptedPassword: ''
-        }
-    }
+	try {
+		return {
+			status: true,
+			statusCode: StatusCodes.OK,
+			message: 'Encrypted Successfully',
+			EncryptedData: await hash(Password, Rounds),
+		};
+	} catch {
+		return {
+			status: false,
+			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+			message: 'Internal Server Error',
+			EncryptedPassword: '',
+		};
+	}
 };
-
 
 /**
  * The function `ComparePassword` compares a user's password with an encrypted password and returns a
@@ -60,27 +58,26 @@ export const Encrypt = async (Password: str, Rounds: int): Promise<obj> => {
  */
 
 interface ComparePasswordInterface {
-    status: bool,
-    statusCode: int,
-    isMatch: bool,
-    message?: str
+	status: bool;
+	statusCode: int;
+	isMatch: bool;
+	message?: str;
 }
 
 export const Compare = async (UserPassword: str, EncryptedPassword: str): Promise<ComparePasswordInterface> => {
-    try{
-        const CompareResult: bool = await compare(UserPassword, EncryptedPassword); // Compare Password
-        return {
-            status: true,
-            statusCode: StatusCodes.OK,
-            isMatch: CompareResult,
-        }
-
-    } catch (error) {
-      return {
-        status: false,
-        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-        message: 'Internal Server Error',
-        isMatch: false
-      }
-    }
+	try {
+		const CompareResult: bool = await compare(UserPassword, EncryptedPassword); // Compare Password
+		return {
+			status: true,
+			statusCode: StatusCodes.OK,
+			isMatch: CompareResult,
+		};
+	} catch (error) {
+		return {
+			status: false,
+			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+			message: 'Internal Server Error',
+			isMatch: false,
+		};
+	}
 };

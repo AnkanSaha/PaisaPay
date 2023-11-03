@@ -4,43 +4,43 @@ type str = string;
 type int = number;
 type bool = boolean;
 
-import {  StringKeys } from "../../settings/keys/keys"; // Import HTTP Status Codes
-import fs from "fs"; // Import fs
-import { Request } from "express"; // Import Request from express
-import JWT from "../../Helper/config/JWT.config"; // Import JWT Config
+import { StringKeys } from '../../settings/keys/keys'; // Import HTTP Status Codes
+import fs from 'fs'; // Import fs
+import { Request } from 'express'; // Import Request from express
+import JWT from '../../Helper/config/JWT.config'; // Import JWT Config
 import Crypto from '../../Helper/config/Encrypt.config'; // Import Crypto Config
 
 // import Helpers
-import { AccountExistenceChecker } from "../../Helper/Account Existence Checker"; // Import Account Existence Checker
+import { AccountExistenceChecker } from '../../Helper/Account Existence Checker'; // Import Account Existence Checker
 import { Encrypt } from '../../Helper/config/Bcrypt.config'; // Import Bcrypt Config
-import MongoDB from "../../settings/MongoDB/MongoDB"; // Import MongoDB Instance
+import MongoDB from '../../settings/MongoDB/MongoDB'; // Import MongoDB Instance
 
 // Import Interfaces
-import { ResponseInterface } from "../../Helper/Incoming Request Checker"; // Import Response Interface
-import { Console, StatusCodes, Response, UniqueGenerator } from "outers"; // Import Console & Status Codes
+import { ResponseInterface } from '../../Helper/Incoming Request Checker'; // Import Response Interface
+import { Console, StatusCodes, Response, UniqueGenerator } from 'outers'; // Import Console & Status Codes
 
 // Interfaces for Signup
 interface SignupRequestInterface extends Request {
-    body: {
-        Name: str,
-        Email: str,
-        DOB: Date,
-        PhoneNumber: int,
-        PaymentID: str,
-        Password: str,
-        National_ID_Type: str,
-        National_ID_Number: str,
-        LastLoginIP: str,
-        LastLoginClientDetails: str,
-    },
-    file?: Express.Multer.File | any
+	body: {
+		Name: str;
+		Email: str;
+		DOB: Date;
+		PhoneNumber: int;
+		PaymentID: str;
+		Password: str;
+		National_ID_Type: str;
+		National_ID_Number: str;
+		LastLoginIP: str;
+		LastLoginClientDetails: str;
+	};
+	file?: Express.Multer.File | any;
 }
 
 // Inter\face for Password Encryption
 interface PasswordEncryptionInterface {
-    status?: bool,
-    message?: str,
-    EncryptedData?: str,
+	status?: bool;
+	message?: str;
+	EncryptedData?: str;
 }
 
 /**
@@ -54,170 +54,180 @@ interface PasswordEncryptionInterface {
  * to the client. It contains information such as the status code, headers, and the response body.
  */
 export async function Register(req: SignupRequestInterface, res: ResponseInterface) {
-    try {
-        const { Name, Email, DOB, Password, National_ID_Type, National_ID_Number, PhoneNumber, LastLoginIP, LastLoginClientDetails, PaymentID } = req.body; // Destructure the request body
-        if(!Name || !Email || !DOB || !Password || !National_ID_Type || !National_ID_Number || !PhoneNumber || !LastLoginIP || !LastLoginClientDetails || !PaymentID) {
-            await fs.promises.rm(req.file.path)
-            Response.JSON({
-                status: false,
-                statusCode: StatusCodes.BAD_REQUEST,
-                Title: 'Information Missing in Request',
-                message: 'Please provide all the required information & try again',
-                response: res,
-                data: undefined
-            })
-            return; // Return if the request body is invalid
-        }
-        else {
-            // Decrypt All the Strings
-            const DecryptedName = JSON.parse(await Crypto.Decrypt(Name)) // Decrypt Name
-            const DecryptedDOB = JSON.parse(await Crypto.Decrypt(String(DOB))) // Decrypt DOB
-            const DecryptedPassword = JSON.parse(await Crypto.Decrypt(Password)) // Decrypt Password
-            const DecryptedNational_ID_Type = JSON.parse(await Crypto.Decrypt(National_ID_Type)) // Decrypt National ID Type
-            const DecryptedNational_ID_Number = JSON.parse(await Crypto.Decrypt(National_ID_Number)) // Decrypt National ID Number
-            const DecryptedPhoneNumber = JSON.parse(await Crypto.Decrypt(String(PhoneNumber))) // Decrypt Phone Number
-            const DecryptedLastLoginIP = JSON.parse(await Crypto.Decrypt(LastLoginIP)) // Decrypt Last Login IP
-            const DecryptedLastLoginClientDetails = JSON.parse(await Crypto.Decrypt(LastLoginClientDetails)) // Decrypt Last Login Client Details
-            const DecryptedPaymentID = JSON.parse(await Crypto.Decrypt(PaymentID)); // Decrypt Payment ID
-            const DecryptedEmail = JSON.parse(await Crypto.Decrypt(Email)) // Decrypt Email
+	try {
+		const { Name, Email, DOB, Password, National_ID_Type, National_ID_Number, PhoneNumber, LastLoginIP, LastLoginClientDetails, PaymentID } = req.body; // Destructure the request body
+		if (
+			!Name ||
+			!Email ||
+			!DOB ||
+			!Password ||
+			!National_ID_Type ||
+			!National_ID_Number ||
+			!PhoneNumber ||
+			!LastLoginIP ||
+			!LastLoginClientDetails ||
+			!PaymentID
+		) {
+			await fs.promises.rm(req.file.path);
+			Response.JSON({
+				status: false,
+				statusCode: StatusCodes.BAD_REQUEST,
+				Title: 'Information Missing in Request',
+				message: 'Please provide all the required information & try again',
+				response: res,
+				data: undefined,
+			});
+			return; // Return if the request body is invalid
+		} else {
+			// Decrypt All the Strings
+			const DecryptedName = JSON.parse(await Crypto.Decrypt(Name)); // Decrypt Name
+			const DecryptedDOB = JSON.parse(await Crypto.Decrypt(String(DOB))); // Decrypt DOB
+			const DecryptedPassword = JSON.parse(await Crypto.Decrypt(Password)); // Decrypt Password
+			const DecryptedNational_ID_Type = JSON.parse(await Crypto.Decrypt(National_ID_Type)); // Decrypt National ID Type
+			const DecryptedNational_ID_Number = JSON.parse(await Crypto.Decrypt(National_ID_Number)); // Decrypt National ID Number
+			const DecryptedPhoneNumber = JSON.parse(await Crypto.Decrypt(String(PhoneNumber))); // Decrypt Phone Number
+			const DecryptedLastLoginIP = JSON.parse(await Crypto.Decrypt(LastLoginIP)); // Decrypt Last Login IP
+			const DecryptedLastLoginClientDetails = JSON.parse(await Crypto.Decrypt(LastLoginClientDetails)); // Decrypt Last Login Client Details
+			const DecryptedPaymentID = JSON.parse(await Crypto.Decrypt(PaymentID)); // Decrypt Payment ID
+			const DecryptedEmail = JSON.parse(await Crypto.Decrypt(Email)); // Decrypt Email
 
-            // Lowercase all the strings
-            const SmallEmail = DecryptedEmail.toLowerCase(); // Convert Email to lowercase
-            const SmallPaymentID = DecryptedPaymentID.toLowerCase(); // Convert Payment ID to lowercase
+			// Lowercase all the strings
+			const SmallEmail = DecryptedEmail.toLowerCase(); // Convert Email to lowercase
+			const SmallPaymentID = DecryptedPaymentID.toLowerCase(); // Convert Payment ID to lowercase
 
-        const AccountStatus = await AccountExistenceChecker(DecryptedPhoneNumber, SmallEmail); // Check if account exists
-        if (AccountStatus.status == true) {
-            await fs.promises.rm(req.file.path)
-            Response.JSON({
-                status: false,
-                statusCode: StatusCodes.CONFLICT,
-                Title: 'Account Exists',
-                message: 'Account exists with the same email or phone number or ID number',
-                response: res,
-                data: undefined
-            })
-            return; // Return if the account exists
-        }
-        else if (AccountStatus.status == false) {
-            // Register Unique ID Generator
-            const RoundGenerator = new UniqueGenerator(1); // Create Unique ID Generator
-            const ClientGenerator = new UniqueGenerator(20); // Create Unique ID Generator
-            
-            // Encrypt Password
-            const Rounds: int = RoundGenerator.RandomNumber(false, [1, 2, 3, 4, 5, 6, 7, 8, 9]); // Generate Rounds
+			const AccountStatus = await AccountExistenceChecker(DecryptedPhoneNumber, SmallEmail); // Check if account exists
+			if (AccountStatus.status == true) {
+				await fs.promises.rm(req.file.path);
+				Response.JSON({
+					status: false,
+					statusCode: StatusCodes.CONFLICT,
+					Title: 'Account Exists',
+					message: 'Account exists with the same email or phone number or ID number',
+					response: res,
+					data: undefined,
+				});
+				return; // Return if the account exists
+			} else if (AccountStatus.status == false) {
+				// Register Unique ID Generator
+				const RoundGenerator = new UniqueGenerator(1); // Create Unique ID Generator
+				const ClientGenerator = new UniqueGenerator(20); // Create Unique ID Generator
 
-            const EncryptedResult: PasswordEncryptionInterface = await Encrypt(DecryptedPassword, Rounds);
+				// Encrypt Password
+				const Rounds: int = RoundGenerator.RandomNumber(false, [1, 2, 3, 4, 5, 6, 7, 8, 9]); // Generate Rounds
 
-            // Encrypt National ID Number
-            const EncryptedNationalIDNumber: PasswordEncryptionInterface = await Encrypt(DecryptedNational_ID_Number, Rounds);
+				const EncryptedResult: PasswordEncryptionInterface = await Encrypt(DecryptedPassword, Rounds);
 
-            const LastFourDigitsOfIDNumber: str = DecryptedNational_ID_Number.slice(-4); // Get Last Six Digits of ID Number
+				// Encrypt National ID Number
+				const EncryptedNationalIDNumber: PasswordEncryptionInterface = await Encrypt(DecryptedNational_ID_Number, Rounds);
 
-            // Generate Client ID
-            const ClientID: int =  ClientGenerator.RandomNumber(true); // Generate Client ID
+				const LastFourDigitsOfIDNumber: str = DecryptedNational_ID_Number.slice(-4); // Get Last Six Digits of ID Number
 
-            // Generate Last Login Token
-            const LastLoginToken = await JWT.generateLoginToken({ ClientID: ClientID, Email: SmallEmail, PhoneNumber: DecryptedPhoneNumber }, 2, StringKeys.JWT_EXPIRES_IN)
+				// Generate Client ID
+				const ClientID: int = ClientGenerator.RandomNumber(true); // Generate Client ID
 
-            // Check if account exists with the same last six digits of ID number
-            const AccountDetails = await MongoDB.ClientAccount.find('OR', [{ LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber }]); // Find the account in the database
-            if (AccountDetails.Data.length > 0) {
-                await fs.promises.rm(req.file.path)
+				// Generate Last Login Token
+				const LastLoginToken = await JWT.generateLoginToken(
+					{ ClientID: ClientID, Email: SmallEmail, PhoneNumber: DecryptedPhoneNumber },
+					2,
+					StringKeys.JWT_EXPIRES_IN
+				);
 
-                Response.JSON({
-                    status: false,
-                    statusCode: StatusCodes.CONFLICT,
-                    Title: 'Account Exists',
-                    message: 'Account exists with the same last six digits of ID number',
-                    response: res,
-                    data: undefined
-                })
-                return; // Return if the account exists with the same last six digits of ID number
-            }
+				// Check if account exists with the same last six digits of ID number
+				const AccountDetails = await MongoDB.ClientAccount.find('OR', [{ LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber }]); // Find the account in the database
+				if (AccountDetails.Data.length > 0) {
+					await fs.promises.rm(req.file.path);
 
-            // Check if account exists with the same  Payment ID
-            const SamePaymentIDAccountDetails = await MongoDB.ClientAccount.find('OR', [{ PaymentID: SmallPaymentID }]); // Find the account in the database
+					Response.JSON({
+						status: false,
+						statusCode: StatusCodes.CONFLICT,
+						Title: 'Account Exists',
+						message: 'Account exists with the same last six digits of ID number',
+						response: res,
+						data: undefined,
+					});
+					return; // Return if the account exists with the same last six digits of ID number
+				}
 
-            if(SamePaymentIDAccountDetails.Data.length > 0) {
-                Response.JSON({
-                    status: false,
-                    statusCode: StatusCodes.CONFLICT,
-                    Title: 'Account Exists',
-                    message: 'Account exists with the same Payment ID',
-                    response: res,
-                    data: undefined
-                }) // Send Response
-                return; // Return if the account exists with the same Payment ID
-            }
+				// Check if account exists with the same  Payment ID
+				const SamePaymentIDAccountDetails = await MongoDB.ClientAccount.find('OR', [{ PaymentID: SmallPaymentID }]); // Find the account in the database
 
-            // Create Client Account
-            const NewClientAccount = {
-                ClientID: ClientID,
-                Name: DecryptedName,
-                Email: SmallEmail,
-                DOB: DecryptedDOB,
-                PhoneNumber: DecryptedPhoneNumber,
-                Balance: 0,
-                PaymentID: SmallPaymentID,
-                Password: EncryptedResult.EncryptedData,
-                National_ID_Type: DecryptedNational_ID_Type,
-                National_ID_Number: EncryptedNationalIDNumber.EncryptedData,
-                LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber,
-                ProfilePicturePath: req.file.path,
-                ProfilePicSize: `${req.file.size / 1000 / 1000} MB`,
-                ProfilePicFileName: req.file.filename,
-                DateCreated: Date.now(),
-                AccountStatus: "Active",
-                AccountType: "Client",
-                LastLoginTime: Date.now(),
-                LastLoginIP: DecryptedLastLoginIP,
-                LastLoginClientDetails: DecryptedLastLoginClientDetails,
-                LastLoginToken: LastLoginToken.toKen
-            } // Create New Client Account
+				if (SamePaymentIDAccountDetails.Data.length > 0) {
+					Response.JSON({
+						status: false,
+						statusCode: StatusCodes.CONFLICT,
+						Title: 'Account Exists',
+						message: 'Account exists with the same Payment ID',
+						response: res,
+						data: undefined,
+					}); // Send Response
+					return; // Return if the account exists with the same Payment ID
+				}
 
-            // Create All Account Related Records in MongoDB
-            const AccountStatus = await MongoDB.ClientAccount.create(NewClientAccount); // Create Client Account in MongoDB
+				// Create Client Account
+				const NewClientAccount = {
+					ClientID: ClientID,
+					Name: DecryptedName,
+					Email: SmallEmail,
+					DOB: DecryptedDOB,
+					PhoneNumber: DecryptedPhoneNumber,
+					Balance: 0,
+					PaymentID: SmallPaymentID,
+					Password: EncryptedResult.EncryptedData,
+					National_ID_Type: DecryptedNational_ID_Type,
+					National_ID_Number: EncryptedNationalIDNumber.EncryptedData,
+					LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber,
+					ProfilePicturePath: req.file.path,
+					ProfilePicSize: `${req.file.size / 1000 / 1000} MB`,
+					ProfilePicFileName: req.file.filename,
+					DateCreated: Date.now(),
+					AccountStatus: 'Active',
+					AccountType: 'Client',
+					LastLoginTime: Date.now(),
+					LastLoginIP: DecryptedLastLoginIP,
+					LastLoginClientDetails: DecryptedLastLoginClientDetails,
+					LastLoginToken: LastLoginToken.toKen,
+				}; // Create New Client Account
 
-            // Generate JWT Token
-            const EncryptedAccountData = await Crypto.Encrypt(AccountStatus.NewData[0]); // Encrypt Account Data
+				// Create All Account Related Records in MongoDB
+				const AccountStatus = await MongoDB.ClientAccount.create(NewClientAccount); // Create Client Account in MongoDB
 
-            // Send Response to Client
-            if (AccountStatus.status === true) {
-                Response.JSON({
-                    status: true,
-                    statusCode: StatusCodes.OK,
-                    Title: 'Account Created',
-                    message: 'Account created successfully, you can now login',
-                    response: res,
-                    data: {
-                        sessionID: LastLoginToken.toKen,
-                        AccountDetails: EncryptedAccountData
-                    }
-                })
-            }
-            else if (AccountStatus.status === false) {
-                Response.JSON({
-                    status: false,
-                    statusCode: StatusCodes.BAD_REQUEST,
-                    Title: 'Database Error',
-                    message: 'Look like there is a problem with the database, please try again later',
-                    response: res,
-                    data: AccountStatus
-                })
-            }
+				// Generate JWT Token
+				const EncryptedAccountData = await Crypto.Encrypt(AccountStatus.NewData[0]); // Encrypt Account Data
 
-        }
-    }
-}
-    catch (err) {
-        Console.red(err); // Log Error to Console
-        Response.JSON({
-            status: false,
-            statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-            Title: 'Internal Server Error',
-            message: 'Internal Server Error',
-            response: res,
-            data: []
-        })
-    }
+				// Send Response to Client
+				if (AccountStatus.status === true) {
+					Response.JSON({
+						status: true,
+						statusCode: StatusCodes.OK,
+						Title: 'Account Created',
+						message: 'Account created successfully, you can now login',
+						response: res,
+						data: {
+							sessionID: LastLoginToken.toKen,
+							AccountDetails: EncryptedAccountData,
+						},
+					});
+				} else if (AccountStatus.status === false) {
+					Response.JSON({
+						status: false,
+						statusCode: StatusCodes.BAD_REQUEST,
+						Title: 'Database Error',
+						message: 'Look like there is a problem with the database, please try again later',
+						response: res,
+						data: AccountStatus,
+					});
+				}
+			}
+		}
+	} catch (err) {
+		Console.red(err); // Log Error to Console
+		Response.JSON({
+			status: false,
+			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+			Title: 'Internal Server Error',
+			message: 'Internal Server Error',
+			response: res,
+			data: [],
+		});
+	}
 }

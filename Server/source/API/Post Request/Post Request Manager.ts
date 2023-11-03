@@ -1,6 +1,6 @@
-import {Router} from 'express'; // Import express router
+import { Router } from 'express'; // Import express router
 import CORS from 'cors'; // Import cors
-import {StringKeys} from '../../settings/keys/keys'; // Import keys
+import { StringKeys } from '../../settings/keys/keys'; // Import keys
 
 // Import Middleware
 import { SessionValidation } from '../../Helper/Incoming Request Checker'; // Import session validation
@@ -11,15 +11,14 @@ import HelpCenter from './Services/Help Center'; // Import help center
 import WebhookPayment from './Services/Payment'; // Import payment
 import PaymentService from './Services/Payment'; // Import Payment
 
-
 // Configure router
 const PostRequestManager = Router(); // Create router
-PostRequestManager.use(CORS({origin: StringKeys.CORS_URL})); // Use cors
+PostRequestManager.use(CORS({ origin: StringKeys.CORS_URL })); // Use cors
 
 // All Sub Routes
 PostRequestManager.use('/auth', Authenticator); // Use authenticator
 PostRequestManager.use('/help-center', SessionValidation, HelpCenter); // Use help center
-PostRequestManager.use('/WebhookPayment', WebhookPayment); // Use payment webhook manager 
+PostRequestManager.use('/WebhookPayment', WebhookPayment); // Use payment webhook manager
 PostRequestManager.use('/Payment', PaymentService); // Use Payment Service
 
 // Export router

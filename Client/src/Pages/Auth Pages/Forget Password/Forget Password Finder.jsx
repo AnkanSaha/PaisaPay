@@ -6,15 +6,15 @@ import GeneralNavbar from '@component/Navbar/General Navbar'; // Importing Gener
 import ForgetPasswordFinder from '@component/Auth Components/Forget Password Components/Forget Password Finder';
 
 // Import Functions
-import {Update_Document_Title} from '@helper/Common'; // ← Common functions
+import { Update_Document_Title } from '@helper/Common'; // ← Common functions
 
 export default function ForgetPassword() {
-  Update_Document_Title('Forget Password | Section 1')
-  return (
-    <>
-      <GeneralNavbar />
-      <ForgetPasswordFinder/>
-      <GeneralFooter />
-    </>
-  )
+	Update_Document_Title('Forget Password | Section 1');
+	return (
+		<>
+			<GeneralNavbar />
+			<ForgetPasswordFinder />
+			<GeneralFooter />
+		</>
+	);
 }

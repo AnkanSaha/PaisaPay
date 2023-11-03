@@ -11,10 +11,10 @@ import MongoDB from '../settings/MongoDB/MongoDB'; // Import MongoDB Instance
 
 // Type for Account Details
 export interface AccountDetailsInterface {
-    skipped: int,
-    limit: int,
-    count: int,
-    Data: any
+	skipped: int;
+	limit: int;
+	count: int;
+	Data: any;
 }
 
 // Function for checking if an account exists
@@ -31,34 +31,31 @@ export interface AccountDetailsInterface {
  * - message: a message describing the result of the operation
  * - Information: an array containing account details if the account exists, otherwise an empty array
  */
-export const AccountExistenceChecker = async ( AccountPhoneNumber?: int, AccountEmail?: str) => {
-    try {
-        const AccountDetails = await MongoDB.ClientAccount.find('OR', [{ Email: AccountEmail}, {PhoneNumber: AccountPhoneNumber }]); // Find the account in the database
-        if (AccountDetails == null || AccountDetails == undefined || AccountDetails.Data.length == 0) {
-            return {
-                status: false,
-                code: StatusCodes.NOT_FOUND,
-                message: 'Account does not exist',
-                Information: {
-                    Data: []
-                }
-            }
-        }
-        else {
-            return {
-                status: true,
-                code: StatusCodes.OK,
-                message: 'Account exists',
-                Information: AccountDetails
-            }
-
-        }
-    }
-    catch {
-        return {
-            status: false,
-            message: 'Internal Server Error',
-            Information: []
-        }
-    }
+export const AccountExistenceChecker = async (AccountPhoneNumber?: int, AccountEmail?: str) => {
+	try {
+		const AccountDetails = await MongoDB.ClientAccount.find('OR', [{ Email: AccountEmail }, { PhoneNumber: AccountPhoneNumber }]); // Find the account in the database
+		if (AccountDetails == null || AccountDetails == undefined || AccountDetails.Data.length == 0) {
+			return {
+				status: false,
+				code: StatusCodes.NOT_FOUND,
+				message: 'Account does not exist',
+				Information: {
+					Data: [],
+				},
+			};
+		} else {
+			return {
+				status: true,
+				code: StatusCodes.OK,
+				message: 'Account exists',
+				Information: AccountDetails,
+			};
+		}
+	} catch {
+		return {
+			status: false,
+			message: 'Internal Server Error',
+			Information: [],
+		};
+	}
 };
