@@ -95,6 +95,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 			const SmallEmail = DecryptedEmail.toLowerCase(); // Convert Email to lowercase
 			const SmallPaymentID = DecryptedPaymentID.toLowerCase(); // Convert Payment ID to lowercase
 
+			// Check if account exists
 			const AccountStatus = await AccountExistenceChecker(DecryptedPhoneNumber, SmallEmail); // Check if account exists
 			if (AccountStatus.status == true) {
 				await fs.promises.rm(req.file.path);
@@ -123,12 +124,19 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 				const LastFourDigitsOfIDNumber: str = DecryptedNational_ID_Number.slice(-4); // Get Last Six Digits of ID Number
 
 				// Generate Client ID
-				const ClientID: int = ClientGenerator.RandomNumber(true); // Generate Client ID
+				let ClientID: int; // Generate Client ID
+				let ClientIDExists: any; // Check if Client ID Exists in the Database
+
+				// Check if Client ID Exists in the Database
+				do {
+					ClientID = ClientGenerator.RandomNumber(true); // Generate Client ID
+					ClientIDExists = await MongoDB.ClientAccount.find('AND', [{ ClientID: ClientID }]); // Check if Client ID Exists in the Database
+				} while (ClientIDExists.count !== 0);
 
 				// Generate Last Login Token
 				const LastLoginToken = await JWT.generateLoginToken(
-					{ ClientID: ClientID, Email: SmallEmail, PhoneNumber: DecryptedPhoneNumber },
-					2,
+					{ ClientID: ClientID, Email: SmallEmail, PhoneNumber: PhoneNumber },
+					RoundGenerator.RandomNumber(false, [4, 5, 6, 7]),
 					StringKeys.JWT_EXPIRES_IN
 				);
 

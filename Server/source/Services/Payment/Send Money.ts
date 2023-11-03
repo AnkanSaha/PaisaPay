@@ -1,4 +1,5 @@
-// type int = number; // Define int
+/* eslint-disable @typescript-eslint/no-explicit-any */
+type int = number; // Define int
 // type str = string; // Define str
 
 // Imports
@@ -148,23 +149,18 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 		const Generator = new UniqueGenerator(18);
 
 		// Create Transaction ID for this Transaction
-		const TransactionID = Generator.RandomNumber(); // Generate Transaction ID
+		let TransactionID : int; // Create Transaction ID
+		let TransactionIDExists: any; // Check If Transaction ID Already Exists
 
-		// Check if Transaction ID Already Exists
-		const TransactionIDExists = await MongoDB.P2PTransaction.find('AND', [{ TransactionID: TransactionID }]); // Check If Transaction ID Already Exists
-
-		// Check If Transaction ID Already Exists
-		if (TransactionIDExists.count !== 0) {
-			Serve.JSON({
-				status: false,
-				statusCode: StatusCodes.NOT_ACCEPTABLE,
-				message: 'Transaction ID Already Exists, Please Try Again',
-				Title: 'Transaction ID Already Exists',
-				data: undefined,
-				response: Response,
-			}); // Send Error Response
-			return;
+		do{
+			// Generate Transaction ID for this Transaction
+			TransactionID = Generator.RandomNumber(); // Generate Transaction ID
+			
+			// Check if Transaction ID Already Exists
+			TransactionIDExists = await MongoDB.P2PTransaction.find('AND', [{ TransactionID: TransactionID }]); // Check If Transaction ID Already Exists
 		}
+		while(TransactionIDExists.count !== 0);
+		
 
 		// Create Transaction History for Sender
 		const CreateTransactionHistoryForSenderStatus = await MongoDB.P2PTransaction.create({
