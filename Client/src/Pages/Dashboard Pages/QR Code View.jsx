@@ -47,7 +47,7 @@ export default function ViewQRCode() {
 				<p className="text-lg font-normal text-center text-gray-500 lg:text-xl dark:text-gray-400">
 					Scan the QR Code to make a payment to {Decoded_Account_Details.Name} (Only for {AppName})
 				</p>
-				<div className="ml-[35rem] absolute top-[16rem]">
+				<div className="flex items-center justify-center mt-[6rem]">
 					<QRCode value={Decoded_Account_Details.PaymentID} />
 				</div>
 			</div>

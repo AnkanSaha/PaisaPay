@@ -1,7 +1,7 @@
 import React from 'react'; // import react for the component
-import { Cryptography } from '@helper/Common'; // import the cryptography function
+import { Cryptography, API as Service } from '@helper/Common'; // import the cryptography function
 import SendMoneyValidate from '@validator/Payment/Send Money'; // import the validator function
-import { React as Serve } from 'react-caches'; // import the react caches
+
 // Import Icons
 import { FaRupeeSign } from 'react-icons/fa'; // import the rupee sign icon
 
@@ -19,9 +19,6 @@ export default function SendMoneySection() {
 	// Hooks
 	const toast = useToast(); // initialize the toast component
 	const dispatch = useDispatch(); // initialize the useDispatch hook
-
-	// Redux Store
-	const API = useSelector(state => state.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL); // Get API Link from Redux
 
 	// Encrypted Account Details from Redux
 	const AccountDetails = useSelector(state => state.AccountInfo); // get the account details from the redux store
@@ -81,7 +78,7 @@ export default function SendMoneySection() {
 		const Encrypted_Payment_Info = await Cryptography.Encrypt(PaymentInfo);
 
 		// API Call
-		const Response = await Serve.Fetch.Post(`${API}/post/Payment/NewTransaction`, {
+		const Response = await Service.Post(`/post/Payment/NewTransaction`, {
 			sessionID: AccountDetails.sessionID,
 			Encrypted_PaymentInfo: Encrypted_Payment_Info,
 		});

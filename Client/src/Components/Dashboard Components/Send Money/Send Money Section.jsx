@@ -15,11 +15,13 @@ import { useSelector } from 'react-redux'; // import useSelector from react-redu
 export default function SendMoneySection() {
 	// Hooks
 	const toast = useToast(); // initialize the toast component
+	
 	// Encrypted Account Details from Redux
 	const AccountDetails = useSelector(state => state.AccountInfo); // get the account details from the redux store
 
 	// Decode All Account Details
 	const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(AccountDetails.AccountDetails)); // decode the jwt token to get the account details
+	
 	// States
 	const [PaymentInfo, setPaymentInfo] = React.useState({
 		ReceivingPaymentID: '',
