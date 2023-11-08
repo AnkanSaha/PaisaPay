@@ -36,7 +36,7 @@
     "express": "^4.18.2",
     "express-rate-limit": "^6.9.0",
     "jwt-destroy": "^3.5.7",
-    "mongoland": "^4.4.1",
+    "mongosuper": "^4.4.3",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.0.1",
     "outers": "^3.5.7"
