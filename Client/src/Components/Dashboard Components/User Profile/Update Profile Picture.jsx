@@ -1,5 +1,8 @@
 import React from 'react'; // This is installed with react by default.
 
+// Redux
+import { useSelector } from 'react-redux'; // import the hook from react-redux
+
 // Import Variables
 import { LocalUserPicUpload } from '@app/App_Config'; // import the anonymous user logo
 
@@ -8,15 +11,21 @@ import { Heading } from '@chakra-ui/react'; // import the heading component from
 import { Button } from '@chakra-ui/react'; // import the button component from chakra ui
 
 // Import API Call
-import { API } from '../../../Helper/Common'; // import the api call function
+import { API, Cryptography } from '../../../Helper/Common'; // import the api call function
 
 // icons
 import {FaUpload} from 'react-icons/fa'; // import the upload icon
 
 export default function UpdateProfilePicture() {
+	// Hooks
+	const user = useSelector(state => state.AccountInfo); // get the user from the redux store
+
 	// States
 	const [isLoading, setIsLoading] = React.useState(false); // set the loading state to false
 	const [profilePicture, setProfilePicture] = React.useState(null); // set the profile picture state to null
+
+	// Data
+	const Decoded_Data = JSON.parse(Cryptography.DecryptSync(user.AccountDetails)); // decrypt the user's data
 
 	// Function to update the user's profile picture
 	const Handler = event => {
@@ -28,8 +37,15 @@ export default function UpdateProfilePicture() {
     const SubmitHandler = async (e) => {
         e.preventDefault()
         setIsLoading(true)
+
+		// Create Form Data
         const formData = new FormData()
-        formData.append('profilePicture', profilePicture)
+        formData.append('profilePicture', profilePicture) // append the profile picture to the form data
+		formData.append('sessionID', user.sessionID) // append the session id to the form data
+		formData.append('ClientID', Decoded_Data.ClientID) // append the user id to the form data
+		formData.append('PhoneNumber', Decoded_Data.PhoneNumber) // append the user id to the form data
+		formData.append('Email', Decoded_Data.Email) // append the user id to the form data
+
         const res = await API.FormDataPut('/user/update-profile-picture', formData)
 		console.log(res)
         setIsLoading(false)
