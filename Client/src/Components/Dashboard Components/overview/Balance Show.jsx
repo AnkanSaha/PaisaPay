@@ -2,16 +2,13 @@
 import React from 'react'; // import React
 import { useNavigate } from 'react-router-dom'; // Import Link
 import { useToast } from '@chakra-ui/react'; // Import Chakra UI Toast
-import { Cryptography } from '@helper/Common'; // Import Cryptography
+import { Cryptography, API } from '@helper/Common'; // Import Cryptography
 
 // Import Custom CSS
 import '@public/css/General CSS/home.css'; // import the home.css file
 
 // Local Images
 import { LocalAnonymousUserLogo } from '@app/App_Config'; // import the anonymous user logo
-
-// Import Functions
-import { ForgetPasswordFinder as AsyncBalanceUpdater } from '@helper/Auth/Authentication'; // ForgetPasswordFinder For Balance Update
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux'; // import useSelector from react-redux
@@ -28,7 +25,6 @@ export default function BalanceShow() {
 
 	// Redux
 	const ReduxState = useSelector(state => state); // Get All State from Redux Store
-	const API = useSelector(state => state.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL); // Get API Link from Redux
 
 	// Hooks
 	const navigate = useNavigate(); // Create navigate function
@@ -47,7 +43,7 @@ export default function BalanceShow() {
 	// Update Balance Function
 	const BalanceUpdater = async () => {
 		setIsLoading(true); // set the loading state to true
-		const Response = await AsyncBalanceUpdater(API, Decoded_Account_Details.Email); // call the function for balance update
+		const Response = await API.Get(`/get/Auth/ForgotPassword/${Decoded_Account_Details.Email}`); // call the function for balance update
 
 		// Check if the response is 200 or not
 		if (Response.statusCode === 200) {
