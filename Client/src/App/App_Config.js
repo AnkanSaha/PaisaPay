@@ -103,4 +103,6 @@ export const Cache = {
 
 // Global Other Use Variables
 import UserLogo from '@public/icons/user.png'; // Anonymous User Logo
+import UserPicUpload from '@public/icons/user_Profile_Pic_Upload.png'; // User Profile Picture Upload
 export const LocalAnonymousUserLogo = UserLogo; // Anonymous User Logo
+export const LocalUserPicUpload = UserPicUpload; // User Profile Picture Upload

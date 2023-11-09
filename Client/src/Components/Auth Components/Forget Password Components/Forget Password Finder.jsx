@@ -1,6 +1,6 @@
 // Imports
 import React from 'react'; // Importing React
-import { useSelector, useDispatch } from 'react-redux'; // Importing useSelector from react-redux
+import { useDispatch } from 'react-redux'; // Importing useSelector from react-redux
 import { updateAccountDetails } from '@redux/Slices/Account Slice';
 
 // Components Chakra Ui
@@ -13,7 +13,7 @@ import { GrValidate } from 'react-icons/gr'; // Import GrValidate Icon
 
 // Functions
 import { StepOne } from '@validator/Auth/Forget Password'; // Import StepOne Function
-import { ForgetPasswordFinder as StepOneFinder } from '@helper/Auth/Authentication'; // Import ForgetPasswordFinder Function
+import { API } from '@helper/Common'; // Import API Call
 
 // Redux
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +28,7 @@ export default function ForgetPasswordFinder() {
 	const dispatch = useDispatch();
 
 	// Redux
-	const API = useSelector(state => state.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL); // Get API from Redux
+	// const API = useSelector(state => state.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL); // Get API from Redux
 
 	// Functions
 	const handleInputChange = e => {
@@ -41,7 +41,7 @@ export default function ForgetPasswordFinder() {
 		const Validate = StepOne(EmailInput); // Validate the Email Input
 		if (Validate === true) {
 			setisLoading(true); // Set Loading Screen to True
-			const Result = await StepOneFinder(API, EmailInput); // Get Result from StepOneFinder Function
+			const Result = await API.Get(`/get/Auth/ForgotPassword/${EmailInput}`); // Get Result from StepOneFinder Function
 			if (Result.statusCode === 200) {
 				dispatch(updateAccountDetails(Result.data));
 				Navigate(`/auth/forget-password/Verify`); // Navigate to Step 2

@@ -154,3 +154,7 @@ export const API = new React.ClassBasedFunctions.API({
 		'Content-Type': 'application/json', // Content Type
 	},
 }); // API Call Function
+
+export const FormAPI = new React.ClassBasedFunctions.API({
+	APIBaseDomain: `${Live_URL}/api`, // API Base Domain
+}); // API Call Function

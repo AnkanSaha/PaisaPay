@@ -2,7 +2,7 @@ import React from 'react'; // Importing React
 import { useNavigate } from 'react-router-dom'; // Import useParams from react-router-dom
 
 // Encrypting and Decrypting
-import { Cryptography } from '@helper/Common'; // Importing Common Functions
+import { Cryptography, API } from '@helper/Common'; // Importing Common Functions
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux'; // Importing useSelector from react-redux
@@ -15,7 +15,6 @@ import { LoadingScreen } from '@page/Common Pages/Loading Screen'; // Importing 
 
 // Functions
 import { StepThree } from '@validator/Auth/Forget Password'; // Importing StepThree from Validator/Auth/Forget Password
-import { ResetPassword as Rester } from '@helper/Auth/Authentication'; // Importing ResetPassword from Helper/Auth/Authentication
 
 export default function ResetPassword() {
 	// Show State
@@ -30,7 +29,6 @@ export default function ResetPassword() {
 
 	// Redux
 	const ReactState = useSelector(state => state); // Getting the state from redux
-	const API = useSelector(state => state.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL); // Get API from Redux
 
 	// Parameters
 	const AccountDetails = useSelector(state => state.AccountInfo.AccountDetails); // Get Account Details from URL
@@ -67,7 +65,7 @@ export default function ResetPassword() {
 				LastLoginClientDetails: Cryptography.EncryptSync(input.LastLoginClientDetails),
 			};
 			setLoading(true); // Set Loading to true
-			const Response = await Rester(API, ResetData); // Reset Password Function from Helper/Auth/Authentication
+			const Response = await API.Post('/post/auth/Update-Password', ResetData); // Reset Password Function from Helper/Auth/Authentication
 			if (Response.statusCode === 200) {
 				setLoading(false); // Set Loading to false
 				dispatch(addAccountDetails(Response.data)); // Add Account Details to Redux

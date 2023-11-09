@@ -5,6 +5,7 @@ import Navbar from '@component/Navbar/Dashboard Navbar'; // import the navbar co
 import BalanceShow from '@component/Dashboard Components/overview/Balance Show'; // import the balance show component
 import ProfileDetails from '@component/Dashboard Components/User Profile/Profile Details'; // import the profile details component
 import Footer from '@component/Footer/General Footer'; // import the footer component
+import UpdateProfilePicture from '@component/Dashboard Components/User Profile/Update Profile Picture'; // import the update profile picture component
 
 // import Functions
 import { Update_Document_Title } from '@helper/Common'; // import the function to update the document title
@@ -28,6 +29,7 @@ export default function UserProfile() {
 		<>
 			<Navbar />
 			<BalanceShow />
+			<UpdateProfilePicture />
 			<ProfileDetails />
 			<Footer FooterStyle="fixed" />
 		</>

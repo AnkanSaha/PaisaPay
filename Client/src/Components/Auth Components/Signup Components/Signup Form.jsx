@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'; // Import Use Selector
 import { addAccountDetails } from '@redux/Slices/Account Slice'; // Import Account Slice
 import { useNavigate } from 'react-router-dom'; // Import use Navigate
 import { useToast } from '@chakra-ui/react'; // Import use Toast
-import { Cryptography } from '@helper/Common'; // Import Common Functions
+import { Cryptography, FormAPI } from '@helper/Common'; // Import Common Functions
 
 // Import Images
 import { LocalAnonymousUserLogo } from '@app/App_Config'; // Import Anonymous User Logo
@@ -15,15 +15,12 @@ import { LoadingScreen } from '@page/Common Pages/Loading Screen'; // This is fo
 
 // Import Functions
 import { VerifyRegisterData } from '@validator/Auth/signup'; // Import Verify Register Data Function
-import { Register } from '@helper/Auth/Authentication'; // Import Register Function
 
 export default function SignupForm() {
 	// initial States
 	const Dispatch = useDispatch(); // This is for Dispatch
 	const Navigate = useNavigate(); // This is for Navigate
 	const toast = useToast(); // This is for Toast
-	// Redux
-	const API = useSelector(state => state.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL); // Get API from Redux
 
 	// States
 	const [TempFormData, setFormData] = React.useState({
@@ -145,7 +142,7 @@ export default function SignupForm() {
 			//   console.log(key, value);
 			// }
 			setisLoading(true); // Set Loading Screen to True
-			const Result = await Register(API, MainData); // Call Register Function
+			const Result = await FormAPI.FormDataPost("/post/auth/create-new-account", MainData); // Call Register Function
 			if (Result.statusCode === 200) {
 				setisLoading(false); // Set Loading Screen to True
 				toast({
