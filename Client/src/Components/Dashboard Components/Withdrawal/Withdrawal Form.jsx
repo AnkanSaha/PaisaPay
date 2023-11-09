@@ -50,7 +50,7 @@ export default function WithdrawalForm() {
 
 	// Onclick Handler
 	const OnClickHandler = async e => {
-		e.preventDefault(); // Prevent Default Behaviour
+		e.preventDefault(); // Prevent Default Behavior
 		const VerificationResult = WithdrawalVerify(WithdrawalDetails); // Verify the Input Data
 		if (VerificationResult.status === false) {
 			toast({
