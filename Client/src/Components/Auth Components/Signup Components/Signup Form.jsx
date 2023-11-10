@@ -141,6 +141,7 @@ export default function SignupForm() {
 			// for (let [key, value] of MainData.entries()) {
 			//   console.log(key, value);
 			// }
+			
 			setisLoading(true); // Set Loading Screen to True
 			const Result = await FormAPI.FormDataPost("/post/auth/create-new-account", MainData); // Call Register Function
 			if (Result.statusCode === 200) {
