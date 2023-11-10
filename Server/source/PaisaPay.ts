@@ -3,7 +3,6 @@ type int = number; // Integer
 
 // All Imports
 import express, { json, urlencoded, Express } from 'express'; // Import Express
-import { cpus, platform, freemem, arch } from 'os'; // Import OS
 import cluster from 'cluster'; // Import Cluster
 const { isPrimary } = cluster; // Import isPrimary from Cluster
 import { Console } from 'outers'; // Import Outers
@@ -14,20 +13,19 @@ import MongoDB from './settings/MongoDB/MongoDB'; // Import MongoDB Connection
 import MainRouter from './API/Router'; // Import Main Router
 import { CheckHeader } from './Helper/Incoming Request Checker';
 
-// CPU Count
-let CPUCount: int = cpus().length;
+let ProcessCopy : int = NumberKeys.CPUCount; // Copy CPU Count
 /* This code is using the cluster module in Node.js to create a server that can utilize multiple CPU
 cores. */
 if (isPrimary) {
 	// Print CPU Count
 	Console.bright(
-		`${CPUCount} CPU(s) detected With ${platform()} ${arch()} server : ${(freemem() / 1024 / 1024 / 1024).toFixed(2)} GB Free Ram : ${cpus()[0].model}`
+		`${NumberKeys.CPUCount} CPU(s) detected With ${StringKeys.Platform} ${StringKeys.Architecture} server : ${StringKeys.FreeRam} GB Free Ram : ${StringKeys.Model}`
 	);
 
 	// Fork Cluster
-	while (CPUCount > 0) {
+	while (ProcessCopy > 0) {
 		cluster.fork();
-		CPUCount--;
+		ProcessCopy--;
 	}
 
 	// Listen for Cluster Online
