@@ -1,6 +1,6 @@
 import { StatusCodes, Response as Serve } from 'outers'; // Import Status Codes
 import { Request } from 'express'; // Import Request from express
-import JWT from './config/JWT.config'; // Import JWT Config
+import JWT from '../Middleware/JWT.middleware'; // Import JWT Config
 
 // types
 type str = string;
