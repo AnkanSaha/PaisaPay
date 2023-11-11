@@ -10,7 +10,7 @@ HelpCenter.use(CORS({ origin: StringKeys.CORS_URL })); // Use CORS
 import { GetAllTickets } from '../../../Services/General/Help Center'; // Import Forgot Password Service
 
 // Import Middlewares
-import { SessionValidation } from '../../../Helper/Incoming Request Checker'; // Import Incoming Request Checker
+import { SessionValidation } from '../../../utils/Incoming.Req.Check.utils'; // Import Incoming Request Checker
 // All Services
 HelpCenter.get('/GetAllSupportHistory', SessionValidation, GetAllTickets); // Forgot Password Service
 

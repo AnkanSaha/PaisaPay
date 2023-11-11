@@ -7,16 +7,16 @@ type str = string; // Define str
 // Import Required Modules
 import { Console, Response, StatusCodes } from 'outers';
 import { StringKeys } from '../../settings/keys/keys'; // Import HTTP Status Codes
-import JWT from '../../Helper/config/JWT.config'; // Import JWT Config
-import { Encrypt } from '../../Helper/config/Bcrypt.config'; // Import Bcrypt Config
+import JWT from '../../Middleware/JWT.middleware'; // Import JWT Config
+import { Encrypt } from '../../Middleware/Bcrypt.middleware'; // Import Bcrypt Config
 import { Request } from 'express'; // Import Request from express
 import { randomNumber } from 'uniquegen'; // Import Uniquegen
 import MongoDB from '../../settings/MongoDB/MongoDB'; // Import MongoDB Instance
-import { AccountExistenceChecker } from '../../Helper/Account Existence Checker'; // Import Account Existence Checker
-import Crypto from '../../Helper/config/Encrypt.config'; // Import Crypto Config
+import { AccountExistenceChecker } from '../../utils/AC.Exist.Check.utils'; // Import Account Existence Checker
+import Crypto from '../../Middleware/Encrypt.middleware'; // Import Crypto Config
 
 // Import Interfaces
-import { ResponseInterface } from '../../Helper/Incoming Request Checker'; // Import Response Interface
+import { ResponseInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface
 
 // Function  for forget password Account Details Sender
 export const ForgetPasswordAccountFinder = async (request: Request, response: ResponseInterface) => {

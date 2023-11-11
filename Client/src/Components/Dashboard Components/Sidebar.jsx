@@ -15,7 +15,7 @@ import { BiSolidHelpCircle } from "react-icons/bi"; // import BiSolidHelpCircle 
 import { Cryptography } from "@helper/Common"; // import Cryptography from Common.jsx
 
 // Import Storage Function
-import { Cache } from "@app/App_Config"; // Import Cache from App_Config.jsx
+import { Cache } from "../../App/App_Config"; // Import Cache from App_Config.jsx
 
 // Redux
 import { useSelector, useDispatch } from "react-redux"; // import useSelector from react-redux
@@ -43,7 +43,7 @@ export default function Sidebar() {
   // Logic For Navbar Button
 
   const LogoutFunction = async () => {
-    await Cache.Account.clearCache(); // Clear Account Cache
+    await Cache.Account.DeleteCache('Account_Details'); // Delete Account Details
     Dispatch(deleteAccountDetails()); // Update Account Details
   };
   return (

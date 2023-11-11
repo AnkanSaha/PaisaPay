@@ -8,8 +8,8 @@ const ProfileDetails = Router(); // Setup Get_Request_Manager as Router
 ProfileDetails.use(CORS({ origin: StringKeys.CORS_URL })); // Use CORS
 
 // Import Middlewares
-import {Multer} from '../../../Helper/config/multerConfig'; // Import multerConfig from multerConfig
-import {SessionValidation} from '../../../Helper/Incoming Request Checker'; // Import Incoming Request Checker
+import {Multer} from '../../../Middleware/multer.middleware'; // Import multerConfig from multerConfig
+import {SessionValidation} from '../../../utils/Incoming.Req.Check.utils'; // Import Incoming Request Checker
 
 // Import Functions
 import {UpdateProfilePicture} from '../../../Services/User Account/Profile Details'; // Import UpdateProfilePicture from '.../.../.../Profile Details

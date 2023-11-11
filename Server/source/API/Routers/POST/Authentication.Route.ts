@@ -12,7 +12,7 @@ import { Login_PaisaPay } from '../../../Services/Authentication/Login'; // Impo
 import { ForgetPasswordUpdater } from '../../../Services/Authentication/Forget Password'; // Import Forget Password Service
 
 // Import Helpers
-import { Multer } from '../../../Helper/config/multerConfig'; // Import Multer
+import { Multer } from '../../../Middleware/multer.middleware'; // Import Multer
 
 // All Services
 Authenticator.post('/create-new-account', Multer.single('ProfilePic'), Register); // Register Service with Multer

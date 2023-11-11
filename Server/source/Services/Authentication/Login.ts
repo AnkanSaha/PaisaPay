@@ -5,18 +5,18 @@ type bool = boolean;
 
 // Import Required Modules
 import { StringKeys } from '../../settings/keys/keys'; // Import HTTP Status Codes
-import JWT from '../../Helper/config/JWT.config'; // Import JWT Config
+import JWT from '../../Middleware/JWT.middleware'; // Import JWT Config
 import { Request } from 'express'; // Import Request from express
 // Import Required Modules
 import { Console, StatusCodes, Response as Serve, UniqueGenerator } from 'outers'; // Import Console & Status Codes
 
 // import Helpers
-import { Compare } from '../../Helper/config/Bcrypt.config'; // Import Bcrypt Config
+import { Compare } from '../../Middleware/Bcrypt.middleware'; // Import Bcrypt Config
 import MongoDB from '../../settings/MongoDB/MongoDB'; // Import MongoDB Instance
-import Crypto from '../../Helper/config/Encrypt.config'; // Import Encrypt Config
+import Crypto from '../../Middleware/Encrypt.middleware'; // Import Encrypt Config
 
 // Import Interfaces
-import { ResponseInterface } from '../../Helper/Incoming Request Checker'; // Import Response Interface
+import { ResponseInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface
 
 // Interfaces for Login
 interface LoginRequestInterface extends Request {

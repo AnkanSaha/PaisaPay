@@ -3,14 +3,14 @@ type str = string; // Type Declaration for string
 
 import { Request } from 'express'; // Import Request from express
 import { Console, StatusCodes, Response, UniqueGenerator } from 'outers'; // Import red from outers
-import Cryptography from '../../Helper/config/Encrypt.config'; // Import JWT Config
+import Cryptography from '../../Middleware/Encrypt.middleware'; // Import JWT Config
 
 // Import Helpers
 import MongoDB from '../../settings/MongoDB/MongoDB'; // Import MongoDB Instance
 
 // Import Interfaces
-import { ResponseInterface } from '../../Helper/Incoming Request Checker'; // Import Response Interface
-import { AccountExistenceChecker } from '../../Helper/Account Existence Checker'; // Import Account Existence Checker
+import { ResponseInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface
+import { AccountExistenceChecker } from '../../utils/AC.Exist.Check.utils'; // Import Account Existence Checker
 
 // Interface for Request
 interface RequestInterface extends Request {

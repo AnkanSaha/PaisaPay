@@ -10,11 +10,11 @@ import fs from 'fs'; // Import fs
 import { Console, StatusCodes, Response as Serve } from 'outers'; // Import Console & Status Codes
 
 // import Helpers
-import { AccountExistenceChecker } from '../../Helper/Account Existence Checker'; // Import Account Existence Checker
+import { AccountExistenceChecker } from '../../utils/AC.Exist.Check.utils'; // Import Account Existence Checker
 import MongoDB from '../../settings/MongoDB/MongoDB'; // Import MongoDB Instance
 
 // Import Interfaces
-import { ResponseInterface } from '../../Helper/Incoming Request Checker'; // Import Response Interface
+import { ResponseInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface
 
 // Request Interface
 interface UpdateProfilePicture extends Request {

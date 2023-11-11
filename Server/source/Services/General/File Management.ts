@@ -3,7 +3,7 @@
 type str = string;
 
 // Import Interfaces
-import { RequestInterface } from '../../Helper/Incoming Request Checker'; // Import Response Interface
+import { RequestInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface
 
 // Import AppKey
 import { StringKeys } from '../../settings/keys/keys'; // Import String Keys
