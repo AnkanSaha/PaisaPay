@@ -3,9 +3,9 @@ import CORS from 'cors'; // Import CORS from cors
 import { StringKeys } from '../../settings/keys/keys'; // Import StringKeys from keys
 
 // Import All Sub Service Routes
-import AccountDetails from './Services/Account Details'; // Import Account Details
-import Authenticator from './Services/Authentication'; // Import Authentication
-import HelpCenter from './Services/Help Center'; // Import Help Center
+import AccountDetails from '../Routers/GET/Account.Details.Route'; // Import Account Details
+import Authenticator from '../Routers/GET/Authentication.Route'; // Import Authentication
+import HelpCenter from '../Routers/GET/Help.Center.Route'; // Import Help Center
 
 // Setup Config
 const Get_Request_Manager = Router(); // Setup Get_Request_Manager as Router

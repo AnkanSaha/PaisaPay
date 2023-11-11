@@ -9,17 +9,14 @@ import { GetTransactionHistory } from '../../../Services/Payment/PaymentHistory'
 import { SendMoney } from '../../../Services/Payment/Send Money'; // Import Send Money Service
 import { WithdrawalMoney } from '../../../Services/Payment/Withdrawal'; // Import Withdrawal Money Service
 
-// Middleware
-import { SessionValidation } from '../../../Helper/Incoming Request Checker'; // Import Session Validation
-
 // Setup Router
 const Payment = Router(); // Create a router
 Payment.use(CORS({ origin: StringKeys.CORS_URL })); // Use CORS
 
 // All Services
 Payment.post('/add-money', AddMoney); // Add Money Service
-Payment.post('/TransactionHistory', SessionValidation, GetTransactionHistory); // Get Transaction History
-Payment.post('/NewTransaction', SessionValidation, SendMoney); // Get Transaction History
-Payment.post('/NewWithdrawal', SessionValidation, WithdrawalMoney);
+Payment.post('/TransactionHistory', GetTransactionHistory); // Get Transaction History
+Payment.post('/NewTransaction', SendMoney); // Get Transaction History
+Payment.post('/NewWithdrawal', WithdrawalMoney);
 // Export Router
 export default Payment; // Export router

@@ -38,7 +38,7 @@ export default function PaymentHistoryS() {
 				Service.Post('/post/Payment/TransactionHistory', {
 					Number: PhoneNumber,
 					Email: Email,
-					sessionID: ReduxState.AccountInfo.sessionID,
+					sessionID : ReduxState.AccountInfo.sessionID
 				}).then(Response => {
 					if (!Response.statusCode === 200) {
 						toast({
