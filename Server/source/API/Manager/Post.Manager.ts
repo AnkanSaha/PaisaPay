@@ -6,9 +6,9 @@ import { StringKeys } from '../../settings/keys/keys'; // Import keys
 import { SessionValidation } from '../../utils/Incoming.Req.Check.utils'; // Import session validation
 
 // Import All Sub Service Routes
-import Authenticator from '../Routers/POST/Authentication.Route'; // Import authenticator
-import HelpCenter from '../Routers/POST/Help.Center.Route'; // Import help center
-import PaymentService from '../Routers/POST/Payment.Route'; // Import Payment
+import Authenticator from '../Routes/POST/Authentication.Route'; // Import authenticator
+import HelpCenter from '../Routes/POST/Help.Center.Route'; // Import help center
+import PaymentService from '../Routes/POST/Payment.Route'; // Import Payment
 
 // Configure router
 const PostRequestManager = Router(); // Create router
