@@ -13,9 +13,11 @@ import {SessionValidation} from '../../../utils/Incoming.Req.Check.utils'; // Im
 
 // Import Functions
 import {UpdateProfilePicture} from '../../../Services/User Account/Profile Details'; // Import UpdateProfilePicture from '.../.../.../Profile Details
+import { UpdateTransactionPIN } from '../../../Services/User Account/Update Transaction PIN'; // Import UpdateTransactionPIN from '.../.../.../Update Transaction PIN'
 
 // All Routes
 ProfileDetails.put('/update-profile-picture', Multer.single('profilePicture'), SessionValidation, UpdateProfilePicture); // Use User Route
+ProfileDetails.put('/transaction-pin', UpdateTransactionPIN); // Use The Update Transaction PIN Route
 
 // Export Get_Request_Manager
 export default ProfileDetails;

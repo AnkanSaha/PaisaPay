@@ -82,12 +82,38 @@ export default function UpdateTransactionPIN() {
         const Encrypted_Pin_Info = await Cryptography.Encrypt(PinInfo); // encrypt the pin info object
 
         // Send the request to the server to update the transaction pin
-        const Response = await API.Put('/user/update/transaction-pin', {
+        const Response = await API.Put('/put/update/transaction-pin', {
             sessionID: AccountDetails.sessionID,
             EncryptedData: Encrypted_Pin_Info,
         }); // send the request to the server to update the transaction pin using PUT method
+        setLoading(false); // set the loading state to false
 
-        console.log(Response);
+        if(Response.statusCode === 200 || Response.status === true){
+            toast({
+                title: Response.Title,
+                description: Response.message,
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+            })
+            setPinInfo({
+                CurrentPin: '',
+                NewPin: '',
+                ConfirmNewPin: '',
+                ClientID: Decoded_Account_Details.ClientID,
+                Email: Decoded_Account_Details.Email,
+                PhoneNumber: Decoded_Account_Details.PhoneNumber,
+            })
+            return;
+        }
+
+        toast({
+            title: Response.Title,
+            description: Response.message,
+            status: "error",
+            duration: 5000,
+            isClosable: true
+        }); // display the error message
     }
     
 	return (
