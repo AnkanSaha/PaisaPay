@@ -67,6 +67,20 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 			return; // Return
 		}
 
+		// Check If Sender Account Is Active
+		if (AccountStatus.Information.Data[0].AccountStatus !== 'Active') {
+			Serve.JSON({
+				status: false,
+				statusCode: StatusCodes.NOT_ACCEPTABLE,
+				message: `Your Account Is ${AccountStatus.Information.Data[0].AccountStatus}, Please Contact Support`,
+				Title: 'Account Not Active',
+				data: undefined,
+				response: Response,
+			}); // Send Error Response
+			await fs.promises.rm(Request.file.path); // Delete the file
+			return;
+		}
+
 		// Delete Previous Profile Picture
 		await fs.promises.rm(AccountStatus.Information.Data[0].ProfilePicturePath); // Delete Previous Profile Picture
 
@@ -102,6 +116,7 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 			},
 		}); // Send Response to Client
 	} catch (error) {
+		await fs.promises.rm(Request.file.path); // Delete the file
 		Console.red(error);
 		Serve.JSON({
 			response: Response,

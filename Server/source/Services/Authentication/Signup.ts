@@ -32,6 +32,7 @@ interface SignupRequestInterface extends Request {
 		National_ID_Number: str;
 		LastLoginIP: str;
 		LastLoginClientDetails: str;
+		TransactionPIN: str;
 	};
 	file?: Express.Multer.File | any;
 }
@@ -55,7 +56,7 @@ interface PasswordEncryptionInterface {
  */
 export async function Register(req: SignupRequestInterface, res: ResponseInterface) {
 	try {
-		const { Name, Email, DOB, Password, National_ID_Type, National_ID_Number, PhoneNumber, LastLoginIP, LastLoginClientDetails, PaymentID } = req.body; // Destructure the request body
+		const { Name, Email, DOB, Password, National_ID_Type, National_ID_Number, PhoneNumber, LastLoginIP, LastLoginClientDetails, PaymentID, TransactionPIN } = req.body; // Destructure the request body
 		if (
 			!Name ||
 			!Email ||
@@ -66,9 +67,9 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 			!PhoneNumber ||
 			!LastLoginIP ||
 			!LastLoginClientDetails ||
-			!PaymentID
+			!PaymentID ||
+			!TransactionPIN
 		) {
-			await fs.promises.rm(req.file.path);
 			Response.JSON({
 				status: false,
 				statusCode: StatusCodes.BAD_REQUEST,
@@ -77,6 +78,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 				response: res,
 				data: undefined,
 			});
+			await fs.promises.rm(req.file.path); // Delete the file
 			return; // Return if the request body is invalid
 		} else {
 			// Decrypt All the Strings
@@ -90,6 +92,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 			const DecryptedLastLoginClientDetails = JSON.parse(await Crypto.Decrypt(LastLoginClientDetails)); // Decrypt Last Login Client Details
 			const DecryptedPaymentID = JSON.parse(await Crypto.Decrypt(PaymentID)); // Decrypt Payment ID
 			const DecryptedEmail = JSON.parse(await Crypto.Decrypt(Email)); // Decrypt Email
+			const DecryptedTransactionPIN: int = JSON.parse(await Crypto.Decrypt(TransactionPIN)); // Decrypt Transaction PIN
 
 			// Lowercase all the strings
 			const SmallEmail = DecryptedEmail.toLowerCase(); // Convert Email to lowercase
@@ -98,7 +101,6 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 			// Check if account exists
 			const AccountStatus = await AccountExistenceChecker(DecryptedPhoneNumber, SmallEmail); // Check if account exists
 			if (AccountStatus.status == true) {
-				await fs.promises.rm(req.file.path);
 				Response.JSON({
 					status: false,
 					statusCode: StatusCodes.CONFLICT,
@@ -107,6 +109,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 					response: res,
 					data: undefined,
 				});
+				await fs.promises.rm(req.file.path); // Delete the file
 				return; // Return if the account exists
 			} else if (AccountStatus.status == false) {
 				// Register Unique ID Generator
@@ -116,7 +119,8 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 				// Encrypt Password
 				const Rounds: int = RoundGenerator.RandomNumber(false, [1, 2, 3, 4, 5, 6, 7, 8, 9]); // Generate Rounds
 
-				const EncryptedResult: PasswordEncryptionInterface = await Encrypt(DecryptedPassword, Rounds);
+				const EncryptedPassword: PasswordEncryptionInterface = await Encrypt(DecryptedPassword, Rounds);
+				const EncryptedPIN : PasswordEncryptionInterface = await Encrypt(String(DecryptedTransactionPIN), Rounds);
 
 				// Encrypt National ID Number
 				const EncryptedNationalIDNumber: PasswordEncryptionInterface = await Encrypt(DecryptedNational_ID_Number, Rounds);
@@ -143,8 +147,6 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 				// Check if account exists with the same last six digits of ID number
 				const AccountDetails = await MongoDB.ClientAccount.find('OR', [{ LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber }]); // Find the account in the database
 				if (AccountDetails.Data.length > 0) {
-					await fs.promises.rm(req.file.path);
-
 					Response.JSON({
 						status: false,
 						statusCode: StatusCodes.CONFLICT,
@@ -153,6 +155,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 						response: res,
 						data: undefined,
 					});
+					await fs.promises.rm(req.file.path);
 					return; // Return if the account exists with the same last six digits of ID number
 				}
 
@@ -168,6 +171,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 						response: res,
 						data: undefined,
 					}); // Send Response
+					await fs.promises.rm(req.file.path); // Delete the file
 					return; // Return if the account exists with the same Payment ID
 				}
 
@@ -180,7 +184,8 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 					PhoneNumber: DecryptedPhoneNumber,
 					Balance: 0,
 					PaymentID: SmallPaymentID,
-					Password: EncryptedResult.EncryptedData,
+					Password: EncryptedPassword.EncryptedData,
+					TransactionPIN: EncryptedPIN.EncryptedData,
 					National_ID_Type: DecryptedNational_ID_Type,
 					National_ID_Number: EncryptedNationalIDNumber.EncryptedData,
 					LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber,
@@ -216,6 +221,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 						},
 					});
 				} else if (AccountStatus.status === false) {
+					await fs.promises.rm(req.file.path); // Delete the file
 					Response.JSON({
 						status: false,
 						statusCode: StatusCodes.BAD_REQUEST,
@@ -228,6 +234,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 			}
 		}
 	} catch (err) {
+		await fs.promises.rm(req.file.path); // Delete the file
 		Console.red(err); // Log Error to Console
 		Response.JSON({
 			status: false,

@@ -1,7 +1,4 @@
 export const VerifyRegisterData = async Data => {
-	// Payment Id Must have @pp or @PP at the end
-	const PaymentIDRegex = /^.*@pp$|^.*@PP$/; // This is for Payment ID
-
 	if (Data.firstName === undefined || Data.firstName === null || Data.firstName === '') {
 		return {
 			status: false,
@@ -62,13 +59,28 @@ export const VerifyRegisterData = async Data => {
 			message: 'Please Upload a Profile Picture, a Profile Picture is Required for Registration',
 			title: 'Error, Profile Picture',
 		};
-	} else if (PaymentIDRegex.test(Data.PaymentID) === false) {
+	} else if (Data.PaymentID === undefined || Data.PaymentID === null || Data.PaymentID === '') {
 		return {
 			status: false,
 			message: 'Please Enter a Valid Payment ID, It is Required for Registration',
 			title: 'Error, Payment ID',
 		};
-	} else {
+	} 
+	else if(Data.TransactionPIN === undefined || Data.TransactionPIN === null || Data.TransactionPIN === '' || Data.TransactionPIN.length < 4){
+		return {
+			status: false,
+			message: 'Please Enter a Valid Transaction PIN, It is Required for Registration',
+			title: 'Error, Transaction PIN',
+		};
+	}
+	else if(Data.TransactionPIN < 4){
+		return {
+			status: false,
+			message: 'Please Enter a Valid Transaction PIN,it must be a 4 digit or more number',
+			title: 'Error, Transaction PIN',
+		};
+	}
+	else {
 		return {
 			status: true,
 			message: 'All Data is Valid',
