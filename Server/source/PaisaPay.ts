@@ -49,7 +49,7 @@ if (isPrimary) {
 } else {
 	const Server: Express = express(); // Create Express Server
 
-	// Enable All Proxy Settings
+	// Enable All Proxy Settings for Server Security
 	Server.set('trust proxy', () => true); // Enable All Proxy Settings
 
 	// Link All Router as MainRouter
@@ -73,7 +73,7 @@ if (isPrimary) {
 		Server.listen(NumberKeys.PORT, async () => {
 			const DB_Connection_Status = await MongoDB.ClientAccount.Connect(); // Connect to MongoDB
 			DB_Connection_Status.status === true
-				? Console.yellow(` 🚀 Finally, Database Connected & Server is listening on Port ${NumberKeys.PORT} 🚀`)
+				? Console.yellow(` 🚀 Database Connected & Server is listening on Port ${NumberKeys.PORT} 🚀`)
 				: Console.red(` 🚀 Database Connection Failed & Server is listening on Port ${NumberKeys.PORT} 🚀`); // Print Server Status with Database Connection Status
 		});
 	} catch (err) {
