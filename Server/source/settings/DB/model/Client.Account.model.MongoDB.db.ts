@@ -7,6 +7,7 @@ export default {
 	Balance: { type: Number, required: true, default: 0 },
 	PhoneNumber: { type: Number, required: true, unique: true },
 	Password: { type: String, required: true, minlength: 8 },
+	TransactionPIN : { type: String, required: true, minlength: 4 },
 	National_ID_Type: { type: String, required: true, index: true },
 	National_ID_Number: { type: String, required: true, unique: true },
 	LastFourDigitsOfIDNumber: { type: String, required: true, unique: true },

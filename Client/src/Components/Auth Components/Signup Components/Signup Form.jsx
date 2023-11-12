@@ -35,6 +35,7 @@ export default function SignupForm() {
 		PaymentID: '',
 		confirmPassword: '',
 		profilePicture: '',
+		TransactionPIN: '',
 	});
 
 	// Values from Redux
@@ -79,19 +80,6 @@ export default function SignupForm() {
 		}
 	};
 
-	const Test_PaymentID = () => {
-		// Payment Id Must have @pp or @PP at the end
-		const PaymentIDRegex = /^.*@pp$|^.*@PP$/; // This is for Payment ID
-		// Test For Payment ID
-		PaymentIDRegex.test(TempFormData.PaymentID) === false
-			? toast({
-					title: `Payment ID Must Have @pp or @PP at the end`,
-					position: 'top-right',
-					isClosable: true,
-			})
-			: null;
-	};
-
 	// Logic For Some Animations
 	let ID_Number_Visibility; // This is for ID_Number Visibility
 	let ID_Number_Placeholder; // This is for ID_Number Placeholder
@@ -124,7 +112,8 @@ export default function SignupForm() {
 			MainData.append('National_ID_Number', Cryptography.EncryptSync(TempFormData.ID_Number));
 			MainData.append('PhoneNumber', Cryptography.EncryptSync(TempFormData.PhoneNumber));
 			MainData.append('DOB', Cryptography.EncryptSync(TempFormData.DOB));
-			MainData.append('PaymentID', Cryptography.EncryptSync(TempFormData.PaymentID));
+			MainData.append('PaymentID', Cryptography.EncryptSync(`${TempFormData.PaymentID}@pp`));
+			MainData.append('TransactionPIN', Cryptography.EncryptSync(TempFormData.TransactionPIN));
 
 			if (TempFormData.password === TempFormData.confirmPassword) {
 				MainData.append('Password', Cryptography.EncryptSync(TempFormData.password));
@@ -141,9 +130,9 @@ export default function SignupForm() {
 			// for (let [key, value] of MainData.entries()) {
 			//   console.log(key, value);
 			// }
-			
+
 			setisLoading(true); // Set Loading Screen to True
-			const Result = await FormAPI.FormDataPost("/post/auth/create-new-account", MainData); // Call Register Function
+			const Result = await FormAPI.FormDataPost('/post/auth/create-new-account', MainData); // Call Register Function
 			if (Result.statusCode === 200) {
 				setisLoading(false); // Set Loading Screen to True
 				toast({
@@ -270,8 +259,7 @@ export default function SignupForm() {
 					<input
 						type="text"
 						name="PaymentID"
-						onBlur={Test_PaymentID}
-						placeholder="ex: Pay123@pp"
+						placeholder="ex: Pay123"
 						onChange={Handler}
 						value={TempFormData.PaymentID}
 						className="w-full p-3 border rounded outline-none"
@@ -292,6 +280,10 @@ export default function SignupForm() {
 						className="w-full p-3 border rounded outline-none"
 						required
 					/>
+				</div>
+				<div className="mb-4">
+					<h1 className="mb-2 font-semibold">Enter new Transaction PIN</h1>
+					<input type="number" name="TransactionPIN" onChange={Handler} placeholder="Transaction Pin (must be 4 digit) is used for transactions" className="w-full p-3 border rounded outline-none" required />
 				</div>
 				<h5 className="text-lg font-bold mb-2 font-mono">Upload Profile Picture</h5>
 				<div className="mb-4 lg:flex lg:justify-between">

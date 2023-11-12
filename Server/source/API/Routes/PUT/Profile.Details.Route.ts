@@ -1,6 +1,6 @@
 import { Router } from 'express'; // Import Router from express
 import CORS from 'cors'; // Import CORS from cors
-import { StringKeys } from '../../../settings/keys/keys'; // Import StringKeys from keys
+import { StringKeys } from '../../../settings/keys/KeysConfig.keys.settings'; // Import StringKeys from keys
 
 
 // Setup Config

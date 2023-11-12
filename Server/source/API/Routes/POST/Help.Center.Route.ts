@@ -1,6 +1,6 @@
 import { Router } from 'express'; // Importing Router from express
 import CORS from 'cors'; // Importing CORS from cors
-import { StringKeys } from '../../../settings/keys/keys'; // Importing StringKeys from keys
+import { StringKeys } from '../../../settings/keys/KeysConfig.keys.settings'; // Importing StringKeys from keys
 
 // Configure Router
 const HelpCenter = Router(); // Create a router
