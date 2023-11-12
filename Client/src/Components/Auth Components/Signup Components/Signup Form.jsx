@@ -259,7 +259,7 @@ export default function SignupForm() {
 					<input
 						type="text"
 						name="PaymentID"
-						placeholder="ex: Pay123@pp"
+						placeholder="ex: Pay123"
 						onChange={Handler}
 						value={TempFormData.PaymentID}
 						className="w-full p-3 border rounded outline-none"

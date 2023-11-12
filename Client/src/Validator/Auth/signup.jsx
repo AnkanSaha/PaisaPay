@@ -73,7 +73,7 @@ export const VerifyRegisterData = async Data => {
 			title: 'Error, Transaction PIN',
 		};
 	}
-	else if(Data.TransactionPIN < 4){
+	else if(!(Data.TransactionPIN >= 4)){
 		return {
 			status: false,
 			message: 'Please Enter a Valid Transaction PIN,it must be a 4 digit or more number',

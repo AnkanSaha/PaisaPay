@@ -1,5 +1,5 @@
 import React from 'react'; // This is installed with react by default.
-import {useNavigate} from 'react-router-dom'; // import the useNavigate hook from react-router-dom
+import { useNavigate } from 'react-router-dom'; // import the useNavigate hook from react-router-dom
 
 // Redux
 import { useSelector } from 'react-redux'; // import the hook from react-redux
@@ -8,13 +8,10 @@ import { useSelector } from 'react-redux'; // import the hook from react-redux
 import { LocalUserPicUpload } from '@app/App_Config'; // import the anonymous user logo
 
 // This is the component that will be used to update the user's profile picture
-import { Heading, Button, useToast } from '@chakra-ui/react'; // import the heading component from chakra ui
+import { Heading, Button, useToast, InputGroup, InputRightElement, Input } from '@chakra-ui/react'; // import the heading component from chakra ui
 
 // Import API Call
 import { API, Cryptography } from '@helper/Common'; // import the api call function
-
-// Import Chakra UI Components
-import { Input } from '@chakra-ui/react'; // import the input component from chakra ui
 
 // icons
 import { FaUpload } from 'react-icons/fa'; // import the upload icon
@@ -29,9 +26,12 @@ export default function UpdateProfilePicture() {
 	const [isLoading, setIsLoading] = React.useState(false); // set the loading state to false
 	const [profilePicture, setProfilePicture] = React.useState(null); // set the profile picture state to null
 	const [TransactionPIN, setTransactionPIN] = React.useState(null); // set the transaction pin state to null
+	const [show, setShow] = React.useState(false); // set the show state to false
 
 	// Data
 	const Decoded_Data = JSON.parse(Cryptography.DecryptSync(user.AccountDetails)); // decrypt the user's data
+
+	const handleClick = () => setShow(!show); // function to toggle the show state
 
 	// Function to update the user's profile picture
 	const Handler = event => {
@@ -53,7 +53,7 @@ export default function UpdateProfilePicture() {
 
 		if (TransactionPIN === null || TransactionPIN === undefined)
 			return Toast({ title: 'Please enter your transaction pin', status: 'error', duration: 3000, isClosable: true });
-		
+
 		setIsLoading(true);
 
 		// Create Form Data
@@ -64,7 +64,7 @@ export default function UpdateProfilePicture() {
 		formData.append('PhoneNumber', Decoded_Data.PhoneNumber); // append the user id to the form data
 		formData.append('Email', Decoded_Data.Email); // append the user id to the form data
 		formData.append('TransactionPIN', TransactionPIN); // append the user id to the form data
-		
+
 		// // Log FormData for debugging
 		// 	for (let [key, value] of formData.entries()) {
 		// 	console.log(key, value);
@@ -74,7 +74,7 @@ export default function UpdateProfilePicture() {
 		setIsLoading(false); // set the loading state to false
 		if (response.statusCode !== 200)
 			return Toast({ title: response.Title, description: response.message, status: 'error', duration: 3000, isClosable: true }); // show the error message
-		
+
 		Toast({ title: response.Title, description: response.message, status: 'success', duration: 3000, isClosable: true }); // show the success message
 		navigate('/dashboard'); // navigate to the dashboard page
 	};
@@ -83,11 +83,11 @@ export default function UpdateProfilePicture() {
 		<div className="my-5">
 			<>
 				<div className="w-full ml-10  max-w-[25rem] mt-10 px-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-					<div className="py-10 px-10 justify-between items-center flex">
-						<Heading size="sm" className="text-center font-bold">
-							{' '}
-							Update Profile Picture{' '}
-						</Heading>
+					<Heading size="md" className=" font-bold text-center mt-5">
+						{' '}
+						Select Profile Picture to Upload
+					</Heading>
+					<div className="py-5 px-10 justify-center items-center flex">
 						<div className="avatar lg:block hidden">
 							<div
 								className="w-28 p-2 hover:bg-gray-100 rounded-lg  cursor-pointer"
@@ -109,13 +109,20 @@ export default function UpdateProfilePicture() {
 							/>
 						</div>
 					</div>
-					<Input 
-					type="number" 
-					placeholder="Please Enter Your Transaction PIN to Update Your Profile Picture"
-					className='my-5'
-					onChange={HandleChange}
-					isRequired
-					/>
+					<InputGroup size="md" className="my-5">
+						<Input
+							pr="4.5rem"
+							type={show ? 'text' : 'password'}
+							placeholder="Enter Your Transaction PIN to Update"
+							onChange={HandleChange}
+						/>
+						<InputRightElement width="4.5rem">
+							<Button h="1.75rem" size="sm" onClick={handleClick}>
+								{show ? 'Hide' : 'Show'}
+							</Button>
+						</InputRightElement>
+					</InputGroup>
+
 					<Button
 						onClick={SubmitHandler}
 						isLoading={isLoading}
