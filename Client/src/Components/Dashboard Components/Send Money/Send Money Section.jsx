@@ -15,13 +15,12 @@ import { useSelector } from 'react-redux'; // import useSelector from react-redu
 export default function SendMoneySection() {
 	// Hooks
 	const toast = useToast(); // initialize the toast component
-	
+
 	// Encrypted Account Details from Redux
 	const AccountDetails = useSelector(state => state.AccountInfo); // get the account details from the redux store
 
 	// Decode All Account Details
 	const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(AccountDetails.AccountDetails)); // decode the jwt token to get the account details
-	
 	// States
 	const [PaymentInfo, setPaymentInfo] = React.useState({
 		ReceivingPaymentID: '',
@@ -31,8 +30,8 @@ export default function SendMoneySection() {
 		SenderName: Decoded_Account_Details.Name,
 		SenderEmail: Decoded_Account_Details.Email,
 		SenderPhone: Decoded_Account_Details.PhoneNumber,
-
 		TransactionDescription: '',
+		TransactionPIN: '',
 	}); // state to store the payment info
 
 	const [Loading, setLoading] = React.useState(false); // state to store the loading status
@@ -108,14 +107,14 @@ export default function SendMoneySection() {
 	}
 	return (
 		<>
-			<form className="w-7/12 ml-[30rem] absolute top-[93%] space-y-10">
+			<form className="w-7/12 ml-[30rem] absolute top-[85%] space-y-10">
 				<h1 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-black md:text-5xl lg:text-7xl">
 					<span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Pay Using</span> Payment ID
 				</h1>
 				<label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
 					Search
 				</label>
-				<div className="relative space-y-10">
+				<div className="relative space-y-5">
 					<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
 						<svg
 							className="w-4 h-4 text-gray-500 dark:text-gray-400"
@@ -152,6 +151,14 @@ export default function SendMoneySection() {
 						onChange={HandleChange}
 						value={PaymentInfo.TransactionDescription}
 						placeholder="Enter Description (optional)"
+						className="input input-bordered input-accent m-w-full w-full"
+					/>
+					<input
+						type="number"
+						name="TransactionPIN"
+						onChange={HandleChange}
+						value={PaymentInfo.TransactionPIN}
+						placeholder="Enter Transaction PIN to Complete Transaction"
 						className="input input-bordered input-accent m-w-full w-full"
 					/>
 					<Button

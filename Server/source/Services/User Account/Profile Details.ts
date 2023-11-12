@@ -7,6 +7,7 @@ import { Request } from 'express'; // Import Request from express
 import fs from 'fs'; // Import fs
 // Import Required Modules
 import { Console, StatusCodes, Response as Serve } from 'outers'; // Import Console & Status Codes
+import {Compare} from '../../Middleware/Bcrypt.middleware'; // Import Bcrypt Middleware
 
 // import Helpers
 import { AccountExistenceChecker } from '../../utils/AC.Exist.Check.utils'; // Import Account Existence Checker
@@ -23,7 +24,7 @@ interface UpdateProfilePicture extends Request {
 // Update Profile Picture
 export async function UpdateProfilePicture(Request: UpdateProfilePicture, Response: ResponseInterface) {
 	try {
-		const { ClientID, PhoneNumber, Email } = Request.body; // Get ClientID, PhoneNumber & Email from Request Body
+		const { ClientID, PhoneNumber, Email, TransactionPIN } = Request.body; // Get ClientID, PhoneNumber & Email from Request Body
 
 		// Check if No Data Send By User
 		if (
@@ -34,7 +35,8 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 			ClientID === '' ||
 			PhoneNumber === '' ||
 			Email === '' ||
-			Request.file === ''
+			Request.file === '' ||
+			TransactionPIN === undefined
 		) {
 			Serve.JSON({
 				response: Response,
@@ -74,6 +76,21 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
 				message: `Your Account Is ${AccountStatus.Information.Data[0].AccountStatus}, Please Contact Support`,
 				Title: 'Account Not Active',
+				data: undefined,
+				response: Response,
+			}); // Send Error Response
+			await fs.promises.rm(Request.file.path); // Delete the file
+			return;
+		}
+
+		// Check if Transaction PIN is Correct
+		
+		if((await Compare(TransactionPIN, AccountStatus.Information.Data[0].TransactionPIN)).isMatch === false) {
+			Serve.JSON({
+				status: false,
+				statusCode: StatusCodes.NOT_ACCEPTABLE,
+				message: 'Transaction PIN is Incorrect, Please try again with correct PIN',
+				Title: 'Transaction PIN Incorrect',
 				data: undefined,
 				response: Response,
 			}); // Send Error Response

@@ -8,6 +8,7 @@ import MongoDB from '../../settings/DB/MongoDB.db'; // Import MongoDB Instance
 import { AccountExistenceChecker } from '../../utils/AC.Exist.Check.utils'; // Import Account Existence Checker
 import EncryptConfig from '../../Middleware/Encrypt.middleware'; // Import Encrypt Config
 import { Console, Response as Serve, StatusCodes, UniqueGenerator } from 'outers'; // Import red from outers
+import {Compare} from '../../Middleware/Bcrypt.middleware'; // Import Bcrypt Config
 
 // Import Interfaces
 import { ResponseInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface
@@ -46,6 +47,20 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 				response: Response,
 			}); // Send Error Response
 			return;
+		}
+
+		// Check if Transaction PIN is Correct
+		
+		if((await Compare(PaymentInfo.TransactionPIN, SenderAccountExists.Information.Data[0].TransactionPIN)).isMatch === false){
+			Serve.JSON({
+				status: false,
+				statusCode: StatusCodes.NOT_ACCEPTABLE,
+				message: `Transaction PIN is Incorrect | Please Enter Correct Transaction PIN`,
+				Title: 'Incorrect Transaction PIN',
+				data: undefined,
+				response: Response,
+			}); // Send Error Response
+			return; // Return
 		}
 
 		// Check If Receiver Account Exists
