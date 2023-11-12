@@ -4,7 +4,7 @@ type str = string;
 type int = number;
 type bool = boolean;
 
-import { StringKeys } from '../../settings/keys/keys'; // Import HTTP Status Codes
+import { StringKeys } from '../../settings/keys/KeysConfig.keys.settings'; // Import HTTP Status Codes
 import fs from 'fs'; // Import fs
 import { Request } from 'express'; // Import Request from express
 import JWT from '../../Middleware/JWT.middleware'; // Import JWT Config
@@ -13,7 +13,7 @@ import Crypto from '../../Middleware/Encrypt.middleware'; // Import Crypto Confi
 // import Helpers
 import { AccountExistenceChecker } from '../../utils/AC.Exist.Check.utils'; // Import Account Existence Checker
 import { Encrypt } from '../../Middleware/Bcrypt.middleware'; // Import Bcrypt Config
-import MongoDB from '../../settings/MongoDB/MongoDB'; // Import MongoDB Instance
+import MongoDB from '../../settings/DB/MongoDB.db'; // Import MongoDB Instance
 
 // Import Interfaces
 import { ResponseInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface

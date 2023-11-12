@@ -3,9 +3,9 @@ type int = number; // Define int
 type str = string; // Define str
 
 // Imports
-import { Payment_Keys } from '../../settings/keys/keys'; // Import HTTP Status Codes
+import { Payment_Keys } from '../../settings/keys/KeysConfig.keys.settings'; // Import HTTP Status Codes
 import { Request } from 'express'; // Import Request from express
-import MongoDB from '../../settings/MongoDB/MongoDB'; // Import MongoDB Instance
+import MongoDB from '../../settings/DB/MongoDB.db'; // Import MongoDB Instance
 import { AccountExistenceChecker } from '../../utils/AC.Exist.Check.utils'; // Import Account Existence Checker
 import { Console, Response as Serve, StatusCodes } from 'outers'; // Import Console
 

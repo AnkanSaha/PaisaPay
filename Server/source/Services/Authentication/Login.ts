@@ -4,7 +4,7 @@ type int = number;
 type bool = boolean;
 
 // Import Required Modules
-import { StringKeys } from '../../settings/keys/keys'; // Import HTTP Status Codes
+import { StringKeys } from '../../settings/keys/KeysConfig.keys.settings'; // Import HTTP Status Codes
 import JWT from '../../Middleware/JWT.middleware'; // Import JWT Config
 import { Request } from 'express'; // Import Request from express
 // Import Required Modules
@@ -12,7 +12,7 @@ import { Console, StatusCodes, Response as Serve, UniqueGenerator } from 'outers
 
 // import Helpers
 import { Compare } from '../../Middleware/Bcrypt.middleware'; // Import Bcrypt Config
-import MongoDB from '../../settings/MongoDB/MongoDB'; // Import MongoDB Instance
+import MongoDB from '../../settings/DB/MongoDB.db'; // Import MongoDB Instance
 import Crypto from '../../Middleware/Encrypt.middleware'; // Import Encrypt Config
 
 // Import Interfaces

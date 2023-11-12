@@ -6,7 +6,7 @@ import { Console, StatusCodes, Response, UniqueGenerator } from 'outers'; // Imp
 import Cryptography from '../../Middleware/Encrypt.middleware'; // Import JWT Config
 
 // Import Helpers
-import MongoDB from '../../settings/MongoDB/MongoDB'; // Import MongoDB Instance
+import MongoDB from '../../settings/DB/MongoDB.db'; // Import MongoDB Instance
 
 // Import Interfaces
 import { ResponseInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface

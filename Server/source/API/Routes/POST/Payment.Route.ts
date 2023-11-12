@@ -1,7 +1,7 @@
 // imports
 import { Router } from 'express'; // Import Router from express
 import CORS from 'cors'; // Import CORS from cors
-import { StringKeys } from '../../../settings/keys/keys'; // Import keys
+import { StringKeys } from '../../../settings/keys/KeysConfig.keys.settings'; // Import keys
 
 // Import Services
 import { AddMoney } from '../../../Services/Payment/Add Money'; // Import Add Money Service

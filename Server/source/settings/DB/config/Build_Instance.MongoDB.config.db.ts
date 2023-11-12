@@ -1,12 +1,12 @@
 import { Mongo } from 'mongosuper'; // Import the Mongo class
-import { Database_Keys } from '../../keys/keys'; // Import the keys
+import { Database_Keys } from '../../keys/KeysConfig.keys.settings'; // Import the keys
 
 // Import All Data Models
-import ClientAccountModel from '../model/Client Account Model'; // Import the client account data model
-import ServerTransactionModel from '../model/Server Transaction Model'; // Import the transaction data model
-import P2PTransactionModel from '../model/P2P Transaction Model';
-import HelpCenterModel from '../model/Help Center Model'; // Import the help center data model
-import WithdrawalModel from '../model/Withdrawal Model'; // Import the withdrawal data model
+import ClientAccountModel from '../model/Client.Account.model.MongoDB.db'; // Import the client account data model
+import ServerTransactionModel from '../model/Server.Transaction.model.MongoDB.db'; // Import the transaction data model
+import P2PTransactionModel from '../model/P2P.Transaction.model.MongoDB.db';
+import HelpCenterModel from '../model/Help.Center.model.MongoDB.db'; // Import the help center data model
+import WithdrawalModel from '../model/Withdrawal.model.MongoDB.db'; // Import the withdrawal data model
 
 // Export the Mongo Instance for Connection & Client Account creation
 export const Client_Account_and_Connection_Instance = new Mongo({

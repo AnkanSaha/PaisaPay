@@ -3,7 +3,6 @@
 type str = string;
 
 // Import Required Modules
-// import { StringKeys } from '../../settings/keys/keys'; // Import HTTP Status Codes
 import { Request } from 'express'; // Import Request from express
 import fs from 'fs'; // Import fs
 // Import Required Modules
@@ -11,7 +10,7 @@ import { Console, StatusCodes, Response as Serve } from 'outers'; // Import Cons
 
 // import Helpers
 import { AccountExistenceChecker } from '../../utils/AC.Exist.Check.utils'; // Import Account Existence Checker
-import MongoDB from '../../settings/MongoDB/MongoDB'; // Import MongoDB Instance
+import MongoDB from '../../settings/DB/MongoDB.db'; // Import MongoDB Instance
 
 // Import Interfaces
 import { ResponseInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface

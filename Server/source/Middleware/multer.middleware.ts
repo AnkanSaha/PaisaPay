@@ -1,7 +1,7 @@
 import multer from 'multer'; // Import multer
 import fs from 'fs'; // Import the fs module
 import { extname, join } from 'path'; // Import the path module
-import { StringKeys } from '../settings/keys/keys'; // Import the keys
+import { StringKeys } from '../settings/keys/KeysConfig.keys.settings'; // Import the keys
 import { UniqueGenerator } from 'outers'; // Import the outers module
 
 // Ensure 'uploads' directory exists

@@ -4,7 +4,7 @@ type int = number; // Define int
 
 // Imports
 import { Request } from 'express'; // Import Request from express
-import MongoDB from '../../settings/MongoDB/MongoDB'; // Import MongoDB Instance
+import MongoDB from '../../settings/DB/MongoDB.db'; // Import MongoDB Instance
 import { AccountExistenceChecker } from '../../utils/AC.Exist.Check.utils'; // Import Account Existence Checker
 import EncryptConfig from '../../Middleware/Encrypt.middleware'; // Import Encrypt Config
 import { Console, Response as Serve, StatusCodes, UniqueGenerator } from 'outers'; // Import red from outers

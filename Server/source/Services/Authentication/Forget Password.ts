@@ -6,12 +6,12 @@ type str = string; // Define str
 // Imports
 // Import Required Modules
 import { Console, Response, StatusCodes } from 'outers';
-import { StringKeys } from '../../settings/keys/keys'; // Import HTTP Status Codes
+import { StringKeys } from '../../settings/keys/KeysConfig.keys.settings'; // Import HTTP Status Codes
 import JWT from '../../Middleware/JWT.middleware'; // Import JWT Config
 import { Encrypt } from '../../Middleware/Bcrypt.middleware'; // Import Bcrypt Config
 import { Request } from 'express'; // Import Request from express
 import { randomNumber } from 'uniquegen'; // Import Uniquegen
-import MongoDB from '../../settings/MongoDB/MongoDB'; // Import MongoDB Instance
+import MongoDB from '../../settings/DB/MongoDB.db'; // Import MongoDB Instance
 import { AccountExistenceChecker } from '../../utils/AC.Exist.Check.utils'; // Import Account Existence Checker
 import Crypto from '../../Middleware/Encrypt.middleware'; // Import Crypto Config
 

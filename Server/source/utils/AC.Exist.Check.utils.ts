@@ -7,7 +7,7 @@ type str = string;
 import { StatusCodes } from 'outers'; // Import HTTP Status Codes
 
 // Find the account in the database
-import MongoDB from '../settings/MongoDB/MongoDB'; // Import MongoDB Instance
+import MongoDB from '../settings/DB/MongoDB.db'; // Import MongoDB Instance
 
 // Type for Account Details
 export interface AccountDetailsInterface {

@@ -1,6 +1,6 @@
 import { Router } from 'express'; // Import express router
 import CORS from 'cors'; // Import cors
-import { StringKeys } from '../../settings/keys/keys'; // Import keys
+import { StringKeys } from '../../settings/keys/KeysConfig.keys.settings'; // Import keys
 
 // Import Middleware
 import { SessionValidation } from '../../utils/Incoming.Req.Check.utils'; // Import session validation

@@ -6,7 +6,7 @@ type str = string;
 import { RequestInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface
 
 // Import AppKey
-import { StringKeys } from '../../settings/keys/keys'; // Import String Keys
+import { StringKeys } from '../../settings/keys/KeysConfig.keys.settings'; // Import String Keys
 
 import { StatusCodes, Response } from 'outers'; // Import HTTP Status Codes
 
