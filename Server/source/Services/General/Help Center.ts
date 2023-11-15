@@ -54,7 +54,7 @@ export default async function HelpCenterService(request: RequestInterface, respo
 			const EncryptedTicketDescription = await Cryptography.Encrypt(request.body.TicketDescription); // Encrypt the request data
 
 			//  Register Ticket ID Generator
-			const TicketIDGenerator = new UniqueGenerator(20); // Create a new Unique ID Generator
+			const TicketIDGenerator = new UniqueGenerator(15); // Create a new Unique ID Generator
 
 			const RequestDataToBeSave = {
 				ClientID: ClientID,
