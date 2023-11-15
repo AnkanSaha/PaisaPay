@@ -160,7 +160,7 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 			BankAccountNumber: DecryptedData.BankAccountNumber,
 			BankAccountType: DecryptedData.AccountType,
 			BankAccountBranch: DecryptedData.BranchName.toUpperCase(),
-			IFSCCode: DecryptedData.IFSC.toUpperCase(),
+			IFSC_Code: DecryptedData.IFSC.toUpperCase(),
 		});
 
 		// Check if the withdrawal request record was created

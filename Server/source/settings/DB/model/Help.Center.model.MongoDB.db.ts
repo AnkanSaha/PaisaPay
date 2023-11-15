@@ -1,10 +1,10 @@
 export default {
-	ClientID: { type: String, default: 'Does not exist' },
-	TicketID: { type: String, required: true, unique: true },
-	TicketTitle: { type: String, required: true, index: true },
-	TicketDescription: { type: String, required: true },
-	TicketStatus: { type: String, default: 'Pending', index: true, enum: ['Pending', 'In Progress', 'Resolved', 'Rejected'] },
-	CurrentClientDetails: { type: Object, default: {} },
-	RequestDate: { type: Number, default: Date.now(), index: true },
-	AdminResponse: { type: String, default: 'No response yet', required: true },
+	ClientID: { type: Number, default: 0, required: true, unique: true, length: 20 },
+	TicketID: { type: Number, default: 0, required: true, unique: true, length: 15 },
+	TicketTitle: { type: String, unique: false, required: true, default: 'No Title Provided'},
+	TicketDescription: { type: String, unique: false, required: true, default: 'No Description Provided'},
+	TicketStatus: { type: String, unique: false, default: 'Pending', enum: ['Pending', 'In Progress', 'Resolved', 'Rejected'] },
+	CurrentClientDetails: { type: Object, unique: false, default: {} },
+	RequestDate: { type: Number, default: Date.now(), unique: false },
+	AdminResponse: { type: String, default: 'No response yet', required: true, unique: false },
 };
