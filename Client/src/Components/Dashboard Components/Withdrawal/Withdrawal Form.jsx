@@ -38,6 +38,7 @@ export default function WithdrawalForm() {
 		AccountType: '',
 		BranchName: '',
 		IFSC: '',
+		TPIN: '',
 	}); // Create State Variable for Withdrawal Details
 
 	// Onchange Handler
@@ -168,6 +169,8 @@ export default function WithdrawalForm() {
 					/>
 					<FormLabel>IFSC Code</FormLabel>
 					<Input name="IFSC" type="text" className="mb-5" placeholder="Enter IFSC Code" value={WithdrawalDetails.IFSC} onChange={OnChangeHandler} />
+					<FormLabel>Transaction PIN</FormLabel>
+					<Input name="TPIN" type="number" className="mb-5" placeholder="Enter Your Transaction PIN to confirm" value={WithdrawalDetails.TPIN} onChange={OnChangeHandler} />
 				</FormControl>
 				<Button isLoading={loading} colorScheme="teal" size="lg" className="w-full mb-10" onClick={OnClickHandler}>
 					Request Withdrawal
