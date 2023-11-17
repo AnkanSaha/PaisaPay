@@ -3,14 +3,14 @@ type int = number; // Define int
 // type str = string; // Define str
 
 // Imports
-import { Request } from 'express'; // Import Request from express
-import MongoDB from '../../settings/DB/MongoDB.db'; // Import MongoDB Instance
-import { AccountExistenceChecker } from '../../utils/AC.Exist.Check.utils'; // Import Account Existence Checker
-import EncryptConfig from '../../Middleware/Encrypt.middleware'; // Import Encrypt Config
-import { Console, Response as Serve, StatusCodes, UniqueGenerator } from 'outers'; // Import red from outers
+import { Request } from "express"; // Import Request from express
+import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
+import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
+import EncryptConfig from "../../Middleware/Encrypt.middleware"; // Import Encrypt Config
+import { Console, Response as Serve, StatusCodes, UniqueGenerator } from "outers"; // Import red from outers
 
 // Import Interfaces
-import { ResponseInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface
+import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
 
 export const WithdrawalMoney = async (Request: Request, Response: ResponseInterface) => {
 	try {
@@ -23,17 +23,17 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 		if (AccountExistence.status === false) {
 			Serve.JSON({
 				status: false,
-				message: 'Account does not exists.',
+				message: "Account does not exists.",
 				data: null,
 				response: Response,
 				statusCode: StatusCodes.NOT_FOUND,
-				Title: 'Account Not Found',
+				Title: "Account Not Found",
 			});
 			return;
 		}
 
 		// Check if Account is not Blocked
-		if (AccountExistence.Information.Data[0].AccountStatus !== 'Active') {
+		if (AccountExistence.Information.Data[0].AccountStatus !== "Active") {
 			Serve.JSON({
 				status: false,
 				message: `Your account is ${AccountExistence.Information.Data[0].AccountStatus}. Please contact the support team.`,
@@ -50,8 +50,8 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
-				message: 'Invalid Amount',
-				Title: 'Invalid Amount',
+				message: "Invalid Amount",
+				Title: "Invalid Amount",
 				data: undefined,
 				response: Response,
 			}); // Send Error Response
@@ -66,11 +66,11 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 		) {
 			Serve.JSON({
 				status: false,
-				message: 'You do not have enough balance.',
+				message: "You do not have enough balance.",
 				data: null,
 				response: Response,
 				statusCode: StatusCodes.NOT_FOUND,
-				Title: 'Insufficient Balance',
+				Title: "Insufficient Balance",
 			});
 			return;
 		}
@@ -89,8 +89,8 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
-				message: 'Unable To Deduct Money From Your Account, Maybe Due To Network Error',
-				Title: 'Unable To Deduct Money From Your Account',
+				message: "Unable To Deduct Money From Your Account, Maybe Due To Network Error",
+				Title: "Unable To Deduct Money From Your Account",
 				data: undefined,
 				response: Response,
 			}); // Send Error Response
@@ -109,7 +109,7 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 			TransactionID = Generator.RandomNumber(); // Generate Transaction ID
 
 			// Check if Transaction ID Already Exists
-			TransactionIDExists = await MongoDB.Withdrawal.find('AND', [{ TransactionID: TransactionID }]); // Check If Transaction ID Already Exists
+			TransactionIDExists = await MongoDB.Withdrawal.find("AND", [{ TransactionID: TransactionID }]); // Check If Transaction ID Already Exists
 		} while (TransactionIDExists.count !== 0);
 
 		// Create A Transaction Record for Server Reference
@@ -121,11 +121,11 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 			UserPhone: DecryptedData.Phone,
 			TransactionID: TransactionID,
 			TransactionDate: Date.now(),
-			TransactionType: 'Withdrawal from Wallet',
+			TransactionType: "Withdrawal from Wallet",
 			TransactionAmount: DecryptedData.Amount,
 			TransactionDescription: `₹ ${DecryptedData.Amount} has been withdrawn from wallet.`,
-			TransactionStatus: 'Processing',
-			TransactionMethod: 'PaisaPay Wallet',
+			TransactionStatus: "Processing",
+			TransactionMethod: "PaisaPay Wallet",
 			TransactionFee: 0,
 		});
 
@@ -134,8 +134,8 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
-				message: 'Unable To Create Transaction Record, Maybe Due To Network Error',
-				Title: 'Unable To Create Transaction Record',
+				message: "Unable To Create Transaction Record, Maybe Due To Network Error",
+				Title: "Unable To Create Transaction Record",
 				data: undefined,
 				response: Response,
 			}); // Send Error Response
@@ -150,10 +150,10 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 			UserEmail: DecryptedData.Email,
 			UserPhone: DecryptedData.Phone,
 			TransactionID: TransactionID,
-			TransactionMethod: 'PaisaPay Wallet',
+			TransactionMethod: "PaisaPay Wallet",
 			TransactionDate: Date.now(),
 			TransactionAmount: DecryptedData.Amount,
-			TransactionStatus: 'Processing',
+			TransactionStatus: "Processing",
 			TransactionFee: 0,
 			BankName: DecryptedData.BankName.toUpperCase(),
 			BankAccountHolderName: DecryptedData.AccounntHolderName,
@@ -168,8 +168,8 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
-				message: 'Unable To Create Withdrawal Request Record, Maybe Due To Network Error',
-				Title: 'Unable To Create Withdrawal Request Record',
+				message: "Unable To Create Withdrawal Request Record, Maybe Due To Network Error",
+				Title: "Unable To Create Withdrawal Request Record",
 				data: undefined,
 				response: Response,
 			}); // Send Error Response
@@ -179,21 +179,21 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 		// Send Response
 		Serve.JSON({
 			status: true,
-			message: 'We have received your withdrawal request. We will process it soon.',
+			message: "We have received your withdrawal request. We will process it soon.",
 			data: null,
 			response: Response,
 			statusCode: StatusCodes.OK,
-			Title: 'Withdrawal Request Successful',
+			Title: "Withdrawal Request Successful",
 		});
 	} catch (Error) {
 		Console.red(Error);
 		Serve.JSON({
 			status: false,
-			message: 'We are facing some issues. Please try again later.',
+			message: "We are facing some issues. Please try again later.",
 			data: null,
 			response: Response,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-			Title: 'Internal Server Error',
+			Title: "Internal Server Error",
 		});
 	}
 };

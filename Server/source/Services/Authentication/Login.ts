@@ -4,19 +4,19 @@ type int = number;
 type bool = boolean;
 
 // Import Required Modules
-import { StringKeys } from '../../settings/keys/KeysConfig.keys.settings'; // Import HTTP Status Codes
-import JWT from '../../Middleware/JWT.middleware'; // Import JWT Config
-import { Request } from 'express'; // Import Request from express
+import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Import HTTP Status Codes
+import JWT from "../../Middleware/JWT.middleware"; // Import JWT Config
+import { Request } from "express"; // Import Request from express
 // Import Required Modules
-import { Console, StatusCodes, Response as Serve, UniqueGenerator } from 'outers'; // Import Console & Status Codes
+import { Console, StatusCodes, Response as Serve, UniqueGenerator } from "outers"; // Import Console & Status Codes
 
 // import Helpers
-import { Compare } from '../../Middleware/Bcrypt.middleware'; // Import Bcrypt Config
-import MongoDB from '../../settings/DB/MongoDB.db'; // Import MongoDB Instance
-import Crypto from '../../Middleware/Encrypt.middleware'; // Import Encrypt Config
+import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Config
+import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
+import Crypto from "../../Middleware/Encrypt.middleware"; // Import Encrypt Config
 
 // Import Interfaces
-import { ResponseInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface
+import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
 
 // Interfaces for Login
 interface LoginRequestInterface extends Request {
@@ -53,8 +53,8 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 		if (!PhoneNumber || !Password || !LastLoginIP || !LastLoginClientDetails) {
 			Serve.JSON({
 				data: undefined,
-				Title: 'Information Missing in Request',
-				message: 'Please provide all the required information & try again',
+				Title: "Information Missing in Request",
+				message: "Please provide all the required information & try again",
 				status: false,
 				statusCode: StatusCodes.BAD_REQUEST,
 				response: Response,
@@ -67,7 +67,7 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 			const DecryptedLastLoginIP = JSON.parse(await Crypto.Decrypt(LastLoginIP)); // Decrypt Last Login IP
 			const DecryptedLastLoginClientDetails = JSON.parse(await Crypto.Decrypt(String(LastLoginClientDetails))); // Decrypt Last Login Client Details
 
-			const AccountStatus = await MongoDB.ClientAccount.find('OR', [{ PhoneNumber: DecryptedPhoneNumber }], 1); // Find the account in the database
+			const AccountStatus = await MongoDB.ClientAccount.find("OR", [{ PhoneNumber: DecryptedPhoneNumber }], 1); // Find the account in the database
 
 			// Check if the account exists
 			if (AccountStatus.count > 0) {
@@ -77,14 +77,15 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 
 					// Register Login Token Round Generator
 					const Generator = new UniqueGenerator(1); // Create a new Unique Generator
-					
+
 					// Generate Login Token
 					const LoginToken = await JWT.generateLoginToken(
 						{
 							ClientID: AccountStatus.Data[0].ClientID,
 							LastLoginIP: DecryptedLastLoginIP,
 							LastFourDigitsOfIDNumber: AccountStatus.Data[0].LastFourDigitsOfIDNumber,
-						}, Generator.RandomNumber(false, [4, 5, 6, 7]) ,
+						},
+						Generator.RandomNumber(false, [4, 5, 6, 7]),
 						StringKeys.JWT_EXPIRES_IN
 					); // Generate Login Token for the user
 
@@ -107,8 +108,8 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 					Serve.JSON({
 						status: true,
 						statusCode: StatusCodes.OK,
-						Title: 'Login Successful',
-						message: 'You have successfully logged in, please wait while we redirect you to your dashboard',
+						Title: "Login Successful",
+						message: "You have successfully logged in, please wait while we redirect you to your dashboard",
 						data: {
 							sessionID: LoginToken.toKen,
 							AccountDetails: EncryptedaccountDetails,
@@ -119,8 +120,8 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 					Serve.JSON({
 						status: false,
 						statusCode: StatusCodes.UNAUTHORIZED,
-						Title: 'Unauthorized',
-						message: 'Incorrect Password, please try again with the correct password',
+						Title: "Unauthorized",
+						message: "Incorrect Password, please try again with the correct password",
 						data: undefined,
 						response: Response,
 					});
@@ -129,8 +130,8 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 				Serve.JSON({
 					status: false,
 					statusCode: StatusCodes.NOT_FOUND,
-					Title: 'Not Found',
-					message: 'Account not found, please try again with the correct phone number',
+					Title: "Not Found",
+					message: "Account not found, please try again with the correct phone number",
 					data: undefined,
 					response: Response,
 				});
@@ -141,8 +142,8 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 		Serve.JSON({
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-			Title: 'Internal Server Error',
-			message: 'An error occurred while processing your request, please try again later',
+			Title: "Internal Server Error",
+			message: "An error occurred while processing your request, please try again later",
 			data: undefined,
 			response: Response,
 		});

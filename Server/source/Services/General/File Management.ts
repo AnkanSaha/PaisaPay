@@ -3,12 +3,12 @@
 type str = string;
 
 // Import Interfaces
-import { RequestInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface
+import { RequestInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
 
 // Import AppKey
-import { StringKeys } from '../../settings/keys/KeysConfig.keys.settings'; // Import String Keys
+import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Import String Keys
 
-import { StatusCodes, Response } from 'outers'; // Import HTTP Status Codes
+import { StatusCodes, Response } from "outers"; // Import HTTP Status Codes
 
 // Extend The Request Interface
 interface FileFetchInterface extends RequestInterface {

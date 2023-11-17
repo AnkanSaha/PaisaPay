@@ -3,18 +3,18 @@
 type str = string;
 
 // Import Required Modules
-import { Request } from 'express'; // Import Request from express
-import fs from 'fs'; // Import fs
+import { Request } from "express"; // Import Request from express
+import fs from "fs"; // Import fs
 // Import Required Modules
-import { Console, StatusCodes, Response as Serve } from 'outers'; // Import Console & Status Codes
-import {Compare} from '../../Middleware/Bcrypt.middleware'; // Import Bcrypt Middleware
+import { Console, StatusCodes, Response as Serve } from "outers"; // Import Console & Status Codes
+import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Middleware
 
 // import Helpers
-import { AccountExistenceChecker } from '../../utils/AC.Exist.Check.utils'; // Import Account Existence Checker
-import MongoDB from '../../settings/DB/MongoDB.db'; // Import MongoDB Instance
+import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
+import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 
 // Import Interfaces
-import { ResponseInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface
+import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
 
 // Request Interface
 interface UpdateProfilePicture extends Request {
@@ -32,18 +32,18 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 			PhoneNumber === undefined ||
 			Email === undefined ||
 			Request.file === undefined ||
-			ClientID === '' ||
-			PhoneNumber === '' ||
-			Email === '' ||
-			Request.file === '' ||
+			ClientID === "" ||
+			PhoneNumber === "" ||
+			Email === "" ||
+			Request.file === "" ||
 			TransactionPIN === undefined
 		) {
 			Serve.JSON({
 				response: Response,
 				status: false,
 				statusCode: StatusCodes.BAD_REQUEST,
-				Title: 'Bad Request',
-				message: 'Please send all required data',
+				Title: "Bad Request",
+				message: "Please send all required data",
 				data: undefined,
 			});
 			await fs.promises.rm(Request.file.path); // Delete the file
@@ -61,8 +61,8 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 				response: Response,
 				status: false,
 				statusCode: StatusCodes.NOT_FOUND,
-				Title: 'Account Not Found',
-				message: 'Account does not exist',
+				Title: "Account Not Found",
+				message: "Account does not exist",
 				data: undefined,
 			});
 			await fs.promises.rm(Request.file.path); // Delete the file
@@ -70,12 +70,12 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 		}
 
 		// Check If Sender Account Is Active
-		if (AccountStatus.Information.Data[0].AccountStatus !== 'Active') {
+		if (AccountStatus.Information.Data[0].AccountStatus !== "Active") {
 			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
 				message: `Your Account Is ${AccountStatus.Information.Data[0].AccountStatus}, Please Contact Support`,
-				Title: 'Account Not Active',
+				Title: "Account Not Active",
 				data: undefined,
 				response: Response,
 			}); // Send Error Response
@@ -84,13 +84,13 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 		}
 
 		// Check if Transaction PIN is Correct
-		
-		if((await Compare(TransactionPIN, AccountStatus.Information.Data[0].TransactionPIN)).isMatch === false) {
+
+		if ((await Compare(TransactionPIN, AccountStatus.Information.Data[0].TransactionPIN)).isMatch === false) {
 			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
-				message: 'Transaction PIN is Incorrect, Please try again with correct PIN',
-				Title: 'Transaction PIN Incorrect',
+				message: "Transaction PIN is Incorrect, Please try again with correct PIN",
+				Title: "Transaction PIN Incorrect",
 				data: undefined,
 				response: Response,
 			}); // Send Error Response
@@ -113,8 +113,8 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 				response: Response,
 				status: false,
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
-				Title: 'Unable to Update Profile Picture',
-				message: 'Unable to Update Profile Picture. Please try again later',
+				Title: "Unable to Update Profile Picture",
+				message: "Unable to Update Profile Picture. Please try again later",
 				data: undefined,
 			}); // Send Response to Client
 			await fs.promises.rm(Request.file.path); // Delete the file
@@ -126,8 +126,8 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 			response: Response,
 			status: true,
 			statusCode: StatusCodes.OK,
-			Title: 'Success',
-			message: 'Profile Picture Updated Successfully, it will take some time to reflect the changes',
+			Title: "Success",
+			message: "Profile Picture Updated Successfully, it will take some time to reflect the changes",
 			data: {
 				ProfilePicFileName: Request.file.filename,
 			},
@@ -139,8 +139,8 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 			response: Response,
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-			Title: 'Internal Server Error',
-			message: 'Something went wrong while updating your profile picture. Please try again later',
+			Title: "Internal Server Error",
+			message: "Something went wrong while updating your profile picture. Please try again later",
 			data: undefined,
 		});
 	}

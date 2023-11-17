@@ -1,8 +1,8 @@
 // Import The Bcrypt module
-import { hash, compare } from 'bcryptjs'; // Import Bcrypt
+import { hash, compare } from "bcryptjs"; // Import Bcrypt
 
 // Import Status Codes
-import { StatusCodes } from 'outers'; // Import Status Codes
+import { StatusCodes } from "outers"; // Import Status Codes
 
 // Global Types
 type str = string;
@@ -33,15 +33,15 @@ export const Encrypt = async (Password: str, Rounds: int): Promise<obj> => {
 		return {
 			status: true,
 			statusCode: StatusCodes.OK,
-			message: 'Encrypted Successfully',
+			message: "Encrypted Successfully",
 			EncryptedData: await hash(Password, Rounds),
 		};
 	} catch {
 		return {
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-			message: 'Internal Server Error',
-			EncryptedPassword: '',
+			message: "Internal Server Error",
+			EncryptedPassword: "",
 		};
 	}
 };
@@ -76,7 +76,7 @@ export const Compare = async (UserPassword: str, EncryptedPassword: str): Promis
 		return {
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-			message: 'Internal Server Error',
+			message: "Internal Server Error",
 			isMatch: false,
 		};
 	}

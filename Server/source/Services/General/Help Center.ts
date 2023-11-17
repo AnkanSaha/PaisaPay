@@ -1,16 +1,16 @@
 // Global Type Declarations
 type str = string; // Type Declaration for string
 
-import { Request } from 'express'; // Import Request from express
-import { Console, StatusCodes, Response, UniqueGenerator } from 'outers'; // Import red from outers
-import Cryptography from '../../Middleware/Encrypt.middleware'; // Import JWT Config
+import { Request } from "express"; // Import Request from express
+import { Console, StatusCodes, Response, UniqueGenerator } from "outers"; // Import red from outers
+import Cryptography from "../../Middleware/Encrypt.middleware"; // Import JWT Config
 
 // Import Helpers
-import MongoDB from '../../settings/DB/MongoDB.db'; // Import MongoDB Instance
+import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 
 // Import Interfaces
-import { ResponseInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface
-import { AccountExistenceChecker } from '../../utils/AC.Exist.Check.utils'; // Import Account Existence Checker
+import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
+import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
 
 // Interface for Request
 interface RequestInterface extends Request {
@@ -41,8 +41,8 @@ export default async function HelpCenterService(request: RequestInterface, respo
 			// Check if the request body is valid
 			Response.JSON({
 				data: undefined,
-				Title: 'Information Missing in Request',
-				message: 'Please provide all the required information & try again',
+				Title: "Information Missing in Request",
+				message: "Please provide all the required information & try again",
 				status: false,
 				statusCode: StatusCodes.BAD_REQUEST,
 				response: response,
@@ -61,7 +61,7 @@ export default async function HelpCenterService(request: RequestInterface, respo
 				TicketID: TicketIDGenerator.RandomNumber(true),
 				TicketTitle: EncryptedTicketTitle,
 				TicketDescription: EncryptedTicketDescription,
-				TicketStatus: 'Pending',
+				TicketStatus: "Pending",
 				CurrentClientDetails: CurrentClientDetails,
 				RequestDate: Date.now(),
 			}; // Create the request data to be saved
@@ -73,8 +73,8 @@ export default async function HelpCenterService(request: RequestInterface, respo
 			if (DBResult.status === true) {
 				Response.JSON({
 					data: DBResult.NewData[0],
-					Title: 'Ticket Created Successfully',
-					message: 'Your ticket has been created successfully, we will get back to you soon',
+					Title: "Ticket Created Successfully",
+					message: "Your ticket has been created successfully, we will get back to you soon",
 					status: true,
 					statusCode: StatusCodes.CREATED,
 					response: response,
@@ -82,8 +82,8 @@ export default async function HelpCenterService(request: RequestInterface, respo
 			} else {
 				Response.JSON({
 					data: undefined,
-					Title: 'Ticket Creation Failed',
-					message: 'Your ticket could not be created, please try again',
+					Title: "Ticket Creation Failed",
+					message: "Your ticket could not be created, please try again",
 					status: false,
 					statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 					response: response,
@@ -94,8 +94,8 @@ export default async function HelpCenterService(request: RequestInterface, respo
 		Console.red(error);
 		Response.JSON({
 			data: undefined,
-			Title: 'Internal Server Error',
-			message: 'An error occurred while processing your request, please try again',
+			Title: "Internal Server Error",
+			message: "An error occurred while processing your request, please try again",
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 			response: response,
@@ -115,8 +115,8 @@ export const GetAllTickets = async (request: Request, response: ResponseInterfac
 		if (ClientData.status === false) {
 			Response.JSON({
 				data: undefined,
-				Title: 'Client Not Found',
-				message: 'The client with the provided details does not exist',
+				Title: "Client Not Found",
+				message: "The client with the provided details does not exist",
 				status: false,
 				statusCode: StatusCodes.NOT_FOUND,
 				response: response,
@@ -125,14 +125,14 @@ export const GetAllTickets = async (request: Request, response: ResponseInterfac
 		}
 
 		// Find the client tickets in the database
-		const ClientAllTickets = await MongoDB.HelpCenter.find('AND', [{ ClientID: ClientData.Information.Data[0].ClientID }]); // Find the client tickets in the database
+		const ClientAllTickets = await MongoDB.HelpCenter.find("AND", [{ ClientID: ClientData.Information.Data[0].ClientID }]); // Find the client tickets in the database
 
 		// Check if the client has any tickets
 		if (ClientAllTickets.count === 0) {
 			Response.JSON({
 				data: undefined,
-				Title: 'No Tickets Found',
-				message: 'The client has not created any tickets yet',
+				Title: "No Tickets Found",
+				message: "The client has not created any tickets yet",
 				status: false,
 				statusCode: StatusCodes.NOT_FOUND,
 				response: response,
@@ -145,8 +145,8 @@ export const GetAllTickets = async (request: Request, response: ResponseInterfac
 		// Send the response
 		Response.JSON({
 			data: EncryptedAllTickets,
-			Title: 'Tickets Found',
-			message: 'The client tickets were found successfully',
+			Title: "Tickets Found",
+			message: "The client tickets were found successfully",
 			status: true,
 			statusCode: StatusCodes.OK,
 			response: response,
@@ -155,8 +155,8 @@ export const GetAllTickets = async (request: Request, response: ResponseInterfac
 		Console.red(error);
 		Response.JSON({
 			data: undefined,
-			Title: 'Internal Server Error',
-			message: 'An error occurred while processing your request, please try again',
+			Title: "Internal Server Error",
+			message: "An error occurred while processing your request, please try again",
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 			response: response,
