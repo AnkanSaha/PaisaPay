@@ -6,7 +6,7 @@ import {useNavigate} from 'react-router-dom'; // import useNavigate from react-r
 
 // Import Redux
 import {useDispatch} from 'react-redux'; // Import useDispatch from react-redux
-import {updateAccountDetails} from 'redux/Slices/Account Slice'; // Import the account slice
+import {updateAccountDetails} from '@redux/Slices/Account Slice'; // Import the account slice
 
 // Import Components
 import { Box, Heading, Stack, StackDivider, Text, Card, CardHeader, CardBody, Button, Input, useToast } from '@chakra-ui/react'; // import chakra ui components
