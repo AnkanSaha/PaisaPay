@@ -7,6 +7,7 @@ import { Request } from "express"; // Import Request from express
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
 import EncryptConfig from "../../Middleware/Encrypt.middleware"; // Import Encrypt Config
+import {Compare} from '../../Middleware/Bcrypt.middleware'; // Import Bcrypt Config
 import { Console, Response as Serve, StatusCodes, UniqueGenerator } from "outers"; // Import red from outers
 
 // Import Interfaces
@@ -41,6 +42,20 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 				response: Response,
 				statusCode: StatusCodes.NOT_FOUND,
 				Title: `Account is ${AccountExistence.Information.Data[0].AccountStatus}`,
+			});
+			return;
+		}
+
+		// Check if the Transaction PIN is correct
+		
+		if((await Compare(DecryptedData.TPIN, AccountExistence.Information.Data[0].TransactionPIN)).isMatch === false ){
+			Serve.JSON({
+				status: false,
+				message: "Transaction PIN is incorrect. Please try again with correct PIN.",
+				data: null,
+				response: Response,
+				statusCode: StatusCodes.NOT_FOUND,
+				Title: "Transaction PIN is incorrect",
 			});
 			return;
 		}

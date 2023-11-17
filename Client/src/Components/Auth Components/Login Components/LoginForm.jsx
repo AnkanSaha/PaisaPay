@@ -72,13 +72,6 @@ export default function LoginForm() {
 			if (LoginResult.statusCode === 200) {
 				setIsLoading(false); // Set isLoading to false
 				onClose(); // Close the modal
-				toast({
-					title: LoginResult.Title,
-					description: LoginResult.message,
-					status: 'success',
-					duration: 9000,
-					isClosable: true,
-				});
 				Cache.Account.saveCache('Account_Details', LoginResult.data.AccountDetails); // Save Account Details to Cache Storage
 				Cache.Account.saveCache('sessionID', LoginResult.data.sessionID); // Save  Login Token to Cache Storage
 

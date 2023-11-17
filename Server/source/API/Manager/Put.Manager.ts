@@ -11,10 +11,12 @@ Put_Request_Manager.use(CORS({ origin: StringKeys.CORS_URL })); // Use CORS
 
 // import Sub Routes
 import ProfileDetails from "../Routes/PUT/Profile.Details.Route"; // Import Profile Details
+import Authenticator from "../Routes/PUT/Authentication.Route"; // Import Authentication Route
 
 // All Routes
 Put_Request_Manager.use("/user", ProfileDetails); // Use User Route with SessionValidation Middleware
 Put_Request_Manager.use("/update", SessionValidation, ProfileDetails); // Use User Route with SessionValidation Middleware
+Put_Request_Manager.use("/auth", Authenticator); // Use Authentication Route
 
 // Export Get_Request_Manager
 export default Put_Request_Manager;

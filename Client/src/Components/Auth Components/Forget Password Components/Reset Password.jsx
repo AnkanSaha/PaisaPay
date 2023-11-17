@@ -65,7 +65,7 @@ export default function ResetPassword() {
 				LastLoginClientDetails: Cryptography.EncryptSync(input.LastLoginClientDetails),
 			};
 			setLoading(true); // Set Loading to true
-			const Response = await API.Post('/post/auth/Update-Password', ResetData); // Reset Password Function from Helper/Auth/Authentication
+			const Response = await API.Put('/put/auth/Update-Password', ResetData); // Reset Password Function from Helper/Auth/Authentication
 			if (Response.statusCode === 200) {
 				setLoading(false); // Set Loading to false
 				dispatch(addAccountDetails(Response.data)); // Add Account Details to Redux
