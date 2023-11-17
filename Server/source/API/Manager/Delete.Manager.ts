@@ -1,6 +1,6 @@
-import { Router } from 'express'; // Import Router from express
-import CORS from 'cors'; // Import CORS from cors
-import { StringKeys } from '../../settings/keys/KeysConfig.keys.settings'; // Import StringKeys from keys
+import { Router } from "express"; // Import Router from express
+import CORS from "cors"; // Import CORS from cors
+import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Import StringKeys from keys
 
 // Setup Config
 const Delete_Request_Manager = Router(); // Setup Get_Request_Manager as Router

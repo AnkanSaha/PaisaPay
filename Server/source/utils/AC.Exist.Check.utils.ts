@@ -4,10 +4,10 @@ type int = number;
 type str = string;
 
 // Import Status Codes
-import { StatusCodes } from 'outers'; // Import HTTP Status Codes
+import { StatusCodes } from "outers"; // Import HTTP Status Codes
 
 // Find the account in the database
-import MongoDB from '../settings/DB/MongoDB.db'; // Import MongoDB Instance
+import MongoDB from "../settings/DB/MongoDB.db"; // Import MongoDB Instance
 
 // Type for Account Details
 export interface AccountDetailsInterface {
@@ -33,12 +33,12 @@ export interface AccountDetailsInterface {
  */
 export const AccountExistenceChecker = async (AccountPhoneNumber?: int, AccountEmail?: str) => {
 	try {
-		const AccountDetails = await MongoDB.ClientAccount.find('OR', [{ Email: AccountEmail }, { PhoneNumber: AccountPhoneNumber }]); // Find the account in the database
+		const AccountDetails = await MongoDB.ClientAccount.find("OR", [{ Email: AccountEmail }, { PhoneNumber: AccountPhoneNumber }]); // Find the account in the database
 		if (AccountDetails == null || AccountDetails == undefined || AccountDetails.Data.length == 0) {
 			return {
 				status: false,
 				code: StatusCodes.NOT_FOUND,
-				message: 'Account does not exist',
+				message: "Account does not exist",
 				Information: {
 					Data: [],
 				},
@@ -47,14 +47,14 @@ export const AccountExistenceChecker = async (AccountPhoneNumber?: int, AccountE
 			return {
 				status: true,
 				code: StatusCodes.OK,
-				message: 'Account exists',
+				message: "Account exists",
 				Information: AccountDetails,
 			};
 		}
 	} catch {
 		return {
 			status: false,
-			message: 'Internal Server Error',
+			message: "Internal Server Error",
 			Information: [],
 		};
 	}

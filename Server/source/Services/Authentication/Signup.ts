@@ -4,20 +4,20 @@ type str = string;
 type int = number;
 type bool = boolean;
 
-import { StringKeys } from '../../settings/keys/KeysConfig.keys.settings'; // Import HTTP Status Codes
-import fs from 'fs'; // Import fs
-import { Request } from 'express'; // Import Request from express
-import JWT from '../../Middleware/JWT.middleware'; // Import JWT Config
-import Crypto from '../../Middleware/Encrypt.middleware'; // Import Crypto Config
+import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Import HTTP Status Codes
+import fs from "fs"; // Import fs
+import { Request } from "express"; // Import Request from express
+import JWT from "../../Middleware/JWT.middleware"; // Import JWT Config
+import Crypto from "../../Middleware/Encrypt.middleware"; // Import Crypto Config
 
 // import Helpers
-import { AccountExistenceChecker } from '../../utils/AC.Exist.Check.utils'; // Import Account Existence Checker
-import { Encrypt } from '../../Middleware/Bcrypt.middleware'; // Import Bcrypt Config
-import MongoDB from '../../settings/DB/MongoDB.db'; // Import MongoDB Instance
+import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
+import { Encrypt } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Config
+import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 
 // Import Interfaces
-import { ResponseInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface
-import { Console, StatusCodes, Response, UniqueGenerator } from 'outers'; // Import Console & Status Codes
+import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
+import { Console, StatusCodes, Response, UniqueGenerator } from "outers"; // Import Console & Status Codes
 
 // Interfaces for Signup
 interface SignupRequestInterface extends Request {
@@ -56,7 +56,19 @@ interface PasswordEncryptionInterface {
  */
 export async function Register(req: SignupRequestInterface, res: ResponseInterface) {
 	try {
-		const { Name, Email, DOB, Password, National_ID_Type, National_ID_Number, PhoneNumber, LastLoginIP, LastLoginClientDetails, PaymentID, TransactionPIN } = req.body; // Destructure the request body
+		const {
+			Name,
+			Email,
+			DOB,
+			Password,
+			National_ID_Type,
+			National_ID_Number,
+			PhoneNumber,
+			LastLoginIP,
+			LastLoginClientDetails,
+			PaymentID,
+			TransactionPIN,
+		} = req.body; // Destructure the request body
 		if (
 			!Name ||
 			!Email ||
@@ -73,8 +85,8 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 			Response.JSON({
 				status: false,
 				statusCode: StatusCodes.BAD_REQUEST,
-				Title: 'Information Missing in Request',
-				message: 'Please provide all the required information & try again',
+				Title: "Information Missing in Request",
+				message: "Please provide all the required information & try again",
 				response: res,
 				data: undefined,
 			});
@@ -104,8 +116,8 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 				Response.JSON({
 					status: false,
 					statusCode: StatusCodes.CONFLICT,
-					Title: 'Account Exists',
-					message: 'Account exists with the same email or phone number or ID number',
+					Title: "Account Exists",
+					message: "Account exists with the same email or phone number or ID number",
 					response: res,
 					data: undefined,
 				});
@@ -120,7 +132,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 				const Rounds: int = RoundGenerator.RandomNumber(false, [1, 2, 3, 4, 5, 6, 7, 8, 9]); // Generate Rounds
 
 				const EncryptedPassword: PasswordEncryptionInterface = await Encrypt(DecryptedPassword, Rounds);
-				const EncryptedPIN : PasswordEncryptionInterface = await Encrypt(String(DecryptedTransactionPIN), Rounds);
+				const EncryptedPIN: PasswordEncryptionInterface = await Encrypt(String(DecryptedTransactionPIN), Rounds);
 
 				// Encrypt National ID Number
 				const EncryptedNationalIDNumber: PasswordEncryptionInterface = await Encrypt(DecryptedNational_ID_Number, Rounds);
@@ -134,7 +146,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 				// Check if Client ID Exists in the Database
 				do {
 					ClientID = ClientGenerator.RandomNumber(true); // Generate Client ID
-					ClientIDExists = await MongoDB.ClientAccount.find('AND', [{ ClientID: ClientID }]); // Check if Client ID Exists in the Database
+					ClientIDExists = await MongoDB.ClientAccount.find("AND", [{ ClientID: ClientID }]); // Check if Client ID Exists in the Database
 				} while (ClientIDExists.count !== 0);
 
 				// Generate Last Login Token
@@ -145,13 +157,13 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 				);
 
 				// Check if account exists with the same last six digits of ID number
-				const AccountDetails = await MongoDB.ClientAccount.find('OR', [{ LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber }]); // Find the account in the database
+				const AccountDetails = await MongoDB.ClientAccount.find("OR", [{ LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber }]); // Find the account in the database
 				if (AccountDetails.Data.length > 0) {
 					Response.JSON({
 						status: false,
 						statusCode: StatusCodes.CONFLICT,
-						Title: 'Account Exists',
-						message: 'Account exists with the same last six digits of ID number',
+						Title: "Account Exists",
+						message: "Account exists with the same last six digits of ID number",
 						response: res,
 						data: undefined,
 					});
@@ -160,14 +172,14 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 				}
 
 				// Check if account exists with the same  Payment ID
-				const SamePaymentIDAccountDetails = await MongoDB.ClientAccount.find('OR', [{ PaymentID: SmallPaymentID }]); // Find the account in the database
+				const SamePaymentIDAccountDetails = await MongoDB.ClientAccount.find("OR", [{ PaymentID: SmallPaymentID }]); // Find the account in the database
 
 				if (SamePaymentIDAccountDetails.Data.length > 0) {
 					Response.JSON({
 						status: false,
 						statusCode: StatusCodes.CONFLICT,
-						Title: 'Account Exists',
-						message: 'Account exists with the same Payment ID',
+						Title: "Account Exists",
+						message: "Account exists with the same Payment ID",
 						response: res,
 						data: undefined,
 					}); // Send Response
@@ -193,8 +205,8 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 					ProfilePicSize: `${req.file.size / 1000 / 1000} MB`,
 					ProfilePicFileName: req.file.filename,
 					DateCreated: Date.now(),
-					AccountStatus: 'Active',
-					AccountType: 'Client',
+					AccountStatus: "Active",
+					AccountType: "Client",
 					LastLoginTime: Date.now(),
 					LastLoginIP: DecryptedLastLoginIP,
 					LastLoginClientDetails: DecryptedLastLoginClientDetails,
@@ -212,8 +224,8 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 					Response.JSON({
 						status: true,
 						statusCode: StatusCodes.OK,
-						Title: 'Account Created',
-						message: 'Account created successfully, you can now login',
+						Title: "Account Created",
+						message: "Account created successfully, you can now login",
 						response: res,
 						data: {
 							sessionID: LastLoginToken.toKen,
@@ -225,8 +237,8 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 					Response.JSON({
 						status: false,
 						statusCode: StatusCodes.BAD_REQUEST,
-						Title: 'Database Error',
-						message: 'Look like there is a problem with the database, please try again later',
+						Title: "Database Error",
+						message: "Look like there is a problem with the database, please try again later",
 						response: res,
 						data: AccountStatus,
 					});
@@ -239,8 +251,8 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 		Response.JSON({
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-			Title: 'Internal Server Error',
-			message: 'Internal Server Error',
+			Title: "Internal Server Error",
+			message: "Internal Server Error",
 			response: res,
 			data: [],
 		});

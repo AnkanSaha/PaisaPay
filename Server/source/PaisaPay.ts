@@ -2,18 +2,18 @@
 type int = number; // Integer
 
 // All Imports
-import express, { json, urlencoded, Express } from 'express'; // Import Express
-import cluster from 'cluster'; // Import Cluster
+import express, { json, urlencoded, Express } from "express"; // Import Express
+import cluster from "cluster"; // Import Cluster
 const { isPrimary } = cluster; // Import isPrimary from Cluster
-import { Console } from 'outers'; // Import Outers
-import { NumberKeys, StringKeys } from './settings/keys/KeysConfig.keys.settings'; // Import Keys
-import MongoDB from './settings/DB/MongoDB.db'; // Import MongoDB Connection
+import { Console } from "outers"; // Import Outers
+import { NumberKeys, StringKeys } from "./settings/keys/KeysConfig.keys.settings"; // Import Keys
+import MongoDB from "./settings/DB/MongoDB.db"; // Import MongoDB Connection
 
 // Router Related Imports
-import MainRouter from './API/Router'; // Import Main Router
-import { CheckHeader } from './utils/Incoming.Req.Check.utils'; // Import Check Header
+import MainRouter from "./API/Router"; // Import Main Router
+import { CheckHeader } from "./utils/Incoming.Req.Check.utils"; // Import Check Header
 
-let ProcessCopy : int = NumberKeys.CPUCount; // Copy CPU Count
+let ProcessCopy: int = NumberKeys.CPUCount; // Copy CPU Count
 /* This code is using the cluster module in Node.js to create a server that can utilize multiple CPU
 cores. */
 if (isPrimary) {
@@ -31,7 +31,7 @@ if (isPrimary) {
 	// Listen for Cluster Online
 	/* The `cluster.on('online', worker => { ... })` code block is an event listener that is triggered when
 	a worker process in the cluster becomes online and starts running. */
-	cluster.on('online', worker => {
+	cluster.on("online", worker => {
 		Console.green(`🚀 Worker ${worker.process.pid} started 🚀`);
 		Console.blue(`Environment Variables Loaded Successfully in Worker : ${worker.process.pid}`);
 		Console.yellow(`Worker ${worker.process.pid} is listening on Port ${NumberKeys.PORT}`);
@@ -39,7 +39,7 @@ if (isPrimary) {
 	// Listen for Cluster Exit
 	/* The code block `cluster.on('exit', worker => { ... })` is an event listener that is triggered when a
 	worker process in the cluster exits or dies. */
-	cluster.on('exit', worker => {
+	cluster.on("exit", worker => {
 		Console.red(`Worker ${worker.process.pid} died`);
 		cluster.fork();
 		Console.green(`🚀 Worker ${worker.process.pid} restarted 🚀`);
@@ -50,12 +50,12 @@ if (isPrimary) {
 	const Server: Express = express(); // Create Express Server
 
 	// Enable All Proxy Settings for Server Security
-	Server.set('trust proxy', () => true); // Enable All Proxy Settings
+	Server.set("trust proxy", () => true); // Enable All Proxy Settings
 
 	// Link All Router as MainRouter
 	Server.use(
-		'/api',
-		json({ limit: '999mb' }),
+		"/api",
+		json({ limit: "999mb" }),
 		urlencoded({
 			extended: true,
 			limit: 5000000 * 1000,
@@ -63,7 +63,7 @@ if (isPrimary) {
 		CheckHeader,
 		MainRouter
 	); // Link Main Router
-	Console.magenta('Linked All API Endpoints with PaisaPay Server'); // Print Success Message
+	Console.magenta("Linked All API Endpoints with PaisaPay Server"); // Print Success Message
 
 	// Configure Static Folder
 	Server.use(express.static(StringKeys.StaticDirectoryName)); // Configure Static Folder

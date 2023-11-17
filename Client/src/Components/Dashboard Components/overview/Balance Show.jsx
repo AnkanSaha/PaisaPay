@@ -66,14 +66,14 @@ export default function BalanceShow() {
 					<div
 						className="lg:tooltip"
 						data-tip={
-							Decoded_Account_Details.AccountStatus === 'Active'
-								? `Your Account is ${Decoded_Account_Details.AccountStatus}`
-								: `Your Account is ${Decoded_Account_Details.AccountStatus} by Server`
+							Decoded_Account_Details.AccountStatus === 'Deleted'
+								? `Your Account is ${Decoded_Account_Details.AccountStatus}, Please Contact Support`
+								: `Your Account is ${Decoded_Account_Details.AccountStatus}`
 						}>
 						<div className="avatar mt-5">
 							<div
 								className={`w-28 rounded-full ring ${
-									Decoded_Account_Details.AccountStatus === 'Active' ? 'ring-accent-focus' : 'ring-error'
+									Decoded_Account_Details.AccountStatus === 'Active' ? 'ring-accent-focus' : Decoded_Account_Details.AccountStatus === 'Deleted' ? 'ring-red-700' : 'ring-yellow-500'
 								} ring-offset-base-100 ring-offset-2`}>
 								<img src={ReduxState.TransactionDetails.UserProfileImageURl ? ReduxState.TransactionDetails.UserProfileImageURl : LocalAnonymousUserLogo} />
 							</div>

@@ -1,13 +1,13 @@
-import { StatusCodes, Response as Serve } from 'outers'; // Import Status Codes
-import { Request } from 'express'; // Import Request from express
-import JWT from '../Middleware/JWT.middleware'; // Import JWT Config
+import { StatusCodes, Response as Serve } from "outers"; // Import Status Codes
+import { Request } from "express"; // Import Request from express
+import JWT from "../Middleware/JWT.middleware"; // Import JWT Config
 
 // types
 type str = string;
 type int = number;
 
 // All Variables for send response
-const AllowedMethods: str[] = ['POST', 'GET', 'PUT', 'DELETE', 'OPTIONS']; // Allowed Methods
+const AllowedMethods: str[] = ["POST", "GET", "PUT", "DELETE", "OPTIONS"]; // Allowed Methods
 
 // All Interfaces
 /* The `RequestInterface` interface is defining the structure of the request object that will be
@@ -49,8 +49,8 @@ export function CheckHeader(req: RequestInterface, res: ResponseInterface, next:
 		const ResponseContent = {
 			status: false,
 			statusCode: StatusCodes.FORBIDDEN,
-			Title: 'Request Headers not found',
-			message: 'Request Headers not found or not set',
+			Title: "Request Headers not found",
+			message: "Request Headers not found or not set",
 			response: res,
 			data: {
 				requestedUrl: req.url,
@@ -64,8 +64,8 @@ export function CheckHeader(req: RequestInterface, res: ResponseInterface, next:
 		const ResponseContent = {
 			status: false,
 			statusCode: StatusCodes.METHOD_NOT_ALLOWED,
-			Title: 'Request Method not allowed',
-			message: 'Request Method not allowed for this url, please check the url and try again',
+			Title: "Request Method not allowed",
+			message: "Request Method not allowed for this url, please check the url and try again",
 			response: res,
 			data: {
 				requestedUrl: req.url,
@@ -85,12 +85,12 @@ export const SessionValidation = async (Request: RequestInterface, Response: Res
 	if (!Request.body.sessionID) {
 		if (!Request.params.sessionID) {
 			if (!Request.query.sessionID) {
-				if(!Request.headers['sessionid']){
+				if (!Request.headers["sessionid"]) {
 					Serve.JSON({
 						status: false,
 						statusCode: StatusCodes.UNAUTHORIZED,
-						Title: 'SessionID Required',
-						message: 'Session ID is required for this request, please check the url and try again',
+						Title: "SessionID Required",
+						message: "Session ID is required for this request, please check the url and try again",
 						response: Response,
 						data: {
 							requestedUrl: Request.url,
@@ -100,16 +100,15 @@ export const SessionValidation = async (Request: RequestInterface, Response: Res
 						},
 					}); // Send Response to Client
 					return; // Stop the function
-				}
-				else if(Request.headers['sessionid']){
-					const toKenValidation = await JWT.decode(String(Request.headers['sessionid'])); // Verify Token
-					if (toKenValidation.status === 'Success') {
+				} else if (Request.headers["sessionid"]) {
+					const toKenValidation = await JWT.decode(String(Request.headers["sessionid"])); // Verify Token
+					if (toKenValidation.status === "Success") {
 						next(); // Go to next middleware
-					} else if (toKenValidation.status === 'Invalid') {
+					} else if (toKenValidation.status === "Invalid") {
 						Serve.JSON({
 							data: undefined,
-							Title: 'Session Expired',
-							message: 'Your session has expired, please login again',
+							Title: "Session Expired",
+							message: "Your session has expired, please login again",
 							status: false,
 							statusCode: StatusCodes.UNAUTHORIZED,
 							response: Response,
@@ -119,13 +118,13 @@ export const SessionValidation = async (Request: RequestInterface, Response: Res
 				}
 			} else if (Request.query.sessionID) {
 				const toKenValidation = await JWT.decode(String(Request.query.sessionID)); // Verify Token
-				if (toKenValidation.status === 'Success') {
+				if (toKenValidation.status === "Success") {
 					next(); // Go to next middleware
-				} else if (toKenValidation.status === 'Invalid') {
+				} else if (toKenValidation.status === "Invalid") {
 					Serve.JSON({
 						data: undefined,
-						Title: 'Session Expired',
-						message: 'Your session has expired, please login again',
+						Title: "Session Expired",
+						message: "Your session has expired, please login again",
 						status: false,
 						statusCode: StatusCodes.UNAUTHORIZED,
 						response: Response,
@@ -135,13 +134,13 @@ export const SessionValidation = async (Request: RequestInterface, Response: Res
 			}
 		} else if (Request.params.sessionID) {
 			const toKenValidation = await JWT.decode(Request.params.sessionID); // Verify Token
-			if (toKenValidation.status === 'Success') {
+			if (toKenValidation.status === "Success") {
 				next(); // Go to next middleware
-			} else if (toKenValidation.status === 'Invalid') {
+			} else if (toKenValidation.status === "Invalid") {
 				Serve.JSON({
 					data: undefined,
-					Title: 'Session Expired',
-					message: 'Your session has expired, please login again',
+					Title: "Session Expired",
+					message: "Your session has expired, please login again",
 					status: false,
 					statusCode: StatusCodes.UNAUTHORIZED,
 					response: Response,
@@ -151,13 +150,13 @@ export const SessionValidation = async (Request: RequestInterface, Response: Res
 		}
 	} else if (Request.body.sessionID) {
 		const toKenValidation = await JWT.decode(Request.body.sessionID); // Verify Token
-		if (toKenValidation.status === 'Success') {
+		if (toKenValidation.status === "Success") {
 			next(); // Go to next middleware
-		} else if (toKenValidation.status === 'Invalid') {
+		} else if (toKenValidation.status === "Invalid") {
 			Serve.JSON({
 				data: undefined,
-				Title: 'Session Expired',
-				message: 'Your session has expired, please login again',
+				Title: "Session Expired",
+				message: "Your session has expired, please login again",
 				status: false,
 				statusCode: StatusCodes.UNAUTHORIZED,
 				response: Response,

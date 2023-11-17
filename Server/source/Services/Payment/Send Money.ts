@@ -3,15 +3,15 @@ type int = number; // Define int
 // type str = string; // Define str
 
 // Imports
-import { Request } from 'express'; // Import Request from express
-import MongoDB from '../../settings/DB/MongoDB.db'; // Import MongoDB Instance
-import { AccountExistenceChecker } from '../../utils/AC.Exist.Check.utils'; // Import Account Existence Checker
-import EncryptConfig from '../../Middleware/Encrypt.middleware'; // Import Encrypt Config
-import { Console, Response as Serve, StatusCodes, UniqueGenerator } from 'outers'; // Import red from outers
-import {Compare} from '../../Middleware/Bcrypt.middleware'; // Import Bcrypt Config
+import { Request } from "express"; // Import Request from express
+import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
+import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
+import EncryptConfig from "../../Middleware/Encrypt.middleware"; // Import Encrypt Config
+import { Console, Response as Serve, StatusCodes, UniqueGenerator } from "outers"; // Import red from outers
+import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Config
 
 // Import Interfaces
-import { ResponseInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface
+import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
 
 export const SendMoney = async (Request: Request, Response: ResponseInterface) => {
 	try {
@@ -28,7 +28,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_FOUND,
-				message: 'Sender Account Does Not Exists, Please Create An Account',
+				message: "Sender Account Does Not Exists, Please Create An Account",
 				Title: SenderAccountExists.message,
 				data: undefined,
 				response: Response,
@@ -37,12 +37,12 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 		}
 
 		// Check If Sender Account Is Active
-		if (SenderAccountExists.Information.Data[0].AccountStatus !== 'Active') {
+		if (SenderAccountExists.Information.Data[0].AccountStatus !== "Active") {
 			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
 				message: `Your Account Is ${SenderAccountExists.Information.Data[0].AccountStatus}, Please Contact Support`,
-				Title: 'Account Not Active',
+				Title: "Account Not Active",
 				data: undefined,
 				response: Response,
 			}); // Send Error Response
@@ -50,13 +50,13 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 		}
 
 		// Check if Transaction PIN is Correct
-		
-		if((await Compare(PaymentInfo.TransactionPIN, SenderAccountExists.Information.Data[0].TransactionPIN)).isMatch === false){
+
+		if ((await Compare(PaymentInfo.TransactionPIN, SenderAccountExists.Information.Data[0].TransactionPIN)).isMatch === false) {
 			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
 				message: `Transaction PIN is Incorrect | Please Enter Correct Transaction PIN`,
-				Title: 'Incorrect Transaction PIN',
+				Title: "Incorrect Transaction PIN",
 				data: undefined,
 				response: Response,
 			}); // Send Error Response
@@ -64,15 +64,15 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 		}
 
 		// Check If Receiver Account Exists
-		const ReceiverAccountDetails = await MongoDB.ClientAccount.find('AND', [{ PaymentID: PaymentInfo.ReceivingPaymentID }]);
+		const ReceiverAccountDetails = await MongoDB.ClientAccount.find("AND", [{ PaymentID: PaymentInfo.ReceivingPaymentID }]);
 
 		// Check If Receiver Account Exists
 		if (ReceiverAccountDetails.count === 0) {
 			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_FOUND,
-				message: 'No User Found With The Provided Payment ID',
-				Title: 'Not Found',
+				message: "No User Found With The Provided Payment ID",
+				Title: "Not Found",
 				data: undefined,
 				response: Response,
 			}); // Send Error Response
@@ -80,12 +80,12 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 		}
 
 		// Check If Receiver Account Is Active
-		if (ReceiverAccountDetails.Data[0].AccountStatus !== 'Active') {
+		if (ReceiverAccountDetails.Data[0].AccountStatus !== "Active") {
 			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
 				message: `Receiver Account Is ${ReceiverAccountDetails.Data[0].AccountStatus}, Please Contact Support`,
-				Title: 'Account Not Active',
+				Title: "Account Not Active",
 				data: undefined,
 				response: Response,
 			}); // Send Error Response
@@ -97,8 +97,8 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
-				message: 'Invalid Amount',
-				Title: 'Invalid Amount',
+				message: "Invalid Amount",
+				Title: "Invalid Amount",
 				data: undefined,
 				response: Response,
 			}); // Send Error Response
@@ -115,7 +115,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 				status: false,
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
 				message: "You Don't Have Enough Balance To Send Money",
-				Title: 'Not Enough Balance',
+				Title: "Not Enough Balance",
 				data: undefined,
 				response: Response,
 			}); // Send Error Response
@@ -133,8 +133,8 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
-				message: 'Unable To Deduct Money From Sender Account, Maybe Due To Network Error',
-				Title: 'Unable To Deduct Money From Sender Account',
+				message: "Unable To Deduct Money From Sender Account, Maybe Due To Network Error",
+				Title: "Unable To Deduct Money From Sender Account",
 				data: undefined,
 				response: Response,
 			}); // Send Error Response
@@ -152,8 +152,8 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
-				message: 'Unable To Add Money To Receiver Account, Maybe Due To Network Error',
-				Title: 'Unable To Add Money To Receiver Account',
+				message: "Unable To Add Money To Receiver Account, Maybe Due To Network Error",
+				Title: "Unable To Add Money To Receiver Account",
 				data: undefined,
 				response: Response,
 			}); // Send Error Response
@@ -164,18 +164,16 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 		const Generator = new UniqueGenerator(18);
 
 		// Create Transaction ID for this Transaction
-		let TransactionID : int; // Create Transaction ID
+		let TransactionID: int; // Create Transaction ID
 		let TransactionIDExists: any; // Check If Transaction ID Already Exists
 
-		do{
+		do {
 			// Generate Transaction ID for this Transaction
 			TransactionID = Generator.RandomNumber(); // Generate Transaction ID
-			
+
 			// Check if Transaction ID Already Exists
-			TransactionIDExists = await MongoDB.P2PTransaction.find('AND', [{ TransactionID: TransactionID }]); // Check If Transaction ID Already Exists
-		}
-		while(TransactionIDExists.count !== 0);
-		
+			TransactionIDExists = await MongoDB.P2PTransaction.find("AND", [{ TransactionID: TransactionID }]); // Check If Transaction ID Already Exists
+		} while (TransactionIDExists.count !== 0);
 
 		// Create Transaction History for Sender
 		const CreateTransactionHistoryForSenderStatus = await MongoDB.P2PTransaction.create({
@@ -187,14 +185,14 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 			SendingClientID: SenderAccountExists.Information.Data[0].ClientID,
 			SendingPaymentID: SenderAccountExists.Information.Data[0].PaymentID,
 			SenderName: SenderAccountExists.Information.Data[0].Name,
-			TransactionMethod: 'PaisaPay Wallet',
+			TransactionMethod: "PaisaPay Wallet",
 			SenderEmail: SenderAccountExists.Information.Data[0].Email,
 			SenderPhone: SenderAccountExists.Information.Data[0].PhoneNumber,
 			TransactionID: TransactionID,
 			TransactionDate: Date.now(),
 			TransactionAmount: PaymentInfo.TransactionAmount,
-			TransactionDescription: PaymentInfo.TransactionDescription === '' ? 'No Description Provided' : PaymentInfo.TransactionDescription,
-			TransactionStatus: 'Transaction Success',
+			TransactionDescription: PaymentInfo.TransactionDescription === "" ? "No Description Provided" : PaymentInfo.TransactionDescription,
+			TransactionStatus: "Transaction Success",
 		});
 
 		// Check If Creating Transaction History For Sender Was Successful
@@ -202,8 +200,8 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
-				message: 'Unable To Create Transaction History For Sender, Maybe Due To Network Error',
-				Title: 'Unable To Create Transaction History For Sender',
+				message: "Unable To Create Transaction History For Sender, Maybe Due To Network Error",
+				Title: "Unable To Create Transaction History For Sender",
 				data: undefined,
 				response: Response,
 			}); // Send Error Response
@@ -215,14 +213,14 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 			status: true,
 			statusCode: StatusCodes.OK,
 			message: `Transaction Success | Money Sent Successfully to ${ReceiverAccountDetails.Data[0].Name}`,
-			Title: 'Transaction Success',
+			Title: "Transaction Success",
 			data: await EncryptConfig.Encrypt({
 				TransactionID: TransactionID,
 				TransactionDate: Date.now(),
 				TransactionType: `${ReceiverAccountDetails.Data[0].Name}`,
 				TransactionAmount: PaymentInfo.TransactionAmount,
-				TransactionDescription: PaymentInfo.TransactionDescription === '' ? 'No Description Provided' : PaymentInfo.TransactionDescription,
-				TransactionStatus: 'Transaction Success',
+				TransactionDescription: PaymentInfo.TransactionDescription === "" ? "No Description Provided" : PaymentInfo.TransactionDescription,
+				TransactionStatus: "Transaction Success",
 				NewBalance: SenderAccountExists.Information.Data[0].Balance - PaymentInfo.TransactionAmount,
 			}),
 			response: Response,
@@ -232,8 +230,8 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 		Serve.JSON({
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-			message: 'Internal Server Error',
-			Title: 'Internal Server Error',
+			message: "Internal Server Error",
+			Title: "Internal Server Error",
 			data: undefined,
 			response: Response,
 		}); // Send Error Response

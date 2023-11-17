@@ -5,18 +5,18 @@ type str = string; // Define str
 
 // Imports
 // Import Required Modules
-import { Console, Response, StatusCodes } from 'outers';
-import { StringKeys } from '../../settings/keys/KeysConfig.keys.settings'; // Import HTTP Status Codes
-import JWT from '../../Middleware/JWT.middleware'; // Import JWT Config
-import { Encrypt } from '../../Middleware/Bcrypt.middleware'; // Import Bcrypt Config
-import { Request } from 'express'; // Import Request from express
-import { randomNumber } from 'uniquegen'; // Import Uniquegen
-import MongoDB from '../../settings/DB/MongoDB.db'; // Import MongoDB Instance
-import { AccountExistenceChecker } from '../../utils/AC.Exist.Check.utils'; // Import Account Existence Checker
-import Crypto from '../../Middleware/Encrypt.middleware'; // Import Crypto Config
+import { Console, Response, StatusCodes } from "outers";
+import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Import HTTP Status Codes
+import JWT from "../../Middleware/JWT.middleware"; // Import JWT Config
+import { Encrypt } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Config
+import { Request } from "express"; // Import Request from express
+import { randomNumber } from "uniquegen"; // Import Uniquegen
+import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
+import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
+import Crypto from "../../Middleware/Encrypt.middleware"; // Import Crypto Config
 
 // Import Interfaces
-import { ResponseInterface } from '../../utils/Incoming.Req.Check.utils'; // Import Response Interface
+import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
 
 // Function  for forget password Account Details Sender
 export const ForgetPasswordAccountFinder = async (request: Request, response: ResponseInterface) => {
@@ -25,15 +25,15 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 		// Convert Email to lowercase
 		const SmelledEmail = Email.toLowerCase(); // Convert Email to lowercase
 
-		const AccountDetails = await MongoDB.ClientAccount.find('AND', [{ Email: SmelledEmail }], 1);
+		const AccountDetails = await MongoDB.ClientAccount.find("AND", [{ Email: SmelledEmail }], 1);
 
 		// Check if Account Details is Empty or not
 		if (AccountDetails.count === 0) {
 			Response.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_FOUND,
-				message: 'Account Not Found with this Email or Phone Number',
-				Title: 'Account Not Found',
+				message: "Account Not Found with this Email or Phone Number",
+				Title: "Account Not Found",
 				data: undefined,
 				response: response,
 			}); // Send Response to the Client
@@ -53,8 +53,8 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 		Response.JSON({
 			status: true,
 			statusCode: StatusCodes.OK,
-			message: 'Account Details Matched Successfully',
-			Title: 'Account Details',
+			message: "Account Details Matched Successfully",
+			Title: "Account Details",
 			data: {
 				sessionID: LoginToken.toKen,
 				AccountDetails: EncryptedData,
@@ -66,8 +66,8 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 		Response.JSON({
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-			message: 'Internal Server Error',
-			Title: 'Internal Server Error',
+			message: "Internal Server Error",
+			Title: "Internal Server Error",
 			data: undefined,
 			response: response,
 		});
@@ -141,8 +141,8 @@ export const ForgetPasswordUpdater = async (request: Request, response: Response
 				Response.JSON({
 					status: true,
 					statusCode: StatusCodes.OK,
-					message: 'Password Updated Successfully',
-					Title: 'Password Updated',
+					message: "Password Updated Successfully",
+					Title: "Password Updated",
 					data: {
 						sessionID: LoginToken.toKen,
 						AccountDetails: EncryptAccountData,
@@ -154,8 +154,8 @@ export const ForgetPasswordUpdater = async (request: Request, response: Response
 			Response.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_FOUND,
-				message: 'Account Not Found with this Email or Phone Number',
-				Title: 'Account Not Found',
+				message: "Account Not Found with this Email or Phone Number",
+				Title: "Account Not Found",
 				data: undefined,
 				response: response,
 			}); // Send Response to the Client
@@ -165,8 +165,8 @@ export const ForgetPasswordUpdater = async (request: Request, response: Response
 		Response.JSON({
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-			message: 'Internal Server Error',
-			Title: 'Internal Server Error',
+			message: "Internal Server Error",
+			Title: "Internal Server Error",
 			data: undefined,
 			response: response,
 		});
