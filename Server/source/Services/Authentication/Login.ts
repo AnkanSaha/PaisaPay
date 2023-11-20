@@ -70,9 +70,43 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 			const AccountStatus = await MongoDB.ClientAccount.find("OR", [{ PhoneNumber: DecryptedPhoneNumber }], 1); // Find the account in the database
 
 			// Check if the account exists
-			if (AccountStatus.count > 0) {
+			if (AccountStatus.count === 0) {
+				Serve.JSON({
+					status: false,
+					statusCode: StatusCodes.NOT_FOUND,
+					Title: "Not Found",
+					message: "Account not found, please try again with the correct phone number",
+					data: undefined,
+					response: Response,
+				});
+				return; // Return if Account Not Find
+			}
+			
+			// Check if Account is Deleted or Not
+			if(AccountStatus.Data[0].AccountStatus === 'Deleted'){
+				Serve.JSON({
+					response: Response,
+					status:false,
+					statusCode:StatusCodes.LOCKED,
+					Title: "Account is Deleted",
+					message: "Your account is deleted, please contact the support team for further assistance or create a new account",
+					data:undefined
+				})
+				return; // Return if Account is Deleted
+			}
+
 				const isPasswordCorrect: isPasswordCorrectInterface = await Compare(DecryptedPassword, AccountStatus.Data[0].Password); // Compare the password
-				if (isPasswordCorrect.isMatch === true) {
+				if (isPasswordCorrect.isMatch === false) {
+					Serve.JSON({
+						status: false,
+						statusCode: StatusCodes.UNAUTHORIZED,
+						Title: "Unauthorized",
+						message: "Incorrect Password, please try again with the correct password",
+						data: undefined,
+						response: Response,
+					});
+					return; // Return if Password is Incorrect
+				}
 					const EncryptedaccountDetails = await Crypto.Encrypt(AccountStatus.Data[0]); // Generate JWT Token for Account Details
 
 					// Register Login Token Round Generator
@@ -116,26 +150,6 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 						},
 						response: Response,
 					}); // Send Response to the user
-				} else if (isPasswordCorrect.isMatch === false) {
-					Serve.JSON({
-						status: false,
-						statusCode: StatusCodes.UNAUTHORIZED,
-						Title: "Unauthorized",
-						message: "Incorrect Password, please try again with the correct password",
-						data: undefined,
-						response: Response,
-					});
-				}
-			} else if (AccountStatus.count === 0) {
-				Serve.JSON({
-					status: false,
-					statusCode: StatusCodes.NOT_FOUND,
-					Title: "Not Found",
-					message: "Account not found, please try again with the correct phone number",
-					data: undefined,
-					response: Response,
-				});
-			}
 		}
 	} catch (err) {
 		Console.red(err); // Log the error to the console

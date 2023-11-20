@@ -190,7 +190,7 @@ export default function ProfileDetails() {
 							</Box>
 						</Stack>
 					</CardBody>
-					<Box className="text-center">
+					<Box className="text-center px-10">
 						<Heading size="xs" textTransform="uppercase">
 							Account {Decrypted_Data.AccountStatus === 'Active' ? 'Deactivation' : 'Activation'} Controls
 						</Heading>
