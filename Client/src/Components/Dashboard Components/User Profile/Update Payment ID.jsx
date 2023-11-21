@@ -1,7 +1,8 @@
 import React from 'react'; // Import React
-import {API, Cryptography} from '../../../Helper/Common'; // Common Helper Functions
+import {API, Cryptography} from '@helper/Common'; // Common Helper Functions
 import { useSelector } from 'react-redux'; // Import Use Selector From React Redux
 import { FiAtSign } from "react-icons/fi"; // Import FiAtSign Icon
+import{useNavigate} from 'react-router-dom'; // Import Use Navigate From React Router Dom
 
 // Import Components form Chakra UI
 import {
@@ -17,13 +18,21 @@ export default function UpdatePaymentID() {
     // Hooks
     const ReduxState = useSelector(state => state); // Get User Info From Redux State
     const toast = useToast(); // Create Toast
-    
+    const navigate = useNavigate(); // Create Navigate
+
+    // Redux States
+    const Decrypted_AccountDetails = JSON.parse(Cryptography.DecryptSync(ReduxState.AccountInfo.AccountDetails)); // Decrypt Account Details
+
     // States
 	const [show, setShow] = React.useState(false); // set the show state to false
     const [loading, setLoading] = React.useState(false); // set the loading state to false
     const [NewpaymentIDinfo, setNewpaymentIDinfo] = React.useState({
         NewPaymentID: '',
-        TPIN: ''
+        TPIN: null,
+        ClientID:Decrypted_AccountDetails.ClientID,
+        PhoneNumber: Decrypted_AccountDetails.PhoneNumber,
+        Email: Decrypted_AccountDetails.Email,
+        PreviousPaymentID: Decrypted_AccountDetails.PaymentID
     }); // set the New paymentIDinfo state to null
 
     // Functions
@@ -35,7 +44,7 @@ export default function UpdatePaymentID() {
 
     const handleUpdatePaymentID = async ()=>{
         // Checks
-        if(NewpaymentIDinfo.NewPaymentID === '' || NewpaymentIDinfo.TPIN === ''){
+        if(NewpaymentIDinfo.NewPaymentID === '' || NewpaymentIDinfo.TPIN === '' || NewpaymentIDinfo.NewPaymentID === null || NewpaymentIDinfo.TPIN === null){
             toast({
                 title: "Error",
                 description: "Please Fill All Fields, New Payment ID and Current PIN",
@@ -61,7 +70,26 @@ export default function UpdatePaymentID() {
             sessionID: ReduxState.AccountInfo.sessionID,
             Encrypted_Info: Encrypted_Info
         })
-        console.log(Response, Encrypted_Info);
+        setLoading(false); // Update loading State to True
+        if(Response.statusCode === 200){
+            toast({
+                title:Response.Title,
+                description:Response.message,
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+            }); // Create Toast
+            navigate('/dashboard'); // Navigate to User Profile
+        }
+        else{
+            toast({
+                title:Response.Title,
+                description:Response.message,
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            }); // Create Toast
+        }
     }
   return (
     <div className="my-5">
