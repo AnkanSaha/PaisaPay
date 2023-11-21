@@ -25,7 +25,6 @@ export default function SendMoneySection() {
 
 	// Decode All Account Details
 	const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(AccountDetails.AccountDetails)); // decode the jwt token to get the account details
-
 	// States
 	const [PaymentInfo, setPaymentInfo] = React.useState({
 		ReceivingPaymentID: '',
@@ -39,7 +38,6 @@ export default function SendMoneySection() {
 		TransactionDescription: '',
 		TransactionPIN: '',
 	}); // state to store the payment info
-
 	const [Loading, setLoading] = React.useState(false); // state to store the loading status
 
 	// Functions
