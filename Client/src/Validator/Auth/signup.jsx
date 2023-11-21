@@ -65,7 +65,14 @@ export const VerifyRegisterData = async Data => {
 			message: 'Please Enter a Valid Payment ID, It is Required for Registration',
 			title: 'Error, Payment ID',
 		};
-	} 
+	}
+	else if(Data.PaymentID.includes('@pp') || Data.PaymentID.includes('@PP') || Data.PaymentID.includes('@Pp') || Data.PaymentID.includes('@pP')){
+		return {
+			status: false,
+			message: 'Payment ID Cannot Include @pp or @PP',
+			title: 'Error, Payment ID',
+		};
+	}
 	else if(Data.TransactionPIN === undefined || Data.TransactionPIN === null || Data.TransactionPIN === '' || Data.TransactionPIN.length < 4){
 		return {
 			status: false,
