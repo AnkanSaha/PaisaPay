@@ -4,6 +4,7 @@ import { Cryptography, API } from '@helper/Common'; // import the crypto functio
 import moment from 'moment'; // import moment
 import {useNavigate} from 'react-router-dom'; // import useNavigate from react-router-dom
 
+
 // Import Redux
 import {useDispatch} from 'react-redux'; // Import useDispatch from react-redux
 import {updateAccountDetails} from '@redux/Slices/Account Slice'; // Import the account slice
@@ -23,7 +24,6 @@ export default function ProfileDetails() {
 
 	// States
 	const Decrypted_Data = JSON.parse(Cryptography.DecryptSync(ReduxState.AccountInfo.AccountDetails)); // decrypt the data
-
 	const [loading, setLoading] = React.useState(false); // loading state for the button
 	const[TPIN, setTPIN] = React.useState(''); // transaction pin state
 
@@ -91,6 +91,30 @@ export default function ProfileDetails() {
 							</Box>
 							<Box>
 								<Heading size="xs" textTransform="uppercase">
+									Account Balance
+								</Heading>
+								<Text pt="2" fontSize="sm">
+								₹ {Decrypted_Data.Balance} INR
+								</Text>
+							</Box>
+							<Box>
+								<Heading size="xs" textTransform="uppercase">
+									Account Payment ID
+								</Heading>
+								<Text pt="2" fontSize="sm">
+								{Decrypted_Data.PaymentID.toUpperCase()} (Unique)
+								</Text>
+							</Box>
+							<Box>
+								<Heading size="xs" textTransform="uppercase">
+									Account Creation Date
+								</Heading>
+								<Text pt="2" fontSize="sm">
+								{moment(Decrypted_Data.DateCreated).format('DD/MM/YYYY HH:mm:ss A')}
+								</Text>
+							</Box>
+							<Box>
+								<Heading size="xs" textTransform="uppercase">
 									Account Holder Name
 								</Heading>
 								<Text pt="2" fontSize="sm">
@@ -147,6 +171,14 @@ export default function ProfileDetails() {
 							</Box>
 							<Box>
 								<Heading size="xs" textTransform="uppercase">
+									Profile Pic File name in server
+								</Heading>
+								<Text pt="2" fontSize="sm">
+									{Decrypted_Data.ProfilePicFileName}
+								</Text>
+							</Box>
+							<Box>
+								<Heading size="xs" textTransform="uppercase">
 									Last Four Digit of National ID Number
 								</Heading>
 								<Text pt="2" fontSize="sm">
@@ -159,6 +191,38 @@ export default function ProfileDetails() {
 								</Heading>
 								<Text pt="2" fontSize="sm">
 									{Decrypted_Data.LastLoginIP} ({Decrypted_Data.LastLoginClientDetails.IP_Type})
+								</Text>
+							</Box>
+							<Box>
+								<Heading size="xs" textTransform="uppercase">
+									Last Login Location
+								</Heading>
+								<Text pt="2" fontSize="sm">
+									{Decrypted_Data.LastLoginClientDetails.Client_Location.region} ({Decrypted_Data.LastLoginClientDetails.Client_Location.country === 'IN' ? 'India' : Decrypted_Data.LastLoginClientDetails.Client_Location.country})
+								</Text>
+							</Box>
+							<Box>
+								<Heading size="xs" textTransform="uppercase">
+									Last Login Latitude & Longitude
+								</Heading>
+								<Text pt="2" fontSize="sm">
+									{Decrypted_Data.LastLoginClientDetails.Client_Location.loc.split(',', 2)[0]} (Latitude) /{' '} {Decrypted_Data.LastLoginClientDetails.Client_Location.loc.split(',', 2)[1]} (Longitude)
+								</Text>
+							</Box>
+							<Box>
+								<Heading size="xs" textTransform="uppercase">
+									Last Login Network Provider
+								</Heading>
+								<Text pt="2" fontSize="sm">
+									{Decrypted_Data.LastLoginClientDetails.Client_Location.org}
+								</Text>
+							</Box>
+							<Box>
+								<Heading size="xs" textTransform="uppercase">
+									Last Login Timezone
+								</Heading>
+								<Text pt="2" fontSize="sm">
+									{Decrypted_Data.LastLoginClientDetails.Client_Location.timezone}
 								</Text>
 							</Box>
 							<Box>

@@ -37,3 +37,27 @@
 - change to Client directory and run `npm install`
 - run `npm run dev` in Server directory  to Start Server
 - run `npm start` in Client directory to Start Client
+
+## Built With ❤️ using MERN Stack (MongoDB, Express.js, React, Node.js) and Razorpay API for Payments and Authentication using JWT Tokens and CryptoJS for Encryption and Decryption in Request - Response Transfers
+
+## Authors 👨‍💻 
+
+- [Ankan Saha]('https://linkedin.com/in/theankansaha')
+
+## License 📝 
+
+- This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments 🙏
+
+- [Razorpay](https://razorpay.com/) for providing the API for Payments
+- [CryptoJS](https://cryptojs.gitbook.io/docs/) for providing the API for Encryption and Decryption
+- [React](https://reactjs.org/) for providing the Frontend Framework
+- [Node.js](https://nodejs.org/en/) for providing the Backend Framework
+- [Express.js](https://expressjs.com/) for providing the Backend Framework
+- [MongoDB](https://www.mongodb.com/) for providing the Database
+- [Mongoose](https://mongoosejs.com/) for providing the Database Framework
+- [React Router](https://reactrouter.com/) for providing the Routing Framework
+- [React Icons](https://react-icons.github.io/react-icons/) for providing the Icons
+- [Chakra UI](https://chakra-ui.com/) for providing the UI Components
+- [DaisyUI](https://daisyui.com/) for providing the UI Components
