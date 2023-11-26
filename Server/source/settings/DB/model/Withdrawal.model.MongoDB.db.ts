@@ -1,10 +1,10 @@
 export default {
-	UserClientID: { type: Number, required: true, default: 0, length: 20, unique: false },
+	UserClientID: { type: Number, required: true, default: 0, minlength: 20, unique: false },
 	UserPaymentID: { type: String, required: true, default: "example@pp", unique: false },
 	UserName: { type: String, required: true, default: "guest", unique: false },
 	UserEmail: { type: String, required: true, unique: false, default: "example@example.com" },
 	UserPhone: { type: String, required: true, length: 10, default: 0, unique: false },
-	TransactionID: { type: String, default: "00000", required: true, unique: true, min: 15, max:28 },
+	TransactionID: { type: String, default: "00000", required: true, unique: true, minlength: 15, maxlength:28 },
 	TransactionMethod: { type: String, required: true, default: "Unknown", enum: ["Unknown", "PaisaPay Wallet", "Other"], unique: false },
 	TransactionDate: { type: Date, required: true, default: Date.now(), unique: false },
 	TransactionAmount: { type: Number, required: true, default: 0, unique: false, min: 0 },
