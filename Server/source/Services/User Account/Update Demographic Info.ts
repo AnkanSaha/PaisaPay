@@ -31,7 +31,6 @@ interface DecryptedData {
 export default async function UpdateDemographicInfo(Request: Request, Response: ResponseInterface){
     try{
         const Decrypted_Info: DecryptedData = JSON.parse(await EncryptMiddleware.Decrypt(Request.body.Encrypted_Info)); // Decrypt The Info
-
         // Short Data
         const ShortData = {
             OldEmail: Decrypted_Info.OldEmail.toLowerCase(),
@@ -40,7 +39,6 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
 
         // Find the User Account
         const AccountDetails = await AccountExistenceChecker(Decrypted_Info.OldPhoneNumber, ShortData.OldEmail); // Check If Account Exists
-
         if(AccountDetails.Information.count === 0 ){
             Serve.JSON({
                 response: Response,
@@ -138,7 +136,8 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
             DOB: moment(Decrypted_Info.NewDOB).format("DD-MM-YYYY"),
             Name: Decrypted_Info.Name
         }
-        const UpdateStatus = await MongoDB.ClientAccount.update([{ClientID: Decrypted_Info.ClientID}, {Email: Decrypted_Info.OldEmail}, {PhoneNumber: Decrypted_Info.OldPhoneNumber}], ToBeUpdate, false); // Update The Account Details In The Database
+        // Update The Account Details In The Database
+        const UpdateStatus = await MongoDB.ClientAccount.update([{ClientID: Decrypted_Info.ClientID}, {Email: ShortData.OldEmail}, {PhoneNumber: Decrypted_Info.OldPhoneNumber}], ToBeUpdate, false); // Update The Account Details In The Database
 
         // Check If The Update Was Successful
         if(UpdateStatus.UpdatedCount === 0){

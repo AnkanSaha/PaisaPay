@@ -243,7 +243,7 @@ export default function SignupForm() {
 					/>
 				</div>
 				<div className="mb-4">
-					<h1 className="mb-2 font-semibold">Enter Mobile Number</h1>
+					<h1 className="mb-2 font-semibold">Enter Mobile Number (without country code)</h1>
 					<input
 						type="number"
 						name="PhoneNumber"

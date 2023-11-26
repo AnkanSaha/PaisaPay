@@ -15,12 +15,14 @@ import { UpdateProfilePicture } from "../../../Services/User Account/Profile Det
 import { UpdateTransactionPIN } from "../../../Services/User Account/Update Transaction PIN"; // Import UpdateTransactionPIN from '.../.../.../Update Transaction PIN'
 import UpdatePaymentID from '../../../Services/User Account/Update Payment ID'; // Import UpdatePaymentID from '.../.../.../Update Payment ID'
 import UpdateDemographicInfo from "../../../Services/User Account/Update Demographic Info"; // Import UpdateDemographicInfo from '.../.../.../Update Demographic Info'
+import UpdatePassword  from "../../../Services/User Account/Update Password"; // Import UpdatePassword from '.../.../.../Update Password'
 
 // All Routes
 ProfileDetails.put("/update-profile-picture", Multer.single("profilePicture"), SessionValidation, UpdateProfilePicture); // Use User Route
 ProfileDetails.put("/transaction-pin", UpdateTransactionPIN); // Use The Update Transaction PIN Route
 ProfileDetails.put("/update-PaymentID", UpdatePaymentID); // Use The Update Payment ID Route
 ProfileDetails.put("/update-Demographic-Info", UpdateDemographicInfo); // use the Update UpdateDemographicInfo Route
+ProfileDetails.put("/update-password", UpdatePassword); // use the Update UpdateDemographicInfo Route
 
 // Export Get_Request_Manager
 export default ProfileDetails;
