@@ -8,6 +8,7 @@ import UpdateProfilePicture from '@component/Dashboard Components/User Profile/U
 import UpdateTransactionPIN from '@component/Dashboard Components/User Profile/Update Transaction PIN'; // import the update transaction pin component
 import UpdatePaymentID from '@component/Dashboard Components/User Profile/Update Payment ID';  // Import the Update Payment ID Components
 import UpdateDemographicInfo from '@component/Dashboard Components/User Profile/Update Demographic Details.jsx';
+import UpdatePassword from '@component/Dashboard Components/User Profile/Update Password'; // import the update password component
 
 // import Functions
 import { Update_Document_Title } from '@helper/Common'; // import the function to update the document title
@@ -34,6 +35,7 @@ export default function UserProfile() {
 			<UpdateTransactionPIN />
 			<UpdatePaymentID />
 			<UpdateDemographicInfo />
+			<UpdatePassword />
 			<ProfileDetails />
 			<Footer FooterStyle="fixed" />
 		</>

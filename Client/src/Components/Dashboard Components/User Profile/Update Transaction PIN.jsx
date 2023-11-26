@@ -10,7 +10,7 @@ import { MdSystemSecurityUpdateGood } from 'react-icons/md'; // import the MdSys
 import { useSelector } from 'react-redux'; // import the hook from react-redux
 
 // Import Helpers
-import {Cryptography, API} from '../../../Helper/Common'; // import the cryptography function
+import {Cryptography, API} from '@helper/Common'; // import the cryptography function
 
 // Main Function based component
 export default function UpdateTransactionPIN() {
