@@ -10,6 +10,9 @@ import { BiMoneyWithdraw } from "react-icons/bi"; // import BiMoneyWithdraw from
 import { CgProfile } from "react-icons/cg"; // import CgProfile from react-icons/cg
 import { AiOutlineQrcode } from "react-icons/ai"; // import AiOutlineQrcode from react-icons/ai
 import { BiSolidHelpCircle } from "react-icons/bi"; // import BiSolidHelpCircle from react-icons/bi
+import { BsFillCaretLeftSquareFill } from "react-icons/bs"; // import BsFillCaretLeftSquareFill from react-icons/bs
+import { AiOutlineDoubleRight } from "react-icons/ai"; // import AiOutlineDoubleRight from react-icons/ai
+import { MdRequestQuote } from "react-icons/md"; // import MdRequestQuote from react-icons/md
 
 // React JWT
 import { Cryptography } from "@helper/Common"; // import Cryptography from Common.jsx
@@ -22,10 +25,6 @@ import { useSelector, useDispatch } from "react-redux"; // import useSelector fr
 
 // Import States Actions
 import { deleteAccountDetails } from "@redux/Slices/Account Slice"; // Import Account Slice
-
-// Import Icons
-import { BsFillCaretLeftSquareFill } from "react-icons/bs"; // import BsFillCaretLeftSquareFill from react-icons/bs
-import { AiOutlineDoubleRight } from "react-icons/ai"; // import AiOutlineDoubleRight from react-icons/ai
 
 export default function Sidebar() {
   // Hooks
@@ -186,6 +185,25 @@ export default function Sidebar() {
                 </svg>
                 <span className="flex-1 ml-3 whitespace-nowrap">
                   Withdraw Funds
+                </span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/dashboard/request-money"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <svg
+                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 18 16"
+                >
+                  <MdRequestQuote />
+                </svg>
+                <span className="flex-1 ml-3 whitespace-nowrap">
+                 Request Money
                 </span>
               </Link>
             </li>

@@ -13,6 +13,7 @@ import SendMoney from '@page/Dashboard Pages/Send Money'; // import the send mon
 import Withdrawal from '@page/Dashboard Pages/Withdrawal'; // import the withdrawal page
 import HelpAndSupport from '@page/Dashboard Pages/Help & Support'; // import the help and support page
 import UserProfile from '@page/Dashboard Pages/User Profile'; // import the user profile page
+import RequestMoney from '@page/Dashboard Pages/Request Money'; // import the request money page
 
 export default function DashboardRouter() {
 	return (
@@ -25,6 +26,7 @@ export default function DashboardRouter() {
 			<Route path="/Transactions-history" element={<PaymentHistory />} />
 			<Route path="/send-money" element={<SendMoney />} />
 			<Route path="/withdraw-funds" element={<Withdrawal />} />
+			<Route path="/request-money" element={<RequestMoney />} />
 			<Route path="/user-profile" element={<UserProfile />} />
 			<Route
 				path="*"
