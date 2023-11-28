@@ -109,8 +109,20 @@ export default defineConfig({
       "@router": "/src/Settings/Router",
       "@redux": "/src/App/Redux",
     },
+    dedupe: ["react", "react-dom", "react-router-dom"],
+    extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".vue", ".mjsx", ".ts", ".tsx", ".jsx", ".vue", ".json", ".wasm", ".png", ".svg", ".jpg", ".jpeg", ".gif", ".bmp", ".tiff", ".webp", ".avif", ".mp4", ".webm", ".ogg", ".mp3", ".wav", ".flac", ".aac", ".woff", ".woff2", ".ttf", ".otf", ".eot", ".pdf", ".epub", ".zip", ".gz", ".tgz", ".brotli", ".7z", ".rar", ".bz2", ".xz", ".pdf", ".epub", ".woff", ".woff2", ".ttf", ".otf", ".eot", ".wav", ".mp3", ".mp4", ".webm", ".ogg", ".m4a", ".aac", ".flac", ".oga", ".opus", ".svg", ".svgz", ".zip", ".gz", ".tgz", ".brotli", ".7z", ".rar", ".bz2", ".xz", ".pdf", ".epub", ".woff", ".woff2", ".ttf", ".otf", ".eot", ".wav", ".mp3", ".mp4", ".webm", ".ogg", ".m4a", ".aac", ".flac", ".oga", ".opus", ".svg", ".svgz", ".zip", ".gz", ".tgz", ".brotli", ".7z", ".rar", ".bz2", ".xz", ".pdf", ".epub"],
+    mainFields: ["module", "jsnext:main", "jsnext", "browser", "main"],
+    symlinks: true,
+    preferRelative: true,
+    preserveSymlinks: true,
+    dedupeImportSource: true,
+    mainFiles: ["index", "main", "module"],
+    enforceExtension: false,
+    enforceModuleExtension: false,
+    fullySpecified: false
   },
   optimizeDeps: {
     include: ["react", "react-dom", "react-router-dom"],
+    sourcemap: true
   }
 });
