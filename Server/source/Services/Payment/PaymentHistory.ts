@@ -16,9 +16,6 @@ export const GetTransactionHistory = async (Request: Request, Response: Response
 	try {
 		const { Number, Email } = Request.body; // Get Data From Request Params
 
-		// Get Request IP Address from Headers
-		const RequestIP = Request.headers["x-forwarded-for"] || Request.socket.remoteAddress || ""; // Get Request IP Address
-		console.log(RequestIP); // Log Request IP Address
 		// Decrypt Phone Number & Email ID
 		const MobNumber: int = JSON.parse(await EncryptConfig.Decrypt(String(Number))); // Decrypt Phone Number
 		const EmailID: str = JSON.parse(await EncryptConfig.Decrypt(String(Email))); // Decrypt Email ID

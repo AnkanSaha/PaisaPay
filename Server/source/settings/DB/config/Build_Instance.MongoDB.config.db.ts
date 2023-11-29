@@ -7,6 +7,7 @@ import ServerTransactionModel from "../model/Server.Transaction.model.MongoDB.db
 import P2PTransactionModel from "../model/P2P.Transaction.model.MongoDB.db";
 import HelpCenterModel from "../model/Help.Center.model.MongoDB.db"; // Import the help center data model
 import WithdrawalModel from "../model/Withdrawal.model.MongoDB.db"; // Import the withdrawal data model
+import RequestMoneyModel from "../model/Request.Money.model.MongoDB.db"; // Import the request money data model
 
 // Export the Mongo Instance for Connection & Client Account creation
 export const Client_Account_and_Connection_Instance = new Mongo({
@@ -55,3 +56,13 @@ export const Withdrawal_Instance = new Mongo({
 	Schema: WithdrawalModel,
 	isTimeStamps: true,
 }); // Create a new instance of Mongo for Store All Withdrawal Details like UserClientID, UserPaymentID, etc.
+
+
+export const Request_Money_Instance = new Mongo({
+	MongoURL: Database_Keys.MongoDB,
+	Database_Name: Database_Keys.DB_Name,
+	NeverDisconnect: true,
+	CollectionName: Database_Keys.RequestMoneyCollectionName,
+	Schema: RequestMoneyModel,
+	isTimeStamps: true,
+}); // Create a new instance of Mongo for Store All Request Money Details like UserClientID, UserPaymentID, etc.

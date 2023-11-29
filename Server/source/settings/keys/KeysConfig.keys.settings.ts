@@ -33,6 +33,7 @@ export const Database_Keys = {
 	P2PTransactionCollectionName: String("P2PTransactionDetail"),
 	HelpCenterCollectionName: String("HelpCenterDetail"),
 	WithdrawalCollectionName: String("WithdrawalDetail"),
+	RequestMoneyCollectionName: String("RequestMoneyDetail"),
 };
 
 // Payment Related Keys
