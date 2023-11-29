@@ -1,6 +1,6 @@
 import React from 'react'; // Import React
 import { useSelector } from 'react-redux'; // import useSelector from react-redux
-import { Cryptography, API as Service } from '@helper/Common'; // import the Crypto function from the Common file
+import { Cryptography } from '@helper/Common'; // import the Crypto function from the Common file
 
 // Import Components
 import {

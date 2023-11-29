@@ -1,11 +1,11 @@
 import React from 'react'; // Import React
 import { useSelector } from 'react-redux'; // import useSelector from react-redux
 // import Moment from 'moment'; // import moment for date formatting
-import { Cryptography, API as Service } from '@helper/Common'; // import the Crypto function from the Common file
+import { Cryptography } from '@helper/Common'; // import the Crypto function from the Common file
 
 
 // import Components
-import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, TableContainer, Button, useToast } from '@chakra-ui/react'; // import the chakra ui table components
+import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, TableContainer, Button } from '@chakra-ui/react'; // import the chakra ui table components
 import { LoadingScreen } from '@page/Common Pages/Loading Screen'; // import the loading screen component
 
 // import icons
@@ -13,10 +13,10 @@ import { PiContactlessPaymentLight } from 'react-icons/pi'; // import the paymen
 
 export default function ReceivedRequestTable() {
 	//States
-	const [isLoading, setIsLoading] = React.useState(false); // Loading Screen State
+	const [isLoading] = React.useState(false); // Loading Screen State
 
 	// Hooks
-	const toast = useToast(); // use toast for the toast notification
+	// const toast = useToast(); // use toast for the toast notification
 
     // Redux Store
 	const ReduxState = useSelector(state => state); // get the account details from the redux store
