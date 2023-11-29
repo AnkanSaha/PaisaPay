@@ -16,7 +16,7 @@ import {
 	FormControl,
 	FormLabel,
 	Input,
-    useToast
+    // useToast
 } from '@chakra-ui/react'; // import the chakra ui table components
 
 // Import Icons
@@ -28,7 +28,7 @@ export default function CreateNewMoneyRequest() {
     const [CreateButtonLoading, setCreateButtonLoading] = React.useState(false); // Create Button Loading State
 
     // Hooks 
-    const toast = useToast(); // use toast for the toast notification
+    // const toast = useToast(); // use toast for the toast notification
     const ReduxState = useSelector(state => state); // get the account details from the redux store
 
     // Decode All Account Details

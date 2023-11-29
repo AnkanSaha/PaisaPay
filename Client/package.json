@@ -4,7 +4,7 @@
   "version": "1.5.3",
   "type": "module",
   "scripts": {
-    "dev": "npm test && vite --host",
+    "dev": "vite --host",
     "build": "npm test && vite build",
     "test": "npm run lint",
     "preview": "npm test && vite preview",
