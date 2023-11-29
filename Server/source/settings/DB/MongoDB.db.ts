@@ -5,6 +5,7 @@ import {
 	P2P_Transaction_Instance,
 	Help_Center_Instance,
 	Withdrawal_Instance,
+	Request_Money_Instance,
 } from "./config/Build_Instance.MongoDB.config.db"; // Import All Instances
 
 // Link All Instances as MongoInstances
@@ -14,4 +15,5 @@ export default {
 	P2PTransaction: P2P_Transaction_Instance,
 	HelpCenter: Help_Center_Instance,
 	Withdrawal: Withdrawal_Instance,
+	RequestMoney: Request_Money_Instance
 }; // Export All Instances
