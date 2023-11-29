@@ -38,7 +38,7 @@ export default function ReceivedRequestTable() {
 									<Th>Requester Name</Th>
 									<Th>Requester Payment ID</Th>
 									<Th> Phone Number </Th>
-									<Th>Time</Th>
+									<Th>Requested Date & Time</Th>
 									<Th> Amount </Th>
 									<Th> Request Status </Th>
 									<Th> Take Payment Action </Th>
@@ -49,7 +49,7 @@ export default function ReceivedRequestTable() {
 									<Td>John Doe</Td>
 									<Td>PaisaPay@pp</Td>
 									<Td> +91 1234567890 </Td>
-									<Td> 12:00 PM </Td>
+									<Td> 12/12/2021 12:12 AM </Td>
 									<Td> $100 </Td>
 									<Td> Pending </Td>
 									<Td>
