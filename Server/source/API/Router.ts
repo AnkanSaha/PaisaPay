@@ -1,27 +1,15 @@
 /* eslint-disable new-cap */
 import { Router, Request, Response } from "express"; // Import Express
 import { StatusCodes, Response as Serve } from "outers"; // Import Status Codes
-import rateLimit from "express-rate-limit"; // Import rate limit for limiting request
+
+// Import Middlewares
+import RateLimiterMiddleware from "../Middleware/RateLimiter.middleware"; // Import Rate Limiter Middleware
 
 // setup Router
 const MainRouter = Router(); // Create Router
 
 // Implement Rate Limit
-MainRouter.use(
-	rateLimit({
-		windowMs: 60 * 1000, // 1 minute
-		max: 15, // 15 requests
-		message: {
-			status: false,
-			statusCode: StatusCodes.TOO_MANY_REQUESTS,
-			Title: "Too many requests",
-			message: "Too many requests, please try again later",
-			response: undefined,
-		},
-		standardHeaders: true, // Include standard headers for request limit
-		legacyHeaders: false, // Include legacy headers for request limit
-	})
-);
+MainRouter.use(RateLimiterMiddleware); // Use Rate Limiter Middleware on Main Router
 
 // import All Sub Routers
 /* The code is importing different modules that handle different types of HTTP requests (GET, POST,
