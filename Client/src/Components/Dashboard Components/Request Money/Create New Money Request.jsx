@@ -1,6 +1,6 @@
 import React from 'react'; // Import React
 import { useSelector } from 'react-redux'; // import useSelector from react-redux
-import { Cryptography, API as Service } from '../../../Helper/Common'; // import the Crypto function from the Common file
+import { Cryptography, API as Service } from '@helper/Common'; // import the Crypto function from the Common file
 
 // Import Components
 import {
@@ -80,6 +80,15 @@ export default function CreateNewMoneyRequest() {
 				isClosable: true,
 			}); // return a toast notification
 		}
+		else if(RequestInfo.SenderPaymentID === RequestInfo.RequesterPaymentID){
+			return toast({
+				title: 'Error',
+				description: 'You cannot request money from yourself',
+				status: 'error',
+				duration: 5000,
+				isClosable: true,
+			}); // return a toast notification
+		}
 		setRequestButtonLoading(true); // set the request button loading state to true
 
 		// Encrypt the request info
@@ -90,8 +99,28 @@ export default function CreateNewMoneyRequest() {
 			Encrypted_Request_Info: Encrypted_Request_Info,
 			sessionID: ReduxState.AccountInfo.sessionID,
 		}); // send the request to the server
-		console.log(Response);
+
 		setRequestButtonLoading(false); // set the request button loading state to false
+
+		if(Response.statusCode === 200){
+			CloseModal(); // close the modal
+			return toast({
+				title: Response.Title,
+				description: Response.message,
+				status: 'success',
+				duration: 5000,
+				isClosable: true,
+			}); // return a toast notification
+		}
+		else {
+			return toast({
+				title: Response.Title,
+				description: Response.message,
+				status: 'error',
+				duration: 5000,
+				isClosable: true,
+			}); // return a toast notification
+		}
 	};
 	return (
 		<>
@@ -113,7 +142,7 @@ export default function CreateNewMoneyRequest() {
 					<ModalCloseButton />
 					<ModalBody pb={6}>
 						<FormControl isRequired>
-							<FormLabel>Payment ID</FormLabel>
+							<FormLabel>Payment ID (including @pp)</FormLabel>
 							<Input
 								name="SenderPaymentID"
 								onChange={Onchange}
