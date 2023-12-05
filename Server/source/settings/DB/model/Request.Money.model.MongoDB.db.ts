@@ -1,5 +1,5 @@
 export default {
-    RequestID: {type: Number, required: true, unique: true, minlength: 15, default: 0},
+    RequestID: {type: Number, required: true, unique: true, minlength: 10, default: 0},
     RequesterClientID: {type: Number, required: true, unique: false, minlength: 10, default: 0},
     RequesterName: {type: String, required: true, unique: false, default: "guest"},
     RequesterPaymentID: {type: String, required: true, unique: false, default: "example@pp"},

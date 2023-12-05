@@ -1,7 +1,8 @@
 import React from 'react'; // Import React
 import { useSelector } from 'react-redux'; // import useSelector from react-redux
 import Moment from 'moment'; // import moment for date formatting
-import { Cryptography, API as Service } from '../../../Helper/Common'; // import the Crypto function from the Common file
+import { Cryptography, API as Service } from '@helper/Common'; // import the Crypto function from the Common file
+import {useNavigate} from 'react-router-dom'; // import the link component from react-router-dom
 
 // import Components
 import {
@@ -47,6 +48,7 @@ export default function ReceivedRequestTable() {
 		// Payment Info State
 		ReceivingPaymentID: '',
 		TransactionAmount: '',
+		RequestID: '',
 		SendingClientID: Decoded_Account_Details.ClientID,
 		SendingPaymentID: Decoded_Account_Details.PaymentID,
 		SenderName: Decoded_Account_Details.Name,
@@ -59,6 +61,7 @@ export default function ReceivedRequestTable() {
 	// Hooks
 	const toast = useToast(); // use toast for the toast notification
 	const { isOpen, onOpen, onClose } = useDisclosure(); // use the useDisclosure hook for the modal
+	const navigate = useNavigate(); // use the navigate hook for navigation
 
 	// Use Effect
 	React.useEffect(() => {
@@ -88,8 +91,8 @@ export default function ReceivedRequestTable() {
 			...PaymentInfo,
 			[event.target.name]: event.target.value,
 		}); // update the payment info
-		console.log(PaymentInfo);
 	};
+	
 	// Functions
 	const OpenModal = () => {
 		onOpen();
@@ -98,14 +101,58 @@ export default function ReceivedRequestTable() {
 	const CloseModal = () => {
 		onClose();
 	};
-	const LoadPaymentInfoInState = (ReceivingPaymentID, TransactionAmount) => {
+	const LoadPaymentInfoInState = (ReceivingPaymentID, TransactionAmount, RequestID) => {
 		OpenModal();
 		setPaymentInfo({
 			...PaymentInfo,
 			ReceivingPaymentID: ReceivingPaymentID,
+			RequestID: RequestID,
 			TransactionAmount: TransactionAmount,
 		}); // update the payment info
 		return;
+	};
+
+	const PayNow = async () => {
+		if(PaymentInfo.TransactionPIN === ''){
+			toast({
+				title: 'Transaction PIN is required',
+				description: 'Please enter your transaction PIN to continue',
+				status: 'error',
+				duration: 9000,
+				isClosable: true,
+			}); // display the toast notification
+			return;
+		}
+		setPaymentButtonLoading(true); // set the payment button loading to true
+		// Encrypt All the Payment Info
+		const Encrypted_Request_Info = await Cryptography.Encrypt(PaymentInfo); // encrypt the payment info
+
+		// Send the request to the server
+		const Response = await Service.Post('/post/Payment/send-money-for-request', {
+			Encrypted_Request_Info: Encrypted_Request_Info,
+			sessionID: ReduxState.AccountInfo.sessionID
+		})
+		if(Response.statusCode === 200){
+			setPaymentButtonLoading(false); // set the payment button loading to false
+			toast({
+				title: Response.Title,
+				description: Response.message,
+				status: 'success',
+				duration: 9000,
+				isClosable: true,
+			}); // display the toast notification
+			navigate('/dashboard'); // navigate to the dashboard
+		}
+		else{
+			toast({
+				title: Response.Title,
+				description: Response.message,
+				status: 'error',
+				duration: 9000,
+				isClosable: true,
+			}); // display the toast notification
+			setPaymentButtonLoading(false); // set the payment button loading to false
+		}
 	};
 	return (
 		<>
@@ -118,7 +165,7 @@ export default function ReceivedRequestTable() {
 							<TableCaption> All the received requests will be displayed here. </TableCaption>
 							<Thead>
 								<Tr>
-									<Th>Requester ID</Th>
+									<Th>Request ID</Th>
 									<Th>Requester Name</Th>
 									<Th>Requester Payment ID</Th>
 									<Th>Requested Date & Time</Th>
@@ -146,10 +193,10 @@ export default function ReceivedRequestTable() {
 													variant="solid"
 													isDisabled={Request.TransactionStatus === 'Pending' ? false : true}
 													onClick={() => {
-														LoadPaymentInfoInState(Request.RequesterPaymentID, Request.TransactionAmount);
+														LoadPaymentInfoInState(Request.RequesterPaymentID, Request.TransactionAmount, Request.RequestID);
 													}}>
 													{' '}
-													{Request.TransactionStatus === 'Pending' ? 'Pay now' : 'Paid'}
+													{Request.TransactionStatus === 'Pending' ? 'Pay Now' : 'Paid'}
 												</Button>{' '}
 											</Td>
 										</Tr>
@@ -171,8 +218,8 @@ export default function ReceivedRequestTable() {
 							</ModalBody>
 
 							<ModalFooter>
-								<Button colorScheme="blue" mr={3} isLoading={PaymentButtonLoading}>
-									Request Money
+								<Button colorScheme="blue" mr={3} isLoading={PaymentButtonLoading} onClick={PayNow}>
+									Pay Instantly
 								</Button>
 								<Button onClick={CloseModal}>Cancel</Button>
 							</ModalFooter>
