@@ -200,3 +200,67 @@ export default async (Request: Request, Response: ResponseInterface) => {
 		}); // Send Response
 	}
 };
+
+
+export async function Get_Request_money(Request: Request, Response: ResponseInterface){
+	try {
+		const {ClientID, Email}  = Request.query; // Get ClientID & Email from Request
+		// Short the Email ID
+		const ShortEmail = String(Email).toLowerCase(); // Short Email ID
+
+		// Check if ClientID is valid
+		const AccountDetails = await MongoDB.ClientAccount.find("AND", [{ClientID}, {Email: ShortEmail}]); // Check if ClientID is valid
+
+		// Check if Account Exists or not
+		if(AccountDetails.count === 0){
+			Serve.JSON({
+				response: Response,
+				status: false,
+				statusCode: StatusCodes.NOT_FOUND,
+				Title: "Account Not Found",
+				message: "The account you are trying to request money from does not exist.",
+				data: undefined,
+			}); // Send Response
+			return; // Return
+		}
+
+		// Find all requests made by the another user to this user
+		const AllRequests = await MongoDB.RequestMoney.find("AND", [{SenderClientID: ClientID}, {SenderEmail: ShortEmail}]); // Find all requests made by the another user to this user
+
+		// Check if there are any requests
+		if(AllRequests.count === 0){
+			Serve.JSON({
+				response: Response,
+				status: false,
+				statusCode: StatusCodes.NOT_FOUND,
+				Title: "No Requests Found",
+				message: "You do not have any requests. See you later.",
+				data: undefined,
+			}); // Send Response
+			return; // Return
+		}
+		// Encrypt Data & Send Response
+		const EncryptedData = await EncryptConfig.Encrypt(AllRequests.Data); // Encrypt Data
+
+		// Send Response
+		Serve.JSON({
+			response: Response,
+			status: true,
+			statusCode: StatusCodes.OK,
+			Title: "Requests Found",
+			message: "Requests Found. Please check the data.",
+			data: EncryptedData,
+		}); // Send Response
+	}
+	catch (Error){
+		Console.red(Error); // Log Error
+		Serve.JSON({
+			response: Response,
+			status: false,
+			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+			Title: "Internal Server Error",
+			message: "Something went wrong while processing your request. Please try again later.",
+			data: undefined,
+		}); // Send Response
+	}
+}

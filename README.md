@@ -33,6 +33,7 @@
   - JWT_SECRET
   - JWT_EXPIRES_IN
   - MONGODB_URL
+  - DB_NAME
   - RAZORPAY_MERCHANT_ID
 - change to Client directory and run `npm install`
 - run `npm run dev` in Server directory  to Start Server
