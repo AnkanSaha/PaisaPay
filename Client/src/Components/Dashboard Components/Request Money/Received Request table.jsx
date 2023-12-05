@@ -4,25 +4,61 @@ import Moment from 'moment'; // import moment for date formatting
 import { Cryptography, API as Service } from '../../../Helper/Common'; // import the Crypto function from the Common file
 
 // import Components
-import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, TableContainer, Button, useToast } from '@chakra-ui/react'; // import the chakra ui table components
+import {
+	Table,
+	Thead,
+	Tbody,
+	Tr,
+	Th,
+	Td,
+	TableCaption,
+	TableContainer,
+	Button,
+	useToast,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalFooter,
+	ModalBody,
+	ModalCloseButton,
+	FormControl,
+	FormLabel,
+	Input,
+	useDisclosure,
+} from '@chakra-ui/react'; // import the chakra ui table components
 import { LoadingScreen } from '@page/Common Pages/Loading Screen'; // import the loading screen component
 
 // import icons
 import { PiContactlessPaymentLight } from 'react-icons/pi'; // import the payment icon
 
 export default function ReceivedRequestTable() {
-	//States
-	const [isLoading, setIsLoading] = React.useState(true); // Loading Screen State
-	const [ReceivedRequest, setReceivedRequest] = React.useState([]); // Received Request State
-
-	// Hooks
-	const toast = useToast(); // use toast for the toast notification
-
 	// Redux Store
 	const ReduxState = useSelector(state => state); // get the account details from the redux store
 
 	// Decode All Account Details
 	const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(ReduxState.AccountInfo.AccountDetails)); // decode the jwt token to get the account details
+
+	//States
+	const [isLoading, setIsLoading] = React.useState(true); // Loading Screen State
+	const [PaymentButtonLoading, setPaymentButtonLoading] = React.useState(false); // Request Button Loading State
+	const [ReceivedRequest, setReceivedRequest] = React.useState([]); // Received Request State
+	const [PaymentInfo, setPaymentInfo] = React.useState({
+		// Payment Info State
+		ReceivingPaymentID: '',
+		TransactionAmount: '',
+		SendingClientID: Decoded_Account_Details.ClientID,
+		SendingPaymentID: Decoded_Account_Details.PaymentID,
+		SenderName: Decoded_Account_Details.Name,
+		SenderEmail: Decoded_Account_Details.Email,
+		SenderPhone: Decoded_Account_Details.PhoneNumber,
+		TransactionDescription: '',
+		TransactionPIN: '',
+	}); // Payment Info State
+
+	// Hooks
+	const toast = useToast(); // use toast for the toast notification
+	const { isOpen, onOpen, onClose } = useDisclosure(); // use the useDisclosure hook for the modal
 
 	// Use Effect
 	React.useEffect(() => {
@@ -46,6 +82,31 @@ export default function ReceivedRequestTable() {
 		});
 	}, []); // load the page
 
+	// Payment Function
+	const Onchange = event => {
+		setPaymentInfo({
+			...PaymentInfo,
+			[event.target.name]: event.target.value,
+		}); // update the payment info
+		console.log(PaymentInfo);
+	};
+	// Functions
+	const OpenModal = () => {
+		onOpen();
+	};
+
+	const CloseModal = () => {
+		onClose();
+	};
+	const LoadPaymentInfoInState = (ReceivingPaymentID, TransactionAmount) => {
+		OpenModal();
+		setPaymentInfo({
+			...PaymentInfo,
+			ReceivingPaymentID: ReceivingPaymentID,
+			TransactionAmount: TransactionAmount,
+		}); // update the payment info
+		return;
+	};
 	return (
 		<>
 			{isLoading === true ? (
@@ -83,7 +144,10 @@ export default function ReceivedRequestTable() {
 													rightIcon={<PiContactlessPaymentLight />}
 													colorScheme={Request.TransactionStatus === 'Pending' ? 'green' : 'red'}
 													variant="solid"
-													isDisabled={Request.TransactionStatus === 'Pending' ? false : true}>
+													isDisabled={Request.TransactionStatus === 'Pending' ? false : true}
+													onClick={() => {
+														LoadPaymentInfoInState(Request.RequesterPaymentID, Request.TransactionAmount);
+													}}>
 													{' '}
 													{Request.TransactionStatus === 'Pending' ? 'Pay now' : 'Paid'}
 												</Button>{' '}
@@ -94,6 +158,26 @@ export default function ReceivedRequestTable() {
 							</Tbody>
 						</Table>
 					</TableContainer>
+					<Modal isOpen={isOpen} onClose={CloseModal}>
+						<ModalOverlay />
+						<ModalContent>
+							<ModalHeader>Pay To {PaymentInfo.ReceivingPaymentID}</ModalHeader>
+							<ModalCloseButton />
+							<ModalBody pb={6}>
+								<FormControl isRequired mt={4}>
+									<FormLabel>Transaction PIN</FormLabel>
+									<Input name="TransactionPIN" onChange={Onchange} value={PaymentInfo.TransactionPIN} placeholder="Enter Transaction PIN to continue" />
+								</FormControl>
+							</ModalBody>
+
+							<ModalFooter>
+								<Button colorScheme="blue" mr={3} isLoading={PaymentButtonLoading}>
+									Request Money
+								</Button>
+								<Button onClick={CloseModal}>Cancel</Button>
+							</ModalFooter>
+						</ModalContent>
+					</Modal>
 				</>
 			)}
 		</>
