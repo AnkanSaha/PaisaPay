@@ -38,21 +38,21 @@ export const GetTransactionHistory = async (Request: Request, Response: Response
 		// Get All Transaction from MongoDB Server Transaction Model
 		const AllServerTransaction = await MongoDB.ServerTransaction.find("AND", [
 			{ UserClientID: AccountStatus.Information.Data[0].ClientID },
-			{ UserPaymentID: AccountStatus.Information.Data[0].PaymentID },
+			{UserPhone: AccountStatus.Information.Data[0].PhoneNumber},
 			{ UserEmail: EmailID },
 		]); // Get All Server Transaction
 
 		// Get All Receiving Transaction from MongoDB P2P Transaction Model
 		const AllReceivingTransaction = await MongoDB.P2PTransaction.find("AND", [
 			{ ReceivingClientID: AccountStatus.Information.Data[0].ClientID },
-			{ ReceivingPaymentID: AccountStatus.Information.Data[0].PaymentID },
+			{ ReceivingPhone: AccountStatus.Information.Data[0].PhoneNumber },
 			{ ReceivingEmail: EmailID },
 		]);
 
 		// Get All Sending Transaction from MongoDB P2P Transaction Model
 		const AllSendingTransaction = await MongoDB.P2PTransaction.find("AND", [
 			{ SendingClientID: AccountStatus.Information.Data[0].ClientID },
-			{ SendingPaymentID: AccountStatus.Information.Data[0].PaymentID },
+			{ SenderPhone: AccountStatus.Information.Data[0].PhoneNumber },
 			{ SenderEmail: EmailID },
 		]);
 
