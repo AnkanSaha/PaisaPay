@@ -34,7 +34,8 @@ import {
 	Available_Databases,
 	Process_Manager,
 	Web_Server_Manager,
-} from '../App/App_Config'; // import the App Name
+	Client_Side_Crypto_Key
+} from '@app/App_Config'; // import the App Name
 import Get_IP_Details from './IP Details/Get IP Details'; // import the Get_IP_Details function
 
 // function to load all General Information about the application
@@ -145,7 +146,7 @@ export async function Update_Internet_Status() {
 import { React } from 'react-caches'; // import the encryption configuration
 
 // Register Class Based Encryption Function
-export const Cryptography = new React.ClassBasedFunctions.ReactEncrypt('AN65CDERE584GRT1RB5TR16TR4BT4NVERGREGRE45V84TR1B215');
+export const Cryptography = new React.ClassBasedFunctions.ReactEncrypt(Client_Side_Crypto_Key);
 
 // Register Class Based API Call Function
 export const API = new React.ClassBasedFunctions.API({

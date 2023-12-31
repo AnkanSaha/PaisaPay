@@ -89,8 +89,9 @@ export function DeviceDetailsSetter() {
 	return DeviceDetails;
 }
 
-// IPInfo API Key
+// API Key
 export const IP_INFO_API_KEY = '1987d4305bdd80'; // API Key
+export const Client_Side_Crypto_Key = 'AFF51551651$GG8^8#*514654^VREVER*54548&VREVE$VREVERJ*FREFREV%561651512^$5145BTBT$5165415#BTRBTBR^5165TB4T5B1TR%B1RTB51T56B1R^B65T4B56TR1BR5%'; // Crypto Key
 
 // Global Storage Functions Like LocalStorage, SessionStorage, CacheStorage, Cookies, etc.
 import { CacheStorage } from 'react-caches'; // Cache Storage
