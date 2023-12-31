@@ -90,8 +90,8 @@ export function DeviceDetailsSetter() {
 }
 
 // API Key
-export const IP_INFO_API_KEY = '1987d4305bdd80'; // API Key
-export const Client_Side_Crypto_Key = 'AFF51551651$GG8^8#*514654^VREVER*54548&VREVE$VREVERJ*FREFREV%561651512^$5145BTBT$5165415#BTRBTBR^5165TB4T5B1TR%B1RTB51T56B1R^B65T4B56TR1BR5%'; // Crypto Key
+export const IP_INFO_API_KEY = import.meta.env.VITE_IP_INFO_API_KEY; // API Key For IP Info API import.meta.env.VITE_IPInfoAPIKey
+export const Client_Side_Crypto_Key = import.meta.env.VITE_Encryption_Key; // Crypto Key For Client Side Encryption import.meta.env.VITE_EnCryptionKey
 
 // Global Storage Functions Like LocalStorage, SessionStorage, CacheStorage, Cookies, etc.
 import { CacheStorage } from 'react-caches'; // Cache Storage
@@ -107,3 +107,4 @@ import UserLogo from '@public/icons/user.png'; // Anonymous User Logo
 import UserPicUpload from '@public/icons/user_Profile_Pic_Upload.png'; // User Profile Picture Upload
 export const LocalAnonymousUserLogo = UserLogo; // Anonymous User Logo
 export const LocalUserPicUpload = UserPicUpload; // User Profile Picture Upload
+console.log({Encryption: Client_Side_Crypto_Key, IPINFO:IP_INFO_API_KEY})
