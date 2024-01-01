@@ -27,4 +27,6 @@ export default {
 	LastLoginIP: { type: String, required: true, unique: false, default: "192.168.0.1" },
 	LastLoginClientDetails: { type: Object, unique: false, required: true },
 	LastLoginToken: { type: String, unique: false, required: true, default: "" },
+	isTWO_Factor_Authentication_Activated: { type: Boolean, required: true, default: false, unique: false },
+	SecurityKey_2FA: { type: String, required: true, default: "Not Provided", unique: false, minlength: 5, index: false },
 }; // export the client account data model
