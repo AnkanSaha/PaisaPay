@@ -77,6 +77,6 @@ if (isPrimary) {
 				: Console.red(` 🚀 Database Connection Failed & Server is listening on Port ${NumberKeys.PORT} 🚀`); // Print Server Status with Database Connection Status
 		});
 	} catch (err) {
-		Console.red(err); // Show log When Error Has Happen
+		Console.red(err); // Show log When Error Has Happen in this app
 	}
 }
