@@ -2,6 +2,7 @@
 /Client/PaisaPay
 /Client/node_modules
 /Client/.vite
+/Client/.env
 
 #Backend
 /Server/.env
