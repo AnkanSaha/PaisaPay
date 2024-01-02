@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux'; // Import Use Selector F
 import { MdOutlineSecurity } from 'react-icons/md'; // Import MdOutlineSecurity Icon
 import { useNavigate } from 'react-router-dom'; // Import Use Navigate From React Router Dom
 import { updateAccountDetails } from '@redux/Slices/Account Slice'; //
-import crypto from 'crypto'; // Import crypto module
 
 // Import Components form Chakra UI
 import { Heading, Button, useToast } from '@chakra-ui/react'; // import From Chakra UI
@@ -34,39 +33,56 @@ export default function Update2FASetting() {
 		setLoading(false); // set the loading state to false
 	};
 
-const SetupPasskey = async () => {
-    try {
-        // Generate a challenge
-        const challenge = new Int8Array(2);
-        const Generated_User_PassKey = await navigator.credentials.create({
-            publicKey: {
-                challenge: challenge,
-                rp: {
-                    name: 'PaisaPay',
-                },
-                user: {
-                    id: Decrypted_AccountDetails.ClientID,
-                    name: Decrypted_AccountDetails.Name,
-                    displayName: Decrypted_AccountDetails.Name
-                },
-                pubKeyCredParams: [
-                    {
-                        type: 'public-key',
-                        alg: -7, // ECDSA with SHA-256
-                    },
-                ],
-                timeout: 60000, // Timeout in milliseconds (e.g., 60 seconds)
-                authenticatorSelection: {
-                    authenticatorAttachment: 'cross-platform', // or "platform"
-                    userVerification: 'preferred', // or "required" or "discouraged"
-                },
-            },
-        });
-        console.log(Generated_User_PassKey);
-    } catch (error) {
-        console.error(error);
-    }
-};
+	const SetupPasskey = async () => {
+		try {
+			// Encrypt Account Details
+			const Encrypted_Payment_Info = await Cryptography.Encrypt({
+				ClientID: Decrypted_AccountDetails.ClientID,
+				Email: Decrypted_AccountDetails.Email,
+				Name: Decrypted_AccountDetails.Name,
+				PhoneNumber: Decrypted_AccountDetails.PhoneNumber,
+				PaymentID: Decrypted_AccountDetails.PaymentID,
+			})
+			// Get Challenge from server
+			const Challenge = await API.Post('/Post/Multifactor/Passkey/GenerateChallenge', {
+				sessionID: ReduxState.AccountInfo.sessionID,
+				Encrypted_Info: Encrypted_Payment_Info
+			});
+			console.log(Challenge);
+			// setup Config
+			const Config = {
+				publicKey: {
+					challenge: new TextEncoder().encode(atob(Challenge.data.Challenge)),
+					rp: {
+						name: 'PaisaPay',
+					},
+					user: {
+						id: Decrypted_AccountDetails.ClientID,
+						name: Decrypted_AccountDetails.Name,
+						displayName: Decrypted_AccountDetails.Name,
+						Email: Decrypted_AccountDetails.Email,
+					},
+					pubKeyCredParams: [
+						{
+							type: 'public-key',
+							alg: -7,
+						} // "ES256" IANA COSE Algorithms registry
+					],
+					timeout: 60000, // Timeout in milliseconds (e.g., 60 seconds)
+					authenticatorSelection: {
+						authenticatorAttachment: 'cross-platform', // or "platform"
+						userVerification: 'preferred', // or "required" or "discouraged"
+					},
+				},
+			};
+			console.log(Config)
+			// Generate a new credential pair
+			const Generated_User_PassKey = await navigator.credentials.create(Config);
+			console.log(Generated_User_PassKey);
+		} catch (error) {
+			console.error(error);
+		}
+	};
 	return (
 		<div className="my-5 mb-[5rem]">
 			<>

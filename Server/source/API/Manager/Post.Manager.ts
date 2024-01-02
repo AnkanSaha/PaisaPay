@@ -10,6 +10,7 @@ import InjectIPMiddleware from "../../Middleware/InjectIP.middleware"; // Import
 import Authenticator from "../Routes/POST/Authentication.Route"; // Import authenticator
 import HelpCenter from "../Routes/POST/Help.Center.Route"; // Import help center
 import PaymentService from "../Routes/POST/Payment.Route"; // Import Payment
+import TWO_F_A from "../Routes/POST/2FA.Route"; // Import 2FA
 
 // Configure router
 const PostRequestManager = Router(); // Create router
@@ -23,6 +24,7 @@ PostRequestManager.use("/auth", Authenticator); // Use authenticator
 PostRequestManager.use("/help-center", SessionValidation, HelpCenter); // Use help center
 PostRequestManager.use("/WebhookPayment", PaymentService); // Use payment webhook manager
 PostRequestManager.use("/Payment", SessionValidation, PaymentService); // Use Payment Service
+PostRequestManager.use("/Multifactor", SessionValidation, TWO_F_A); // Use Payment Service
 
 // Export router
 export default PostRequestManager; // Export router

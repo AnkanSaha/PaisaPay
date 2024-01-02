@@ -29,4 +29,5 @@ export default {
 	LastLoginToken: { type: String, unique: false, required: true, default: "" },
 	isTWO_Factor_Authentication_Activated: { type: Boolean, required: true, default: false, unique: false },
 	SecurityKey_2FA: { type: String, required: true, default: "Not Provided", unique: false, minlength: 5, index: false },
+	SecurityKey_2FA_Challenge: { type: String, required: true, default: "Not Provided", unique: false, minlength: 5, index: false },
 }; // export the client account data model
