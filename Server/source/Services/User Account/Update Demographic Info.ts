@@ -11,7 +11,6 @@ import EncryptMiddleware from "../../Middleware/Encrypt.middleware"; // Import E
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
 import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Compare Function
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Client
-import moment from "moment"; // Import Moment
 
 // Import Interfaces
 import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
@@ -20,7 +19,7 @@ import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Imp
 interface DecryptedData {
     NewEmail: str,
     NewPhoneNumber: int,
-    NewDOB: str,
+    NewDOB: Date,
     Name: str,
     ClientID: int,
     OldEmail: str,
@@ -133,7 +132,7 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
         const ToBeUpdate = {
             Email: Decrypted_Info.NewEmail,
             PhoneNumber: Decrypted_Info.NewPhoneNumber,
-            DOB: moment(Decrypted_Info.NewDOB).format("DD-MM-YYYY"),
+            DOB: Decrypted_Info.NewDOB,
             Name: Decrypted_Info.Name
         }
         // Update The Account Details In The Database
