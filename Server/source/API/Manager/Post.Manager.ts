@@ -1,6 +1,4 @@
 import { Router } from "express"; // Import express router
-import CORS from "cors"; // Import cors
-import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Import keys
 
 // Import Middleware
 import { SessionValidation } from "../../utils/Incoming.Req.Check.utils"; // Import session validation
@@ -13,7 +11,6 @@ import PaymentService from "../Routes/POST/Payment.Route"; // Import Payment
 
 // Configure router
 const PostRequestManager = Router(); // Create router
-PostRequestManager.use(CORS({ origin: StringKeys.CORS_URL })); // Use cors
 
 // inject Middleware
 PostRequestManager.use(InjectIPMiddleware); // Inject IP Middleware (Inject IP Address in request body)

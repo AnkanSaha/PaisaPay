@@ -1,10 +1,7 @@
 import { Router } from "express"; // Import Router from express
-import CORS from "cors"; // Import CORS from cors
-import { StringKeys } from "../../../settings/keys/KeysConfig.keys.settings"; // Import StringKeys from keys
 
 // Setup Config
 const ProfileDetails = Router(); // Setup Get_Request_Manager as Router
-ProfileDetails.use(CORS({ origin: StringKeys.CORS_URL })); // Use CORS
 
 // Import Middlewares
 import { Multer } from "../../../Middleware/multer.middleware"; // Import multerConfig from multerConfig
