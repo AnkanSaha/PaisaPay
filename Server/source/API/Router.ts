@@ -4,12 +4,16 @@ import { StatusCodes, Response as Serve } from "outers"; // Import Status Codes
 
 // Import Middlewares
 import RateLimiterMiddleware from "../Middleware/RateLimiter.middleware"; // Import Rate Limiter Middleware
+import CORSMiddleware from "../Middleware/CORS.middleware"; // Import CORS Middleware
 
 // setup Router
 const MainRouter = Router(); // Create Router
 
 // Implement Rate Limit
 MainRouter.use(RateLimiterMiddleware); // Use Rate Limiter Middleware on Main Router
+
+// Implement CORS
+MainRouter.use(CORSMiddleware); // Use CORS Middleware on Main Router
 
 // import All Sub Routers
 /* The code is importing different modules that handle different types of HTTP requests (GET, POST,

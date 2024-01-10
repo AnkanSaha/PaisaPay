@@ -1,7 +1,5 @@
 // imports
 import { Router } from "express"; // Import Router from express
-import CORS from "cors"; // Import CORS from cors
-import { StringKeys } from "../../../settings/keys/KeysConfig.keys.settings"; // Import keys
 
 // Import Services
 import { AddMoney } from "../../../Services/Payment/Add Money"; // Import Add Money Service
@@ -12,7 +10,6 @@ import RequestMoney, {Accept_Request_Money} from "../../../Services/Payment/Requ
 
 // Setup Router
 const Payment = Router(); // Create a router
-Payment.use(CORS({ origin: StringKeys.CORS_URL })); // Use CORS
 
 // All Services
 Payment.post("/add-money", AddMoney); // Add Money Service

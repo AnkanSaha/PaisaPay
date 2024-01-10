@@ -1,10 +1,7 @@
 import { Router } from "express"; // Import Router from express
-import CORS from "cors"; // Import CORS from cors
-import { StringKeys } from "../../../settings/keys/KeysConfig.keys.settings"; // Import keys
 
 // Setup Router
 const HelpCenter = Router(); // Create a router
-HelpCenter.use(CORS({ origin: StringKeys.CORS_URL })); // Use CORS
 
 // Import All Services
 import { GetAllTickets } from "../../../Services/General/Help Center"; // Import Forgot Password Service
