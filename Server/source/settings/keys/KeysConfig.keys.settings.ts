@@ -12,7 +12,7 @@ export enum NumberKeys {
 }
 
 // Export keys
-export const StringKeys = {
+export const StringKeys = Object.freeze({
 	AppName: String("PaisaPay"),
 	CORS_URL: String(process.env.CORS_ORIGIN) || "*",
 	JWT_SECRET: String(process.env.JWT_SECRET),
@@ -23,9 +23,9 @@ export const StringKeys = {
 	Architecture: String(arch()),
 	FreeRam: Number((freemem() / 1024 / 1024 / 1024).toFixed(2)),
 	Model: String(cpus()[0].model),
-};
+}); // Immutable Keys
 
-export const Database_Keys = {
+export const Database_Keys = Object.freeze({
 	MongoDB: String(process.env.MONGODB_URL),
 	DB_Name: String(process.env.DB_NAME),
 	ClientAccountCollectionName: String("ClientAccount"),
@@ -34,9 +34,9 @@ export const Database_Keys = {
 	HelpCenterCollectionName: String("HelpCenterDetail"),
 	WithdrawalCollectionName: String("WithdrawalDetail"),
 	RequestMoneyCollectionName: String("RequestMoneyDetail"),
-};
+}); // Immutable Keys
 
 // Payment Related Keys
-export const Payment_Keys = {
+export const Payment_Keys = Object.freeze({
 	MERCHANT_ID: String(process.env.RAZORPAY_MERCHANT_ID),
-};
+}); // Immutable Keys
