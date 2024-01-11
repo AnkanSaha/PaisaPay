@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'; // Import Use Selector
 import { addAccountDetails } from '@redux/Slices/Account Slice'; // Import Account Slice
 import { useNavigate } from 'react-router-dom'; // Import use Navigate
 import { useToast } from '@chakra-ui/react'; // Import use Toast
-import { Cryptography, FormAPI } from '@helper/Common'; // Import Common Functions
+import { FormAPI } from '@helper/Common'; // Import Common Functions
 
 // Import Images
 import { LocalAnonymousUserLogo } from '@app/App_Config'; // Import Anonymous User Logo
@@ -106,25 +106,25 @@ export default function SignupForm() {
 			return; // Exit the function early
 		} else if (VerificationResult.status === true) {
 			const MainData = new FormData();
-			MainData.append('Name', Cryptography.EncryptSync(`${TempFormData.firstName} ${TempFormData.lastName}`));
-			MainData.append('Email', Cryptography.EncryptSync(TempFormData.email));
-			MainData.append('National_ID_Type', Cryptography.EncryptSync(TempFormData.ID_Type));
-			MainData.append('National_ID_Number', Cryptography.EncryptSync(TempFormData.ID_Number));
-			MainData.append('PhoneNumber', Cryptography.EncryptSync(TempFormData.PhoneNumber));
-			MainData.append('DOB', Cryptography.EncryptSync(TempFormData.DOB));
-			MainData.append('PaymentID', Cryptography.EncryptSync(`${TempFormData.PaymentID}@pp`));
-			MainData.append('TransactionPIN', Cryptography.EncryptSync(TempFormData.TransactionPIN));
+			MainData.append('Name', `${TempFormData.firstName} ${TempFormData.lastName}`);
+			MainData.append('Email', TempFormData.email);
+			MainData.append('National_ID_Type', TempFormData.ID_Type);
+			MainData.append('National_ID_Number', TempFormData.ID_Number);
+			MainData.append('PhoneNumber', TempFormData.PhoneNumber);
+			MainData.append('DOB', TempFormData.DOB);
+			MainData.append('PaymentID', `${TempFormData.PaymentID}@pp`);
+			MainData.append('TransactionPIN', TempFormData.TransactionPIN);
 
 			if (TempFormData.password === TempFormData.confirmPassword) {
-				MainData.append('Password', Cryptography.EncryptSync(TempFormData.password));
+				MainData.append('Password', TempFormData.password);
 			} else {
 				alert('Password and Confirm Password Must Be Same');
 				return; // Exit the function early
 			}
 
 			MainData.append('ProfilePic', TempFormData.profilePicture);
-			MainData.append('LastLoginIP', Cryptography.EncryptSync(IPDetails.ClientIP));
-			MainData.append('LastLoginClientDetails', Cryptography.EncryptSync(IPDetails));
+			MainData.append('LastLoginIP', IPDetails.ClientIP);
+			MainData.append('LastLoginClientDetails', IPDetails);
 
 			// Log FormData for debugging
 			// for (let [key, value] of MainData.entries()) {

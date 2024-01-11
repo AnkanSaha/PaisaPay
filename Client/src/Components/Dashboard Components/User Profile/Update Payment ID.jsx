@@ -1,5 +1,5 @@
 import React from 'react'; // Import React
-import { API, Cryptography } from '@helper/Common'; // Common Helper Functions
+import { API } from '@helper/Common'; // Common Helper Functions
 import { useSelector, useDispatch } from 'react-redux'; // Import Use Selector From React Redux
 import { FiAtSign } from 'react-icons/fi'; // Import FiAtSign Icon
 import { useNavigate } from 'react-router-dom'; // Import Use Navigate From React Router Dom
@@ -15,7 +15,7 @@ export default function UpdatePaymentID() {
 	const navigate = useNavigate(); // Create Navigate
 	const Dispatch = useDispatch(); // Create Dispatch
 	// Redux States
-	const Decrypted_AccountDetails = JSON.parse(Cryptography.DecryptSync(ReduxState.AccountInfo.AccountDetails)); // Decrypt Account Details
+	const Decrypted_AccountDetails = ReduxState.AccountInfo.AccountDetails; // Decrypt Account Details
 
 	// States
 	const [show, setShow] = React.useState(false); // set the show state to false
@@ -68,7 +68,7 @@ export default function UpdatePaymentID() {
 			return;
 		}
 		setLoading(true); // Update loading State to True
-		const Encrypted_Info = await Cryptography.Encrypt(NewpaymentIDinfo); // Encrypt All New Payment ID Info
+		const Encrypted_Info = NewpaymentIDinfo; // Encrypt All New Payment ID Info
 		const Response = await API.Put('/put/update/update-PaymentID', {
 			sessionID: ReduxState.AccountInfo.sessionID,
 			Encrypted_Info: Encrypted_Info,

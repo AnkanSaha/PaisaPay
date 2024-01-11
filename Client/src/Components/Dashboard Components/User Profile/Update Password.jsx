@@ -12,7 +12,7 @@ useToast
 } from '@chakra-ui/react'; // import the input component from chakra ui
 
 // Import Helpers
-import {Cryptography, API} from '../../../Helper/Common'; // import the cryptography function
+import {API} from '../../../Helper/Common'; // import the cryptography function
 
 // import Redux
 import { useSelector } from 'react-redux'; // import the hook from react-redux
@@ -29,7 +29,7 @@ export default function UpdatePassword() {
 	const AccountDetails = useSelector(state => state.AccountInfo); // get the account details from the redux store
 
 	// Decode All Account Details
-	const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(AccountDetails.AccountDetails)); // decode the jwt token to get the account details
+	const Decoded_Account_Details = AccountDetails.AccountDetails; // decode the jwt token to get the account details
 
     // States
 	const [show, setShow] = React.useState(false); // set the show state to false
@@ -88,7 +88,7 @@ export default function UpdatePassword() {
         setLoading(true); // set the loading state to true to show the loading spinner
 
         // Encrypt the Password Info
-        const Encrypted_Password_Info = await Cryptography.Encrypt(PasswordInfo); // encrypt the password info
+        const Encrypted_Password_Info = PasswordInfo; // encrypt the password info
 
         // Send the Password Info to the API
         const Response = await API.Put('/put/update/update-password', {

@@ -1,6 +1,5 @@
 // import Required Modules
 import React from 'react'; // import React
-import { Cryptography } from '@helper/Common'; // import the cryptography function
 
 // Redux
 import { useSelector } from 'react-redux'; // import useSelector from react-redux
@@ -21,7 +20,7 @@ export default function Dashboard() {
 	// Encrypted Account Details from Redux
 	const AccountDetails = useSelector(state => state.AccountInfo); // get the account details from the redux store
 	// Decode All Account Details
-	const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(AccountDetails.AccountDetails)); // decode the jwt token to get the account details
+	const Decoded_Account_Details = AccountDetails.AccountDetails; // decode the jwt token to get the account details
 
 	Update_Document_Title(Decoded_Account_Details.Name); // update the document title
 	document.addEventListener('contextmenu', event => event.preventDefault()); // disable the context menu'

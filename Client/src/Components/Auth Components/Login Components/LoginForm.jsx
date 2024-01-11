@@ -26,7 +26,7 @@ import { addAccountDetails } from '@redux/Slices/Account Slice'; // Importing Ac
 
 // Import Client Side Storage
 import { Cache } from '@app/App_Config'; // Importing Cache from App_Config.jsx
-import { Cryptography, API } from '@helper/Common'; // Importing Cryptography from Common.jsx
+import { API } from '@helper/Common'; // Importing Cryptography from Common.jsx
 
 export default function LoginForm() {
 	// React State Variables
@@ -62,10 +62,10 @@ export default function LoginForm() {
 
 			// Encrypting Login Credentials
 			const LoginCredentials = {
-				PhoneNumber: await Cryptography.Encrypt(LoginData.PhoneNumber),
-				Password: await Cryptography.Encrypt(LoginData.Password),
-				LastLoginIP: await Cryptography.Encrypt(LoginData.LastLoginIP),
-				LastLoginClientDetails: await Cryptography.Encrypt(LoginData.LastLoginClientDetails),
+				PhoneNumber: LoginData.PhoneNumber,
+				Password: LoginData.Password,
+				LastLoginIP: LoginData.LastLoginIP,
+				LastLoginClientDetails: JSON.stringify(LoginData.LastLoginClientDetails),
 			};
 			const LoginResult = await API.Post(`/post/auth/login-with-paisapay`, LoginCredentials); // API Call for Login
 

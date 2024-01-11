@@ -11,7 +11,7 @@ import { LocalUserPicUpload } from '@app/App_Config'; // import the anonymous us
 import { Heading, Button, useToast, InputGroup, InputRightElement, Input } from '@chakra-ui/react'; // import the heading component from chakra ui
 
 // Import API Call
-import { API, Cryptography } from '@helper/Common'; // import the api call function
+import { API } from '@helper/Common'; // import the api call function
 
 // icons
 import { FaUpload } from 'react-icons/fa'; // import the upload icon
@@ -29,7 +29,7 @@ export default function UpdateProfilePicture() {
 	const [show, setShow] = React.useState(false); // set the show state to false
 
 	// Data
-	const Decoded_Data = JSON.parse(Cryptography.DecryptSync(user.AccountDetails)); // decrypt the user's data
+	const Decoded_Data = user.AccountDetails; // decrypt the user's data
 
 	const handleClick = () => setShow(!show); // function to toggle the show state
 

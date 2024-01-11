@@ -1,7 +1,7 @@
 import React from 'react'; // Import React
 import { useSelector } from 'react-redux'; // import useSelector from react-redux
 import Moment from 'moment'; // import moment for date formatting
-import { Cryptography, API as Service } from '@helper/Common'; // import the Crypto function from the Common file
+import { API as Service } from '@helper/Common'; // import the Crypto function from the Common file
 import {useNavigate} from 'react-router-dom'; // import the link component from react-router-dom
 
 // import Components
@@ -38,7 +38,7 @@ export default function ReceivedRequestTable() {
 	const ReduxState = useSelector(state => state); // get the account details from the redux store
 
 	// Decode All Account Details
-	const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(ReduxState.AccountInfo.AccountDetails)); // decode the jwt token to get the account details
+	const Decoded_Account_Details = ReduxState.AccountInfo.AccountDetails; // decode the jwt token to get the account details
 
 	//States
 	const [isLoading, setIsLoading] = React.useState(true); // Loading Screen State
@@ -67,11 +67,8 @@ export default function ReceivedRequestTable() {
 	React.useEffect(() => {
 		Service.Get(`/get/Payments/listofrequests/?ClientID=${Decoded_Account_Details.ClientID}&Email=${Decoded_Account_Details.Email}`).then(Response => {
 			if (Response.statusCode === 200) {
-				Cryptography.Decrypt(Response.data).then(DecryptedData => {
-					const Parsed = JSON.parse(DecryptedData); // decrypt the data and parse it
-					setReceivedRequest(Parsed); // set the received request state
+					setReceivedRequest(Response.data); // set the received request state
 					setIsLoading(false); // set the loading screen to false
-				}); // decrypt the data
 			} else {
 				setIsLoading(false); // set the loading screen to false
 				toast({
@@ -125,7 +122,7 @@ export default function ReceivedRequestTable() {
 		}
 		setPaymentButtonLoading(true); // set the payment button loading to true
 		// Encrypt All the Payment Info
-		const Encrypted_Request_Info = await Cryptography.Encrypt(PaymentInfo); // encrypt the payment info
+		const Encrypted_Request_Info = PaymentInfo; // encrypt the payment info
 
 		// Send the request to the server
 		const Response = await Service.Post('/post/Payment/send-money-for-request', {

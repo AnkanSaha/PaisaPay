@@ -3,7 +3,7 @@ import { useToast } from '@chakra-ui/react'; // Import Chakra UI Toast
 import { useSelector, useDispatch } from 'react-redux'; // import useSelector from react-redux
 import { UpdateTransactions } from '@redux/Slices/Transaction Details'; // import the UpdateTransactions action from the Transaction Details slice
 import Moment from 'moment'; // import moment for date formatting
-import { Cryptography, API as Service } from '@helper/Common'; // import the Crypto function from the Common file
+import { API as Service } from '@helper/Common'; // import the Crypto function from the Common file
 
 import { CSVLink } from 'react-csv'; // import the CSVLink component from react-csv
 import { AppName } from '@app/App_Config'; // import the AppName from the App_Config file
@@ -30,33 +30,27 @@ export default function PaymentHistoryS() {
 	const ReduxState = useSelector(state => state); // get the account details from the redux store
 
 	// Decode All Account Details
-	const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(ReduxState.AccountInfo.AccountDetails)); // decode the jwt token to get the account details
+	const Decoded_Account_Details = ReduxState.AccountInfo.AccountDetails; // decode the jwt token to get the account details
 
 	React.useEffect(() => {
-		Cryptography.Encrypt(Decoded_Account_Details.PhoneNumber).then(PhoneNumber => {
-			Cryptography.Encrypt(Decoded_Account_Details.Email).then(Email => {
-				Service.Post('/post/Payment/TransactionHistory', {
-					Number: PhoneNumber,
-					Email: Email,
-					sessionID : ReduxState.AccountInfo.sessionID
-				}).then(Response => {
-					if (!Response.statusCode === 200) {
-						toast({
-							title: 'Payment History',
-							description: Response.message,
-							status: 'error',
-							duration: 3000,
-							isClosable: true,
-							position: 'top-right',
-						});
-					} else if (Response.statusCode === 200) {
-						Cryptography.Decrypt(Response.data).then(ParsedData => {
-							dispatch(UpdateTransactions(JSON.parse(ParsedData)));
-						});
-					}
-					setIsLoading(false);
+		Service.Post('/post/Payment/TransactionHistory', {
+			Number: Decoded_Account_Details.PhoneNumber,
+			Email: Decoded_Account_Details.Email,
+			sessionID : ReduxState.AccountInfo.sessionID
+		}).then(Response => {
+			if (!Response.statusCode === 200) {
+				toast({
+					title: 'Payment History',
+					description: Response.message,
+					status: 'error',
+					duration: 3000,
+					isClosable: true,
+					position: 'top-right',
 				});
-			});
+			} else if (Response.statusCode === 200) {
+					dispatch(UpdateTransactions(Response.data));
+			}
+			setIsLoading(false);
 		});
 	}, []); // useEffect
 

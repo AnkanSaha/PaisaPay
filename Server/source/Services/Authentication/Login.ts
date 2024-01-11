@@ -13,7 +13,6 @@ import { Console, StatusCodes, Response as Serve, UniqueGenerator } from "outers
 // import Helpers
 import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Config
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
-import Crypto from "../../Middleware/Encrypt.middleware"; // Import Encrypt Config
 
 // Import Interfaces
 import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
@@ -62,10 +61,10 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 			return; // Return if the request body is invalid
 		} else {
 			// Decrypt All Credentials
-			const DecryptedPhoneNumber = JSON.parse(await Crypto.Decrypt(String(PhoneNumber))); // Decrypt Phone Number
-			const DecryptedPassword = JSON.parse(await Crypto.Decrypt(Password)); // Decrypt Password
-			const DecryptedLastLoginIP = JSON.parse(await Crypto.Decrypt(LastLoginIP)); // Decrypt Last Login IP
-			const DecryptedLastLoginClientDetails = JSON.parse(await Crypto.Decrypt(String(LastLoginClientDetails))); // Decrypt Last Login Client Details
+			const DecryptedPhoneNumber = PhoneNumber; // Decrypt Phone Number
+			const DecryptedPassword = Password; // Decrypt Password
+			const DecryptedLastLoginIP = LastLoginIP; // Decrypt Last Login IP
+			const DecryptedLastLoginClientDetails = JSON.parse(String(LastLoginClientDetails)); // Decrypt Last Login Client Details
 
 			const AccountStatus = await MongoDB.ClientAccount.find("OR", [{ PhoneNumber: DecryptedPhoneNumber }], 1); // Find the account in the database
 
@@ -107,7 +106,7 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 					});
 					return; // Return if Password is Incorrect
 				}
-					const EncryptedaccountDetails = await Crypto.Encrypt(AccountStatus.Data[0]); // Generate JWT Token for Account Details
+					const EncryptedaccountDetails = AccountStatus.Data[0]; // Generate JWT Token for Account Details
 
 					// Register Login Token Round Generator
 					const Generator = new UniqueGenerator(1); // Create a new Unique Generator

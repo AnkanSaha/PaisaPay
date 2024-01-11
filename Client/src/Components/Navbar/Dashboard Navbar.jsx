@@ -4,7 +4,6 @@ import React from 'react'; // Import React
 // Redux
 import { useSelector, useDispatch } from 'react-redux'; // Import UseSelector
 import { UpdateUserImageURl } from '@redux/Slices/Transaction Details'; // Import General App Info Slice
-import { Cryptography } from '@helper/Common';
 
 // import React Modules
 import { Link, useNavigate, useLocation } from 'react-router-dom'; // Import Link
@@ -25,7 +24,7 @@ function GeneralNavbar() {
 	const ReduxState = useSelector(state => state); // Get All State from Redux Store
 	const AccountDetails = useSelector(state => state.AccountInfo); // get the account details from the redux store
 	// Decode All Account Details
-	const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(AccountDetails.AccountDetails)); // decode the jwt token to get the account details
+	const Decoded_Account_Details = AccountDetails.AccountDetails; // decode the jwt token to get the account details
 
 	// Load User ProfileImageURL To Redux Store
 	Dispatch(

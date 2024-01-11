@@ -8,7 +8,6 @@ import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Im
 import fs from "fs"; // Import fs
 import { Request } from "express"; // Import Request from express
 import JWT from "../../Middleware/JWT.middleware"; // Import JWT Config
-import Cryptos from "../../Middleware/Encrypt.middleware"; // Import Crypto Config
 
 // import Helpers
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
@@ -32,7 +31,7 @@ interface SignupRequestInterface extends Request {
 		National_ID_Number: str;
 		LastLoginIP: str;
 		LastLoginClientDetails: str;
-		TransactionPIN: str;
+		TransactionPIN: int;
 	};
 	file?: Express.Multer.File | any;
 }
@@ -94,17 +93,17 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 			return; // Return if the request body is invalid
 		} else {
 			// Decrypt All the Strings
-			const DecryptedName = JSON.parse(await Cryptos.Decrypt(Name)); // Decrypt Name
-			const DecryptedDOB = JSON.parse(await Cryptos.Decrypt(String(DOB))); // Decrypt DOB
-			const DecryptedPassword = JSON.parse(await Cryptos.Decrypt(Password)); // Decrypt Password
-			const DecryptedNational_ID_Type = JSON.parse(await Cryptos.Decrypt(National_ID_Type)); // Decrypt National ID Type
-			const DecryptedNational_ID_Number = JSON.parse(await Cryptos.Decrypt(National_ID_Number)); // Decrypt National ID Number
-			const DecryptedPhoneNumber = JSON.parse(await Cryptos.Decrypt(String(PhoneNumber))); // Decrypt Phone Number
-			const DecryptedLastLoginIP = JSON.parse(await Cryptos.Decrypt(LastLoginIP)); // Decrypt Last Login IP
-			const DecryptedLastLoginClientDetails = JSON.parse(await Cryptos.Decrypt(LastLoginClientDetails)); // Decrypt Last Login Client Details
-			const DecryptedPaymentID = JSON.parse(await Cryptos.Decrypt(PaymentID)); // Decrypt Payment ID
-			const DecryptedEmail = JSON.parse(await Cryptos.Decrypt(Email)); // Decrypt Email
-			const DecryptedTransactionPIN: int = JSON.parse(await Cryptos.Decrypt(TransactionPIN)); // Decrypt Transaction PIN
+			const DecryptedName = Name; // Decrypt Name
+			const DecryptedDOB = DOB; // Decrypt DOB
+			const DecryptedPassword = Password; // Decrypt Password
+			const DecryptedNational_ID_Type = National_ID_Type; // Decrypt National ID Type
+			const DecryptedNational_ID_Number = National_ID_Number; // Decrypt National ID Number
+			const DecryptedPhoneNumber = PhoneNumber; // Decrypt Phone Number
+			const DecryptedLastLoginIP = LastLoginIP; // Decrypt Last Login IP
+			const DecryptedLastLoginClientDetails = LastLoginClientDetails; // Decrypt Last Login Client Details
+			const DecryptedPaymentID = PaymentID; // Decrypt Payment ID
+			const DecryptedEmail = Email; // Decrypt Email
+			const DecryptedTransactionPIN: int = TransactionPIN; // Decrypt Transaction PIN
 
 			// Lowercase all the strings
 			const SmallEmail = DecryptedEmail.toLowerCase(); // Convert Email to lowercase
@@ -217,7 +216,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 				const AccountStatus = await MongoDB.ClientAccount.create(NewClientAccount); // Create Client Account in MongoDB
 
 				// Generate JWT Token
-				const EncryptedAccountData = await Cryptos.Encrypt(AccountStatus.NewData[0]); // Encrypt Account Data
+				const EncryptedAccountData = AccountStatus.NewData[0]; // Encrypt Account Data
 
 				// Send Response to Client
 				if (AccountStatus.status === true) {

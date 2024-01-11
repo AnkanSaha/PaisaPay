@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'; // import the use selector hook from 
 import moment from 'moment'; // import moment for date formatting
 
 // Import Functions
-import { Cryptography, API } from '@helper/Common'; // import the common functions
+import { API } from '@helper/Common'; // import the common functions
 
 // import Components & Pages
 import { SimpleGrid, Card, CardHeader, CardBody, Heading, Text, Tooltip, useToast } from '@chakra-ui/react'; // import the chakra ui components
@@ -22,7 +22,7 @@ export default function HelpAndSupport() {
 	// Use Effects
 	React.useEffect(() => {
 		setLoading(true); // set the loading state to true
-		const DecryptAccountData = JSON.parse(Cryptography.DecryptSync(ReduxState.AccountInfo.AccountDetails)); // decrypt the account data
+		const DecryptAccountData = ReduxState.AccountInfo.AccountDetails; // decrypt the account data
 		API.Get(
 			`/get/help/GetAllSupportHistory?sessionID=${ReduxState.AccountInfo.sessionID}&Email=${DecryptAccountData.Email}&PhoneNumber=${DecryptAccountData.PhoneNumber}`
 		).then(response => {
@@ -36,7 +36,7 @@ export default function HelpAndSupport() {
 					isClosable: true,
 				});
 			}
-			setTickets(JSON.parse(Cryptography.DecryptSync(response.data))); // set the tickets state to the response data
+			setTickets(response.data); // set the tickets state to the response data
 		});
 	}, []); // use effect to run on component mount
 	return (
@@ -81,7 +81,7 @@ export default function HelpAndSupport() {
 												boxShadow="md"
 												>
 												<CardHeader>
-													<Heading size="md"> {JSON.parse(Cryptography.DecryptSync(ticket.TicketTitle))}</Heading>
+													<Heading size="md"> {ticket.TicketTitle}</Heading>
 												</CardHeader>
 												<CardBody>
 													<Text>

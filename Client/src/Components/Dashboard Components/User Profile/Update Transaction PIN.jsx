@@ -10,7 +10,7 @@ import { MdSystemSecurityUpdateGood } from 'react-icons/md'; // import the MdSys
 import { useSelector } from 'react-redux'; // import the hook from react-redux
 
 // Import Helpers
-import {Cryptography, API} from '@helper/Common'; // import the cryptography function
+import { API } from '@helper/Common'; // import the cryptography function
 
 // Main Function based component
 export default function UpdateTransactionPIN() {
@@ -22,7 +22,7 @@ export default function UpdateTransactionPIN() {
 	const AccountDetails = useSelector(state => state.AccountInfo); // get the account details from the redux store
 
 	// Decode All Account Details
-	const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(AccountDetails.AccountDetails)); // decode the jwt token to get the account details
+	const Decoded_Account_Details = AccountDetails.AccountDetails; // decode the jwt token to get the account details
 	
 	// States
 	const [show, setShow] = React.useState(false); // set the show state to false
@@ -79,7 +79,7 @@ export default function UpdateTransactionPIN() {
         setLoading(true); // set the loading state to true
 
         // Encrypt the pin info object for security reasons
-        const Encrypted_Pin_Info = await Cryptography.Encrypt(PinInfo); // encrypt the pin info object
+        const Encrypted_Pin_Info = PinInfo; // encrypt the pin info object
 
         // Send the request to the server to update the transaction pin
         const Response = await API.Put('/put/update/transaction-pin', {

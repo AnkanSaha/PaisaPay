@@ -1,5 +1,5 @@
 import React from 'react'; // import react for the component
-import { Cryptography, API as Service } from '@helper/Common'; // import the cryptography function
+import { API as Service } from '@helper/Common'; // import the cryptography function
 import SendMoneyValidate from '@validator/Payment/Send Money'; // import the validator function
 
 // Import Icons
@@ -24,7 +24,7 @@ export default function SendMoneySection() {
 	const AccountDetails = useSelector(state => state.AccountInfo); // get the account details from the redux store
 
 	// Decode All Account Details
-	const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(AccountDetails.AccountDetails)); // decode the jwt token to get the account details
+	const Decoded_Account_Details = AccountDetails.AccountDetails; // decode the jwt token to get the account details
 	// States
 	const [PaymentInfo, setPaymentInfo] = React.useState({
 		ReceivingPaymentID: '',
@@ -74,7 +74,7 @@ export default function SendMoneySection() {
 		}
 
 		// Encrypt the Payment Info
-		const Encrypted_Payment_Info = await Cryptography.Encrypt(PaymentInfo);
+		const Encrypted_Payment_Info = PaymentInfo;
 
 		// API Call
 		const Response = await Service.Post(`/post/Payment/NewTransaction`, {
@@ -93,7 +93,7 @@ export default function SendMoneySection() {
 			return;
 		}
 		// Update the Balance
-		const Decrypted_Balance = JSON.parse(Cryptography.DecryptSync(Response.data)); // decrypt the balance
+		const Decrypted_Balance = Response.data; // decrypt the balance
 		dispatch(UpdateBalance(Decrypted_Balance.Balance)); // update the balance in the redux store
 
 		setLoading(false);

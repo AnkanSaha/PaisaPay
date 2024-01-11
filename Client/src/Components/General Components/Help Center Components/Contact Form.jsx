@@ -2,7 +2,7 @@
 import React from 'react';
 import { Input, Textarea, Button, FormControl, FormLabel, VStack, Box, useToast, Heading } from '@chakra-ui/react';
 
-import { Cryptography, API } from '@helper/Common'; // Import JWT Features
+import { API } from '@helper/Common'; // Import JWT Features
 import { useNavigate } from 'react-router-dom';
 // Import Redux Features
 import { useSelector } from 'react-redux'; // Import useSelector() Hook
@@ -37,7 +37,7 @@ const ContactForm = () => {
 
 	React.useEffect(() => {
 		if (EncryptedUserDetails !== null) {
-			const decodedAccountDetails = JSON.parse(Cryptography.DecryptSync(EncryptedUserDetails.AccountDetails)); // Decode User Details
+			const decodedAccountDetails = EncryptedUserDetails.AccountDetails; // Decode User Details
 
 			// Update Form Data
 			setFormData(prevFormData => ({

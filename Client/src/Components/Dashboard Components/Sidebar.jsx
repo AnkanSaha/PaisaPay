@@ -14,9 +14,6 @@ import { BsFillCaretLeftSquareFill } from "react-icons/bs"; // import BsFillCare
 import { AiOutlineDoubleRight } from "react-icons/ai"; // import AiOutlineDoubleRight from react-icons/ai
 import { MdRequestQuote } from "react-icons/md"; // import MdRequestQuote from react-icons/md
 
-// React JWT
-import { Cryptography } from "@helper/Common"; // import Cryptography from Common.jsx
-
 // Import Storage Function
 import { Cache } from "../../App/App_Config"; // Import Cache from App_Config.jsx
 
@@ -35,9 +32,7 @@ export default function Sidebar() {
   // Encrypted Account Details from Redux
   const AccountDetails = useSelector((state) => state.AccountInfo); // get the account details from the redux store
   // Decode All Account Details
-  const Decoded_Account_Details = JSON.parse(
-    Cryptography.DecryptSync(AccountDetails.AccountDetails)
-  ); // decode the jwt token to get the account details
+  const Decoded_Account_Details =  AccountDetails.AccountDetails; // decode the jwt token to get the account details
 
   // Logic For Navbar Button
 
