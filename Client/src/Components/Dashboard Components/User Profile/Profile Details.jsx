@@ -24,7 +24,7 @@ export default function ProfileDetails() {
 
 	// States
 	const Decrypted_Data = ReduxState.AccountInfo.AccountDetails; // decrypt the data
-	console.log(Decrypted_Data)
+
 	const [loading, setLoading] = React.useState(false); // loading state for the button
 	const[TPIN, setTPIN] = React.useState(''); // transaction pin state
 
