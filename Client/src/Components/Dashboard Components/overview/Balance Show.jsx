@@ -2,7 +2,7 @@
 import React from 'react'; // import React
 import { useNavigate } from 'react-router-dom'; // Import Link
 import { useToast } from '@chakra-ui/react'; // Import Chakra UI Toast
-import { Cryptography, API } from '@helper/Common'; // Import Cryptography
+import { API } from '@helper/Common'; // Import Cryptography
 
 // Import Custom CSS
 import '@public/css/General CSS/home.css'; // import the home.css file
@@ -33,7 +33,7 @@ export default function BalanceShow() {
 	// Encrypted Account Details from Redux
 	const AccountDetails = useSelector(state => state.AccountInfo); // get the account details from the redux store
 	// Decode All Account Details
-	const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(AccountDetails.AccountDetails)); // decode the jwt token to get the account details
+	const Decoded_Account_Details = AccountDetails.AccountDetails; // decode the jwt token to get the account details
 	const dispatch = useDispatch(); // create a dispatch variable to dispatch actions
 
 	// Update Balance To Redux Store
@@ -48,7 +48,7 @@ export default function BalanceShow() {
 		// Check if the response is 200 or not
 		if (Response.statusCode === 200) {
 			dispatch(addAccountDetails(Response.data)); // update the account details in the redux store
-			const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(Response.data.AccountDetails)); // decode the jwt token to get the account details
+			const Decoded_Account_Details = Response.data.AccountDetails; // decode the jwt token to get the account details
 			dispatch(UpdateBalance(Decoded_Account_Details.Balance)); // update the balance in the redux store
 		}
 		setIsLoading(false); // set the loading state to false

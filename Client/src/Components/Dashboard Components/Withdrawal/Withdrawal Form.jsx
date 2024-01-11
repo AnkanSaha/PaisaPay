@@ -2,7 +2,7 @@ import React, { useState } from 'react'; // Import react
 
 // Import Functions
 import WithdrawalVerify from '@validator/Payment/Withdrawal'; // Import Functions
-import { API, Cryptography } from '@helper/Common'; // Import Functions
+import { API } from '@helper/Common'; // Import Functions
 
 // Component Imports
 import { Heading, FormControl, FormLabel, Input, Select, Button, useToast } from '@chakra-ui/react'; // Import Heading
@@ -19,7 +19,7 @@ export default function WithdrawalForm() {
 	const toast = useToast(); // Create Toast
 
 	// Decrypt Account Details
-	const AccountDetails = JSON.parse(Cryptography.DecryptSync(ReduxState.AccountInfo.AccountDetails)); // Decrypt Client ID
+	const AccountDetails = ReduxState.AccountInfo.AccountDetails; // Decrypt Client ID
 	const sessionID = ReduxState.AccountInfo.sessionID; // Get Session ID
 
 	// State Variables
@@ -65,7 +65,7 @@ export default function WithdrawalForm() {
 		}
 		setLoading(true); // Set Loading to True
 		// Encrypt the Data
-		const EncryptedData = Cryptography.EncryptSync(WithdrawalDetails); // Encrypt the Data
+		const EncryptedData = WithdrawalDetails; // Encrypt the Data
 		const Response = await API.Post('/post/Payment/NewWithdrawal', {
 			sessionID: sessionID,
 			EncryptedData: EncryptedData,

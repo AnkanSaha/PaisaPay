@@ -13,7 +13,6 @@ import { Request } from "express"; // Import Request from express
 import { randomNumber } from "uniquegen"; // Import Uniquegen
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
-import Crypto from "../../Middleware/Encrypt.middleware"; // Import Crypto Config
 
 // Import Interfaces
 import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
@@ -47,7 +46,7 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 			},
 			StringKeys.JWT_EXPIRES_IN
 		); // Generate Login Token for the user
-		const EncryptedData = await Crypto.Encrypt(AccountDetails.Data[0]); // Encrypt the Data and send it Using JWT
+		const EncryptedData = AccountDetails.Data[0]; // Encrypt the Data and send it Using JWT
 
 		// Send Response to the Client
 		Response.JSON({
@@ -87,11 +86,11 @@ export const ForgetPasswordUpdater = async (request: Request, response: Response
 		const { PhoneNumber, Email, Password, LastLoginIP, LastLoginClientDetails }: ForgetPasswordUpdaterInterface = request.body; // Destructure the request body
 
 		// Decrypt the Data
-		const DecryptEmail = JSON.parse(await Crypto.Decrypt(Email)); // Decrypt the Data
-		const DecryptPhoneNumber = JSON.parse(await Crypto.Decrypt(String(PhoneNumber))); // Decrypt the Data
-		const DecryptPassword = JSON.parse(await Crypto.Decrypt(Password)); // Decrypt the Data
-		const DecryptLastLoginIP = JSON.parse(await Crypto.Decrypt(LastLoginIP)); // Decrypt the Data
-		const DecryptLastLoginClientDetails = JSON.parse(await Crypto.Decrypt(String(LastLoginClientDetails))); // Decrypt the Data
+		const DecryptEmail = Email; // Decrypt the Data
+		const DecryptPhoneNumber = PhoneNumber; // Decrypt the Data
+		const DecryptPassword = Password; // Decrypt the Data
+		const DecryptLastLoginIP = LastLoginIP; // Decrypt the Data
+		const DecryptLastLoginClientDetails = String(LastLoginClientDetails); // Decrypt the Data
 
 		// Convert Email to lowercase
 		const SmelledEmail: str = DecryptEmail.toLowerCase(); // Convert Email to lowercase
@@ -113,7 +112,7 @@ export const ForgetPasswordUpdater = async (request: Request, response: Response
 
 			if (UpdateStatus.status === true) {
 				// Encrypt the Data and send it Using JWT
-				const EncryptAccountData = await Crypto.Encrypt(UpdateStatus.UpdatedData); // Encrypt the Data and send it Using JWT
+				const EncryptAccountData = UpdateStatus.UpdatedData; // Encrypt the Data and send it Using JWT
 
 				// Generate Login Token for the user
 				const LoginToken = await JWT.generate(

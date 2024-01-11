@@ -2,7 +2,7 @@ import React from 'react'; // Importing React
 import { useNavigate } from 'react-router-dom'; // Import useParams from react-router-dom
 
 // Encrypting and Decrypting
-import { Cryptography, API } from '@helper/Common'; // Importing Common Functions
+import { API } from '@helper/Common'; // Importing Common Functions
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux'; // Importing useSelector from react-redux
@@ -34,16 +34,16 @@ export default function ResetPassword() {
 	const AccountDetails = useSelector(state => state.AccountInfo.AccountDetails); // Get Account Details from URL
 
 	// Decrypting
-	const DecryptedToken = JSON.parse(Cryptography.DecryptSync(AccountDetails)); // Decrypting Token
+	const DecryptedToken = AccountDetails; // Decrypting Token
 
 	// Input State
 	const [input, setInput] = React.useState({
-		PhoneNumber: Cryptography.EncryptSync(DecryptedToken.PhoneNumber),
-		Email: Cryptography.EncryptSync(DecryptedToken.Email),
+		PhoneNumber: DecryptedToken.PhoneNumber,
+		Email: DecryptedToken.Email,
 		Password: '',
 		confirmPassword: '',
-		LastLoginIP: Cryptography.EncryptSync(ReactState.GeneralAppInfo.ClientDetails.ClientIP),
-		LastLoginClientDetails: Cryptography.EncryptSync(ReactState.GeneralAppInfo.ClientDetails),
+		LastLoginIP: ReactState.GeneralAppInfo.ClientDetails.ClientIP,
+		LastLoginClientDetails: ReactState.GeneralAppInfo.ClientDetails,
 	});
 
 	// Input Handler
@@ -60,9 +60,9 @@ export default function ResetPassword() {
 			const ResetData = {
 				PhoneNumber: input.PhoneNumber,
 				Email: input.Email,
-				Password: Cryptography.EncryptSync(input.Password),
-				LastLoginIP: Cryptography.EncryptSync(input.LastLoginIP),
-				LastLoginClientDetails: Cryptography.EncryptSync(input.LastLoginClientDetails),
+				Password: input.Password,
+				LastLoginIP: input.LastLoginIP,
+				LastLoginClientDetails: input.LastLoginClientDetails,
 			};
 			setLoading(true); // Set Loading to true
 			const Response = await API.Put('/put/auth/Update-Password', ResetData); // Reset Password Function from Helper/Auth/Authentication

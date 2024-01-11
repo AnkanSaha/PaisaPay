@@ -1,6 +1,6 @@
 import React from 'react'; // import react
 import { useSelector } from 'react-redux'; // import react-redux
-import { Cryptography, API } from '@helper/Common'; // import the crypto function
+import { API } from '@helper/Common'; // import the crypto function
 import moment from 'moment'; // import moment
 import {useNavigate} from 'react-router-dom'; // import useNavigate from react-router-dom
 
@@ -23,7 +23,8 @@ export default function ProfileDetails() {
 	const Navigate = useNavigate(); // get the navigate function
 
 	// States
-	const Decrypted_Data = JSON.parse(Cryptography.DecryptSync(ReduxState.AccountInfo.AccountDetails)); // decrypt the data
+	const Decrypted_Data = ReduxState.AccountInfo.AccountDetails; // decrypt the data
+	console.log(Decrypted_Data)
 	const [loading, setLoading] = React.useState(false); // loading state for the button
 	const[TPIN, setTPIN] = React.useState(''); // transaction pin state
 

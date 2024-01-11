@@ -1,6 +1,6 @@
 import React from 'react'; // Import React
 import { useSelector } from 'react-redux'; // import useSelector from react-redux
-import { Cryptography, API as Service } from '@helper/Common'; // import the Crypto function from the Common file
+import { API as Service } from '@helper/Common'; // import the Crypto function from the Common file
 
 // Import Components
 import {
@@ -29,7 +29,7 @@ export default function CreateNewMoneyRequest() {
 	const ReduxState = useSelector(state => state); // get the account details from the redux store
 
 	// Decode All Account Details
-	const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(ReduxState.AccountInfo.AccountDetails)); // decode the jwt token to get the account details
+	const Decoded_Account_Details = ReduxState.AccountInfo.AccountDetails; // decode the jwt token to get the account details
 
 	// States
 	const { isOpen, onOpen, onClose } = useDisclosure(); // use the useDisclosure hook for the modal
@@ -92,7 +92,7 @@ export default function CreateNewMoneyRequest() {
 		setRequestButtonLoading(true); // set the request button loading state to true
 
 		// Encrypt the request info
-		const Encrypted_Request_Info = await Cryptography.Encrypt(RequestInfo); // encrypt the request info
+		const Encrypted_Request_Info = RequestInfo; // encrypt the request info
 		
 		// Send the request to the server
 		const Response = await Service.Post('/post/Payment/request-money', {

@@ -1,6 +1,6 @@
 import React from 'react'; // Import React
 import { useSelector, useDispatch } from 'react-redux'; // Import useSelector from react-redux
-import { Cryptography, API } from '@helper/Common'; // Import Crypto from Common.jsx
+import { API } from '@helper/Common'; // Import Crypto from Common.jsx
 import moment from 'moment'; // Import moment
 import { SlEnergy } from 'react-icons/sl'; // Import SlEnergy Icon
 import {useNavigate} from 'react-router-dom'; // Import Link from react-router-dom
@@ -17,7 +17,7 @@ export default function UpdateDemographicInfo() {
     const Dispatch = useDispatch(); // Create Dispatch
 
 	// States
-	const Decrypted_Account_Info = JSON.parse(Cryptography.DecryptSync(ReduxState.AccountInfo.AccountDetails));
+	const Decrypted_Account_Info = ReduxState.AccountInfo.AccountDetails;
 	const [NewDemographicInfo, setNewDemographicInfo] = React.useState({
 		NewEmail: Decrypted_Account_Info.Email,
 		NewPhoneNumber: Decrypted_Account_Info.PhoneNumber,
@@ -62,7 +62,7 @@ export default function UpdateDemographicInfo() {
             return; // Return if any field is empty
 		}
         setLoading(true); // Set Loading to true
-        const Encrypted_Info = await Cryptography.Encrypt(NewDemographicInfo); // Encrypt New Demographic Info
+        const Encrypted_Info = NewDemographicInfo; // Encrypt New Demographic Info
 
         // Send Request
         const Response = await API.Put('/put/update/update-Demographic-Info', {

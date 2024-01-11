@@ -2,9 +2,6 @@ import React, { useState } from 'react'; // Importing React
 import { useNavigate } from 'react-router-dom'; // Import useParams from react-router-dom
 import { useSelector } from 'react-redux'; // Importing useSelector from react-redux
 
-// Encrypting and Decrypting
-import { Cryptography } from '@helper/Common'; // Importing Common Functions
-
 // Chakra-UI
 import { FormControl, FormLabel, Heading, Input, Button, MenuButton, Menu, MenuList, MenuItem, useToast } from '@chakra-ui/react';
 
@@ -30,7 +27,7 @@ export default function ForgetPasswordValidator() {
 	}); // User Data
 
 	// Decrypting
-	const DecryptedToken = JSON.parse(Cryptography.DecryptSync(AccountDetails)); // Decrypting Token
+	const DecryptedToken = AccountDetails; // Decrypting Token
 
 	// Functions
 	const VerifyUserDetails = () => {
