@@ -91,7 +91,6 @@ export function DeviceDetailsSetter() {
 
 // API Key
 export const IP_INFO_API_KEY = import.meta.env.VITE_IP_INFO_API_KEY; // API Key For IP Info API import.meta.env.VITE_IPInfoAPIKey
-export const Client_Side_Crypto_Key = import.meta.env.VITE_ENCRYPTION_KEY; // Crypto Key For Client Side Encryption import.meta.env.VITE_EnCryptionKey
 
 // Global Storage Functions Like LocalStorage, SessionStorage, CacheStorage, Cookies, etc.
 import { CacheStorage } from 'react-caches'; // Cache Storage
