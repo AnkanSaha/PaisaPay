@@ -9,8 +9,6 @@ import { Request } from "express"; // Import Request from express
 // Import Required Modules
 import { Console, StatusCodes, Response as Serve, UniqueGenerator } from "outers"; // Import Console & Status Codes
 import { Compare, Encrypt as Bcrypt } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Middleware
-import Encrypt from "../../Middleware/Encrypt.middleware"; // Import Encrypt Middleware
-
 
 // // import Helpers
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
@@ -41,7 +39,7 @@ interface PasswordEncryptionInterface {
 export default async function UpdatePassword(Request: Request, Response: ResponseInterface) {
     try {
         // Decrypt The Info
-        const Decrypted_Info: DecryptedData = JSON.parse(await Encrypt.Decrypt(Request.body.Encrypted_Info)); // Decrypt The Info
+        const Decrypted_Info: DecryptedData = Request.body.Encrypted_Info; // Decrypt The Info
         
         // Short The Email
         const ShortData = {

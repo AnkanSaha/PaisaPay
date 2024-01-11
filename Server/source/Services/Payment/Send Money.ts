@@ -6,7 +6,6 @@ type int = number; // Define int
 import { Request } from "express"; // Import Request from express
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
-import EncryptConfig from "../../Middleware/Encrypt.middleware"; // Import Encrypt Config
 import { Console, Response as Serve, StatusCodes, UniqueGenerator } from "outers"; // Import red from outers
 import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Config
 
@@ -18,7 +17,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 		const { Encrypted_PaymentInfo } = Request.body; // Get Body
 
 		// Decrypt Payment Info
-		const PaymentInfo = JSON.parse(await EncryptConfig.Decrypt(Encrypted_PaymentInfo));
+		const PaymentInfo = Encrypted_PaymentInfo;
 
 		// Check If Sender Account Exists
 		const SenderAccountExists = await AccountExistenceChecker(PaymentInfo.SenderPhone, PaymentInfo.SenderEmail);
@@ -214,7 +213,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 			statusCode: StatusCodes.OK,
 			message: `Transaction Success | Money Sent Successfully to ${ReceiverAccountDetails.Data[0].Name}`,
 			Title: "Transaction Success",
-			data: await EncryptConfig.Encrypt({
+			data: {
 				TransactionID: TransactionID,
 				TransactionDate: Date.now(),
 				TransactionType: `${ReceiverAccountDetails.Data[0].Name}`,
@@ -222,7 +221,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 				TransactionDescription: PaymentInfo.TransactionDescription === "" ? "No Description Provided" : PaymentInfo.TransactionDescription,
 				TransactionStatus: "Transaction Success",
 				NewBalance: SenderAccountExists.Information.Data[0].Balance - PaymentInfo.TransactionAmount,
-			}),
+			},
 			response: Response,
 		}); // Send Response
 	} catch (error) {

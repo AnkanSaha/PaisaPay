@@ -3,7 +3,6 @@ type str = string; // Type Declaration for string
 
 import { Request } from "express"; // Import Request from express
 import { Console, StatusCodes, Response, UniqueGenerator } from "outers"; // Import red from outers
-import Cryptography from "../../Middleware/Encrypt.middleware"; // Import JWT Config
 
 // Import Helpers
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
@@ -50,8 +49,8 @@ export default async function HelpCenterService(request: RequestInterface, respo
 			return; // Return if the request body is invalid
 		} else {
 			// Encrypt the request data
-			const EncryptedTicketTitle = await Cryptography.Encrypt(request.body.TicketTitle); // Encrypt the request Title
-			const EncryptedTicketDescription = await Cryptography.Encrypt(request.body.TicketDescription); // Encrypt the request data
+			const EncryptedTicketTitle = request.body.TicketTitle; // Encrypt the request Title
+			const EncryptedTicketDescription = request.body.TicketDescription; // Encrypt the request data
 
 			//  Register Ticket ID Generator
 			const TicketIDGenerator = new UniqueGenerator(15); // Create a new Unique ID Generator
@@ -140,7 +139,7 @@ export const GetAllTickets = async (request: Request, response: ResponseInterfac
 			return;
 		}
 		// Encrypt All Tickets
-		const EncryptedAllTickets = await Cryptography.Encrypt(ClientAllTickets.Data); // Encrypt All Tickets
+		const EncryptedAllTickets = ClientAllTickets.Data; // Encrypt All Tickets
 
 		// Send the response
 		Response.JSON({

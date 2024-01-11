@@ -7,7 +7,6 @@ type int = number;
 // Import Required Modules
 import { Request } from "express"; // Import Request from express
 import { Console, StatusCodes, Response as Serve } from "outers"; // Import Console & Status Codes
-import EncryptMiddleware from "../../Middleware/Encrypt.middleware"; // Import Encrypt Middleware
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
 import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Compare Function
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Client
@@ -29,7 +28,7 @@ interface DecryptedData {
 
 export default async function UpdateDemographicInfo(Request: Request, Response: ResponseInterface){
     try{
-        const Decrypted_Info: DecryptedData = JSON.parse(await EncryptMiddleware.Decrypt(Request.body.Encrypted_Info)); // Decrypt The Info
+        const Decrypted_Info: DecryptedData = Request.body.Encrypted_Info; // Decrypt The Info
         // Short Data
         const ShortData = {
             OldEmail: Decrypted_Info.OldEmail.toLowerCase(),
@@ -160,7 +159,7 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
             message: "Your Demographic Info Has Been Successfully Updated, You Can Now Continue To Use Our Services",
             data: {
                 sessionID: UpdateStatus.UpdatedData.LastLoginToken,
-                AccountDetails: await EncryptMiddleware.Encrypt(UpdateStatus.UpdatedData)
+                AccountDetails: UpdateStatus.UpdatedData
             }
         }); // Serve JSON
     }
