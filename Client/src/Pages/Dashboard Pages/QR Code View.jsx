@@ -1,7 +1,6 @@
 // import Required Modules
 import React from 'react'; // import React
 import QRCode from 'react-qr-code'; // import the QR Code component
-import { Cryptography } from '@helper/Common';
 
 // import Components
 import DashboardNavbar from '@component/Navbar/Dashboard Navbar'; // import the general navbar
@@ -21,7 +20,7 @@ export default function ViewQRCode() {
 	const AccountDetails = useSelector(state => state.AccountInfo); // get the account details from the redux store
 	const AppName = useSelector(state => state.GeneralAppInfo.AppDetails.Static_Details.App_Name); // get the app name from the redux store
 	// Decode All Account Details
-	const Decoded_Account_Details = JSON.parse(Cryptography.DecryptSync(AccountDetails.AccountDetails)); // decode the jwt token to get the account details
+	const Decoded_Account_Details = AccountDetails.AccountDetails; // decode the jwt token to get the account details
 
 	Update_Document_Title('View QR Code'); // update the document title
 	document.addEventListener('contextmenu', event => event.preventDefault()); // disable the context menu'
