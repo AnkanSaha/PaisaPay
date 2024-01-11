@@ -6,7 +6,6 @@ type str = string; // Define str
 import { Request } from "express"; // Import Request from express
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
-import EncryptConfig from "../../Middleware/Encrypt.middleware"; // Import Encrypt Config
 import { Console, Response as Serve, StatusCodes, UniqueGenerator } from "outers"; // Import red from outers
 import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Config
 
@@ -27,7 +26,7 @@ interface DecryptedDataInterface {
 export default async (Request: Request, Response: ResponseInterface) => {
 	try {
 		// Decrypt Data from Request
-		const Decrypted_Data: DecryptedDataInterface = JSON.parse(await EncryptConfig.Decrypt(Request.body.Encrypted_Request_Info)); // Decrypt Data
+		const Decrypted_Data: DecryptedDataInterface = Request.body.Encrypted_Request_Info; // Decrypt Data
 
 		// Short Data
 		const ShortData = {
@@ -240,7 +239,7 @@ export async function Get_Request_money(Request: Request, Response: ResponseInte
 			return; // Return
 		}
 		// Encrypt Data & Send Response
-		const EncryptedData = await EncryptConfig.Encrypt(AllRequests.Data); // Encrypt Data
+		const EncryptedData = AllRequests.Data; // Encrypt Data
 
 		// Send Response
 		Serve.JSON({
@@ -269,7 +268,7 @@ export async function Accept_Request_Money(Request: Request, Response: ResponseI
 		const { Encrypted_Request_Info } = Request.body; // Get Body
 
 		// Decrypt Payment Info
-		const PaymentInfo = JSON.parse(await EncryptConfig.Decrypt(Encrypted_Request_Info));
+		const PaymentInfo = Encrypted_Request_Info;
 
 		// Check If Sender Account Exists
 		const SenderAccountExists = await AccountExistenceChecker(PaymentInfo.SenderPhone, PaymentInfo.SenderEmail);

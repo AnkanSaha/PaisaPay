@@ -8,7 +8,6 @@ type int = number;
 import { Request } from "express"; // Import Request from express
 // Import Required Modules
 import { Console, StatusCodes, Response as Serve } from "outers"; // Import Console & Status Codes
-import EncryptMiddleware from "../../Middleware/Encrypt.middleware"; // Import Encrypt Middleware
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Database
 import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Middleware
 
@@ -28,7 +27,7 @@ interface Decrypted_Data_Interface {
 // Function
 export default async function UpdatePaymentID (Request: Request, Response: ResponseInterface){
     try{
-        const Decrypted_Data: Decrypted_Data_Interface = JSON.parse(await EncryptMiddleware.Decrypt(Request.body.Encrypted_Info)); // Decrypt Data
+        const Decrypted_Data: Decrypted_Data_Interface = Request.body.Encrypted_Info; // Decrypt Data
         const SmelledDetails = {
             Email:Decrypted_Data.Email.toLowerCase(),
             NewPaymentID: `${Decrypted_Data.NewPaymentID.toLowerCase()}@pp`,
@@ -101,7 +100,7 @@ export default async function UpdatePaymentID (Request: Request, Response: Respo
             message: "Your Payment ID Has Been Updated Successfully, You Can Now Use It To Receive Payments",
             data: {
                 sessionID: UpdateStatus.UpdatedData.LastLoginToken,
-                AccountDetails: await EncryptMiddleware.Encrypt(UpdateStatus.UpdatedData)
+                AccountDetails: UpdateStatus.UpdatedData
             }
         }); // Serve JSON
     }

@@ -6,7 +6,6 @@ type int = number; // Define int
 import { Request } from "express"; // Import Request from express
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
-import EncryptConfig from "../../Middleware/Encrypt.middleware"; // Import Encrypt Config
 import {Compare} from '../../Middleware/Bcrypt.middleware'; // Import Bcrypt Config
 import { Console, Response as Serve, StatusCodes, UniqueGenerator } from "outers"; // Import red from outers
 
@@ -16,7 +15,7 @@ import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Imp
 export const WithdrawalMoney = async (Request: Request, Response: ResponseInterface) => {
 	try {
 		// Decrypt the data
-		const DecryptedData = JSON.parse(await EncryptConfig.Decrypt(Request.body.EncryptedData)); // Decrypt the data
+		const DecryptedData = Request.body.EncryptedData; // Decrypt the data
 		// Check if the account exists
 		const AccountExistence = await AccountExistenceChecker(DecryptedData.Phone, DecryptedData.Email); // Check if the account exists
 

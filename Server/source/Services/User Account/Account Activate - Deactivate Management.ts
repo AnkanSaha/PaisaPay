@@ -8,7 +8,6 @@ import { Request } from "express"; // Import Request from express
 // Import Required Modules
 import { Console, StatusCodes, Response as Serve } from "outers"; // Import Console & Status Codes
 import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Middleware
-import EncryptMiddleware from "../../Middleware/Encrypt.middleware"; // Import Encrypt Middleware
 
 // Import Helper
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
@@ -75,7 +74,7 @@ export async function AccountActivationDeactivationManagement(Request: Request, 
 				statusCode: StatusCodes.OK,
 				Title: "Account Status Updated",
 				message: `Account Status Updated to ${String(Request.query.AccountStatus)} Successfully`,
-				data: { sessionID: AccountDetails.Data[0].LastLoginToken, AccountDetails: await EncryptMiddleware.Encrypt(AccountDetails.Data[0]) },
+				data: { sessionID: AccountDetails.Data[0].LastLoginToken, AccountDetails: AccountDetails.Data[0]},
 			}); // Send Response
 			return;
 		}

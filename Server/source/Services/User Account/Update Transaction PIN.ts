@@ -9,7 +9,6 @@ import { Request } from "express"; // Import Request from express
 // Import Required Modules
 import { Console, StatusCodes, Response as Serve, UniqueGenerator } from "outers"; // Import Console & Status Codes
 import { Compare, Encrypt as Bcrypt } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Middleware
-import Encrypt from "../../Middleware/Encrypt.middleware"; // Import Encrypt Middleware
 
 // import Helpers
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
@@ -31,7 +30,7 @@ export const UpdateTransactionPIN = async (Request: Request, Response: ResponseI
 		const { EncryptedData } = Request.body; // Get Request Body Data
 
 		// Decrypt Data & Get Transaction PIN
-		const DecryptedData = JSON.parse(await Encrypt.Decrypt(EncryptedData)); // Decrypt Data
+		const DecryptedData = EncryptedData; // Decrypt Data
 
 		// Check if No Data Send By User
 		if (

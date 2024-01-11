@@ -5,7 +5,6 @@ type str = string; // Define str
 import { Request } from "express"; // Import Request from express
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
-import EncryptConfig from "../../Middleware/Encrypt.middleware"; // Import Encrypt Config
 import { Console, Response as Serve, StatusCodes } from "outers"; // Import red from outers
 
 // Import Interfaces
@@ -17,8 +16,8 @@ export const GetTransactionHistory = async (Request: Request, Response: Response
 		const { Number, Email } = Request.body; // Get Data From Request Params
 
 		// Decrypt Phone Number & Email ID
-		const MobNumber: int = JSON.parse(await EncryptConfig.Decrypt(String(Number))); // Decrypt Phone Number
-		const EmailID: str = JSON.parse(await EncryptConfig.Decrypt(String(Email))); // Decrypt Email ID
+		const MobNumber: int = Number; // Decrypt Phone Number
+		const EmailID: str = Email; // Decrypt Email ID
 
 		const AccountStatus = await AccountExistenceChecker(MobNumber, EmailID); // Check Account Existence
 
@@ -65,7 +64,7 @@ export const GetTransactionHistory = async (Request: Request, Response: Response
 		}); // Sort All Transaction Data
 
 		// Encrypt All Transaction Data
-		const EncryptedData = await EncryptConfig.Encrypt(SortedUnencryptedResponseData); // Encrypt All Transaction Data
+		const EncryptedData = SortedUnencryptedResponseData; // Encrypt All Transaction Data
 
 		Serve.JSON({
 			status: true,
