@@ -216,6 +216,12 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 				const AccountStatus = await MongoDB.ClientAccount.create(NewClientAccount); // Create Client Account in MongoDB
 
 				// Generate JWT Token
+				// Remove Password from the Account Details
+				AccountStatus.NewData[0].Password = undefined; // Remove Password from the Account Details
+				AccountStatus.NewData[0].TransactionPIN = undefined; // Remove Transaction PIN from the Account Details
+				AccountStatus.NewData[0].National_ID_Number = undefined; // Remove National ID Number from the Account Details
+				AccountStatus.NewData[0].LastLoginToken = undefined; // Remove Last Login Token from the Account Details
+			
 				const EncryptedAccountData = AccountStatus.NewData[0]; // Encrypt Account Data
 
 				// Send Response to Client
