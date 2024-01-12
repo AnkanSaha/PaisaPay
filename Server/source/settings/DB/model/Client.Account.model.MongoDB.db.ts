@@ -2,7 +2,7 @@ export default {
 	ClientID: { type: Number, required: true, unique: true, default: 0, minlength: 20 },
 	Name: { type: String, required: true, default: "guest", unique: false },
 	Email: { type: String, required: true, unique: true, default: "example@example.com" },
-	DOB: { type: Date, required: true, default: Date.now(), unique: false },
+	DOB: { type: Date, required: false, default: Date.now(), unique: false },
 	PaymentID: { type: String, required: true, unique: true, default: "Not Provided" },
 	Balance: { type: Number, required: true, default: 0, unique: false },
 	PhoneNumber: { type: Number, required: true, unique: true, default: 0, minlength: 10 },

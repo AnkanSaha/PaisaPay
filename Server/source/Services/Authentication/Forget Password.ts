@@ -38,6 +38,7 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 			}); // Send Response to the Client
 			return;
 		}
+		
 		// Encrypt the Data and send it Using JWT
 		const LoginToken = await JWT.generate(
 			{
@@ -45,7 +46,14 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 				LastFourDigitsOfIDNumber: AccountDetails.Data[0].LastFourDigitsOfIDNumber,
 			},
 			StringKeys.JWT_EXPIRES_IN
-		); // Generate Login Token for the user
+		); 
+		// Generate Login Token for the user
+		// Remove Password from the Account Details
+		AccountDetails.Data[0].Password = undefined; // Remove Password from the Account Details
+		AccountDetails.Data[0].TransactionPIN = undefined; // Remove Transaction PIN from the Account Details
+		AccountDetails.Data[0].National_ID_Number = undefined; // Remove National ID Number from the Account Details
+		AccountDetails.Data[0].LastLoginToken = undefined; // Remove Last Login Token from the Account Details
+	
 		const EncryptedData = AccountDetails.Data[0]; // Encrypt the Data and send it Using JWT
 
 		// Send Response to the Client
