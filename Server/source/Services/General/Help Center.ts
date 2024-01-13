@@ -1,14 +1,13 @@
 // Global Type Declarations
 type str = string; // Type Declaration for string
 
-import { Request } from "express"; // Import Request from express
-import { Console, StatusCodes, Response, UniqueGenerator } from "outers"; // Import red from outers
+import { Request, Response } from "express"; // Import Request from express
+import { Console, StatusCodes, Serve, methods } from "outers"; // Import red from outers
 
 // Import Helpers
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 
 // Import Interfaces
-import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
 
 // Interface for Request
@@ -33,18 +32,19 @@ interface RequestInterface extends Request {
  * the `JSONSendResponse` function. The response includes data such as the status, message, and
  * statusCode.
  */
-export default async function HelpCenterService(request: RequestInterface, response: ResponseInterface) {
+export default async function HelpCenterService(request: RequestInterface, response: Response) {
 	try {
 		const { ClientID, TicketDescription, TicketTitle, CurrentClientDetails } = request.body; // Destructure the request body
 		if (!ClientID || !TicketDescription || !TicketTitle || !CurrentClientDetails) {
 			// Check if the request body is valid
-			Response.JSON({
+			Serve.JSON({
 				data: undefined,
 				Title: "Information Missing in Request",
 				message: "Please provide all the required information & try again",
 				status: false,
 				statusCode: StatusCodes.BAD_REQUEST,
 				response: response,
+				cookieData: undefined,
 			});
 			return; // Return if the request body is invalid
 		} else {
@@ -53,7 +53,7 @@ export default async function HelpCenterService(request: RequestInterface, respo
 			const EncryptedTicketDescription = request.body.TicketDescription; // Encrypt the request data
 
 			//  Register Ticket ID Generator
-			const TicketIDGenerator = new UniqueGenerator(15); // Create a new Unique ID Generator
+			const TicketIDGenerator = new methods.UniqueGenerator(15); // Create a new Unique ID Generator
 
 			const RequestDataToBeSave = {
 				ClientID: ClientID,
@@ -70,40 +70,43 @@ export default async function HelpCenterService(request: RequestInterface, respo
 
 			// Check if the request data was saved successfully
 			if (DBResult.status === true) {
-				Response.JSON({
+				Serve.JSON({
 					data: DBResult.NewData[0],
 					Title: "Ticket Created Successfully",
 					message: "Your ticket has been created successfully, we will get back to you soon",
 					status: true,
 					statusCode: StatusCodes.CREATED,
 					response: response,
+					cookieData: undefined,
 				});
 			} else {
-				Response.JSON({
+				Serve.JSON({
 					data: undefined,
 					Title: "Ticket Creation Failed",
 					message: "Your ticket could not be created, please try again",
 					status: false,
 					statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 					response: response,
+					cookieData: undefined,
 				});
 			}
 		}
 	} catch (error) {
 		Console.red(error);
-		Response.JSON({
+		Serve.JSON({
 			data: undefined,
 			Title: "Internal Server Error",
 			message: "An error occurred while processing your request, please try again",
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 			response: response,
+			cookieData: undefined,
 		}); // Send an empty response
 	}
 }
 
 // Get All Tickets
-export const GetAllTickets = async (request: Request, response: ResponseInterface) => {
+export const GetAllTickets = async (request: Request, response: Response) => {
 	try {
 		const { Email, PhoneNumber } = request.query; // Destructure the request body
 
@@ -112,13 +115,14 @@ export const GetAllTickets = async (request: Request, response: ResponseInterfac
 
 		// Check if the client exists
 		if (ClientData.status === false) {
-			Response.JSON({
+			Serve.JSON({
 				data: undefined,
 				Title: "Client Not Found",
 				message: "The client with the provided details does not exist",
 				status: false,
 				statusCode: StatusCodes.NOT_FOUND,
 				response: response,
+				cookieData: undefined,
 			});
 			return;
 		}
@@ -128,13 +132,14 @@ export const GetAllTickets = async (request: Request, response: ResponseInterfac
 
 		// Check if the client has any tickets
 		if (ClientAllTickets.count === 0) {
-			Response.JSON({
+			Serve.JSON({
 				data: undefined,
 				Title: "No Tickets Found",
 				message: "The client has not created any tickets yet",
 				status: false,
 				statusCode: StatusCodes.NOT_FOUND,
 				response: response,
+				cookieData: undefined,
 			});
 			return;
 		}
@@ -142,23 +147,25 @@ export const GetAllTickets = async (request: Request, response: ResponseInterfac
 		const EncryptedAllTickets = ClientAllTickets.Data; // Encrypt All Tickets
 
 		// Send the response
-		Response.JSON({
+		Serve.JSON({
 			data: EncryptedAllTickets,
 			Title: "Tickets Found",
 			message: "The client tickets were found successfully",
 			status: true,
 			statusCode: StatusCodes.OK,
 			response: response,
+			cookieData: undefined,
 		});
 	} catch (error) {
 		Console.red(error);
-		Response.JSON({
+		Serve.JSON({
 			data: undefined,
 			Title: "Internal Server Error",
 			message: "An error occurred while processing your request, please try again",
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 			response: response,
+			cookieData: undefined,
 		}); // Send an empty response
 	}
 };

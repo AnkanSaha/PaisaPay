@@ -5,20 +5,17 @@ type str = string; // Define str
 
 // Imports
 // Import Required Modules
-import { Console, Response, StatusCodes } from "outers";
+import { Console, Serve, StatusCodes } from "outers";
 import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Import HTTP Status Codes
 import JWT from "../../Middleware/JWT.middleware"; // Import JWT Config
 import { Encrypt } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Config
-import { Request } from "express"; // Import Request from express
+import { Request, Response } from "express"; // Import Request from express
 import { randomNumber } from "uniquegen"; // Import Uniquegen
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
 
-// Import Interfaces
-import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
-
 // Function  for forget password Account Details Sender
-export const ForgetPasswordAccountFinder = async (request: Request, response: ResponseInterface) => {
+export const ForgetPasswordAccountFinder = async (request: Request, response: Response) => {
 	try {
 		const { Email } = request.params; // Destructure the request body
 		// Convert Email to lowercase
@@ -28,13 +25,14 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 
 		// Check if Account Details is Empty or not
 		if (AccountDetails.count === 0) {
-			Response.JSON({
+			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_FOUND,
 				message: "Account Not Found with this Email or Phone Number",
 				Title: "Account Not Found",
 				data: undefined,
 				response: response,
+				cookieData: undefined
 			}); // Send Response to the Client
 			return;
 		}
@@ -57,7 +55,7 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 		const EncryptedData = AccountDetails.Data[0]; // Encrypt the Data and send it Using JWT
 
 		// Send Response to the Client
-		Response.JSON({
+		Serve.JSON({
 			status: true,
 			statusCode: StatusCodes.OK,
 			message: "Account Details Matched Successfully",
@@ -67,16 +65,18 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 				AccountDetails: EncryptedData,
 			},
 			response: response,
+			cookieData: undefined
 		});
 	} catch (error) {
 		Console.red(error); // Log the error to the console
-		Response.JSON({
+		Serve.JSON({
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 			message: "Internal Server Error",
 			Title: "Internal Server Error",
 			data: undefined,
 			response: response,
+			cookieData: undefined
 		});
 	}
 };
@@ -89,7 +89,7 @@ interface ForgetPasswordUpdaterInterface extends Request {
 	LastLoginIP: str;
 	LastLoginClientDetails: unknown;
 }
-export const ForgetPasswordUpdater = async (request: Request, response: ResponseInterface) => {
+export const ForgetPasswordUpdater = async (request: Request, response: Response) => {
 	try {
 		const { PhoneNumber, Email, Password, LastLoginIP, LastLoginClientDetails }: ForgetPasswordUpdaterInterface = request.body; // Destructure the request body
 
@@ -145,7 +145,7 @@ export const ForgetPasswordUpdater = async (request: Request, response: Response
 					false
 				);
 
-				Response.JSON({
+				Serve.JSON({
 					status: true,
 					statusCode: StatusCodes.OK,
 					message: "Password Updated Successfully",
@@ -155,27 +155,30 @@ export const ForgetPasswordUpdater = async (request: Request, response: Response
 						AccountDetails: EncryptAccountData,
 					},
 					response: response,
+					cookieData: undefined
 				}); // Send Response to the Client
 			}
 		} else if (AccountStatus.status === false) {
-			Response.JSON({
+			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_FOUND,
 				message: "Account Not Found with this Email or Phone Number",
 				Title: "Account Not Found",
 				data: undefined,
 				response: response,
+				cookieData: undefined
 			}); // Send Response to the Client
 		}
 	} catch (error) {
 		Console.red(error); // Log the error to the console
-		Response.JSON({
+		Serve.JSON({
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 			message: "Internal Server Error",
 			Title: "Internal Server Error",
 			data: undefined,
 			response: response,
+			cookieData: undefined
 		});
 	}
 }; // Function for forget password updater

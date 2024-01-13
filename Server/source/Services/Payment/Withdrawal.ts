@@ -112,7 +112,7 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 		}
 
 		// Register Transaction ID Generator
-		const Generator = new UniqueGenerator(18);
+		const Generator = new methods.UniqueGenerator(18);
 
 		// Create Transaction ID for this Transaction
 		let TransactionID: int; // Create Transaction ID

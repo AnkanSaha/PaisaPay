@@ -8,7 +8,7 @@ import { RequestInterface } from "../../utils/Incoming.Req.Check.utils"; // Impo
 // Import AppKey
 import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Import String Keys
 
-import { StatusCodes, Response } from "outers"; // Import HTTP Status Codes
+import { StatusCodes, Serve } from "outers"; // Import HTTP Status Codes
 
 // Extend The Request Interface
 interface FileFetchInterface extends RequestInterface {
@@ -29,14 +29,14 @@ interface FileFetchInterface extends RequestInterface {
  */
 export async function GetProfilePic(request: FileFetchInterface, response: any) {
 	if (!request.params.ProfilePicID) {
-		Response.File({
+		Serve.File({
 			rootName: `${StringKeys.StaticDirectoryName}/`,
 			response: response,
 			Filename: undefined,
 			statusCode: StatusCodes.BAD_REQUEST,
 		});
 	} else {
-		Response.File({
+		Serve.File({
 			response: response,
 			statusCode: StatusCodes.OK,
 			Filename: `${request.params.ProfilePicID}`,
