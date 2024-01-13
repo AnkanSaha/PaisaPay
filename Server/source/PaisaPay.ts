@@ -63,6 +63,7 @@ if (isPrimary) {
 		CheckHeader,
 		MainRouter
 	); // Link Main Router
+
 	Console.magenta("Linked All API Endpoints with PaisaPay Server"); // Print Success Message
 
 	// Configure Static Folder

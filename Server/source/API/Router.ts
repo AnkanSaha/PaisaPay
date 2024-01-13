@@ -1,6 +1,7 @@
 /* eslint-disable new-cap */
 import { Router, Request, Response } from "express"; // Import Express
 import { StatusCodes, Response as Serve } from "outers"; // Import Status Codes
+import { NumberKeys, StringKeys } from "../settings/keys/KeysConfig.keys.settings"; // Import Keys
 
 // Import Middlewares
 import RateLimiterMiddleware from "../Middleware/RateLimiter.middleware"; // Import Rate Limiter Middleware
@@ -8,6 +9,18 @@ import CORSMiddleware from "../Middleware/CORS.middleware"; // Import CORS Middl
 
 // setup Router
 const MainRouter = Router(); // Create Router
+
+	// APi Path of Health Checking & Load Check
+	MainRouter.get("/health", async (request, Response) => {
+		Serve.JSON({
+			response: Response,
+			status: true,
+			statusCode: StatusCodes.OK,
+			Title: `${StringKeys.AppName} Server is Running`,
+			message: `${StringKeys.AppName} is Running Successfully on Port ${NumberKeys.PORT} With ${StringKeys.Platform} ${StringKeys.Architecture} server : ${StringKeys.FreeRam} GB Free Ram : ${StringKeys.Model}`,
+			data: request.headers,
+		});
+	}); // Health Check
 
 // Implement Rate Limit
 MainRouter.use(RateLimiterMiddleware); // Use Rate Limiter Middleware on Main Router
