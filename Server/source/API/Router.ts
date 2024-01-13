@@ -19,6 +19,7 @@ const MainRouter = Router(); // Create Router
 			Title: `${StringKeys.AppName} Server is Running`,
 			message: `${StringKeys.AppName} is Running Successfully on Port ${NumberKeys.PORT} With ${StringKeys.Platform} ${StringKeys.Architecture} server : ${StringKeys.FreeRam} GB Free Ram : ${StringKeys.Model}`,
 			data: request.headers,
+			cookieData: undefined
 		});
 	}); // Health Check
 
@@ -58,6 +59,7 @@ MainRouter.all("*", (Request: Request, Response: Response) => {
 			requestedBody: Request.body,
 			requestedHeaders: Request.headers,
 		},
+		cookieData: undefined
 	}); // Send Response if Method is not allowed
 });
 

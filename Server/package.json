@@ -40,7 +40,7 @@
     "mongosuper": "^4.4.3",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.0.1",
-    "outers": "^3.5.7"
+    "outers": "^3.6.9"
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
