@@ -6,7 +6,7 @@ type bool = boolean;
 
 import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Import HTTP Status Codes
 import fs from "fs"; // Import fs
-import { Request } from "express"; // Import Request from express
+import { Request, Response } from "express"; // Import Request from express
 import JWT from "../../Middleware/JWT.middleware"; // Import JWT Config
 
 // import Helpers
@@ -15,8 +15,7 @@ import { Encrypt } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt C
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 
 // Import Interfaces
-import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
-import { Console, StatusCodes, Response, UniqueGenerator } from "outers"; // Import Console & Status Codes
+import { Console, StatusCodes, Serve, methods } from "outers"; // Import Console & Status Codes
 
 // Interfaces for Signup
 interface SignupRequestInterface extends Request {
@@ -53,7 +52,7 @@ interface PasswordEncryptionInterface {
  * @param {ResponseInterface} res - The `res` parameter is the response object that will be sent back
  * to the client. It contains information such as the status code, headers, and the response body.
  */
-export async function Register(req: SignupRequestInterface, res: ResponseInterface) {
+export async function Register(req: SignupRequestInterface, res: Response) {
 	try {
 		const {
 			Name,
@@ -81,13 +80,14 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 			!PaymentID ||
 			!TransactionPIN
 		) {
-			Response.JSON({
+			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.BAD_REQUEST,
 				Title: "Information Missing in Request",
 				message: "Please provide all the required information & try again",
 				response: res,
 				data: undefined,
+				cookieData: undefined,
 			});
 			await fs.promises.rm(req.file.path); // Delete the file
 			return; // Return if the request body is invalid
@@ -112,20 +112,21 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 			// Check if account exists
 			const AccountStatus = await AccountExistenceChecker(DecryptedPhoneNumber, SmallEmail); // Check if account exists
 			if (AccountStatus.status == true) {
-				Response.JSON({
+				Serve.JSON({
 					status: false,
 					statusCode: StatusCodes.CONFLICT,
 					Title: "Account Exists",
 					message: "Account exists with the same email or phone number or ID number",
 					response: res,
 					data: undefined,
+					cookieData: undefined,
 				});
 				await fs.promises.rm(req.file.path); // Delete the file
 				return; // Return if the account exists
 			} else if (AccountStatus.status == false) {
 				// Register Unique ID Generator
-				const RoundGenerator = new UniqueGenerator(1); // Create Unique ID Generator
-				const ClientGenerator = new UniqueGenerator(20); // Create Unique ID Generator
+				const RoundGenerator = new methods.UniqueGenerator(1); // Create Unique ID Generator
+				const ClientGenerator = new methods.UniqueGenerator(20); // Create Unique ID Generator
 
 				// Encrypt Password
 				const Rounds: int = RoundGenerator.RandomNumber(false, [1, 2, 3, 4, 5, 6, 7, 8, 9]); // Generate Rounds
@@ -158,13 +159,14 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 				// Check if account exists with the same last six digits of ID number
 				const AccountDetails = await MongoDB.ClientAccount.find("OR", [{ LastFourDigitsOfIDNumber: LastFourDigitsOfIDNumber }]); // Find the account in the database
 				if (AccountDetails.Data.length > 0) {
-					Response.JSON({
+					Serve.JSON({
 						status: false,
 						statusCode: StatusCodes.CONFLICT,
 						Title: "Account Exists",
 						message: "Account exists with the same last six digits of ID number",
 						response: res,
 						data: undefined,
+						cookieData: undefined,
 					});
 					await fs.promises.rm(req.file.path);
 					return; // Return if the account exists with the same last six digits of ID number
@@ -174,13 +176,14 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 				const SamePaymentIDAccountDetails = await MongoDB.ClientAccount.find("OR", [{ PaymentID: SmallPaymentID }]); // Find the account in the database
 
 				if (SamePaymentIDAccountDetails.Data.length > 0) {
-					Response.JSON({
+					Serve.JSON({
 						status: false,
 						statusCode: StatusCodes.CONFLICT,
 						Title: "Account Exists",
 						message: "Account exists with the same Payment ID",
 						response: res,
 						data: undefined,
+						cookieData: undefined,
 					}); // Send Response
 					await fs.promises.rm(req.file.path); // Delete the file
 					return; // Return if the account exists with the same Payment ID
@@ -226,7 +229,7 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 
 				// Send Response to Client
 				if (AccountStatus.status === true) {
-					Response.JSON({
+					Serve.JSON({
 						status: true,
 						statusCode: StatusCodes.OK,
 						Title: "Account Created",
@@ -236,16 +239,18 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 							sessionID: LastLoginToken.toKen,
 							AccountDetails: EncryptedAccountData,
 						},
+						cookieData: undefined,
 					});
 				} else if (AccountStatus.status === false) {
 					await fs.promises.rm(req.file.path); // Delete the file
-					Response.JSON({
+					Serve.JSON({
 						status: false,
 						statusCode: StatusCodes.BAD_REQUEST,
 						Title: "Database Error",
 						message: "Look like there is a problem with the database, please try again later",
 						response: res,
 						data: AccountStatus,
+						cookieData: undefined,
 					});
 				}
 			}
@@ -253,13 +258,14 @@ export async function Register(req: SignupRequestInterface, res: ResponseInterfa
 	} catch (err) {
 		await fs.promises.rm(req.file.path); // Delete the file
 		Console.red(err); // Log Error to Console
-		Response.JSON({
+		Serve.JSON({
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 			Title: "Internal Server Error",
 			message: "Internal Server Error",
 			response: res,
 			data: [],
+			cookieData: undefined,
 		});
 	}
 }

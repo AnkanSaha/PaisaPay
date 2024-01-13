@@ -144,8 +144,8 @@ export default async (Request: Request, Response: ResponseInterface) => {
 			return; // Return
 		}
 		// Create Transaction Record for Sender & Requester
-		const RequestIDGenerator = new UniqueGenerator(11); // Create Unique Generator for RequestID
-		const TransactionIDgenerator = new UniqueGenerator(16); // Create Unique Generator
+		const RequestIDGenerator = new methods.UniqueGenerator(11); // Create Unique Generator for RequestID
+		const TransactionIDgenerator = new methods.UniqueGenerator(16); // Create Unique Generator
 
 		// Create Request
 		const CreateRequest = await MongoDB.RequestMoney.create({
@@ -410,7 +410,7 @@ export async function Accept_Request_Money(Request: Request, Response: ResponseI
 		}
 
 				// Register Transaction ID Generator
-				const Generator = new UniqueGenerator(18);
+				const Generator = new methods.UniqueGenerator(18);
 
 				// Create Transaction ID for this Transaction
 				let TransactionID: int; // Create Transaction ID

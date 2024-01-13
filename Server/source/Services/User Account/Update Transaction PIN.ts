@@ -98,7 +98,7 @@ export const UpdateTransactionPIN = async (Request: Request, Response: ResponseI
 
 		// Select Random Number as Round
 		// Encrypt Password
-		const RoundGenerator = new UniqueGenerator(1); // Create Unique ID Generator
+		const RoundGenerator = new methods.UniqueGenerator(1); // Create Unique ID Generator
 		const Rounds: int = RoundGenerator.RandomNumber(false, [1, 2, 3, 4, 5, 6, 7, 8, 9]); // Generate Rounds
 
 		// Encrypt New Transaction PIN

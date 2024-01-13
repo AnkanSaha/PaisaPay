@@ -88,7 +88,7 @@ export default async function UpdatePassword(Request: Request, Response: Respons
         }
 
         // Register Unique Number Generator
-        const Generator = new UniqueGenerator(1); // Create Unique Number Generator
+        const Generator = new methods.UniqueGenerator(1); // Create Unique Number Generator
 
         // Encrypt Password
         const EncryptedPassword : PasswordEncryptionInterface = await Bcrypt(Decrypted_Info.ConfirmNewPassword, Generator.RandomNumber(false)); // Encrypt Password

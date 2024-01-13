@@ -6,16 +6,13 @@ type bool = boolean;
 // Import Required Modules
 import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Import HTTP Status Codes
 import JWT from "../../Middleware/JWT.middleware"; // Import JWT Config
-import { Request } from "express"; // Import Request from express
+import { Request,Response } from "express"; // Import Request from express
 // Import Required Modules
-import { Console, StatusCodes, Response as Serve, UniqueGenerator } from "outers"; // Import Console & Status Codes
+import { Console, StatusCodes, Serve, methods } from "outers"; // Import Console & Status Codes
 
 // import Helpers
 import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Config
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
-
-// Import Interfaces
-import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
 
 // Interfaces for Login
 interface LoginRequestInterface extends Request {
@@ -45,7 +42,7 @@ interface isPasswordCorrectInterface {
  * sent back to the client. It is used to send the response data such as status code, message, and
  * data.
  */
-export const Login_PaisaPay = async (request: LoginRequestInterface, Response: ResponseInterface) => {
+export const Login_PaisaPay = async (request: LoginRequestInterface, Response: Response) => {
 	try {
 		const { PhoneNumber, Password, LastLoginIP, LastLoginClientDetails } = request.body; // Destructure the request body
 
@@ -57,6 +54,7 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 				status: false,
 				statusCode: StatusCodes.BAD_REQUEST,
 				response: Response,
+				cookieData: undefined,
 			});
 			return; // Return if the request body is invalid
 		} else {
@@ -77,6 +75,7 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 					message: "Account not found, please try again with the correct phone number",
 					data: undefined,
 					response: Response,
+					cookieData: undefined,
 				});
 				return; // Return if Account Not Find
 			}
@@ -89,7 +88,8 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 					statusCode:StatusCodes.LOCKED,
 					Title: "Account is Deleted",
 					message: "Your account is deleted, please contact the support team for further assistance or create a new account",
-					data:undefined
+					data:undefined,
+					cookieData: undefined,
 				})
 				return; // Return if Account is Deleted
 			}
@@ -103,6 +103,7 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 						message: "Incorrect Password, please try again with the correct password",
 						data: undefined,
 						response: Response,
+						cookieData: undefined,
 					});
 					return; // Return if Password is Incorrect
 				}
@@ -116,7 +117,7 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 					const EncryptedaccountDetails = AccountStatus.Data[0]; // Generate JWT Token for Account Details
 
 					// Register Login Token Round Generator
-					const Generator = new UniqueGenerator(1); // Create a new Unique Generator
+					const Generator = new methods.UniqueGenerator(1); // Create a new Unique Generator
 
 					// Generate Login Token
 					const LoginToken = await JWT.generateLoginToken(
@@ -155,6 +156,7 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 							AccountDetails: EncryptedaccountDetails,
 						},
 						response: Response,
+						cookieData: undefined,
 					}); // Send Response to the user
 		}
 	} catch (err) {
@@ -166,6 +168,7 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 			message: "An error occurred while processing your request, please try again later",
 			data: undefined,
 			response: Response,
+			cookieData: undefined,
 		});
 	}
 };
