@@ -5,17 +5,14 @@ type bool = boolean;
 type int = number;
 
 // Import Required Modules
-import { Request } from "express"; // Import Request from express
+import { Request, Response } from "express"; // Import Request from express
 // Import Required Modules
-import { Console, StatusCodes, Response as Serve, UniqueGenerator } from "outers"; // Import Console & Status Codes
+import { Console, StatusCodes, Serve, methods } from "outers"; // Import Console & Status Codes
 import { Compare, Encrypt as Bcrypt } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Middleware
 
 // import Helpers
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
-
-// Import Interfaces
-import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
 
 // Inter\face for Password Encryption
 interface PasswordEncryptionInterface {
@@ -25,7 +22,7 @@ interface PasswordEncryptionInterface {
 }
 
 // Update Transaction PIN
-export const UpdateTransactionPIN = async (Request: Request, Response: ResponseInterface) => {
+export const UpdateTransactionPIN = async (Request: Request, Response: Response) => {
 	try {
 		const { EncryptedData } = Request.body; // Get Request Body Data
 
@@ -48,6 +45,7 @@ export const UpdateTransactionPIN = async (Request: Request, Response: ResponseI
 				data: undefined,
 				statusCode: StatusCodes.BAD_REQUEST,
 				Title: "Bad Request",
+				cookieData: undefined,
 			});
 			return;
 		}
@@ -66,6 +64,7 @@ export const UpdateTransactionPIN = async (Request: Request, Response: ResponseI
 				data: undefined,
 				statusCode: StatusCodes.NOT_FOUND,
 				Title: "Account Does Not Exist",
+				cookieData: undefined,
 			});
 			return;
 		}
@@ -79,6 +78,7 @@ export const UpdateTransactionPIN = async (Request: Request, Response: ResponseI
 				data: undefined,
 				statusCode: StatusCodes.BAD_REQUEST,
 				Title: "PIN Is Incorrect",
+				cookieData: undefined,
 			});
 			return;
 		}
@@ -92,6 +92,7 @@ export const UpdateTransactionPIN = async (Request: Request, Response: ResponseI
 				data: undefined,
 				statusCode: StatusCodes.BAD_REQUEST,
 				Title: "Account Is Not Active",
+				cookieData: undefined,
 			});
 			return;
 		}
@@ -120,6 +121,7 @@ export const UpdateTransactionPIN = async (Request: Request, Response: ResponseI
 				data: undefined,
 				statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 				Title: "PIN Update Failed",
+				cookieData: undefined,
 			});
 			return;
 		}
@@ -132,6 +134,7 @@ export const UpdateTransactionPIN = async (Request: Request, Response: ResponseI
 			data: undefined,
 			statusCode: StatusCodes.OK,
 			Title: "PIN Updated Successfully",
+			cookieData: undefined,
 		});
 	} catch (err: any) {
 		Console.red(err);
@@ -142,6 +145,7 @@ export const UpdateTransactionPIN = async (Request: Request, Response: ResponseI
 			data: undefined,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 			Title: "Internal Server Error",
+			cookieData: undefined,
 		});
 	}
 };

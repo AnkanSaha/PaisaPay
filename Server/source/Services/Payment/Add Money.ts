@@ -4,15 +4,12 @@ type str = string; // Define str
 
 // Imports
 import { Payment_Keys } from "../../settings/keys/KeysConfig.keys.settings"; // Import HTTP Status Codes
-import { Request } from "express"; // Import Request from express
+import { Request, Response } from "express"; // Import Request from express
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
-import { Console, Response as Serve, StatusCodes } from "outers"; // Import Console
+import { Console, Serve, StatusCodes } from "outers"; // Import Console
 
-// Import Interfaces
-import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
-
-export const AddMoney = async (Request: Request, Response: ResponseInterface) => {
+export const AddMoney = async (Request: Request, Response: Response) => {
 	try {
 		const { account_id, event, payload } = Request.body; // Get Data From Request Body
 		console.log(Request.body);
@@ -25,6 +22,7 @@ export const AddMoney = async (Request: Request, Response: ResponseInterface) =>
 				Title: "Invalid Account ID",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			});
 			return; // Return from here if account id is invalid
 		}
@@ -38,6 +36,7 @@ export const AddMoney = async (Request: Request, Response: ResponseInterface) =>
 				Title: "Invalid Service",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			});
 			return; // Return from here if service is invalid
 		}
@@ -85,6 +84,7 @@ export const AddMoney = async (Request: Request, Response: ResponseInterface) =>
 					Title: "Success",
 					data: undefined,
 					response: Response,
+					cookieData: undefined,
 				}); // Send Response To Client if payment record is created
 			}
 		} else if (event === "payment.failed") {
@@ -109,6 +109,7 @@ export const AddMoney = async (Request: Request, Response: ResponseInterface) =>
 					Title: "Success",
 					data: undefined,
 					response: Response,
+					cookieData: undefined,
 				}); // Send Response To Client if payment record is created
 			}
 		}
@@ -121,6 +122,7 @@ export const AddMoney = async (Request: Request, Response: ResponseInterface) =>
 			Title: "Internal Server Error",
 			data: undefined,
 			response: Response,
+			cookieData: undefined,
 		}); // Send Response To Client
 	}
 };
@@ -147,7 +149,7 @@ function removeCountryCode(phoneNumber: int | any) {
 export const UpdateTransaction = async (
 	TransactionStatus: str,
 	AccountDetails: any,
-	Response: ResponseInterface,
+	Response: Response,
 	TransactionID: int,
 	NumberWithoutCountryCode: int,
 	TransactionAmount: int,
@@ -164,6 +166,7 @@ export const UpdateTransaction = async (
 				Title: "Account Does Not Exist",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			});
 			return false; // Return from here if account does not exist
 		}
@@ -182,6 +185,7 @@ export const UpdateTransaction = async (
 				Title: "Transaction ID Already Present",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			});
 			return false; // Return from here if transaction id is already present
 		}

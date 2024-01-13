@@ -1,5 +1,5 @@
-import { StatusCodes, Response as Serve } from "outers"; // Import Status Codes
-import { Request } from "express"; // Import Request from express
+import { StatusCodes, Serve } from "outers"; // Import Status Codes
+import { Request, Response } from "express"; // Import Request from express
 import JWT from "../Middleware/JWT.middleware"; // Import JWT Config
 
 // types
@@ -44,9 +44,9 @@ export interface NextInterface {
  * the next middleware function.
  */
 
-export function CheckHeader(req: RequestInterface, res: ResponseInterface, next: NextInterface) {
+export function CheckHeader(req: RequestInterface, res: Response, next: NextInterface) {
 	if (!req.headers) {
-		const ResponseContent = {
+		Serve.JSON({
 			status: false,
 			statusCode: StatusCodes.FORBIDDEN,
 			Title: "Request Headers not found",
@@ -58,10 +58,10 @@ export function CheckHeader(req: RequestInterface, res: ResponseInterface, next:
 				requestedBody: req.body,
 				requestedHeaders: req.headers,
 			},
-		};
-		Serve.JSON(ResponseContent); // Send Response to Client
+			cookieData: undefined
+		}); // Send Response to Client
 	} else if (!AllowedMethods.includes(req.method)) {
-		const ResponseContent = {
+		Serve.JSON({
 			status: false,
 			statusCode: StatusCodes.METHOD_NOT_ALLOWED,
 			Title: "Request Method not allowed",
@@ -73,15 +73,15 @@ export function CheckHeader(req: RequestInterface, res: ResponseInterface, next:
 				requestedBody: req.body,
 				requestedHeaders: req.headers,
 			},
-		};
-		Serve.JSON(ResponseContent); // Send Response to Client
+			cookieData: undefined
+		}); // Send Response to Client
 	} else {
 		next(); // Go to next middleware
 	}
 }
 
 // Session Validation
-export const SessionValidation = async (Request: RequestInterface, Response: ResponseInterface, next: NextInterface) => {
+export const SessionValidation = async (Request: RequestInterface, Response: Response, next: NextInterface) => {
 	if (!Request.body.sessionID) {
 		if (!Request.params.sessionID) {
 			if (!Request.query.sessionID) {
@@ -98,6 +98,7 @@ export const SessionValidation = async (Request: RequestInterface, Response: Res
 							requestedBody: Request.body,
 							requestedHeaders: Request.headers,
 						},
+						cookieData: undefined
 					}); // Send Response to Client
 					return; // Stop the function
 				} else if (Request.headers["sessionid"]) {
@@ -112,6 +113,7 @@ export const SessionValidation = async (Request: RequestInterface, Response: Res
 							status: false,
 							statusCode: StatusCodes.UNAUTHORIZED,
 							response: Response,
+							cookieData: undefined
 						}); // Send Response to Client
 						return; // Stop the function
 					}
@@ -128,6 +130,7 @@ export const SessionValidation = async (Request: RequestInterface, Response: Res
 						status: false,
 						statusCode: StatusCodes.UNAUTHORIZED,
 						response: Response,
+						cookieData: undefined
 					}); // Send Response to Client
 					return; // Stop the function
 				}
@@ -144,6 +147,7 @@ export const SessionValidation = async (Request: RequestInterface, Response: Res
 					status: false,
 					statusCode: StatusCodes.UNAUTHORIZED,
 					response: Response,
+					cookieData: undefined
 				}); // Send Response to Client
 				return; // Stop the function
 			}
@@ -160,6 +164,7 @@ export const SessionValidation = async (Request: RequestInterface, Response: Res
 				status: false,
 				statusCode: StatusCodes.UNAUTHORIZED,
 				response: Response,
+				cookieData: undefined
 			}); // Send Response to Client
 			return; // Stop the function
 		}

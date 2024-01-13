@@ -5,14 +5,11 @@ type str = string;
 type int = number;
 
 // Import Required Modules
-import { Request } from "express"; // Import Request from express
-import { Console, StatusCodes, Response as Serve } from "outers"; // Import Console & Status Codes
+import { Request, Response } from "express"; // Import Request from express
+import { Console, StatusCodes, Serve } from "outers"; // Import Console & Status Codes
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
 import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Compare Function
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Client
-
-// Import Interfaces
-import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
 
 // interfaces
 interface DecryptedData {
@@ -26,7 +23,7 @@ interface DecryptedData {
     TPIN: str
 }
 
-export default async function UpdateDemographicInfo(Request: Request, Response: ResponseInterface){
+export default async function UpdateDemographicInfo(Request: Request, Response: Response){
     try{
         const Decrypted_Info: DecryptedData = Request.body.Encrypted_Info; // Decrypt The Info
         // Short Data
@@ -44,7 +41,8 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
                 statusCode: StatusCodes.NOT_FOUND,
                 Title: "Account Not Found",
                 message: "The Account You Are Trying To Update Does Not Exist, Please Create An Account",
-                data: undefined
+                data: undefined,
+                cookieData: undefined
             }); // Serve JSON
             return;
         }
@@ -57,7 +55,8 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
                 statusCode: StatusCodes.FORBIDDEN,
                 Title: `Account is ${AccountDetails.Information.Data[0].AccountStatus}`,
                 message: `The Account You Are Trying To Update Is ${AccountDetails.Information.Data[0].AccountStatus}, Please Activate Your Account`,
-                data: undefined
+                data: undefined,
+                cookieData: undefined
             }); // Serve JSON
             return;
         }
@@ -70,7 +69,8 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
                 statusCode: StatusCodes.UNAUTHORIZED,
                 Title: "Invalid TPIN",
                 message: "The TPIN You Entered Is Invalid, Please Try Again",
-                data: undefined
+                data: undefined,
+                cookieData: undefined
             }); // Serve JSON
             return;
         
@@ -85,7 +85,8 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
                 statusCode: StatusCodes.CONFLICT,
                 Title: "Mobile Number In Use",
                 message: "The Mobile Number You Entered Is Already In Use with multiple accounts, Please Try Again",
-                data: undefined
+                data: undefined,
+                cookieData: undefined
             }); // Serve JSON
             return;
         } // Check If Mobile Number Is In Use
@@ -96,7 +97,8 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
                 statusCode: StatusCodes.CONFLICT,
                 Title: "Mobile Number In Use",
                 message: "The Mobile Number You Entered Is Already In Use, Please Try Again",
-                data: undefined
+                data: undefined,
+                cookieData: undefined
             }); // Serve JSON
             return;
         } // Check If Mobile Number Is In Use
@@ -110,7 +112,8 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
                 statusCode: StatusCodes.CONFLICT,
                 Title: "Email Address In Use",
                 message: "The Email Address You Entered Is Already In Use with multiple accounts, Please Try Again",
-                data: undefined
+                data: undefined,
+                cookieData: undefined
             }); // Serve JSON
             return;
         } // Check If Email Address Is In Use
@@ -121,7 +124,8 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
                 statusCode: StatusCodes.CONFLICT,
                 Title: "Email Address In Use",
                 message: "The Email Address You Entered Is Already In Use, Please Try Again",
-                data: undefined
+                data: undefined,
+                cookieData: undefined
             }); // Serve JSON
             return;
         } // Check If Email Address Is In Use
@@ -145,7 +149,8 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
                 statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
                 Title: "Internal Server Error",
                 message: "An Error Occurred While Updating Your Demographic Info, Please Try Again Later",
-                data: undefined
+                data: undefined,
+                cookieData: undefined
             }); // Serve JSON
             return;
         }
@@ -160,7 +165,8 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
             data: {
                 sessionID: UpdateStatus.UpdatedData.LastLoginToken,
                 AccountDetails: UpdateStatus.UpdatedData
-            }
+            },
+            cookieData: undefined
         }); // Serve JSON
     }
     catch (error){
@@ -171,7 +177,8 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
             statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Title: "Internal Server Error",
             message: "An Error Occurred While Updating Your Demographic Info, Please Try Again Later",
-            data: undefined
+            data: undefined,
+            cookieData: undefined
         }); // Serve JSON
     }
 }
