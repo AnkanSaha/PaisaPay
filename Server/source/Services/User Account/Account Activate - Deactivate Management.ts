@@ -3,20 +3,17 @@
 // type str = string;
 
 // Import Required Modules
-import { Request } from "express"; // Import Request from express
+import { Request, Response } from "express"; // Import Request from express
 
 // Import Required Modules
-import { Console, StatusCodes, Response as Serve } from "outers"; // Import Console & Status Codes
+import { Console, StatusCodes, Serve } from "outers"; // Import Console & Status Codes
 import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Middleware
 
 // Import Helper
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 
-// Import Interfaces
-import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
-
 // Main Function
-export async function AccountActivationDeactivationManagement(Request: Request, Response: ResponseInterface) {
+export async function AccountActivationDeactivationManagement(Request: Request, Response: Response) {
 	try {
 		// Check if Account Exists with this ClientID
 		const AccountDetails = await MongoDB.ClientAccount.findAndCount("AND", [{ ClientID: Request.query.ClientID }]); // Check if Account Exists with this ClientID
@@ -30,6 +27,7 @@ export async function AccountActivationDeactivationManagement(Request: Request, 
 				Title: "Account Not Found",
 				message: "Account with this ClientID does not exists, Please check your ClientID",
 				data: undefined,
+				cookieData: undefined,
 			}); // Send Response
 			return;
 		}
@@ -43,6 +41,7 @@ export async function AccountActivationDeactivationManagement(Request: Request, 
 				Title: "Unauthorized",
 				message: "TPIN Code is incorrect, Please check your TPIN Code and try again",
 				data: undefined,
+				cookieData: undefined,
 			}); // Send Response
 			return;
 		}
@@ -56,6 +55,7 @@ export async function AccountActivationDeactivationManagement(Request: Request, 
 				Title: "Bad Request",
 				message: `Account is already ${AccountDetails.Data[0].AccountStatus}, Please check your Account Status and try again`,
 				data: undefined,
+				cookieData: undefined,
 			}); // Send Response
 			return;
 		}
@@ -70,6 +70,7 @@ export async function AccountActivationDeactivationManagement(Request: Request, 
 		if (UpdateStatus.UpdatedCount !== 0 && UpdateStatus.status === true) {
 			Serve.JSON({
 				response: Response,
+				cookieData: undefined,
 				status: true,
 				statusCode: StatusCodes.OK,
 				Title: "Account Status Updated",
@@ -86,6 +87,7 @@ export async function AccountActivationDeactivationManagement(Request: Request, 
 			Title: "Account Status Not Updated",
 			message: "Something went wrong, Please try again later",
 			data: undefined,
+			cookieData: undefined,
 		}); // Send Response
 	} catch (error) {
 		Console.red(error); // Log Error
@@ -96,6 +98,7 @@ export async function AccountActivationDeactivationManagement(Request: Request, 
 			Title: "Internal Server Error",
 			message: "Something went wrong",
 			data: undefined,
+			cookieData: undefined,
 		}); // Send Response
 	}
 }

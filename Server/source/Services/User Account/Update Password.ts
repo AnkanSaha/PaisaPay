@@ -4,18 +4,15 @@ type str = string;
 type bool = boolean;
 type int = number;
 
-import { Request } from "express"; // Import Request from express
+import { Request, Response } from "express"; // Import Request from express
 
 // Import Required Modules
-import { Console, StatusCodes, Response as Serve, UniqueGenerator } from "outers"; // Import Console & Status Codes
+import { Console, StatusCodes,  Serve, methods } from "outers"; // Import Console & Status Codes
 import { Compare, Encrypt as Bcrypt } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Middleware
 
 // // import Helpers
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
-
-// // Import Interfaces
-import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
 
 // Interfaces
 interface DecryptedData {
@@ -36,7 +33,7 @@ interface PasswordEncryptionInterface {
 
 }
 
-export default async function UpdatePassword(Request: Request, Response: ResponseInterface) {
+export default async function UpdatePassword(Request: Request, Response: Response) {
     try {
         // Decrypt The Info
         const Decrypted_Info: DecryptedData = Request.body.Encrypted_Info; // Decrypt The Info
@@ -56,7 +53,8 @@ export default async function UpdatePassword(Request: Request, Response: Respons
                 statusCode: StatusCodes.NOT_FOUND,
                 Title: "Account Not Found",
                 message: "The Account You Are Trying To Update Does Not Exist, Please Create An Account",
-                data: undefined
+                data: undefined,
+                cookieData: undefined
             }); // Serve JSON
             return;
         }
@@ -69,7 +67,8 @@ export default async function UpdatePassword(Request: Request, Response: Respons
                 statusCode: StatusCodes.FORBIDDEN,
                 Title: `Account is ${AccountDetails.Information.Data[0].AccountStatus}`,
                 message: "Account is not Active, Please Activate Your Account To Update Your Password",
-                data: undefined
+                data: undefined,
+                cookieData: undefined
               }); // Serve JSON
             return;
         }
@@ -82,7 +81,8 @@ export default async function UpdatePassword(Request: Request, Response: Respons
                 statusCode: StatusCodes.BAD_REQUEST,
                 Title: "Passwords Do Not Match",
                 message: "The Password You Entered Does Not Match Your Current Password, Please Try Again",
-                data: undefined
+                data: undefined,
+                cookieData: undefined
             }); // Serve JSON
             return;
         }
@@ -104,7 +104,8 @@ export default async function UpdatePassword(Request: Request, Response: Respons
                 statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
                 Title: "Error Occurred",
                 message: "Error Occurred While Updating Password, Please Try Again Later",
-                data: undefined
+                data: undefined,
+                cookieData: undefined
             }); // Serve JSON
             return;
         }
@@ -115,7 +116,8 @@ export default async function UpdatePassword(Request: Request, Response: Respons
             statusCode: StatusCodes.OK,
             Title: "Password Updated",
             message: "Password Updated Successfully",
-            data: undefined
+            data: undefined,
+            cookieData: undefined
         }); // Serve JSON
     }
     catch (Error) {
@@ -126,7 +128,8 @@ export default async function UpdatePassword(Request: Request, Response: Respons
             statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             Title: "Error Occurred",
             message: "Error Occurred While Updating Password, Please Try Again Later",
-            data: undefined
+            data: undefined,
+            cookieData: undefined
         })
     }
 } // Export UpdatePassword

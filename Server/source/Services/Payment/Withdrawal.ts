@@ -3,16 +3,13 @@ type int = number; // Define int
 // type str = string; // Define str
 
 // Imports
-import { Request } from "express"; // Import Request from express
+import { Request, Response } from "express"; // Import Request from express
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
 import {Compare} from '../../Middleware/Bcrypt.middleware'; // Import Bcrypt Config
-import { Console, Response as Serve, StatusCodes, UniqueGenerator } from "outers"; // Import red from outers
+import { Console, Serve, StatusCodes, methods } from "outers"; // Import red from outers
 
-// Import Interfaces
-import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
-
-export const WithdrawalMoney = async (Request: Request, Response: ResponseInterface) => {
+export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 	try {
 		// Decrypt the data
 		const DecryptedData = Request.body.EncryptedData; // Decrypt the data
@@ -28,6 +25,7 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 				response: Response,
 				statusCode: StatusCodes.NOT_FOUND,
 				Title: "Account Not Found",
+				cookieData: undefined,
 			});
 			return;
 		}
@@ -41,6 +39,7 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 				response: Response,
 				statusCode: StatusCodes.NOT_FOUND,
 				Title: `Account is ${AccountExistence.Information.Data[0].AccountStatus}`,
+				cookieData: undefined,
 			});
 			return;
 		}
@@ -55,6 +54,7 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 				response: Response,
 				statusCode: StatusCodes.NOT_FOUND,
 				Title: "Transaction PIN is incorrect",
+				cookieData: undefined,
 			});
 			return;
 		}
@@ -68,6 +68,7 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 				Title: "Invalid Amount",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			}); // Send Error Response
 			return;
 		}
@@ -85,6 +86,7 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 				response: Response,
 				statusCode: StatusCodes.NOT_FOUND,
 				Title: "Insufficient Balance",
+				cookieData: undefined,
 			});
 			return;
 		}
@@ -107,6 +109,7 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 				Title: "Unable To Deduct Money From Your Account",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			}); // Send Error Response
 			return;
 		}
@@ -152,6 +155,7 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 				Title: "Unable To Create Transaction Record",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			}); // Send Error Response
 			return;
 		}
@@ -186,6 +190,7 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 				Title: "Unable To Create Withdrawal Request Record",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			}); // Send Error Response
 			return;
 		}
@@ -198,6 +203,7 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 			response: Response,
 			statusCode: StatusCodes.OK,
 			Title: "Withdrawal Request Successful",
+			cookieData: undefined,
 		});
 	} catch (Error) {
 		Console.red(Error);
@@ -208,6 +214,7 @@ export const WithdrawalMoney = async (Request: Request, Response: ResponseInterf
 			response: Response,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 			Title: "Internal Server Error",
+			cookieData: undefined,
 		});
 	}
 };

@@ -3,16 +3,13 @@ type int = number; // Define int
 // type str = string; // Define str
 
 // Imports
-import { Request } from "express"; // Import Request from express
+import { Request, Response } from "express"; // Import Request from express
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
-import { Console, Response as Serve, StatusCodes, UniqueGenerator } from "outers"; // Import red from outers
+import { Console, Serve, StatusCodes, methods } from "outers"; // Import red from outers
 import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Config
 
-// Import Interfaces
-import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
-
-export const SendMoney = async (Request: Request, Response: ResponseInterface) => {
+export const SendMoney = async (Request: Request, Response: Response) => {
 	try {
 		const { Encrypted_PaymentInfo } = Request.body; // Get Body
 
@@ -31,6 +28,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 				Title: SenderAccountExists.message,
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			}); // Send Error Response
 			return;
 		}
@@ -44,6 +42,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 				Title: "Account Not Active",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			}); // Send Error Response
 			return;
 		}
@@ -58,6 +57,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 				Title: "Incorrect Transaction PIN",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			}); // Send Error Response
 			return; // Return
 		}
@@ -74,6 +74,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 				Title: "Not Found",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			}); // Send Error Response
 			return;
 		}
@@ -87,6 +88,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 				Title: "Account Not Active",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			}); // Send Error Response
 			return;
 		}
@@ -100,6 +102,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 				Title: "Invalid Amount",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			}); // Send Error Response
 			return;
 		}
@@ -117,6 +120,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 				Title: "Not Enough Balance",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			}); // Send Error Response
 			return;
 		}
@@ -136,6 +140,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 				Title: "Unable To Deduct Money From Sender Account",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			}); // Send Error Response
 			return;
 		}
@@ -155,6 +160,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 				Title: "Unable To Add Money To Receiver Account",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			}); // Send Error Response
 			return;
 		}
@@ -203,6 +209,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 				Title: "Unable To Create Transaction History For Sender",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			}); // Send Error Response
 			return;
 		}
@@ -223,6 +230,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 				NewBalance: SenderAccountExists.Information.Data[0].Balance - PaymentInfo.TransactionAmount,
 			},
 			response: Response,
+			cookieData: undefined,
 		}); // Send Response
 	} catch (error) {
 		Console.red(error);
@@ -233,6 +241,7 @@ export const SendMoney = async (Request: Request, Response: ResponseInterface) =
 			Title: "Internal Server Error",
 			data: undefined,
 			response: Response,
+			cookieData: undefined,
 		}); // Send Error Response
 	}
 };

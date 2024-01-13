@@ -2,16 +2,13 @@ type int = number; // Define int
 type str = string; // Define str
 
 // Imports
-import { Request } from "express"; // Import Request from express
+import { Request, Response } from "express"; // Import Request from express
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
-import { Console, Response as Serve, StatusCodes } from "outers"; // Import red from outers
-
-// Import Interfaces
-import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
+import { Console, Serve, StatusCodes } from "outers"; // Import red from outers
 
 // Function
-export const GetTransactionHistory = async (Request: Request, Response: ResponseInterface) => {
+export const GetTransactionHistory = async (Request: Request, Response: Response) => {
 	try {
 		const { Number, Email } = Request.body; // Get Data From Request Params
 
@@ -30,6 +27,7 @@ export const GetTransactionHistory = async (Request: Request, Response: Response
 				Title: "Bad Request",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			});
 			return;
 		}
@@ -73,6 +71,7 @@ export const GetTransactionHistory = async (Request: Request, Response: Response
 			Title: "Transaction History Received Successfully",
 			data: EncryptedData,
 			response: Response,
+			cookieData: undefined,
 		});
 	} catch (error) {
 		Console.red(error); // Log Error
@@ -83,6 +82,7 @@ export const GetTransactionHistory = async (Request: Request, Response: Response
 			Title: "Internal Server Error",
 			data: undefined,
 			response: Response,
+			cookieData: undefined,
 		});
 	}
 };

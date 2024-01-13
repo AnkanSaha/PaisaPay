@@ -4,18 +4,15 @@ type str = string;
 type int = number;
 
 // Import Required Modules
-import { Request } from "express"; // Import Request from express
+import { Request, Response } from "express"; // Import Request from express
 import fs from "fs"; // Import fs
 // Import Required Modules
-import { Console, StatusCodes, Response as Serve } from "outers"; // Import Console & Status Codes
+import { Console, StatusCodes, Serve } from "outers"; // Import Console & Status Codes
 import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Middleware
 
 // import Helpers
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
-
-// Import Interfaces
-import { ResponseInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
 
 // Request Interface
 interface UpdateProfilePicture extends Request {
@@ -23,7 +20,7 @@ interface UpdateProfilePicture extends Request {
 }
 
 // Update Profile Picture
-export async function UpdateProfilePicture(Request: UpdateProfilePicture, Response: ResponseInterface) {
+export async function UpdateProfilePicture(Request: UpdateProfilePicture, Response: Response) {
 	try {
 		const { ClientID, PhoneNumber, Email, TransactionPIN } = Request.body; // Get ClientID, PhoneNumber & Email from Request Body
 
@@ -46,6 +43,7 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 				Title: "Bad Request",
 				message: "Please send all required data",
 				data: undefined,
+				cookieData: undefined,
 			});
 			await fs.promises.rm(Request.file.path); // Delete the file
 			return; // Return
@@ -65,6 +63,7 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 				Title: "Account Not Found",
 				message: "Account does not exist",
 				data: undefined,
+				cookieData: undefined,
 			});
 			await fs.promises.rm(Request.file.path); // Delete the file
 			return; // Return
@@ -79,6 +78,7 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 				Title: "Account Not Active",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			}); // Send Error Response
 			await fs.promises.rm(Request.file.path); // Delete the file
 			return;
@@ -94,6 +94,7 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 				Title: "Transaction PIN Incorrect",
 				data: undefined,
 				response: Response,
+				cookieData: undefined,
 			}); // Send Error Response
 			await fs.promises.rm(Request.file.path); // Delete the file
 			return;
@@ -119,12 +120,13 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 			Title: "Internal Server Error",
 			message: "Something went wrong while updating your profile picture. Please try again later",
 			data: undefined,
+			cookieData: undefined,
 		});
 	}
 }
 
 // Update Profile Details Function To Update Records in Database
-async function UpdateProfileDetails(ClientID: int, PhoneNumber : str, ShortedEmail: str, Request: UpdateProfilePicture, Response: ResponseInterface) {
+async function UpdateProfileDetails(ClientID: int, PhoneNumber : str, ShortedEmail: str, Request: UpdateProfilePicture, Response: Response) {
 	// Update Profile Picture in Database if File Exists
 	const UpdateStatus = await MongoDB.ClientAccount.update(
 		[{ ClientID: ClientID }, { Email: ShortedEmail }, { PhoneNumber: PhoneNumber }],
@@ -140,6 +142,7 @@ async function UpdateProfileDetails(ClientID: int, PhoneNumber : str, ShortedEma
 			Title: "Unable to Update Profile Picture",
 			message: "Unable to Update Profile Picture. Please try again later",
 			data: undefined,
+			cookieData: undefined,
 		}); // Send Response to Client
 		await fs.promises.rm(Request.file.path); // Delete the file
 		return; // Return
@@ -155,5 +158,6 @@ async function UpdateProfileDetails(ClientID: int, PhoneNumber : str, ShortedEma
 		data: {
 			ProfilePicFileName: Request.file.filename,
 		},
+		cookieData: undefined,
 	}); // Send Response to Client
 }
