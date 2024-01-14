@@ -1,0 +1,41 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "build",
+			"path": "Server",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "npm: build - Server",
+			"detail": "npm test && tsc && cp package.json ./Build/ && cp package-lock.json ./Build/ && cd ./Build && npm install"
+		},
+		{
+			"type": "npm",
+			"script": "build",
+			"path": "Client",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "npm: build - Client",
+			"detail": "npm test && vite build"
+		},
+		{
+			"type": "npm",
+			"script": "dev",
+			"path": "Server",
+			"group": "test",
+			"problemMatcher": [],
+			"label": "npm: dev - Server",
+			"detail": "nodemon source/PaisaPay.ts"
+		},
+		{
+			"type": "npm",
+			"script": "dev",
+			"path": "Client",
+			"group": "test",
+			"problemMatcher": [],
+			"label": "npm: dev - Client",
+			"detail": "vite"
+		}
+	]
+}
