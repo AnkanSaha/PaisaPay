@@ -54,7 +54,7 @@ export default async function UpdatePassword(Request: Request, Response: Respons
                 Title: "Account Not Found",
                 message: "The Account You Are Trying To Update Does Not Exist, Please Create An Account",
                 data: undefined,
-                cookieData: undefined
+                
             }); // Serve JSON
             return;
         }
@@ -68,7 +68,7 @@ export default async function UpdatePassword(Request: Request, Response: Respons
                 Title: `Account is ${AccountDetails.Information.Data[0].AccountStatus}`,
                 message: "Account is not Active, Please Activate Your Account To Update Your Password",
                 data: undefined,
-                cookieData: undefined
+                
               }); // Serve JSON
             return;
         }
@@ -82,7 +82,7 @@ export default async function UpdatePassword(Request: Request, Response: Respons
                 Title: "Passwords Do Not Match",
                 message: "The Password You Entered Does Not Match Your Current Password, Please Try Again",
                 data: undefined,
-                cookieData: undefined
+                
             }); // Serve JSON
             return;
         }
@@ -105,7 +105,7 @@ export default async function UpdatePassword(Request: Request, Response: Respons
                 Title: "Error Occurred",
                 message: "Error Occurred While Updating Password, Please Try Again Later",
                 data: undefined,
-                cookieData: undefined
+                
             }); // Serve JSON
             return;
         }
@@ -117,7 +117,7 @@ export default async function UpdatePassword(Request: Request, Response: Respons
             Title: "Password Updated",
             message: "Password Updated Successfully",
             data: undefined,
-            cookieData: undefined
+            
         }); // Serve JSON
     }
     catch (Error) {
@@ -129,7 +129,7 @@ export default async function UpdatePassword(Request: Request, Response: Respons
             Title: "Error Occurred",
             message: "Error Occurred While Updating Password, Please Try Again Later",
             data: undefined,
-            cookieData: undefined
+            
         })
     }
 } // Export UpdatePassword

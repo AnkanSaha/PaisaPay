@@ -54,7 +54,6 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 				status: false,
 				statusCode: StatusCodes.BAD_REQUEST,
 				response: Response,
-				cookieData: undefined,
 			});
 			return; // Return if the request body is invalid
 		} else {
@@ -75,7 +74,7 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 					message: "Account not found, please try again with the correct phone number",
 					data: undefined,
 					response: Response,
-					cookieData: undefined,
+
 				});
 				return; // Return if Account Not Find
 			}
@@ -89,7 +88,7 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 					Title: "Account is Deleted",
 					message: "Your account is deleted, please contact the support team for further assistance or create a new account",
 					data:undefined,
-					cookieData: undefined,
+
 				})
 				return; // Return if Account is Deleted
 			}
@@ -103,7 +102,7 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 						message: "Incorrect Password, please try again with the correct password",
 						data: undefined,
 						response: Response,
-						cookieData: undefined,
+	
 					});
 					return; // Return if Password is Incorrect
 				}
@@ -156,7 +155,7 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 							AccountDetails: EncryptedaccountDetails,
 						},
 						response: Response,
-						cookieData: undefined,
+	
 					}); // Send Response to the user
 		}
 	} catch (err) {
@@ -168,7 +167,6 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 			message: "An error occurred while processing your request, please try again later",
 			data: undefined,
 			response: Response,
-			cookieData: undefined,
 		});
 	}
 };

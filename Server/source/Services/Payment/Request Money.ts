@@ -44,7 +44,7 @@ export default async (Request: Request, Response: Response) => {
 				Title: "Invalid Payment ID",
 				message: "The Payment ID you entered is invalid. Please try again.",
 				data: undefined,
-				cookieData: undefined,
+	
 			}); // Send Response
 			return; // Return
 		}
@@ -59,7 +59,7 @@ export default async (Request: Request, Response: Response) => {
 				Title: "Account Not Found",
 				message: "Your account does not exist. Please create an account to request money.",
 				data: undefined,
-				cookieData: undefined,
+	
 			}); // Send Response
 			return; // Return
 		}
@@ -74,7 +74,7 @@ export default async (Request: Request, Response: Response) => {
 				Title: "Account Not Found",
 				message: "The account you are trying to request money from does not exist.",
 				data: undefined,
-				cookieData: undefined,
+	
 			}); // Send Response
 			return; // Return
 		}
@@ -88,7 +88,7 @@ export default async (Request: Request, Response: Response) => {
 				Title: `Account ${RequesterAccountExists.Information.Data[0].AccountStatus}`,
 				message: `Your account is ${RequesterAccountExists.Information.Data[0].AccountStatus}. Please activate your account.`,
 				data: undefined,
-				cookieData: undefined,
+	
 			}); // Send Response
 			return; // Return
 		}
@@ -102,7 +102,7 @@ export default async (Request: Request, Response: Response) => {
 				Title: `Account ${SenderAccountExists.Data[0].AccountStatus}`,
 				message: `The account you are trying to request money from is ${SenderAccountExists.Data[0].AccountStatus}. Please activate your account.`,
 				data: undefined,
-				cookieData: undefined,
+	
 			}); // Send Response
 			return; // Return
 		}
@@ -116,7 +116,7 @@ export default async (Request: Request, Response: Response) => {
 				Title: "Insufficient Balance",
 				message: "The account you are trying to request money from does not have enough balance.",
 				data: undefined,
-				cookieData: undefined,
+	
 			}); // Send Response
 			return; // Return
 		}
@@ -130,7 +130,7 @@ export default async (Request: Request, Response: Response) => {
 				Title: "Invalid Amount",
 				message: "The amount you entered is invalid. Please try again.",
 				data: undefined,
-				cookieData: undefined,
+	
 			}); // Send Response
 			return; // Return
 		}
@@ -144,7 +144,7 @@ export default async (Request: Request, Response: Response) => {
 				Title: "Invalid TPIN",
 				message: "The TPIN you entered is invalid. Please try again.",
 				data: undefined,
-				cookieData: undefined,
+	
 			}); // Send Response
 			return; // Return
 		}
@@ -181,7 +181,7 @@ export default async (Request: Request, Response: Response) => {
 				Title: "Internal Server Error",
 				message: "Something went wrong while processing your request. Please try again later.",
 				data: undefined,
-				cookieData: undefined,
+	
 			}); // Send Response
 			return; // Return
 		}
@@ -193,7 +193,7 @@ export default async (Request: Request, Response: Response) => {
 			Title: "Request Sent Successfully",
 			message: "Your Request has been sent successfully. You will be notified when the transaction is completed.",
 			data: undefined,
-			cookieData: undefined,
+
 		}); // Send Response to client if everything is okay
 	} catch (Error) {
 		Console.red(Error); // Log Error
@@ -204,7 +204,7 @@ export default async (Request: Request, Response: Response) => {
 			Title: "Internal Server Error",
 			message: "Something went wrong while processing your request. Please try again later.",
 			data: undefined,
-			cookieData: undefined,
+
 		}); // Send Response
 	}
 };
@@ -227,7 +227,7 @@ export async function Get_Request_money(Request: Request, Response: Response) {
 				Title: "Account Not Found",
 				message: "The account you are trying to request money from does not exist.",
 				data: undefined,
-				cookieData: undefined,
+	
 			}); // Send Response
 			return; // Return
 		}
@@ -244,7 +244,7 @@ export async function Get_Request_money(Request: Request, Response: Response) {
 				Title: "No Requests Found",
 				message: "You do not have any requests. See you later.",
 				data: undefined,
-				cookieData: undefined,
+	
 			}); // Send Response
 			return; // Return
 		}
@@ -259,7 +259,7 @@ export async function Get_Request_money(Request: Request, Response: Response) {
 			Title: "Requests Found",
 			message: "Requests Found. Please check the data.",
 			data: EncryptedData,
-			cookieData: undefined,
+
 		}); // Send Response
 	} catch (Error) {
 		Console.red(Error); // Log Error
@@ -270,7 +270,7 @@ export async function Get_Request_money(Request: Request, Response: Response) {
 			Title: "Internal Server Error",
 			message: "Something went wrong while processing your request. Please try again later.",
 			data: undefined,
-			cookieData: undefined,
+
 		}); // Send Response
 	}
 }
@@ -294,7 +294,7 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: SenderAccountExists.message,
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+	
 			}); // Send Error Response
 			return;
 		}
@@ -308,7 +308,7 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: "Account Not Active",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+	
 			}); // Send Error Response
 			return;
 		}
@@ -323,7 +323,7 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: "Incorrect Transaction PIN",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+	
 			}); // Send Error Response
 			return; // Return
 		}
@@ -340,7 +340,7 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: "Not Found",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+	
 			}); // Send Error Response
 			return;
 		}
@@ -354,7 +354,7 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: "Account Not Active",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+	
 			}); // Send Error Response
 			return;
 		}
@@ -368,7 +368,7 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: "Invalid Amount",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+	
 			}); // Send Error Response
 			return;
 		}
@@ -386,7 +386,7 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: "Not Enough Balance",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+	
 			}); // Send Error Response
 			return;
 		}
@@ -405,7 +405,7 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: "Unable To Deduct Money From Sender Account",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+	
 			}); // Send Error Response
 			return;
 		}
@@ -425,7 +425,7 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: "Unable To Add Money To Receiver Account",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+	
 			}); // Send Error Response
 			return;
 		}
@@ -474,7 +474,7 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 						Title: "Unable To Create Transaction History For Sender",
 						data: undefined,
 						response: Response,
-						cookieData: undefined,
+			
 					}); // Send Error Response
 					return;
 				}
@@ -491,7 +491,7 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 						Title: "Unable To Update Request Status",
 						data: undefined,
 						response: Response,
-						cookieData: undefined,
+			
 					}); // Send Error Response
 					return;
 				}
@@ -504,7 +504,7 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 					Title: "Transaction Success",
 					data: undefined,
 					response: Response,
-					cookieData: undefined,
+		
 				}); // Send Response to Sender
 	} catch (Error) {
 		Console.red(Error); // Log Error
@@ -515,7 +515,7 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 			Title: "Internal Server Error",
 			message: "Something went wrong while processing your request. Please try again later.",
 			data: undefined,
-			cookieData: undefined,
+
 		}); // Send Response
 	}
 }

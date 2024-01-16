@@ -27,7 +27,7 @@ export const GetTransactionHistory = async (Request: Request, Response: Response
 				Title: "Bad Request",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+	
 			});
 			return;
 		}
@@ -71,7 +71,7 @@ export const GetTransactionHistory = async (Request: Request, Response: Response
 			Title: "Transaction History Received Successfully",
 			data: EncryptedData,
 			response: Response,
-			cookieData: undefined,
+
 		});
 	} catch (error) {
 		Console.red(error); // Log Error
@@ -82,7 +82,7 @@ export const GetTransactionHistory = async (Request: Request, Response: Response
 			Title: "Internal Server Error",
 			data: undefined,
 			response: Response,
-			cookieData: undefined,
+
 		});
 	}
 };

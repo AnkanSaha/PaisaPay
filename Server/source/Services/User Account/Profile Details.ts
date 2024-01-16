@@ -43,7 +43,7 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 				Title: "Bad Request",
 				message: "Please send all required data",
 				data: undefined,
-				cookieData: undefined,
+
 			});
 			await fs.promises.rm(Request.file.path); // Delete the file
 			return; // Return
@@ -63,7 +63,7 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 				Title: "Account Not Found",
 				message: "Account does not exist",
 				data: undefined,
-				cookieData: undefined,
+
 			});
 			await fs.promises.rm(Request.file.path); // Delete the file
 			return; // Return
@@ -78,7 +78,7 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 				Title: "Account Not Active",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+
 			}); // Send Error Response
 			await fs.promises.rm(Request.file.path); // Delete the file
 			return;
@@ -94,7 +94,7 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 				Title: "Transaction PIN Incorrect",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+
 			}); // Send Error Response
 			await fs.promises.rm(Request.file.path); // Delete the file
 			return;
@@ -120,7 +120,7 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 			Title: "Internal Server Error",
 			message: "Something went wrong while updating your profile picture. Please try again later",
 			data: undefined,
-			cookieData: undefined,
+
 		});
 	}
 }
@@ -142,7 +142,7 @@ async function UpdateProfileDetails(ClientID: int, PhoneNumber : str, ShortedEma
 			Title: "Unable to Update Profile Picture",
 			message: "Unable to Update Profile Picture. Please try again later",
 			data: undefined,
-			cookieData: undefined,
+
 		}); // Send Response to Client
 		await fs.promises.rm(Request.file.path); // Delete the file
 		return; // Return
@@ -158,6 +158,6 @@ async function UpdateProfileDetails(ClientID: int, PhoneNumber : str, ShortedEma
 		data: {
 			ProfilePicFileName: Request.file.filename,
 		},
-		cookieData: undefined,
+
 	}); // Send Response to Client
 }

@@ -22,7 +22,7 @@ export const AddMoney = async (Request: Request, Response: Response) => {
 				Title: "Invalid Account ID",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+
 			});
 			return; // Return from here if account id is invalid
 		}
@@ -36,7 +36,7 @@ export const AddMoney = async (Request: Request, Response: Response) => {
 				Title: "Invalid Service",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+
 			});
 			return; // Return from here if service is invalid
 		}
@@ -84,7 +84,7 @@ export const AddMoney = async (Request: Request, Response: Response) => {
 					Title: "Success",
 					data: undefined,
 					response: Response,
-					cookieData: undefined,
+	
 				}); // Send Response To Client if payment record is created
 			}
 		} else if (event === "payment.failed") {
@@ -109,7 +109,7 @@ export const AddMoney = async (Request: Request, Response: Response) => {
 					Title: "Success",
 					data: undefined,
 					response: Response,
-					cookieData: undefined,
+	
 				}); // Send Response To Client if payment record is created
 			}
 		}
@@ -122,7 +122,7 @@ export const AddMoney = async (Request: Request, Response: Response) => {
 			Title: "Internal Server Error",
 			data: undefined,
 			response: Response,
-			cookieData: undefined,
+
 		}); // Send Response To Client
 	}
 };
@@ -166,7 +166,7 @@ export const UpdateTransaction = async (
 				Title: "Account Does Not Exist",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+
 			});
 			return false; // Return from here if account does not exist
 		}
@@ -185,7 +185,7 @@ export const UpdateTransaction = async (
 				Title: "Transaction ID Already Present",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+
 			});
 			return false; // Return from here if transaction id is already present
 		}
