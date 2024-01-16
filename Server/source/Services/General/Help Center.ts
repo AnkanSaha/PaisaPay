@@ -44,7 +44,7 @@ export default async function HelpCenterService(request: RequestInterface, respo
 				status: false,
 				statusCode: StatusCodes.BAD_REQUEST,
 				response: response,
-				cookieData: undefined,
+	
 			});
 			return; // Return if the request body is invalid
 		} else {
@@ -77,7 +77,7 @@ export default async function HelpCenterService(request: RequestInterface, respo
 					status: true,
 					statusCode: StatusCodes.CREATED,
 					response: response,
-					cookieData: undefined,
+		
 				});
 			} else {
 				Serve.JSON({
@@ -87,7 +87,7 @@ export default async function HelpCenterService(request: RequestInterface, respo
 					status: false,
 					statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 					response: response,
-					cookieData: undefined,
+		
 				});
 			}
 		}
@@ -100,7 +100,7 @@ export default async function HelpCenterService(request: RequestInterface, respo
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 			response: response,
-			cookieData: undefined,
+
 		}); // Send an empty response
 	}
 }
@@ -122,7 +122,7 @@ export const GetAllTickets = async (request: Request, response: Response) => {
 				status: false,
 				statusCode: StatusCodes.NOT_FOUND,
 				response: response,
-				cookieData: undefined,
+	
 			});
 			return;
 		}
@@ -139,7 +139,7 @@ export const GetAllTickets = async (request: Request, response: Response) => {
 				status: false,
 				statusCode: StatusCodes.NOT_FOUND,
 				response: response,
-				cookieData: undefined,
+	
 			});
 			return;
 		}
@@ -154,7 +154,7 @@ export const GetAllTickets = async (request: Request, response: Response) => {
 			status: true,
 			statusCode: StatusCodes.OK,
 			response: response,
-			cookieData: undefined,
+
 		});
 	} catch (error) {
 		Console.red(error);
@@ -165,7 +165,7 @@ export const GetAllTickets = async (request: Request, response: Response) => {
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 			response: response,
-			cookieData: undefined,
+
 		}); // Send an empty response
 	}
 };

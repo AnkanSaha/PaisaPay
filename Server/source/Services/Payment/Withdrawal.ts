@@ -25,7 +25,7 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 				response: Response,
 				statusCode: StatusCodes.NOT_FOUND,
 				Title: "Account Not Found",
-				cookieData: undefined,
+	
 			});
 			return;
 		}
@@ -39,7 +39,7 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 				response: Response,
 				statusCode: StatusCodes.NOT_FOUND,
 				Title: `Account is ${AccountExistence.Information.Data[0].AccountStatus}`,
-				cookieData: undefined,
+	
 			});
 			return;
 		}
@@ -54,7 +54,7 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 				response: Response,
 				statusCode: StatusCodes.NOT_FOUND,
 				Title: "Transaction PIN is incorrect",
-				cookieData: undefined,
+	
 			});
 			return;
 		}
@@ -68,7 +68,7 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 				Title: "Invalid Amount",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+	
 			}); // Send Error Response
 			return;
 		}
@@ -86,7 +86,7 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 				response: Response,
 				statusCode: StatusCodes.NOT_FOUND,
 				Title: "Insufficient Balance",
-				cookieData: undefined,
+	
 			});
 			return;
 		}
@@ -109,7 +109,7 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 				Title: "Unable To Deduct Money From Your Account",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+	
 			}); // Send Error Response
 			return;
 		}
@@ -155,7 +155,7 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 				Title: "Unable To Create Transaction Record",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+	
 			}); // Send Error Response
 			return;
 		}
@@ -190,7 +190,7 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 				Title: "Unable To Create Withdrawal Request Record",
 				data: undefined,
 				response: Response,
-				cookieData: undefined,
+	
 			}); // Send Error Response
 			return;
 		}
@@ -203,7 +203,7 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 			response: Response,
 			statusCode: StatusCodes.OK,
 			Title: "Withdrawal Request Successful",
-			cookieData: undefined,
+
 		});
 	} catch (Error) {
 		Console.red(Error);
@@ -214,7 +214,7 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 			response: Response,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 			Title: "Internal Server Error",
-			cookieData: undefined,
+
 		});
 	}
 };

@@ -42,7 +42,7 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
                 Title: "Account Not Found",
                 message: "The Account You Are Trying To Update Does Not Exist, Please Create An Account",
                 data: undefined,
-                cookieData: undefined
+                
             }); // Serve JSON
             return;
         }
@@ -56,7 +56,7 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
                 Title: `Account is ${AccountDetails.Information.Data[0].AccountStatus}`,
                 message: `The Account You Are Trying To Update Is ${AccountDetails.Information.Data[0].AccountStatus}, Please Activate Your Account`,
                 data: undefined,
-                cookieData: undefined
+                
             }); // Serve JSON
             return;
         }
@@ -70,7 +70,7 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
                 Title: "Invalid TPIN",
                 message: "The TPIN You Entered Is Invalid, Please Try Again",
                 data: undefined,
-                cookieData: undefined
+                
             }); // Serve JSON
             return;
         
@@ -86,7 +86,7 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
                 Title: "Mobile Number In Use",
                 message: "The Mobile Number You Entered Is Already In Use with multiple accounts, Please Try Again",
                 data: undefined,
-                cookieData: undefined
+                
             }); // Serve JSON
             return;
         } // Check If Mobile Number Is In Use
@@ -98,7 +98,7 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
                 Title: "Mobile Number In Use",
                 message: "The Mobile Number You Entered Is Already In Use, Please Try Again",
                 data: undefined,
-                cookieData: undefined
+                
             }); // Serve JSON
             return;
         } // Check If Mobile Number Is In Use
@@ -113,7 +113,7 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
                 Title: "Email Address In Use",
                 message: "The Email Address You Entered Is Already In Use with multiple accounts, Please Try Again",
                 data: undefined,
-                cookieData: undefined
+                
             }); // Serve JSON
             return;
         } // Check If Email Address Is In Use
@@ -125,7 +125,7 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
                 Title: "Email Address In Use",
                 message: "The Email Address You Entered Is Already In Use, Please Try Again",
                 data: undefined,
-                cookieData: undefined
+                
             }); // Serve JSON
             return;
         } // Check If Email Address Is In Use
@@ -150,7 +150,7 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
                 Title: "Internal Server Error",
                 message: "An Error Occurred While Updating Your Demographic Info, Please Try Again Later",
                 data: undefined,
-                cookieData: undefined
+                
             }); // Serve JSON
             return;
         }
@@ -166,7 +166,7 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
                 sessionID: UpdateStatus.UpdatedData.LastLoginToken,
                 AccountDetails: UpdateStatus.UpdatedData
             },
-            cookieData: undefined
+            
         }); // Serve JSON
     }
     catch (error){
@@ -178,7 +178,7 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
             Title: "Internal Server Error",
             message: "An Error Occurred While Updating Your Demographic Info, Please Try Again Later",
             data: undefined,
-            cookieData: undefined
+            
         }); // Serve JSON
     }
 }

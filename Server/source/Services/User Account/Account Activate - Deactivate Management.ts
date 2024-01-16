@@ -27,7 +27,7 @@ export async function AccountActivationDeactivationManagement(Request: Request, 
 				Title: "Account Not Found",
 				message: "Account with this ClientID does not exists, Please check your ClientID",
 				data: undefined,
-				cookieData: undefined,
+
 			}); // Send Response
 			return;
 		}
@@ -41,7 +41,7 @@ export async function AccountActivationDeactivationManagement(Request: Request, 
 				Title: "Unauthorized",
 				message: "TPIN Code is incorrect, Please check your TPIN Code and try again",
 				data: undefined,
-				cookieData: undefined,
+
 			}); // Send Response
 			return;
 		}
@@ -55,7 +55,7 @@ export async function AccountActivationDeactivationManagement(Request: Request, 
 				Title: "Bad Request",
 				message: `Account is already ${AccountDetails.Data[0].AccountStatus}, Please check your Account Status and try again`,
 				data: undefined,
-				cookieData: undefined,
+
 			}); // Send Response
 			return;
 		}
@@ -70,7 +70,7 @@ export async function AccountActivationDeactivationManagement(Request: Request, 
 		if (UpdateStatus.UpdatedCount !== 0 && UpdateStatus.status === true) {
 			Serve.JSON({
 				response: Response,
-				cookieData: undefined,
+
 				status: true,
 				statusCode: StatusCodes.OK,
 				Title: "Account Status Updated",
@@ -87,7 +87,7 @@ export async function AccountActivationDeactivationManagement(Request: Request, 
 			Title: "Account Status Not Updated",
 			message: "Something went wrong, Please try again later",
 			data: undefined,
-			cookieData: undefined,
+
 		}); // Send Response
 	} catch (error) {
 		Console.red(error); // Log Error
@@ -98,7 +98,7 @@ export async function AccountActivationDeactivationManagement(Request: Request, 
 			Title: "Internal Server Error",
 			message: "Something went wrong",
 			data: undefined,
-			cookieData: undefined,
+
 		}); // Send Response
 	}
 }

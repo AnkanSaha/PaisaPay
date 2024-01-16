@@ -58,7 +58,7 @@ export function CheckHeader(req: RequestInterface, res: Response, next: NextInte
 				requestedBody: req.body,
 				requestedHeaders: req.headers,
 			},
-			cookieData: undefined
+			
 		}); // Send Response to Client
 	} else if (!AllowedMethods.includes(req.method)) {
 		Serve.JSON({
@@ -73,7 +73,7 @@ export function CheckHeader(req: RequestInterface, res: Response, next: NextInte
 				requestedBody: req.body,
 				requestedHeaders: req.headers,
 			},
-			cookieData: undefined
+			
 		}); // Send Response to Client
 	} else {
 		next(); // Go to next middleware
@@ -98,7 +98,7 @@ export const SessionValidation = async (Request: RequestInterface, Response: Res
 							requestedBody: Request.body,
 							requestedHeaders: Request.headers,
 						},
-						cookieData: undefined
+						
 					}); // Send Response to Client
 					return; // Stop the function
 				} else if (Request.headers["sessionid"]) {
@@ -113,7 +113,7 @@ export const SessionValidation = async (Request: RequestInterface, Response: Res
 							status: false,
 							statusCode: StatusCodes.UNAUTHORIZED,
 							response: Response,
-							cookieData: undefined
+							
 						}); // Send Response to Client
 						return; // Stop the function
 					}
@@ -130,7 +130,7 @@ export const SessionValidation = async (Request: RequestInterface, Response: Res
 						status: false,
 						statusCode: StatusCodes.UNAUTHORIZED,
 						response: Response,
-						cookieData: undefined
+						
 					}); // Send Response to Client
 					return; // Stop the function
 				}
@@ -147,7 +147,7 @@ export const SessionValidation = async (Request: RequestInterface, Response: Res
 					status: false,
 					statusCode: StatusCodes.UNAUTHORIZED,
 					response: Response,
-					cookieData: undefined
+					
 				}); // Send Response to Client
 				return; // Stop the function
 			}
@@ -164,7 +164,7 @@ export const SessionValidation = async (Request: RequestInterface, Response: Res
 				status: false,
 				statusCode: StatusCodes.UNAUTHORIZED,
 				response: Response,
-				cookieData: undefined
+				
 			}); // Send Response to Client
 			return; // Stop the function
 		}

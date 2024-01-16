@@ -32,7 +32,7 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 				Title: "Account Not Found",
 				data: undefined,
 				response: response,
-				cookieData: undefined
+				
 			}); // Send Response to the Client
 			return;
 		}
@@ -65,7 +65,7 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 				AccountDetails: EncryptedData,
 			},
 			response: response,
-			cookieData: undefined
+			
 		});
 	} catch (error) {
 		Console.red(error); // Log the error to the console
@@ -76,7 +76,7 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 			Title: "Internal Server Error",
 			data: undefined,
 			response: response,
-			cookieData: undefined
+			
 		});
 	}
 };
@@ -155,7 +155,7 @@ export const ForgetPasswordUpdater = async (request: Request, response: Response
 						AccountDetails: EncryptAccountData,
 					},
 					response: response,
-					cookieData: undefined
+					
 				}); // Send Response to the Client
 			}
 		} else if (AccountStatus.status === false) {
@@ -166,7 +166,7 @@ export const ForgetPasswordUpdater = async (request: Request, response: Response
 				Title: "Account Not Found",
 				data: undefined,
 				response: response,
-				cookieData: undefined
+				
 			}); // Send Response to the Client
 		}
 	} catch (error) {
@@ -178,7 +178,7 @@ export const ForgetPasswordUpdater = async (request: Request, response: Response
 			Title: "Internal Server Error",
 			data: undefined,
 			response: response,
-			cookieData: undefined
+			
 		});
 	}
 }; // Function for forget password updater
