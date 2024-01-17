@@ -104,7 +104,7 @@ export const ForgetPasswordUpdater = async (request: Request, response: Response
 		const SmelledEmail: str = DecryptEmail.toLowerCase(); // Convert Email to lowercase
 
 		// Encrypt the Password
-		const Rounds: int = await randomNumber(1, false, [1, 2, 3, 4, 5, 6, 7, 8, 9]);
+		const Rounds: int = randomNumber(1, false, [1, 2, 3, 4, 5, 6, 7, 8, 9]);
 		const EncryptedPassword: any = await Encrypt(DecryptPassword, Rounds); // Encrypt the Password
 
 		// Find the Account in the Database
@@ -119,7 +119,12 @@ export const ForgetPasswordUpdater = async (request: Request, response: Response
 			// Update Last Login IP and Last Login Client Details
 
 			if (UpdateStatus.status === true) {
-				// Encrypt the Data and send it Using JWT
+				// Remove Password from the Account Details
+				UpdateStatus.UpdatedData.Password = undefined; // Remove Password from the Account Details
+				UpdateStatus.UpdatedData.TransactionPIN = undefined; // Remove Transaction PIN from the Account Details
+				UpdateStatus.UpdatedData.National_ID_Number = undefined; // Remove National ID Number from the Account Details
+				UpdateStatus.UpdatedData.LastLoginToken = undefined; // Remove Last Login Token from the Account Details
+			
 				const EncryptAccountData = UpdateStatus.UpdatedData; // Encrypt the Data and send it Using JWT
 
 				// Generate Login Token for the user
