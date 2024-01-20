@@ -1,4 +1,4 @@
-# PaisaPay - React Based Payment Network
+# PaisaPay - NodeJS Based Payment Network
 
 - PaisaPay is a robust payment network built using React and MERN (MongoDB, Express.js, React, Node.js) technology stack. It provides users with a seamless and secure platform for managing their finances and making transactions within their family network.
 
