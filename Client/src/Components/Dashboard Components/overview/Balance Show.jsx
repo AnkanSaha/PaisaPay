@@ -69,12 +69,18 @@ export default function BalanceShow() {
 							Decoded_Account_Details.AccountStatus === 'Deleted'
 								? `Your Account is ${Decoded_Account_Details.AccountStatus}, Please Contact Support`
 								: `Your Account is ${Decoded_Account_Details.AccountStatus}`
-						}>
+						}
+					>
 						<div className="avatar mt-5">
 							<div
 								className={`w-28 rounded-full ring ${
-									Decoded_Account_Details.AccountStatus === 'Active' ? 'ring-accent-focus' : Decoded_Account_Details.AccountStatus === 'Deleted' ? 'ring-red-700' : 'ring-yellow-500'
-								} ring-offset-base-100 ring-offset-2`}>
+									Decoded_Account_Details.AccountStatus === 'Active'
+										? 'ring-accent-focus'
+										: Decoded_Account_Details.AccountStatus === 'Deleted'
+										  ? 'ring-red-700'
+										  : 'ring-yellow-500'
+								} ring-offset-base-100 ring-offset-2`}
+							>
 								<img src={ReduxState.TransactionDetails.UserProfileImageURl ? ReduxState.TransactionDetails.UserProfileImageURl : LocalAnonymousUserLogo} />
 							</div>
 						</div>
@@ -87,12 +93,13 @@ export default function BalanceShow() {
 								// Copy the text to the clipboard
 								navigator.clipboard.writeText(Decoded_Account_Details.PaymentID);
 								toast({
-									title: `Payment ID Copied`,
+									title: 'Payment ID Copied',
 									position: 'top-right',
 									isClosable: true,
 								});
 							}}
-							size={'sm'}>
+							size="sm"
+						>
 							<AiFillCopy />
 						</Button>
 					</div>
@@ -102,13 +109,15 @@ export default function BalanceShow() {
 							onClick={BalanceUpdater}
 							className="inline-flex items-center px-8 py-6 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 							colorScheme="facebook"
-							isLoading={isLoading}>
+							isLoading={isLoading}
+						>
 							Refresh
 						</Button>
 						<Button
 							onClick={() => navigate('/dashboard/add-funds')}
 							className="inline-flex items-center px-8 py-6 text-base font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700"
-							colorScheme="red">
+							colorScheme="red"
+						>
 							Add Funds
 						</Button>
 					</div>
