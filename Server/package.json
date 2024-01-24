@@ -5,7 +5,7 @@
   "main": "./settings/PaisaPay.js",
   "scripts": {
     "test": "eslint ./source/**/*.{js,ts} --fix",
-    "build": "tsc && cp package.json ./Build/ && cp package-lock.json ./Build/ && cd ./Build && npm install",
+    "build": "npm test && tsc && cp package.json ./Build/ && cp package-lock.json ./Build/ && cd ./Build && npm install",
     "dev": "nodemon source/PaisaPay.ts",
     "start": "pm2 start ./PaisaPay.js --name PaisaPay --max-memory-restart 200M -f",
     "stop": "pm2 stop PaisaPay"

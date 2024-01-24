@@ -25,5 +25,7 @@ module.exports = {
 			version: '18.2.0', // React version, default to the latest React stable release
 		},
 	},
-	rules: {},
+	rules: {
+		'no-mixed-spaces-and-tabs': 0,
+	},
 };
