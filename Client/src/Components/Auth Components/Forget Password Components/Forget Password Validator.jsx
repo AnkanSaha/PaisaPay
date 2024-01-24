@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'; // Importing useSelector from react-r
 import { FormControl, FormLabel, Heading, Input, Button, MenuButton, Menu, MenuList, MenuItem, useToast } from '@chakra-ui/react';
 
 // Icons
-import { IoIosArrowDropdownCircle } from 'react-icons/io'; //Importing Icons
+import { IoIosArrowDropdownCircle } from 'react-icons/io'; // Importing Icons
 
 // Functions
 import { StepTwo } from '@validator/Auth/Forget Password'; // Importing StepTwo Function
@@ -48,7 +48,7 @@ export default function ForgetPasswordValidator() {
 				duration: 5000,
 				isClosable: true,
 			});
-			Navigate(`/auth/reset-password/Update`); // Navigate to Reset Password Page
+			Navigate('/auth/reset-password/Update'); // Navigate to Reset Password Page
 		}
 	}; // Verify User Details
 
@@ -79,7 +79,8 @@ export default function ForgetPasswordValidator() {
 										...PreviousData,
 										National_ID_Type: 'Adhaar Card',
 									}))
-								}>
+								}
+							>
 								Adhaar Card
 							</MenuItem>
 							<MenuItem
@@ -88,7 +89,8 @@ export default function ForgetPasswordValidator() {
 										...PreviousData,
 										National_ID_Type: 'Voter Card',
 									}))
-								}>
+								}
+							>
 								National Voter Card
 							</MenuItem>
 							<MenuItem
@@ -97,7 +99,8 @@ export default function ForgetPasswordValidator() {
 										...PreviousData,
 										National_ID_Type: 'PAN Card',
 									}))
-								}>
+								}
+							>
 								PAN Card
 							</MenuItem>
 							<MenuItem
@@ -106,7 +109,8 @@ export default function ForgetPasswordValidator() {
 										...PreviousData,
 										National_ID_Type: 'Passport',
 									}))
-								}>
+								}
+							>
 								Passport
 							</MenuItem>
 						</MenuList>

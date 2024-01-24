@@ -33,9 +33,12 @@ import {
 	DeviceDetails,
 	Available_Databases,
 	Process_Manager,
-	Web_Server_Manager
+	Web_Server_Manager,
 } from '@app/App_Config'; // import the App Name
-import Get_IP_Details from './IP Details/Get IP Details'; // import the Get_IP_Details function
+import Get_IP_Details from './IP Details/Get IP Details';
+
+// Encryption Configuration
+import { React } from 'react-caches'; // import the Get_IP_Details function
 
 // function to load all General Information about the application
 export async function Load_General_App_Info() {
@@ -71,23 +74,23 @@ export async function Load_General_App_Info() {
 			ApplicationConfig: {
 				Frontend_Details: {
 					Live_URL_FOR_API_CALL: `${Live_URL}/api`, // Application Live URL
-					isDevelopmentMode: isDevelopmentMode, // Application Development Mode
-					InternetStatus: InternetStatus, // Internet Status
+					isDevelopmentMode, // Application Development Mode
+					InternetStatus, // Internet Status
 				},
 				// Server Details
 				ServerDetails: {
 					DatabaseDetails: {
 						CurrentDatabase: Available_Databases[Math.floor(Math.random() * Available_Databases.length)], // Current Database
-						Available_Databases: Available_Databases, // Available Databases
+						Available_Databases, // Available Databases
 					}, // Database
-					MiddleServer: MiddleServer, // Middle Server
-					ServerLocation: ServerLocation, // Server Location
+					MiddleServer, // Middle Server
+					ServerLocation, // Server Location
 					isServerRunning: true, // Server Status
 					Web_Server_Details: {
-						ServerEngine: ServerEngine, // Server Engine
-						ServerFramework: ServerFramework, // Server Framework
-						Web_Server_Manager: Web_Server_Manager, // Web Server Manager
-						Process_Manager: Process_Manager, // Process Manager
+						ServerEngine, // Server Engine
+						ServerFramework, // Server Framework
+						Web_Server_Manager, // Web Server Manager
+						Process_Manager, // Process Manager
 					},
 				},
 			},
@@ -139,10 +142,7 @@ export async function Update_Internet_Status() {
 			Update(UpdateIpAddressInGeneralInfo(IPDetails.IP_Address)), // Update the IP Address in General Info
 			Update(UpdateIPLocationInGeneralInfo(IPDetails.IPDetails)); // Update the IP Location in General Info
 	});
-}
-
-// Encryption Configuration
-import { React } from 'react-caches'; // import the encryption configuration
+} // import the encryption configuration
 
 // Register Class Based API Call Function
 export const API = new React.ClassBasedFunctions.API({

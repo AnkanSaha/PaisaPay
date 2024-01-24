@@ -77,7 +77,7 @@ export default function SendMoneySection() {
 		const Encrypted_Payment_Info = PaymentInfo;
 
 		// API Call
-		const Response = await Service.Post(`/post/Payment/NewTransaction`, {
+		const Response = await Service.Post('/post/Payment/NewTransaction', {
 			sessionID: AccountDetails.sessionID,
 			Encrypted_PaymentInfo: Encrypted_Payment_Info,
 		});
@@ -112,7 +112,7 @@ export default function SendMoneySection() {
 				TransactionAmount: '',
 				TransactionDescription: '',
 				TransactionPIN: '',
-			}
+			};
 		}); // update the payment info with empty values
 	}; // end of submission function
 
@@ -138,7 +138,8 @@ export default function SendMoneySection() {
 							aria-hidden="true"
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
-							viewBox="0 0 20 20"></svg>
+							viewBox="0 0 20 20"
+						/>
 					</div>
 					<input
 						type="text"
@@ -186,7 +187,8 @@ export default function SendMoneySection() {
 						variant="solid"
 						type="submit"
 						className="ml-[14rem] mt-5"
-						size={'lg'}>
+						size="lg"
+					>
 						Send Money
 					</Button>
 				</div>

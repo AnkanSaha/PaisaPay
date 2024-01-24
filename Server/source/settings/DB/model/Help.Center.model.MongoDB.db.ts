@@ -1,6 +1,6 @@
 export default {
 	ClientID: { type: Number, default: 0, required: true, unique: false, minlength: 20 },
-	TicketID: { type: Number, default: 0, required: true, unique: true, minlength: 14, maxlength:20 },
+	TicketID: { type: Number, default: 0, required: true, unique: true, minlength: 14, maxlength: 20 },
 	TicketTitle: { type: String, unique: false, required: true, default: "No Title Provided" },
 	TicketDescription: { type: String, unique: false, required: true, default: "No Description Provided" },
 	TicketStatus: { type: String, unique: false, default: "Pending", enum: ["Pending", "In Progress", "Resolved", "Rejected"] },

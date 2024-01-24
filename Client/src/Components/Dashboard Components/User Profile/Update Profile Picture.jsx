@@ -48,11 +48,13 @@ export default function UpdateProfilePicture() {
 	const SubmitHandler = async e => {
 		e.preventDefault();
 
-		if (profilePicture === null || profilePicture === undefined)
+		if (profilePicture === null || profilePicture === undefined) {
 			return Toast({ title: 'Please select a profile picture', status: 'error', duration: 3000, isClosable: true });
+		}
 
-		if (TransactionPIN === null || TransactionPIN === undefined)
+		if (TransactionPIN === null || TransactionPIN === undefined) {
 			return Toast({ title: 'Please enter your transaction pin', status: 'error', duration: 3000, isClosable: true });
+		}
 
 		setIsLoading(true);
 
@@ -72,8 +74,9 @@ export default function UpdateProfilePicture() {
 
 		const response = await API.FormDataPut('/put/user/update-profile-picture', formData);
 		setIsLoading(false); // set the loading state to false
-		if (response.statusCode !== 200)
-			return Toast({ title: response.Title, description: response.message, status: 'error', duration: 3000, isClosable: true }); // show the error message
+		if (response.statusCode !== 200) {
+			return Toast({ title: response.Title, description: response.message, status: 'error', duration: 3000, isClosable: true });
+		} // show the error message
 
 		Toast({ title: response.Title, description: response.message, status: 'success', duration: 3000, isClosable: true }); // show the success message
 		navigate('/dashboard'); // navigate to the dashboard page
@@ -94,7 +97,8 @@ export default function UpdateProfilePicture() {
 								onClick={e => {
 									e.preventDefault();
 									document.querySelector('.file-input').click();
-								}}>
+								}}
+							>
 								<img src={profilePicture !== null ? URL.createObjectURL(profilePicture) : LocalUserPicUpload} />
 							</div>
 							<input
@@ -110,12 +114,7 @@ export default function UpdateProfilePicture() {
 						</div>
 					</div>
 					<InputGroup size="md" className="my-5">
-						<Input
-							pr="4.5rem"
-							type={show ? 'text' : 'password'}
-							placeholder="Enter Your Transaction PIN to Update"
-							onChange={HandleChange}
-						/>
+						<Input pr="4.5rem" type={show ? 'text' : 'password'} placeholder="Enter Your Transaction PIN to Update" onChange={HandleChange} />
 						<InputRightElement width="4.5rem">
 							<Button h="1.75rem" size="sm" onClick={handleClick}>
 								{show ? 'Hide' : 'Show'}
@@ -130,7 +129,8 @@ export default function UpdateProfilePicture() {
 						rightIcon={<FaUpload />}
 						colorScheme="pink"
 						variant="solid"
-						className="w-full mb-5">
+						className="w-full mb-5"
+					>
 						Upload Now
 					</Button>
 				</div>

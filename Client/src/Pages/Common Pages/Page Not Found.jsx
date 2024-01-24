@@ -17,7 +17,7 @@ import GeneralFooter from '@component/Footer/General Footer'; // Footer
 import { IoMdLogIn } from 'react-icons/io'; // import the back icon
 
 export default function NotLoggedIn_Offline({ Status, Message, ButtonText, ButtonLink }) {
-	//Initializer
+	// Initializer
 	const Navigate = useNavigate(); // initialize the navigate hook
 
 	// Get All State from Redux Store
@@ -44,7 +44,8 @@ export default function NotLoggedIn_Offline({ Status, Message, ButtonText, Butto
 					colorScheme="green"
 					onClick={() => {
 						Navigate(ButtonLink);
-					}}>
+					}}
+				>
 					{ButtonText}
 				</Button>
 			</div>

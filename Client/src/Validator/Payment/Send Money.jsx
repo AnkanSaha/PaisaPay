@@ -28,8 +28,7 @@ export default InputData => {
 			title: 'Cannot Send Money to Yourself',
 			message: 'You cannot send money to yourself, Please enter a different payment id',
 		};
-	}
-	else if(InputData.TransactionPIN === '' || InputData.TransactionPIN === undefined || InputData.TransactionPIN === null){
+	} else if (InputData.TransactionPIN === '' || InputData.TransactionPIN === undefined || InputData.TransactionPIN === null) {
 		return {
 			status: false,
 			title: 'Error, Transaction PIN',

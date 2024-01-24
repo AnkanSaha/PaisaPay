@@ -10,7 +10,7 @@ import { SessionValidation } from "../../utils/Incoming.Req.Check.utils"; // Imp
 import Account from "../Routes/DELETE/Account.Route"; // Import Authenticator Route
 
 // All Routes
-Delete_Request_Manager.use('/Account', SessionValidation, Account); // Use Account Route
+Delete_Request_Manager.use("/Account", SessionValidation, Account); // Use Account Route
 
 // Export Get_Request_Manager
 export default Delete_Request_Manager;

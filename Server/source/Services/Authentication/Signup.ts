@@ -87,7 +87,6 @@ export async function Register(req: SignupRequestInterface, res: Response) {
 				message: "Please provide all the required information & try again",
 				response: res,
 				data: undefined,
-
 			});
 			await fs.promises.rm(req.file.path); // Delete the file
 			return; // Return if the request body is invalid
@@ -119,7 +118,6 @@ export async function Register(req: SignupRequestInterface, res: Response) {
 					message: "Account exists with the same email or phone number or ID number",
 					response: res,
 					data: undefined,
-	
 				});
 				await fs.promises.rm(req.file.path); // Delete the file
 				return; // Return if the account exists
@@ -166,7 +164,6 @@ export async function Register(req: SignupRequestInterface, res: Response) {
 						message: "Account exists with the same last six digits of ID number",
 						response: res,
 						data: undefined,
-		
 					});
 					await fs.promises.rm(req.file.path);
 					return; // Return if the account exists with the same last six digits of ID number
@@ -183,7 +180,6 @@ export async function Register(req: SignupRequestInterface, res: Response) {
 						message: "Account exists with the same Payment ID",
 						response: res,
 						data: undefined,
-		
 					}); // Send Response
 					await fs.promises.rm(req.file.path); // Delete the file
 					return; // Return if the account exists with the same Payment ID
@@ -224,7 +220,7 @@ export async function Register(req: SignupRequestInterface, res: Response) {
 				AccountStatus.NewData[0].TransactionPIN = undefined; // Remove Transaction PIN from the Account Details
 				AccountStatus.NewData[0].National_ID_Number = undefined; // Remove National ID Number from the Account Details
 				AccountStatus.NewData[0].LastLoginToken = undefined; // Remove Last Login Token from the Account Details
-			
+
 				const EncryptedAccountData = AccountStatus.NewData[0]; // Encrypt Account Data
 
 				// Send Response to Client
@@ -239,7 +235,6 @@ export async function Register(req: SignupRequestInterface, res: Response) {
 							sessionID: LastLoginToken.toKen,
 							AccountDetails: EncryptedAccountData,
 						},
-		
 					});
 				} else if (AccountStatus.status === false) {
 					await fs.promises.rm(req.file.path); // Delete the file
@@ -250,7 +245,6 @@ export async function Register(req: SignupRequestInterface, res: Response) {
 						message: "Look like there is a problem with the database, please try again later",
 						response: res,
 						data: AccountStatus,
-		
 					});
 				}
 			}

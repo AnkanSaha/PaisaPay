@@ -45,7 +45,6 @@ export const UpdateTransactionPIN = async (Request: Request, Response: Response)
 				data: undefined,
 				statusCode: StatusCodes.BAD_REQUEST,
 				Title: "Bad Request",
-	
 			});
 			return;
 		}
@@ -64,7 +63,6 @@ export const UpdateTransactionPIN = async (Request: Request, Response: Response)
 				data: undefined,
 				statusCode: StatusCodes.NOT_FOUND,
 				Title: "Account Does Not Exist",
-	
 			});
 			return;
 		}
@@ -78,7 +76,6 @@ export const UpdateTransactionPIN = async (Request: Request, Response: Response)
 				data: undefined,
 				statusCode: StatusCodes.BAD_REQUEST,
 				Title: "PIN Is Incorrect",
-	
 			});
 			return;
 		}
@@ -92,7 +89,6 @@ export const UpdateTransactionPIN = async (Request: Request, Response: Response)
 				data: undefined,
 				statusCode: StatusCodes.BAD_REQUEST,
 				Title: "Account Is Not Active",
-	
 			});
 			return;
 		}
@@ -121,7 +117,6 @@ export const UpdateTransactionPIN = async (Request: Request, Response: Response)
 				data: undefined,
 				statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 				Title: "PIN Update Failed",
-	
 			});
 			return;
 		}
@@ -134,7 +129,6 @@ export const UpdateTransactionPIN = async (Request: Request, Response: Response)
 			data: undefined,
 			statusCode: StatusCodes.OK,
 			Title: "PIN Updated Successfully",
-
 		});
 	} catch (err: any) {
 		Console.red(err);
@@ -145,7 +139,6 @@ export const UpdateTransactionPIN = async (Request: Request, Response: Response)
 			data: undefined,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 			Title: "Internal Server Error",
-
 		});
 	}
 };

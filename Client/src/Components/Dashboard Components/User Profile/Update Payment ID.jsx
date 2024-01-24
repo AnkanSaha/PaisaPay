@@ -3,7 +3,7 @@ import { API } from '@helper/Common'; // Common Helper Functions
 import { useSelector, useDispatch } from 'react-redux'; // Import Use Selector From React Redux
 import { FiAtSign } from 'react-icons/fi'; // Import FiAtSign Icon
 import { useNavigate } from 'react-router-dom'; // Import Use Navigate From React Router Dom
-import {updateAccountDetails} from '@redux/Slices/Account Slice'; //
+import { updateAccountDetails } from '@redux/Slices/Account Slice'; //
 
 // Import Components form Chakra UI
 import { Heading, InputGroup, Input, InputRightElement, Button, useToast } from '@chakra-ui/react'; // import From Chakra UI
@@ -71,7 +71,7 @@ export default function UpdatePaymentID() {
 		const Encrypted_Info = NewpaymentIDinfo; // Encrypt All New Payment ID Info
 		const Response = await API.Put('/put/update/update-PaymentID', {
 			sessionID: ReduxState.AccountInfo.sessionID,
-			Encrypted_Info: Encrypted_Info,
+			Encrypted_Info,
 		});
 		setLoading(false); // Update loading State to True
 		if (Response.statusCode === 200) {
@@ -82,7 +82,7 @@ export default function UpdatePaymentID() {
 				duration: 5000,
 				isClosable: true,
 			}); // Create Toast
-			Dispatch(updateAccountDetails(Response.data))
+			Dispatch(updateAccountDetails(Response.data));
 			navigate('/dashboard'); // Navigate to User Profile
 		} else {
 			toast({
@@ -107,7 +107,8 @@ export default function UpdatePaymentID() {
 								value={NewpaymentIDinfo.NewPaymentID}
 								type={show ? 'text' : 'password'}
 								placeholder="Enter New Payment ID"
-								name="NewPaymentID"></Input>
+								name="NewPaymentID"
+							/>
 							<InputRightElement width="4.5rem">
 								<Button h="1.75rem" size="sm" onClick={handleClick}>
 									{show ? 'Hide' : 'Show'}
@@ -136,7 +137,8 @@ export default function UpdatePaymentID() {
 						colorScheme="blue"
 						onClick={handleUpdatePaymentID}
 						leftIcon={<FiAtSign />}
-						rightIcon={<FiAtSign />}>
+						rightIcon={<FiAtSign />}
+					>
 						Update Payment ID
 					</Button>
 				</div>

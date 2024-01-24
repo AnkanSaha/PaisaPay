@@ -106,7 +106,7 @@ const ContactForm = () => {
 				<VStack spacing={4}>
 					<FormControl id="ClientID">
 						<FormLabel>Client ID *</FormLabel>
-						<Input type="number" disabled={true} name="ClientID" onChange={InputHandler} value={formData.ClientID} placeholder="Enter Client ID" />
+						<Input type="number" disabled name="ClientID" onChange={InputHandler} value={formData.ClientID} placeholder="Enter Client ID" />
 					</FormControl>
 
 					<FormControl id="TicketTitle">

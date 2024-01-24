@@ -79,8 +79,7 @@ export default function CreateNewMoneyRequest() {
 				duration: 5000,
 				isClosable: true,
 			}); // return a toast notification
-		}
-		else if(RequestInfo.SenderPaymentID === RequestInfo.RequesterPaymentID){
+		} else if (RequestInfo.SenderPaymentID === RequestInfo.RequesterPaymentID) {
 			return toast({
 				title: 'Error',
 				description: 'You cannot request money from yourself',
@@ -93,16 +92,16 @@ export default function CreateNewMoneyRequest() {
 
 		// Encrypt the request info
 		const Encrypted_Request_Info = RequestInfo; // encrypt the request info
-		
+
 		// Send the request to the server
 		const Response = await Service.Post('/post/Payment/request-money', {
-			Encrypted_Request_Info: Encrypted_Request_Info,
+			Encrypted_Request_Info,
 			sessionID: ReduxState.AccountInfo.sessionID,
 		}); // send the request to the server
 
 		setRequestButtonLoading(false); // set the request button loading state to false
 
-		if(Response.statusCode === 200){
+		if (Response.statusCode === 200) {
 			CloseModal(); // close the modal
 			return toast({
 				title: Response.Title,
@@ -111,8 +110,7 @@ export default function CreateNewMoneyRequest() {
 				duration: 5000,
 				isClosable: true,
 			}); // return a toast notification
-		}
-		else {
+		} else {
 			return toast({
 				title: Response.Title,
 				description: Response.message,
@@ -132,7 +130,8 @@ export default function CreateNewMoneyRequest() {
 				variant="solid"
 				className="right-[6%]"
 				isLoading={CreateButtonLoading}
-				position="absolute">
+				position="absolute"
+			>
 				Create New Request
 			</Button>
 			<Modal isOpen={isOpen} onClose={CloseModal}>

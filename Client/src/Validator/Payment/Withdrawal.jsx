@@ -35,14 +35,13 @@ export default InputData => {
 			title: 'Error, IFSC Code',
 			message: 'Please enter the IFSC code',
 		};
-	}else if (InputData.TPIN === '' || InputData.TPIN === undefined || InputData.TPIN === null) {
+	} else if (InputData.TPIN === '' || InputData.TPIN === undefined || InputData.TPIN === null) {
 		return {
 			status: false,
 			title: 'Error, TPIN',
 			message: 'Please enter the TPIN to confirm the transaction',
 		};
-	}  
-	else {
+	} else {
 		return {
 			status: true,
 			title: 'Validation Successful',

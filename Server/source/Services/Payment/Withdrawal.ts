@@ -6,7 +6,7 @@ type int = number; // Define int
 import { Request, Response } from "express"; // Import Request from express
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
-import {Compare} from '../../Middleware/Bcrypt.middleware'; // Import Bcrypt Config
+import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Config
 import { Console, Serve, StatusCodes, methods } from "outers"; // Import red from outers
 
 export const WithdrawalMoney = async (Request: Request, Response: Response) => {
@@ -25,7 +25,6 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 				response: Response,
 				statusCode: StatusCodes.NOT_FOUND,
 				Title: "Account Not Found",
-	
 			});
 			return;
 		}
@@ -39,14 +38,13 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 				response: Response,
 				statusCode: StatusCodes.NOT_FOUND,
 				Title: `Account is ${AccountExistence.Information.Data[0].AccountStatus}`,
-	
 			});
 			return;
 		}
 
 		// Check if the Transaction PIN is correct
-		
-		if((await Compare(DecryptedData.TPIN, AccountExistence.Information.Data[0].TransactionPIN)).isMatch === false ){
+
+		if ((await Compare(DecryptedData.TPIN, AccountExistence.Information.Data[0].TransactionPIN)).isMatch === false) {
 			Serve.JSON({
 				status: false,
 				message: "Transaction PIN is incorrect. Please try again with correct PIN.",
@@ -54,7 +52,6 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 				response: Response,
 				statusCode: StatusCodes.NOT_FOUND,
 				Title: "Transaction PIN is incorrect",
-	
 			});
 			return;
 		}
@@ -68,7 +65,6 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 				Title: "Invalid Amount",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -86,7 +82,6 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 				response: Response,
 				statusCode: StatusCodes.NOT_FOUND,
 				Title: "Insufficient Balance",
-	
 			});
 			return;
 		}
@@ -109,7 +104,6 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 				Title: "Unable To Deduct Money From Your Account",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -155,7 +149,6 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 				Title: "Unable To Create Transaction Record",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -190,7 +183,6 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 				Title: "Unable To Create Withdrawal Request Record",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -203,7 +195,6 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 			response: Response,
 			statusCode: StatusCodes.OK,
 			Title: "Withdrawal Request Successful",
-
 		});
 	} catch (Error) {
 		Console.red(Error);
@@ -214,7 +205,6 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 			response: Response,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 			Title: "Internal Server Error",
-
 		});
 	}
 };

@@ -6,7 +6,7 @@ type bool = boolean;
 // Import Required Modules
 import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Import HTTP Status Codes
 import JWT from "../../Middleware/JWT.middleware"; // Import JWT Config
-import { Request,Response } from "express"; // Import Request from express
+import { Request, Response } from "express"; // Import Request from express
 // Import Required Modules
 import { Console, StatusCodes, Serve, methods } from "outers"; // Import Console & Status Codes
 
@@ -74,89 +74,85 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 					message: "Account not found, please try again with the correct phone number",
 					data: undefined,
 					response: Response,
-
 				});
 				return; // Return if Account Not Find
 			}
-			
+
 			// Check if Account is Deleted or Not
-			if(AccountStatus.Data[0].AccountStatus === 'Deleted'){
+			if (AccountStatus.Data[0].AccountStatus === "Deleted") {
 				Serve.JSON({
 					response: Response,
-					status:false,
-					statusCode:StatusCodes.LOCKED,
+					status: false,
+					statusCode: StatusCodes.LOCKED,
 					Title: "Account is Deleted",
 					message: "Your account is deleted, please contact the support team for further assistance or create a new account",
-					data:undefined,
-
-				})
+					data: undefined,
+				});
 				return; // Return if Account is Deleted
 			}
 
-				const isPasswordCorrect: isPasswordCorrectInterface = await Compare(DecryptedPassword, AccountStatus.Data[0].Password); // Compare the password
-				if (isPasswordCorrect.isMatch === false) {
-					Serve.JSON({
-						status: false,
-						statusCode: StatusCodes.UNAUTHORIZED,
-						Title: "Unauthorized",
-						message: "Incorrect Password, please try again with the correct password",
-						data: undefined,
-						response: Response,
-	
-					});
-					return; // Return if Password is Incorrect
-				}
-				// Remove Password from the Account Details
-					AccountStatus.Data[0].Password = undefined; // Remove Password from the Account Details
-					AccountStatus.Data[0].TransactionPIN = undefined; // Remove Transaction PIN from the Account Details
-					AccountStatus.Data[0].National_ID_Number = undefined; // Remove National ID Number from the Account Details
-					AccountStatus.Data[0].LastLoginToken = undefined; // Remove Last Login Token from the Account Details
+			const isPasswordCorrect: isPasswordCorrectInterface = await Compare(DecryptedPassword, AccountStatus.Data[0].Password); // Compare the password
+			if (isPasswordCorrect.isMatch === false) {
+				Serve.JSON({
+					status: false,
+					statusCode: StatusCodes.UNAUTHORIZED,
+					Title: "Unauthorized",
+					message: "Incorrect Password, please try again with the correct password",
+					data: undefined,
+					response: Response,
+				});
+				return; // Return if Password is Incorrect
+			}
+			// Remove Password from the Account Details
+			AccountStatus.Data[0].Password = undefined; // Remove Password from the Account Details
+			AccountStatus.Data[0].TransactionPIN = undefined; // Remove Transaction PIN from the Account Details
+			AccountStatus.Data[0].National_ID_Number = undefined; // Remove National ID Number from the Account Details
+			AccountStatus.Data[0].LastLoginToken = undefined; // Remove Last Login Token from the Account Details
 
-					// Encrypt Account Details if you want to send it to the user
-					const EncryptedaccountDetails = AccountStatus.Data[0]; // Generate JWT Token for Account Details
+			// Encrypt Account Details if you want to send it to the user
+			const EncryptedaccountDetails = AccountStatus.Data[0]; // Generate JWT Token for Account Details
 
-					// Register Login Token Round Generator
-					const Generator = new methods.UniqueGenerator(1); // Create a new Unique Generator
+			// Register Login Token Round Generator
+			const Generator = new methods.UniqueGenerator(1); // Create a new Unique Generator
 
-					// Generate Login Token
-					const LoginToken = await JWT.generateLoginToken(
-						{
-							ClientID: AccountStatus.Data[0].ClientID,
-							LastLoginIP: DecryptedLastLoginIP,
-							LastFourDigitsOfIDNumber: AccountStatus.Data[0].LastFourDigitsOfIDNumber,
-						},
-						Generator.RandomNumber(false, [4, 5, 6, 7]),
-						StringKeys.JWT_EXPIRES_IN
-					); // Generate Login Token for the user
+			// Generate Login Token
+			const LoginToken = await JWT.generateLoginToken(
+				{
+					ClientID: AccountStatus.Data[0].ClientID,
+					LastLoginIP: DecryptedLastLoginIP,
+					LastFourDigitsOfIDNumber: AccountStatus.Data[0].LastFourDigitsOfIDNumber,
+				},
+				Generator.RandomNumber(false, [4, 5, 6, 7]),
+				StringKeys.JWT_EXPIRES_IN
+			); // Generate Login Token for the user
 
-					// Update Last Login IP and Last Login Client Details
-					const ToBeUpdateOptions = {
-						LastLoginTime: Date.now(),
-						LastLoginIP: DecryptedLastLoginIP,
-						LastLoginClientDetails: DecryptedLastLoginClientDetails,
-						LastLoginToken: LoginToken.toKen,
-					}; // Options to be updated
+			// Update Last Login IP and Last Login Client Details
+			const ToBeUpdateOptions = {
+				LastLoginTime: Date.now(),
+				LastLoginIP: DecryptedLastLoginIP,
+				LastLoginClientDetails: DecryptedLastLoginClientDetails,
+				LastLoginToken: LoginToken.toKen,
+			}; // Options to be updated
 
-					// Update the account details in the database with the new login details
-					await MongoDB.ClientAccount.update(
-						[{ PhoneNumber: DecryptedPhoneNumber }, { ClientID: AccountStatus.Data[0].ClientID }],
-						{ $set: ToBeUpdateOptions },
-						false
-					);
+			// Update the account details in the database with the new login details
+			await MongoDB.ClientAccount.update(
+				[{ PhoneNumber: DecryptedPhoneNumber }, { ClientID: AccountStatus.Data[0].ClientID }],
+				{ $set: ToBeUpdateOptions },
+				false
+			);
 
-					// Send Response
-					Serve.JSON({
-						status: true,
-						statusCode: StatusCodes.OK,
-						Title: "Login Successful",
-						message: "You have successfully logged in, please wait while we redirect you to your dashboard",
-						data: {
-							sessionID: LoginToken.toKen,
-							AccountDetails: EncryptedaccountDetails,
-						},
-						response: Response,
-	
-					}); // Send Response to the user
+			// Send Response
+			Serve.JSON({
+				status: true,
+				statusCode: StatusCodes.OK,
+				Title: "Login Successful",
+				message: "You have successfully logged in, please wait while we redirect you to your dashboard",
+				data: {
+					sessionID: LoginToken.toKen,
+					AccountDetails: EncryptedaccountDetails,
+				},
+				response: Response,
+			}); // Send Response to the user
 		}
 	} catch (err) {
 		Console.red(err); // Log the error to the console

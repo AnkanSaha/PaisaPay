@@ -28,7 +28,6 @@ export const SendMoney = async (Request: Request, Response: Response) => {
 				Title: SenderAccountExists.message,
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -42,7 +41,6 @@ export const SendMoney = async (Request: Request, Response: Response) => {
 				Title: "Account Not Active",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -53,11 +51,10 @@ export const SendMoney = async (Request: Request, Response: Response) => {
 			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
-				message: `Transaction PIN is Incorrect | Please Enter Correct Transaction PIN`,
+				message: "Transaction PIN is Incorrect | Please Enter Correct Transaction PIN",
 				Title: "Incorrect Transaction PIN",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return; // Return
 		}
@@ -74,7 +71,6 @@ export const SendMoney = async (Request: Request, Response: Response) => {
 				Title: "Not Found",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -88,7 +84,6 @@ export const SendMoney = async (Request: Request, Response: Response) => {
 				Title: "Account Not Active",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -102,7 +97,6 @@ export const SendMoney = async (Request: Request, Response: Response) => {
 				Title: "Invalid Amount",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -120,7 +114,6 @@ export const SendMoney = async (Request: Request, Response: Response) => {
 				Title: "Not Enough Balance",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -140,7 +133,6 @@ export const SendMoney = async (Request: Request, Response: Response) => {
 				Title: "Unable To Deduct Money From Sender Account",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -160,7 +152,6 @@ export const SendMoney = async (Request: Request, Response: Response) => {
 				Title: "Unable To Add Money To Receiver Account",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -209,7 +200,6 @@ export const SendMoney = async (Request: Request, Response: Response) => {
 				Title: "Unable To Create Transaction History For Sender",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -230,7 +220,6 @@ export const SendMoney = async (Request: Request, Response: Response) => {
 				NewBalance: SenderAccountExists.Information.Data[0].Balance - PaymentInfo.TransactionAmount,
 			},
 			response: Response,
-
 		}); // Send Response
 	} catch (error) {
 		Console.red(error);
@@ -241,7 +230,6 @@ export const SendMoney = async (Request: Request, Response: Response) => {
 			Title: "Internal Server Error",
 			data: undefined,
 			response: Response,
-
 		}); // Send Error Response
 	}
 };

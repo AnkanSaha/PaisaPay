@@ -57,29 +57,30 @@ export default function HelpAndSupport() {
 											label={ticket.AdminResponse === 'No response yet' ? ' No Response from Admin' : ticket.AdminResponse}
 											aria-label="A tooltip"
 											placement="top"
-											key={index}>
+											key={index}
+										>
 											<Card
 												bgColor={
 													ticket.TicketStatus === 'Pending'
 														? 'yellow.500'
 														: ticket.TicketStatus === 'In Progress'
-														? 'blue.500'
-														: ticket.TicketStatus === 'Resolved'
-														? 'green.500'
-														: 'red.500'
+														  ? 'blue.500'
+														  : ticket.TicketStatus === 'Resolved'
+														    ? 'green.500'
+														    : 'red.500'
 												}
 												color={
 													ticket.TicketStatus === 'Pending'
 														? 'black'
 														: ticket.TicketStatus === 'In Progress'
-														? 'white'
-														: ticket.TicketStatus === 'Resolved'
-														? 'white'
-														: 'white'
+														  ? 'white'
+														  : ticket.TicketStatus === 'Resolved'
+														    ? 'white'
+														    : 'white'
 												}
 												borderRadius="md"
 												boxShadow="md"
-												>
+											>
 												<CardHeader>
 													<Heading size="md"> {ticket.TicketTitle}</Heading>
 												</CardHeader>

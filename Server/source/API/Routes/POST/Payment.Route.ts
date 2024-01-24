@@ -6,7 +6,7 @@ import { AddMoney } from "../../../Services/Payment/Add Money"; // Import Add Mo
 import { GetTransactionHistory } from "../../../Services/Payment/PaymentHistory"; // Import GetTransactionHistory
 import { SendMoney } from "../../../Services/Payment/Send Money"; // Import Send Money Service
 import { WithdrawalMoney } from "../../../Services/Payment/Withdrawal"; // Import Withdrawal Money Service
-import RequestMoney, {Accept_Request_Money} from "../../../Services/Payment/Request Money"; // Import Request Money Service
+import RequestMoney, { Accept_Request_Money } from "../../../Services/Payment/Request Money"; // Import Request Money Service
 
 // Setup Router
 const Payment = Router(); // Create a router
