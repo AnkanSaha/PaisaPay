@@ -45,7 +45,7 @@ export default function UpdateTransactionPIN() {
 	}; // set the pin info state to the value of the input
 
 	// Update Transaction PIN Function
-	const UpdateTransactionPIN = async () => {
+	const UpdateTransactionPINMethod = async () => {
 		if (PinInfo.CurrentPin === '' || PinInfo.NewPin === '' || PinInfo.ConfirmNewPin === '') {
 			toast({
 				title: 'Error',
@@ -168,7 +168,7 @@ export default function UpdateTransactionPIN() {
 					</div>
 					<Button
 						isLoading={loading}
-						onClick={UpdateTransactionPIN}
+						onClick={UpdateTransactionPINMethod}
 						className="w-full mb-5"
 						colorScheme="facebook"
 						leftIcon={<MdSystemSecurityUpdateGood />}
