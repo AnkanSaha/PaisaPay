@@ -11,7 +11,7 @@ import CORSMiddleware from "../Middleware/CORS.middleware"; // Import CORS Middl
 const MainRouter = Router(); // Create Router
 
 	// APi Path of Health Checking & Load Check
-	MainRouter.get("/health", async (request, Response) => {
+	MainRouter.get("/health", (request, Response) => {
 		Serve.JSON({
 			response: Response,
 			status: true,

@@ -1,12 +1,11 @@
 import React from 'react'; // import react
-import { useSelector } from 'react-redux'; // import react-redux
 import { API } from '@helper/Common'; // import the crypto function
 import moment from 'moment'; // import moment
 import {useNavigate} from 'react-router-dom'; // import useNavigate from react-router-dom
 
 
 // Import Redux
-import {useDispatch} from 'react-redux'; // Import useDispatch from react-redux
+import {useDispatch, useSelector} from 'react-redux'; // Import useDispatch from react-redux
 import {updateAccountDetails} from '@redux/Slices/Account Slice'; // Import the account slice
 
 // Import Components

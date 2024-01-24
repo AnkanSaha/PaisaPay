@@ -74,7 +74,7 @@ export function BrowserDetailsSetter() {
 
 // Client Device Details
 export function DeviceDetailsSetter() {
-	const DeviceDetails = {
+	const DeviceDetail = {
 		DeviceType: window.innerWidth > 768 ? 'Desktop' : 'Mobile', // Device Type
 		DeviceWidth: window.innerWidth, // Device Width
 		DeviceHeight: window.innerHeight, // Device Height
@@ -86,7 +86,7 @@ export function DeviceDetailsSetter() {
 		DeviceConnection: navigator.connection ? navigator.connection.effectiveType : 'Details Not Available', // Device Connection
 		DeviceCPU: navigator.hardwareConcurrency, // Device CPU
 	};
-	return DeviceDetails;
+	return DeviceDetail;
 }
 
 // API Key

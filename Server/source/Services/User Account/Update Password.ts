@@ -121,7 +121,7 @@ export default async function UpdatePassword(Request: Request, Response: Respons
         }); // Serve JSON
     }
     catch (Error) {
-        Console.red("Error Occurred In UpdatePassword.ts: " + Error); // Log Error
+        Console.red(`Error Occurred In UpdatePassword.ts: ${Error}`); // Log Error
         Serve.JSON({
             response: Response,
             status: false,

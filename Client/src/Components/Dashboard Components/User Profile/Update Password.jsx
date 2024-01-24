@@ -54,7 +54,7 @@ export default function UpdatePassword() {
     } // set the password info state to the value of the input
 
     // Update Password Function
-    const UpdatePassword = async () => {
+    const UpdatePasswordMethod = async () => {
         if(PasswordInfo.CurrentPassword === '' || PasswordInfo.NewPassword === '' || PasswordInfo.ConfirmNewPassword === ''){
             toast({
                 title: "Error",
@@ -151,7 +151,7 @@ export default function UpdatePassword() {
                         </InputRightElement>
                     </InputGroup>
                 </div>
-                <Button isLoading={loading} onClick={UpdatePassword} className="w-full mb-5" colorScheme="facebook" leftIcon={<TbBraces />} rightIcon={<TbBraces />}>
+                <Button isLoading={loading} onClick={UpdatePasswordMethod} className="w-full mb-5" colorScheme="facebook" leftIcon={<TbBraces />} rightIcon={<TbBraces />}>
                     Update PIN
                 </Button>
             </div>
