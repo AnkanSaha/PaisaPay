@@ -10,18 +10,17 @@ import CORSMiddleware from "../Middleware/CORS.middleware"; // Import CORS Middl
 // setup Router
 const MainRouter = Router(); // Create Router
 
-	// APi Path of Health Checking & Load Check
-	MainRouter.get("/health", (request, Response) => {
-		Serve.JSON({
-			response: Response,
-			status: true,
-			statusCode: StatusCodes.OK,
-			Title: `${StringKeys.AppName} Server is Running`,
-			message: `${StringKeys.AppName} is Running Successfully on Port ${NumberKeys.PORT} With ${StringKeys.Platform} ${StringKeys.Architecture} server : ${StringKeys.FreeRam} GB Free Ram : ${StringKeys.Model}`,
-			data: request.headers,
-			
-		});
-	}); // Health Check
+// APi Path of Health Checking & Load Check
+MainRouter.get("/health", (request, Response) => {
+	Serve.JSON({
+		response: Response,
+		status: true,
+		statusCode: StatusCodes.OK,
+		Title: `${StringKeys.AppName} Server is Running`,
+		message: `${StringKeys.AppName} is Running Successfully on Port ${NumberKeys.PORT} With ${StringKeys.Platform} ${StringKeys.Architecture} server : ${StringKeys.FreeRam} GB Free Ram : ${StringKeys.Model}`,
+		data: request.headers,
+	});
+}); // Health Check
 
 // Implement Rate Limit
 MainRouter.use(RateLimiterMiddleware); // Use Rate Limiter Middleware on Main Router
@@ -59,7 +58,6 @@ MainRouter.all("*", (Request: Request, Response: Response) => {
 			requestedBody: Request.body,
 			requestedHeaders: Request.headers,
 		},
-		
 	}); // Send Response if Method is not allowed
 });
 
