@@ -22,6 +22,6 @@ module.exports = {
 	},
 	plugins: ["@typescript-eslint"],
 	rules: {
-		"no-mixed-spaces-and-tabs": 0
+		"no-mixed-spaces-and-tabs": 0,
 	},
 };
