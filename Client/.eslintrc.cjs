@@ -26,6 +26,6 @@ module.exports = {
 		},
 	},
 	rules: {
-		'no-mixed-spaces-and-tabs': 0
+		'no-mixed-spaces-and-tabs': 0,
 	},
 };
