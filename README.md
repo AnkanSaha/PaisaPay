@@ -18,8 +18,6 @@
 
 **Notifications**: The platform notifies users about important events such as successful transactions, balance updates, and withdrawal confirmations through timely notifications. This ensures that users stay informed about their financial activities.
 
-
-
 ### PaisaPay aims to simplify the payment experience for users while ensuring the security and convenience of their financial transactions. With its React-based implementation and utilization of the MERN technology stack, it offers a powerful and efficient payment network for managing finances and facilitating family payments.
 
 ## Installation
@@ -37,16 +35,16 @@
   - RAZORPAY_MERCHANT_ID
   - CPU_COUNT_MULTIPLIERenv
 - change to Client directory and run `npm install`
-- run `npm run dev` in Server directory  to Start Server
+- run `npm run dev` in Server directory to Start Server
 - run `npm start` in Client directory to Start Client
 
 ## Built With ❤️ using MERN Stack (MongoDB, Express.js, React, Node.js) and Razorpay API for Payments and Authentication using JWT Tokens and CryptoJS for Encryption and Decryption in Request - Response Transfers
 
-## Authors 👨‍💻 
+## Authors 👨‍💻
 
 - [Ankan Saha]('https://linkedin.com/in/theankansaha')
 
-## License 📝 
+## License 📝
 
 - This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 

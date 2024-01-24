@@ -10,9 +10,9 @@ import { SessionValidation } from "../../../utils/Incoming.Req.Check.utils"; // 
 // Import Functions
 import { UpdateProfilePicture } from "../../../Services/User Account/Profile Details"; // Import UpdateProfilePicture from '.../.../.../Profile Details
 import { UpdateTransactionPIN } from "../../../Services/User Account/Update Transaction PIN"; // Import UpdateTransactionPIN from '.../.../.../Update Transaction PIN'
-import UpdatePaymentID from '../../../Services/User Account/Update Payment ID'; // Import UpdatePaymentID from '.../.../.../Update Payment ID'
+import UpdatePaymentID from "../../../Services/User Account/Update Payment ID"; // Import UpdatePaymentID from '.../.../.../Update Payment ID'
 import UpdateDemographicInfo from "../../../Services/User Account/Update Demographic Info"; // Import UpdateDemographicInfo from '.../.../.../Update Demographic Info'
-import UpdatePassword  from "../../../Services/User Account/Update Password"; // Import UpdatePassword from '.../.../.../Update Password'
+import UpdatePassword from "../../../Services/User Account/Update Password"; // Import UpdatePassword from '.../.../.../Update Password'
 
 // All Routes
 ProfileDetails.put("/update-profile-picture", Multer.single("profilePicture"), SessionValidation, UpdateProfilePicture); // Use User Route

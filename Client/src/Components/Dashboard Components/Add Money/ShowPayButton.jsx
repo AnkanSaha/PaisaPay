@@ -18,7 +18,7 @@ export default function ShowPayButton() {
 	return (
 		<>
 			<div className="ml-[20rem]">
-				<form id="PaisaADD" className="w-6/12 m-auto mt-16 space-y-6 space-x-3"></form>
+				<form id="PaisaADD" className="w-6/12 m-auto mt-16 space-y-6 space-x-3" />
 			</div>
 		</>
 	);

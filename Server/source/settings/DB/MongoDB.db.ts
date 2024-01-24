@@ -15,5 +15,5 @@ export default {
 	P2PTransaction: P2P_Transaction_Instance,
 	HelpCenter: Help_Center_Instance,
 	Withdrawal: Withdrawal_Instance,
-	RequestMoney: Request_Money_Instance
+	RequestMoney: Request_Money_Instance,
 }; // Export All Instances

@@ -12,19 +12,19 @@ import 'daisyui'; // Import Daisy UI
 
 // import Animation Components
 import AOS from 'aos'; // import aos
-import 'aos/dist/aos.css'; // import aos css
-AOS.init({
-	duration: 1000,
-	once: false,
-	easing: 'ease-in-out',
-	mirror: false,
-}); // initialize aos
+import 'aos/dist/aos.css'; // initialize aos
 
 // Import Router
 import Router from '@router/MainRouter'; // Main Router component for routing
 
 // import Functions
-import { Update_Internet_Status, Load_General_App_Info } from '@helper/Common'; // import the function to update the internet status
+import { Update_Internet_Status, Load_General_App_Info } from '@helper/Common'; // import aos css
+AOS.init({
+	duration: 1000,
+	once: false,
+	easing: 'ease-in-out',
+	mirror: false,
+}); // import the function to update the internet status
 
 export default function Main() {
 	Update_Internet_Status(); // update the internet status

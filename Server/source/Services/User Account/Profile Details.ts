@@ -43,7 +43,6 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 				Title: "Bad Request",
 				message: "Please send all required data",
 				data: undefined,
-
 			});
 			await fs.promises.rm(Request.file.path); // Delete the file
 			return; // Return
@@ -63,7 +62,6 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 				Title: "Account Not Found",
 				message: "Account does not exist",
 				data: undefined,
-
 			});
 			await fs.promises.rm(Request.file.path); // Delete the file
 			return; // Return
@@ -78,7 +76,6 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 				Title: "Account Not Active",
 				data: undefined,
 				response: Response,
-
 			}); // Send Error Response
 			await fs.promises.rm(Request.file.path); // Delete the file
 			return;
@@ -94,7 +91,6 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 				Title: "Transaction PIN Incorrect",
 				data: undefined,
 				response: Response,
-
 			}); // Send Error Response
 			await fs.promises.rm(Request.file.path); // Delete the file
 			return;
@@ -105,7 +101,6 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 			await fs.promises.access(AccountStatus.Information.Data[0].ProfilePicturePath); // Check if File Exists
 			await fs.promises.rm(AccountStatus.Information.Data[0].ProfilePicturePath); // Delete Previous Profile Picture if Exists
 			UpdateProfileDetails(ClientID, PhoneNumber, ShortedEmail, Request, Response); // Update Profile Details Function To Update Records in Database
-			
 		} catch (error) {
 			Console.red(error); // Log Error
 			UpdateProfileDetails(ClientID, PhoneNumber, ShortedEmail, Request, Response); // Update Profile Details Function To Update Records in Database
@@ -120,13 +115,12 @@ export async function UpdateProfilePicture(Request: UpdateProfilePicture, Respon
 			Title: "Internal Server Error",
 			message: "Something went wrong while updating your profile picture. Please try again later",
 			data: undefined,
-
 		});
 	}
 }
 
 // Update Profile Details Function To Update Records in Database
-async function UpdateProfileDetails(ClientID: int, PhoneNumber : str, ShortedEmail: str, Request: UpdateProfilePicture, Response: Response) {
+async function UpdateProfileDetails(ClientID: int, PhoneNumber: str, ShortedEmail: str, Request: UpdateProfilePicture, Response: Response) {
 	// Update Profile Picture in Database if File Exists
 	const UpdateStatus = await MongoDB.ClientAccount.update(
 		[{ ClientID: ClientID }, { Email: ShortedEmail }, { PhoneNumber: PhoneNumber }],
@@ -142,7 +136,6 @@ async function UpdateProfileDetails(ClientID: int, PhoneNumber : str, ShortedEma
 			Title: "Unable to Update Profile Picture",
 			message: "Unable to Update Profile Picture. Please try again later",
 			data: undefined,
-
 		}); // Send Response to Client
 		await fs.promises.rm(Request.file.path); // Delete the file
 		return; // Return
@@ -158,6 +151,5 @@ async function UpdateProfileDetails(ClientID: int, PhoneNumber : str, ShortedEma
 		data: {
 			ProfilePicFileName: Request.file.filename,
 		},
-
 	}); // Send Response to Client
 }

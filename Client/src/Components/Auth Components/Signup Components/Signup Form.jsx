@@ -103,7 +103,7 @@ export default function SignupForm() {
 				duration: 9000,
 				isClosable: true,
 			}); // This is for Toast
-			return; // Exit the function early
+			// Exit the function early
 		} else if (VerificationResult.status === true) {
 			const MainData = new FormData();
 			MainData.append('Name', `${TempFormData.firstName} ${TempFormData.lastName}`);
@@ -283,7 +283,14 @@ export default function SignupForm() {
 				</div>
 				<div className="mb-4">
 					<h1 className="mb-2 font-semibold">Enter new Transaction PIN</h1>
-					<input type="number" name="TransactionPIN" onChange={Handler} placeholder="Transaction Pin (must be 4 digit) is used for transactions" className="w-full p-3 border rounded outline-none" required />
+					<input
+						type="number"
+						name="TransactionPIN"
+						onChange={Handler}
+						placeholder="Transaction Pin (must be 4 digit) is used for transactions"
+						className="w-full p-3 border rounded outline-none"
+						required
+					/>
 				</div>
 				<h5 className="text-lg font-bold mb-2 font-mono">Upload Profile Picture</h5>
 				<div className="mb-4 lg:flex lg:justify-between">
@@ -304,7 +311,8 @@ export default function SignupForm() {
 					colorScheme="green"
 					textColor="HighlightText"
 					rightIcon={<RiAccountPinCircleFill />}
-					leftIcon={<RiAccountPinCircleFill />}>
+					leftIcon={<RiAccountPinCircleFill />}
+				>
 					Register Now
 				</Button>
 			</div>

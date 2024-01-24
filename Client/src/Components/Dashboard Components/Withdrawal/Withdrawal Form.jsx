@@ -67,8 +67,8 @@ export default function WithdrawalForm() {
 		// Encrypt the Data
 		const EncryptedData = WithdrawalDetails; // Encrypt the Data
 		const Response = await API.Post('/post/Payment/NewWithdrawal', {
-			sessionID: sessionID,
-			EncryptedData: EncryptedData,
+			sessionID,
+			EncryptedData,
 		}); // Send the Data to the Server
 		setLoading(false); // Set Loading to False
 		if (Response.status === false) {
@@ -109,7 +109,8 @@ export default function WithdrawalForm() {
 						className="mb-5"
 						value={WithdrawalDetails.WithdrawalMethod}
 						onChange={OnChangeHandler}
-						placeholder="Select Withdrawal">
+						placeholder="Select Withdrawal"
+					>
 						<option value="IMPS"> IMPS (Immediate Payment Service) </option>
 						<option value="NEFT"> NEFT (National Electronic Funds Transfer) </option>
 						<option value="RTGS"> RTGS (Real Time Gross Settlement) </option>
@@ -129,7 +130,8 @@ export default function WithdrawalForm() {
 						className="mb-5"
 						value={WithdrawalDetails.BankName}
 						onChange={OnChangeHandler}
-						placeholder="Select Destination Bank Name">
+						placeholder="Select Destination Bank Name"
+					>
 						{BankNames.map((BankName, index) => {
 							return (
 								<option key={index} value={BankName}>
@@ -154,7 +156,8 @@ export default function WithdrawalForm() {
 						className="mb-5"
 						value={WithdrawalDetails.AccountType}
 						onChange={OnChangeHandler}
-						placeholder="Select Bank Account Type">
+						placeholder="Select Bank Account Type"
+					>
 						<option value="Savings"> Savings </option>
 						<option value="Current"> Current </option>
 					</Select>
@@ -170,7 +173,14 @@ export default function WithdrawalForm() {
 					<FormLabel>IFSC Code</FormLabel>
 					<Input name="IFSC" type="text" className="mb-5" placeholder="Enter IFSC Code" value={WithdrawalDetails.IFSC} onChange={OnChangeHandler} />
 					<FormLabel>Transaction PIN</FormLabel>
-					<Input name="TPIN" type="number" className="mb-5" placeholder="Enter Your Transaction PIN to confirm" value={WithdrawalDetails.TPIN} onChange={OnChangeHandler} />
+					<Input
+						name="TPIN"
+						type="number"
+						className="mb-5"
+						placeholder="Enter Your Transaction PIN to confirm"
+						value={WithdrawalDetails.TPIN}
+						onChange={OnChangeHandler}
+					/>
 				</FormControl>
 				<Button isLoading={loading} colorScheme="teal" size="lg" className="w-full mb-10" onClick={OnClickHandler}>
 					Request Withdrawal

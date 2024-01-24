@@ -5,7 +5,7 @@ type int = number; // Integer
 import express, { json, urlencoded, Express } from "express"; // Import Express
 import cluster from "cluster"; // Import Cluster
 const { isPrimary } = cluster; // Import isPrimary from Cluster
-import { Console, Middleware} from "outers"; // Import Outers
+import { Console, Middleware } from "outers"; // Import Outers
 import { NumberKeys, StringKeys } from "./settings/keys/KeysConfig.keys.settings"; // Import Keys
 import MongoDB from "./settings/DB/MongoDB.db"; // Import MongoDB Connection
 // Router Related Imports

@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'; // Import useSelector fr
 import { API } from '@helper/Common'; // Import Crypto from Common.jsx
 import moment from 'moment'; // Import moment
 import { SlEnergy } from 'react-icons/sl'; // Import SlEnergy Icon
-import {useNavigate} from 'react-router-dom'; // Import Link from react-router-dom
-import {updateAccountDetails} from '@redux/Slices/Account Slice'; // Import Account Slice
+import { useNavigate } from 'react-router-dom'; // Import Link from react-router-dom
+import { updateAccountDetails } from '@redux/Slices/Account Slice'; // Import Account Slice
 
 // import UI from Chakra UI
 import { Heading, InputGroup, Input, Button, InputRightElement, useToast } from '@chakra-ui/react'; // Import Components
@@ -13,8 +13,8 @@ export default function UpdateDemographicInfo() {
 	// hooks
 	const ReduxState = useSelector(state => state); // Get Redux State
 	const toast = useToast(); // Create Toast
-    const navigate = useNavigate(); // Create Navigate
-    const Dispatch = useDispatch(); // Create Dispatch
+	const navigate = useNavigate(); // Create Navigate
+	const Dispatch = useDispatch(); // Create Dispatch
 
 	// States
 	const Decrypted_Account_Info = ReduxState.AccountInfo.AccountDetails;
@@ -59,37 +59,36 @@ export default function UpdateDemographicInfo() {
 				duration: 5000,
 				isClosable: true,
 			});
-            return; // Return if any field is empty
+			return; // Return if any field is empty
 		}
-        setLoading(true); // Set Loading to true
-        const Encrypted_Info = NewDemographicInfo; // Encrypt New Demographic Info
+		setLoading(true); // Set Loading to true
+		const Encrypted_Info = NewDemographicInfo; // Encrypt New Demographic Info
 
-        // Send Request
-        const Response = await API.Put('/put/update/update-Demographic-Info', {
-            Encrypted_Info: Encrypted_Info,
-            sessionID: ReduxState.AccountInfo.sessionID
-        })
+		// Send Request
+		const Response = await API.Put('/put/update/update-Demographic-Info', {
+			Encrypted_Info,
+			sessionID: ReduxState.AccountInfo.sessionID,
+		});
 		setLoading(false); // Set Loading to false
-        if(Response.statusCode === 200){
-            toast({
-                title: Response.Title,
-                description: Response.message,
-                status: 'success',
-                duration: 5000,
-                isClosable: true,
-            });
-            Dispatch(updateAccountDetails(Response.data)); // Update Account Details
-            navigate('/dashboard'); // Navigate to dashboard
-        }
-        else {
-            toast({
-                title: Response.Title,
-                description: Response.message,
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-            });
-        }
+		if (Response.statusCode === 200) {
+			toast({
+				title: Response.Title,
+				description: Response.message,
+				status: 'success',
+				duration: 5000,
+				isClosable: true,
+			});
+			Dispatch(updateAccountDetails(Response.data)); // Update Account Details
+			navigate('/dashboard'); // Navigate to dashboard
+		} else {
+			toast({
+				title: Response.Title,
+				description: Response.message,
+				status: 'error',
+				duration: 5000,
+				isClosable: true,
+			});
+		}
 	};
 	return (
 		<div className="my-5">
@@ -106,7 +105,7 @@ export default function UpdateDemographicInfo() {
 								name="Name"
 								value={NewDemographicInfo.Name}
 							/>
-							<InputRightElement width="4.5rem"></InputRightElement>
+							<InputRightElement width="4.5rem" />
 						</InputGroup>
 						<InputGroup size="md">
 							<Input
@@ -117,7 +116,7 @@ export default function UpdateDemographicInfo() {
 								name="NewEmail"
 								value={NewDemographicInfo.NewEmail}
 							/>
-							<InputRightElement width="4.5rem"></InputRightElement>
+							<InputRightElement width="4.5rem" />
 						</InputGroup>
 						<InputGroup size="md">
 							<Input
@@ -128,11 +127,11 @@ export default function UpdateDemographicInfo() {
 								name="NewPhoneNumber"
 								value={NewDemographicInfo.NewPhoneNumber}
 							/>
-							<InputRightElement width="4.5rem"></InputRightElement>
+							<InputRightElement width="4.5rem" />
 						</InputGroup>
 						<InputGroup size="md">
 							<Input pr="4.5rem" type="date" onChange={HandleChanges} placeholder="Enter Date of birth" name="NewDOB" value={NewDemographicInfo.NewDOB} />
-							<InputRightElement width="4.5rem"></InputRightElement>
+							<InputRightElement width="4.5rem" />
 						</InputGroup>
 						<InputGroup size="md">
 							<Input
@@ -143,7 +142,7 @@ export default function UpdateDemographicInfo() {
 								name="TPIN"
 								value={NewDemographicInfo.TPIN}
 							/>
-							<InputRightElement width="4.5rem"></InputRightElement>
+							<InputRightElement width="4.5rem" />
 						</InputGroup>
 					</div>
 					<Button
@@ -152,7 +151,8 @@ export default function UpdateDemographicInfo() {
 						className="w-full mb-5"
 						colorScheme="facebook"
 						leftIcon={<SlEnergy />}
-						rightIcon={<SlEnergy />}>
+						rightIcon={<SlEnergy />}
+					>
 						Update Demographic Details
 					</Button>
 				</div>

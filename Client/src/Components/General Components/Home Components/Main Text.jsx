@@ -32,13 +32,14 @@ export default function Main_Text() {
 	return (
 		<>
 			<h1 className="herotext text-center text-white text-xl font-semibold lg:text-6xl mt-[5.25rem] lg:mt-[8.25rem]">
-				<span ref={MainTextAnimation}></span>
+				<span ref={MainTextAnimation} />
 			</h1>
 			<Button
 				className="herosubtext lg:ml-[39.25rem] ml-[5rem] mt-[4.25rem] lg:mt-[6.25rem]"
-				size={'lg'}
+				size="lg"
 				colorScheme="whiteAlpha"
-				onClick={() => navigate('/auth/create-account')}>
+				onClick={() => navigate('/auth/create-account')}
+			>
 				Get Started
 			</Button>
 		</>
