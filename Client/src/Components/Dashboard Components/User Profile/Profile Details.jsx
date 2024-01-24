@@ -2,12 +2,11 @@ import React from 'react'; // import react
 import { useSelector } from 'react-redux'; // import react-redux
 import { API } from '@helper/Common'; // import the crypto function
 import moment from 'moment'; // import moment
-import {useNavigate} from 'react-router-dom'; // import useNavigate from react-router-dom
-
+import { useNavigate } from 'react-router-dom'; // import useNavigate from react-router-dom
 
 // Import Redux
-import {useDispatch} from 'react-redux'; // Import useDispatch from react-redux
-import {updateAccountDetails} from '@redux/Slices/Account Slice'; // Import the account slice
+import { useDispatch } from 'react-redux'; // Import useDispatch from react-redux
+import { updateAccountDetails } from '@redux/Slices/Account Slice'; // Import the account slice
 
 // Import Components
 import { Box, Heading, Stack, StackDivider, Text, Card, CardHeader, CardBody, Button, Input, useToast } from '@chakra-ui/react'; // import chakra ui components
@@ -26,12 +25,12 @@ export default function ProfileDetails() {
 	const Decrypted_Data = ReduxState.AccountInfo.AccountDetails; // decrypt the data
 
 	const [loading, setLoading] = React.useState(false); // loading state for the button
-	const[TPIN, setTPIN] = React.useState(''); // transaction pin state
+	const [TPIN, setTPIN] = React.useState(''); // transaction pin state
 
 	// Functions
-	const handleTPIN = (e) => {
+	const handleTPIN = e => {
 		setTPIN(e.target.value); // set the transaction pin
-	} // handle the transaction pin
+	}; // handle the transaction pin
 
 	const AccountClosure = async () => {
 		// Check if TPIN is empty
@@ -46,10 +45,14 @@ export default function ProfileDetails() {
 			return;
 		}
 		setLoading(true); // set loading to true
-		const Response  = await API.Delete(`/delete/Account/activate-deactivate-account?ClientID=${Decrypted_Data.ClientID}&AccountStatus=${Decrypted_Data.AccountStatus === 'Active' ? 'Disabled' : 'Active'}&sessionID=${ReduxState.AccountInfo.sessionID}&TPIN=${TPIN}`)
+		const Response = await API.Delete(
+			`/delete/Account/activate-deactivate-account?ClientID=${Decrypted_Data.ClientID}&AccountStatus=${
+				Decrypted_Data.AccountStatus === 'Active' ? 'Disabled' : 'Active'
+			}&sessionID=${ReduxState.AccountInfo.sessionID}&TPIN=${TPIN}`
+		);
 		setLoading(false); // set loading to false
 		Dispatch(updateAccountDetails(Response.data)); // update the account details
-		if(Response.statusCode === 200){
+		if (Response.statusCode === 200) {
 			Toast({
 				title: Response.Title,
 				description: Response.message,
@@ -58,8 +61,7 @@ export default function ProfileDetails() {
 				isClosable: true,
 			});
 			Navigate('/dashboard'); // navigate to dashboard
-		}
-		else {
+		} else {
 			Toast({
 				title: Response.Title,
 				description: Response.message,
@@ -95,7 +97,7 @@ export default function ProfileDetails() {
 									Account Balance
 								</Heading>
 								<Text pt="2" fontSize="sm">
-								₹ {Decrypted_Data.Balance} INR
+									₹ {Decrypted_Data.Balance} INR
 								</Text>
 							</Box>
 							<Box>
@@ -103,7 +105,7 @@ export default function ProfileDetails() {
 									Account Payment ID
 								</Heading>
 								<Text pt="2" fontSize="sm">
-								{Decrypted_Data.PaymentID.toUpperCase()} (Unique)
+									{Decrypted_Data.PaymentID.toUpperCase()} (Unique)
 								</Text>
 							</Box>
 							<Box>
@@ -111,7 +113,7 @@ export default function ProfileDetails() {
 									Account Creation Date
 								</Heading>
 								<Text pt="2" fontSize="sm">
-								{moment(Decrypted_Data.DateCreated).format('DD/MM/YYYY HH:mm:ss A')}
+									{moment(Decrypted_Data.DateCreated).format('DD/MM/YYYY HH:mm:ss A')}
 								</Text>
 							</Box>
 							<Box>
@@ -199,7 +201,11 @@ export default function ProfileDetails() {
 									Last Login Location
 								</Heading>
 								<Text pt="2" fontSize="sm">
-									{Decrypted_Data.LastLoginClientDetails.Client_Location.region} ({Decrypted_Data.LastLoginClientDetails.Client_Location.country === 'IN' ? 'India' : Decrypted_Data.LastLoginClientDetails.Client_Location.country})
+									{Decrypted_Data.LastLoginClientDetails.Client_Location.region} (
+									{Decrypted_Data.LastLoginClientDetails.Client_Location.country === 'IN'
+										? 'India'
+										: Decrypted_Data.LastLoginClientDetails.Client_Location.country}
+									)
 								</Text>
 							</Box>
 							<Box>
@@ -207,7 +213,8 @@ export default function ProfileDetails() {
 									Last Login Latitude & Longitude
 								</Heading>
 								<Text pt="2" fontSize="sm">
-									{Decrypted_Data.LastLoginClientDetails.Client_Location.loc.split(',', 2)[0]} (Latitude) /{' '} {Decrypted_Data.LastLoginClientDetails.Client_Location.loc.split(',', 2)[1]} (Longitude)
+									{Decrypted_Data.LastLoginClientDetails.Client_Location.loc.split(',', 2)[0]} (Latitude) /{' '}
+									{Decrypted_Data.LastLoginClientDetails.Client_Location.loc.split(',', 2)[1]} (Longitude)
 								</Text>
 							</Box>
 							<Box>
@@ -259,14 +266,15 @@ export default function ProfileDetails() {
 						<Heading size="xs" textTransform="uppercase">
 							Account {Decrypted_Data.AccountStatus === 'Active' ? 'Deactivation' : 'Activation'} Controls
 						</Heading>
-						<Input type='number' placeholder='Enter Transaction PIN to confirm' className='mt-5' value={TPIN} onChange={handleTPIN} />
+						<Input type="number" placeholder="Enter Transaction PIN to confirm" className="mt-5" value={TPIN} onChange={handleTPIN} />
 						<Button
 							onClick={AccountClosure}
 							isLoading={loading}
 							colorScheme={Decrypted_Data.AccountStatus === 'Active' ? 'red' : 'green'}
 							className="mt-5"
 							leftIcon={Decrypted_Data.AccountStatus === 'Active' ? <WiCloudDown /> : <WiCloudRefresh />}
-							rightIcon={Decrypted_Data.AccountStatus === 'Active' ? <WiCloudDown /> : <WiCloudRefresh />}>
+							rightIcon={Decrypted_Data.AccountStatus === 'Active' ? <WiCloudDown /> : <WiCloudRefresh />}
+						>
 							{Decrypted_Data.AccountStatus === 'Active' ? 'Deactivate Account' : 'Activate Account'}
 						</Button>
 					</Box>

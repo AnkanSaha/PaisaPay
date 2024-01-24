@@ -44,7 +44,6 @@ export default async function HelpCenterService(request: RequestInterface, respo
 				status: false,
 				statusCode: StatusCodes.BAD_REQUEST,
 				response: response,
-	
 			});
 			return; // Return if the request body is invalid
 		} else {
@@ -77,7 +76,6 @@ export default async function HelpCenterService(request: RequestInterface, respo
 					status: true,
 					statusCode: StatusCodes.CREATED,
 					response: response,
-		
 				});
 			} else {
 				Serve.JSON({
@@ -87,7 +85,6 @@ export default async function HelpCenterService(request: RequestInterface, respo
 					status: false,
 					statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 					response: response,
-		
 				});
 			}
 		}
@@ -100,7 +97,6 @@ export default async function HelpCenterService(request: RequestInterface, respo
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 			response: response,
-
 		}); // Send an empty response
 	}
 }
@@ -122,7 +118,6 @@ export const GetAllTickets = async (request: Request, response: Response) => {
 				status: false,
 				statusCode: StatusCodes.NOT_FOUND,
 				response: response,
-	
 			});
 			return;
 		}
@@ -139,7 +134,6 @@ export const GetAllTickets = async (request: Request, response: Response) => {
 				status: false,
 				statusCode: StatusCodes.NOT_FOUND,
 				response: response,
-	
 			});
 			return;
 		}
@@ -154,7 +148,6 @@ export const GetAllTickets = async (request: Request, response: Response) => {
 			status: true,
 			statusCode: StatusCodes.OK,
 			response: response,
-
 		});
 	} catch (error) {
 		Console.red(error);
@@ -165,7 +158,6 @@ export const GetAllTickets = async (request: Request, response: Response) => {
 			status: false,
 			statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
 			response: response,
-
 		}); // Send an empty response
 	}
 };

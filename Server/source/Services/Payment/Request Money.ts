@@ -44,7 +44,6 @@ export default async (Request: Request, Response: Response) => {
 				Title: "Invalid Payment ID",
 				message: "The Payment ID you entered is invalid. Please try again.",
 				data: undefined,
-	
 			}); // Send Response
 			return; // Return
 		}
@@ -59,7 +58,6 @@ export default async (Request: Request, Response: Response) => {
 				Title: "Account Not Found",
 				message: "Your account does not exist. Please create an account to request money.",
 				data: undefined,
-	
 			}); // Send Response
 			return; // Return
 		}
@@ -74,7 +72,6 @@ export default async (Request: Request, Response: Response) => {
 				Title: "Account Not Found",
 				message: "The account you are trying to request money from does not exist.",
 				data: undefined,
-	
 			}); // Send Response
 			return; // Return
 		}
@@ -88,7 +85,6 @@ export default async (Request: Request, Response: Response) => {
 				Title: `Account ${RequesterAccountExists.Information.Data[0].AccountStatus}`,
 				message: `Your account is ${RequesterAccountExists.Information.Data[0].AccountStatus}. Please activate your account.`,
 				data: undefined,
-	
 			}); // Send Response
 			return; // Return
 		}
@@ -102,7 +98,6 @@ export default async (Request: Request, Response: Response) => {
 				Title: `Account ${SenderAccountExists.Data[0].AccountStatus}`,
 				message: `The account you are trying to request money from is ${SenderAccountExists.Data[0].AccountStatus}. Please activate your account.`,
 				data: undefined,
-	
 			}); // Send Response
 			return; // Return
 		}
@@ -116,7 +111,6 @@ export default async (Request: Request, Response: Response) => {
 				Title: "Insufficient Balance",
 				message: "The account you are trying to request money from does not have enough balance.",
 				data: undefined,
-	
 			}); // Send Response
 			return; // Return
 		}
@@ -130,7 +124,6 @@ export default async (Request: Request, Response: Response) => {
 				Title: "Invalid Amount",
 				message: "The amount you entered is invalid. Please try again.",
 				data: undefined,
-	
 			}); // Send Response
 			return; // Return
 		}
@@ -144,7 +137,6 @@ export default async (Request: Request, Response: Response) => {
 				Title: "Invalid TPIN",
 				message: "The TPIN you entered is invalid. Please try again.",
 				data: undefined,
-	
 			}); // Send Response
 			return; // Return
 		}
@@ -181,7 +173,6 @@ export default async (Request: Request, Response: Response) => {
 				Title: "Internal Server Error",
 				message: "Something went wrong while processing your request. Please try again later.",
 				data: undefined,
-	
 			}); // Send Response
 			return; // Return
 		}
@@ -193,7 +184,6 @@ export default async (Request: Request, Response: Response) => {
 			Title: "Request Sent Successfully",
 			message: "Your Request has been sent successfully. You will be notified when the transaction is completed.",
 			data: undefined,
-
 		}); // Send Response to client if everything is okay
 	} catch (Error) {
 		Console.red(Error); // Log Error
@@ -204,7 +194,6 @@ export default async (Request: Request, Response: Response) => {
 			Title: "Internal Server Error",
 			message: "Something went wrong while processing your request. Please try again later.",
 			data: undefined,
-
 		}); // Send Response
 	}
 };
@@ -227,7 +216,6 @@ export async function Get_Request_money(Request: Request, Response: Response) {
 				Title: "Account Not Found",
 				message: "The account you are trying to request money from does not exist.",
 				data: undefined,
-	
 			}); // Send Response
 			return; // Return
 		}
@@ -244,7 +232,6 @@ export async function Get_Request_money(Request: Request, Response: Response) {
 				Title: "No Requests Found",
 				message: "You do not have any requests. See you later.",
 				data: undefined,
-	
 			}); // Send Response
 			return; // Return
 		}
@@ -259,7 +246,6 @@ export async function Get_Request_money(Request: Request, Response: Response) {
 			Title: "Requests Found",
 			message: "Requests Found. Please check the data.",
 			data: EncryptedData,
-
 		}); // Send Response
 	} catch (Error) {
 		Console.red(Error); // Log Error
@@ -270,7 +256,6 @@ export async function Get_Request_money(Request: Request, Response: Response) {
 			Title: "Internal Server Error",
 			message: "Something went wrong while processing your request. Please try again later.",
 			data: undefined,
-
 		}); // Send Response
 	}
 }
@@ -294,7 +279,6 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: SenderAccountExists.message,
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -308,7 +292,6 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: "Account Not Active",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -323,7 +306,6 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: "Incorrect Transaction PIN",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return; // Return
 		}
@@ -340,7 +322,6 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: "Not Found",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -354,7 +335,6 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: "Account Not Active",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -368,7 +348,6 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: "Invalid Amount",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -386,7 +365,6 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: "Not Enough Balance",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -405,7 +383,6 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: "Unable To Deduct Money From Sender Account",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
@@ -425,87 +402,87 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 				Title: "Unable To Add Money To Receiver Account",
 				data: undefined,
 				response: Response,
-	
 			}); // Send Error Response
 			return;
 		}
 
-				// Register Transaction ID Generator
-				const Generator = new methods.UniqueGenerator(18);
+		// Register Transaction ID Generator
+		const Generator = new methods.UniqueGenerator(18);
 
-				// Create Transaction ID for this Transaction
-				let TransactionID: int; // Create Transaction ID
-				let TransactionIDExists: any; // Check If Transaction ID Already Exists
-		
-				do {
-					// Generate Transaction ID for this Transaction
-					TransactionID = Generator.RandomNumber(); // Generate Transaction ID
-		
-					// Check if Transaction ID Already Exists
-					TransactionIDExists = await MongoDB.P2PTransaction.find("AND", [{ TransactionID: TransactionID }]); // Check If Transaction ID Already Exists
-				} while (TransactionIDExists.count !== 0);
-		
-				// Create Transaction History for Sender
-				const CreateTransactionHistoryForSenderStatus = await MongoDB.P2PTransaction.create({
-					ReceivingClientID: ReceiverAccountDetails.Data[0].ClientID,
-					ReceivingPaymentID: ReceiverAccountDetails.Data[0].PaymentID,
-					ReceivingName: ReceiverAccountDetails.Data[0].Name,
-					ReceivingEmail: ReceiverAccountDetails.Data[0].Email,
-					ReceivingPhone: ReceiverAccountDetails.Data[0].PhoneNumber,
-					SendingClientID: SenderAccountExists.Information.Data[0].ClientID,
-					SendingPaymentID: SenderAccountExists.Information.Data[0].PaymentID,
-					SenderName: SenderAccountExists.Information.Data[0].Name,
-					TransactionMethod: "PaisaPay Wallet",
-					SenderEmail: SenderAccountExists.Information.Data[0].Email,
-					SenderPhone: SenderAccountExists.Information.Data[0].PhoneNumber,
-					TransactionID: TransactionID,
-					TransactionDate: Date.now(),
-					TransactionAmount: PaymentInfo.TransactionAmount,
-					TransactionDescription: PaymentInfo.TransactionDescription === "" ? "No Description Provided" : PaymentInfo.TransactionDescription,
-					TransactionStatus: "Transaction Success",
-				});
-		
-				// Check If Creating Transaction History For Sender Was Successful
-				if (CreateTransactionHistoryForSenderStatus.status === false) {
-					Serve.JSON({
-						status: false,
-						statusCode: StatusCodes.NOT_ACCEPTABLE,
-						message: "Unable To Create Transaction History For Sender, Maybe Due To Network Error",
-						Title: "Unable To Create Transaction History For Sender",
-						data: undefined,
-						response: Response,
-			
-					}); // Send Error Response
-					return;
-				}
+		// Create Transaction ID for this Transaction
+		let TransactionID: int; // Create Transaction ID
+		let TransactionIDExists: any; // Check If Transaction ID Already Exists
 
-				// Update Request Status to Completed
-				const UpdateRequestStatus = await MongoDB.RequestMoney.update([{RequesterClientID: ReceiverAccountDetails.Data[0].ClientID}, {RequestID: PaymentInfo.RequestID}], {TransactionStatus: "Completed"}, true); // Update Request Status to Completed
-				
-				// Check If Updating Request Status Was Successful
-				if(UpdateRequestStatus.UpdatedCount === 0) {
-					Serve.JSON({
-						status: false,
-						statusCode: StatusCodes.NOT_ACCEPTABLE,
-						message: "Unable To Update Request Status, Maybe Due To Network Error, Please Contact Support",
-						Title: "Unable To Update Request Status",
-						data: undefined,
-						response: Response,
-			
-					}); // Send Error Response
-					return;
-				}
+		do {
+			// Generate Transaction ID for this Transaction
+			TransactionID = Generator.RandomNumber(); // Generate Transaction ID
 
-				// Send Response to Sender
-				Serve.JSON({
-					status: true,
-					statusCode: StatusCodes.OK,
-					message: "Transaction Success, Money Sent Successfully to Receiver",
-					Title: "Transaction Success",
-					data: undefined,
-					response: Response,
-		
-				}); // Send Response to Sender
+			// Check if Transaction ID Already Exists
+			TransactionIDExists = await MongoDB.P2PTransaction.find("AND", [{ TransactionID: TransactionID }]); // Check If Transaction ID Already Exists
+		} while (TransactionIDExists.count !== 0);
+
+		// Create Transaction History for Sender
+		const CreateTransactionHistoryForSenderStatus = await MongoDB.P2PTransaction.create({
+			ReceivingClientID: ReceiverAccountDetails.Data[0].ClientID,
+			ReceivingPaymentID: ReceiverAccountDetails.Data[0].PaymentID,
+			ReceivingName: ReceiverAccountDetails.Data[0].Name,
+			ReceivingEmail: ReceiverAccountDetails.Data[0].Email,
+			ReceivingPhone: ReceiverAccountDetails.Data[0].PhoneNumber,
+			SendingClientID: SenderAccountExists.Information.Data[0].ClientID,
+			SendingPaymentID: SenderAccountExists.Information.Data[0].PaymentID,
+			SenderName: SenderAccountExists.Information.Data[0].Name,
+			TransactionMethod: "PaisaPay Wallet",
+			SenderEmail: SenderAccountExists.Information.Data[0].Email,
+			SenderPhone: SenderAccountExists.Information.Data[0].PhoneNumber,
+			TransactionID: TransactionID,
+			TransactionDate: Date.now(),
+			TransactionAmount: PaymentInfo.TransactionAmount,
+			TransactionDescription: PaymentInfo.TransactionDescription === "" ? "No Description Provided" : PaymentInfo.TransactionDescription,
+			TransactionStatus: "Transaction Success",
+		});
+
+		// Check If Creating Transaction History For Sender Was Successful
+		if (CreateTransactionHistoryForSenderStatus.status === false) {
+			Serve.JSON({
+				status: false,
+				statusCode: StatusCodes.NOT_ACCEPTABLE,
+				message: "Unable To Create Transaction History For Sender, Maybe Due To Network Error",
+				Title: "Unable To Create Transaction History For Sender",
+				data: undefined,
+				response: Response,
+			}); // Send Error Response
+			return;
+		}
+
+		// Update Request Status to Completed
+		const UpdateRequestStatus = await MongoDB.RequestMoney.update(
+			[{ RequesterClientID: ReceiverAccountDetails.Data[0].ClientID }, { RequestID: PaymentInfo.RequestID }],
+			{ TransactionStatus: "Completed" },
+			true
+		); // Update Request Status to Completed
+
+		// Check If Updating Request Status Was Successful
+		if (UpdateRequestStatus.UpdatedCount === 0) {
+			Serve.JSON({
+				status: false,
+				statusCode: StatusCodes.NOT_ACCEPTABLE,
+				message: "Unable To Update Request Status, Maybe Due To Network Error, Please Contact Support",
+				Title: "Unable To Update Request Status",
+				data: undefined,
+				response: Response,
+			}); // Send Error Response
+			return;
+		}
+
+		// Send Response to Sender
+		Serve.JSON({
+			status: true,
+			statusCode: StatusCodes.OK,
+			message: "Transaction Success, Money Sent Successfully to Receiver",
+			Title: "Transaction Success",
+			data: undefined,
+			response: Response,
+		}); // Send Response to Sender
 	} catch (Error) {
 		Console.red(Error); // Log Error
 		Serve.JSON({
@@ -515,7 +492,6 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 			Title: "Internal Server Error",
 			message: "Something went wrong while processing your request. Please try again later.",
 			data: undefined,
-
 		}); // Send Response
 	}
 }

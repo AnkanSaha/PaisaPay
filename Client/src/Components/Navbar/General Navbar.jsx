@@ -75,7 +75,8 @@ function GeneralNavbar(props) {
 					onClick={() => navigate(props.Link)}
 					rightIcon={<BiSolidUserCircle />}
 					className="herosubtext mr-[0rem] lg:mr-5 rounded-full"
-					colorScheme="blue">
+					colorScheme="blue"
+				>
 					{props.Text}
 				</Button>
 			</div>

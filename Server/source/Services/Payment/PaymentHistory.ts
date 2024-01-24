@@ -27,7 +27,6 @@ export const GetTransactionHistory = async (Request: Request, Response: Response
 				Title: "Bad Request",
 				data: undefined,
 				response: Response,
-	
 			});
 			return;
 		}
@@ -35,7 +34,7 @@ export const GetTransactionHistory = async (Request: Request, Response: Response
 		// Get All Transaction from MongoDB Server Transaction Model
 		const AllServerTransaction = await MongoDB.ServerTransaction.find("AND", [
 			{ UserClientID: AccountStatus.Information.Data[0].ClientID },
-			{UserPhone: AccountStatus.Information.Data[0].PhoneNumber},
+			{ UserPhone: AccountStatus.Information.Data[0].PhoneNumber },
 			{ UserEmail: EmailID },
 		]); // Get All Server Transaction
 
@@ -71,7 +70,6 @@ export const GetTransactionHistory = async (Request: Request, Response: Response
 			Title: "Transaction History Received Successfully",
 			data: EncryptedData,
 			response: Response,
-
 		});
 	} catch (error) {
 		Console.red(error); // Log Error
@@ -82,7 +80,6 @@ export const GetTransactionHistory = async (Request: Request, Response: Response
 			Title: "Internal Server Error",
 			data: undefined,
 			response: Response,
-
 		});
 	}
 };

@@ -17,7 +17,7 @@ function HomePage() {
 	const navigate = useNavigate();
 
 	// call the functions
-	Update_Document_Title(`Home`); // update the document title
+	Update_Document_Title('Home'); // update the document title
 	// Load All State Values from Redux
 	const ReduxState = useSelector(state => state); // Load All State Values from Redux
 

@@ -2,7 +2,7 @@ import React from 'react'; // Import React
 import { useSelector } from 'react-redux'; // import useSelector from react-redux
 import Moment from 'moment'; // import moment for date formatting
 import { API as Service } from '@helper/Common'; // import the Crypto function from the Common file
-import {useNavigate} from 'react-router-dom'; // import the link component from react-router-dom
+import { useNavigate } from 'react-router-dom'; // import the link component from react-router-dom
 
 // import Components
 import {
@@ -40,7 +40,7 @@ export default function ReceivedRequestTable() {
 	// Decode All Account Details
 	const Decoded_Account_Details = ReduxState.AccountInfo.AccountDetails; // decode the jwt token to get the account details
 
-	//States
+	// States
 	const [isLoading, setIsLoading] = React.useState(true); // Loading Screen State
 	const [PaymentButtonLoading, setPaymentButtonLoading] = React.useState(false); // Request Button Loading State
 	const [ReceivedRequest, setReceivedRequest] = React.useState([]); // Received Request State
@@ -67,8 +67,8 @@ export default function ReceivedRequestTable() {
 	React.useEffect(() => {
 		Service.Get(`/get/Payments/listofrequests/?ClientID=${Decoded_Account_Details.ClientID}&Email=${Decoded_Account_Details.Email}`).then(Response => {
 			if (Response.statusCode === 200) {
-					setReceivedRequest(Response.data); // set the received request state
-					setIsLoading(false); // set the loading screen to false
+				setReceivedRequest(Response.data); // set the received request state
+				setIsLoading(false); // set the loading screen to false
 			} else {
 				setIsLoading(false); // set the loading screen to false
 				toast({
@@ -89,7 +89,7 @@ export default function ReceivedRequestTable() {
 			[event.target.name]: event.target.value,
 		}); // update the payment info
 	};
-	
+
 	// Functions
 	const OpenModal = () => {
 		onOpen();
@@ -102,15 +102,14 @@ export default function ReceivedRequestTable() {
 		OpenModal();
 		setPaymentInfo({
 			...PaymentInfo,
-			ReceivingPaymentID: ReceivingPaymentID,
-			RequestID: RequestID,
-			TransactionAmount: TransactionAmount,
+			ReceivingPaymentID,
+			RequestID,
+			TransactionAmount,
 		}); // update the payment info
-		return;
 	};
 
 	const PayNow = async () => {
-		if(PaymentInfo.TransactionPIN === ''){
+		if (PaymentInfo.TransactionPIN === '') {
 			toast({
 				title: 'Transaction PIN is required',
 				description: 'Please enter your transaction PIN to continue',
@@ -126,10 +125,10 @@ export default function ReceivedRequestTable() {
 
 		// Send the request to the server
 		const Response = await Service.Post('/post/Payment/send-money-for-request', {
-			Encrypted_Request_Info: Encrypted_Request_Info,
-			sessionID: ReduxState.AccountInfo.sessionID
-		})
-		if(Response.statusCode === 200){
+			Encrypted_Request_Info,
+			sessionID: ReduxState.AccountInfo.sessionID,
+		});
+		if (Response.statusCode === 200) {
 			setPaymentButtonLoading(false); // set the payment button loading to false
 			toast({
 				title: Response.Title,
@@ -139,8 +138,7 @@ export default function ReceivedRequestTable() {
 				isClosable: true,
 			}); // display the toast notification
 			navigate('/dashboard'); // navigate to the dashboard
-		}
-		else{
+		} else {
 			toast({
 				title: Response.Title,
 				description: Response.message,
@@ -188,10 +186,11 @@ export default function ReceivedRequestTable() {
 													rightIcon={<PiContactlessPaymentLight />}
 													colorScheme={Request.TransactionStatus === 'Pending' ? 'green' : 'red'}
 													variant="solid"
-													isDisabled={Request.TransactionStatus === 'Pending' ? false : true}
+													isDisabled={Request.TransactionStatus !== 'Pending'}
 													onClick={() => {
 														LoadPaymentInfoInState(Request.RequesterPaymentID, Request.TransactionAmount, Request.RequestID);
-													}}>
+													}}
+												>
 													{' '}
 													{Request.TransactionStatus === 'Pending' ? 'Pay Now' : 'Paid'}
 												</Button>{' '}

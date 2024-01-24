@@ -8,9 +8,8 @@ import CreateNewMoneyRequest from '@component/Dashboard Components/Request Money
 // Import Factions
 import { Update_Document_Title } from '@helper/Common'; // import the common functions
 
-
 export default function RequestMoney() {
-    // Update Document Title
+	// Update Document Title
 	Update_Document_Title('Request Money'); // update the document title
 
 	document.addEventListener('contextmenu', event => event.preventDefault()); // disable the context menu'
@@ -26,11 +25,11 @@ export default function RequestMoney() {
 		return confirmationMessage;
 	});
 
-    return (
-        <div>
-            <Navbar />
+	return (
+		<div>
+			<Navbar />
 			<CreateNewMoneyRequest />
 			<ReceivedRequestTable />
-        </div>
-    );
+		</div>
+	);
 }

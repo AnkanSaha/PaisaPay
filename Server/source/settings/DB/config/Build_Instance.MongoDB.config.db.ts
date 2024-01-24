@@ -57,7 +57,6 @@ export const Withdrawal_Instance = new Mongo({
 	isTimeStamps: true,
 }); // Create a new instance of Mongo for Store All Withdrawal Details like UserClientID, UserPaymentID, etc.
 
-
 export const Request_Money_Instance = new Mongo({
 	MongoURL: Database_Keys.MongoDB,
 	Database_Name: Database_Keys.DB_Name,

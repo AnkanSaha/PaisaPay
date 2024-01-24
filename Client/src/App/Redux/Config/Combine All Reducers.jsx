@@ -11,5 +11,5 @@ export default combineReducers({
 	AccountInfo: AccountInfoReducer, // Reducer for the account info
 	InternetStatus: InternetStatusReducer, // Reducer for the internet status
 	GeneralAppInfo: GeneralAppInfoReducer, // Reducer for the general app info
-	TransactionDetails: TransactionDetails, // Reducer for the transaction details
+	TransactionDetails, // Reducer for the transaction details
 });

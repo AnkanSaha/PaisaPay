@@ -9,6 +9,5 @@ import { ForgetPasswordUpdater } from "../../../Services/Authentication/Forget P
 // Routes
 Authenticator.put("/Update-Password", ForgetPasswordUpdater); // Forget Password Service
 
-
 // exports
 export default Authenticator; // Export Authenticator

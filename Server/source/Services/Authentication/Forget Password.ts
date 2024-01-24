@@ -32,11 +32,10 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 				Title: "Account Not Found",
 				data: undefined,
 				response: response,
-				
 			}); // Send Response to the Client
 			return;
 		}
-		
+
 		// Encrypt the Data and send it Using JWT
 		const LoginToken = await JWT.generate(
 			{
@@ -44,14 +43,14 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 				LastFourDigitsOfIDNumber: AccountDetails.Data[0].LastFourDigitsOfIDNumber,
 			},
 			StringKeys.JWT_EXPIRES_IN
-		); 
+		);
 		// Generate Login Token for the user
 		// Remove Password from the Account Details
 		AccountDetails.Data[0].Password = undefined; // Remove Password from the Account Details
 		AccountDetails.Data[0].TransactionPIN = undefined; // Remove Transaction PIN from the Account Details
 		AccountDetails.Data[0].National_ID_Number = undefined; // Remove National ID Number from the Account Details
 		AccountDetails.Data[0].LastLoginToken = undefined; // Remove Last Login Token from the Account Details
-	
+
 		const EncryptedData = AccountDetails.Data[0]; // Encrypt the Data and send it Using JWT
 
 		// Send Response to the Client
@@ -65,7 +64,6 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 				AccountDetails: EncryptedData,
 			},
 			response: response,
-			
 		});
 	} catch (error) {
 		Console.red(error); // Log the error to the console
@@ -76,7 +74,6 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 			Title: "Internal Server Error",
 			data: undefined,
 			response: response,
-			
 		});
 	}
 };
@@ -124,7 +121,7 @@ export const ForgetPasswordUpdater = async (request: Request, response: Response
 				UpdateStatus.UpdatedData.TransactionPIN = undefined; // Remove Transaction PIN from the Account Details
 				UpdateStatus.UpdatedData.National_ID_Number = undefined; // Remove National ID Number from the Account Details
 				UpdateStatus.UpdatedData.LastLoginToken = undefined; // Remove Last Login Token from the Account Details
-			
+
 				const EncryptAccountData = UpdateStatus.UpdatedData; // Encrypt the Data and send it Using JWT
 
 				// Generate Login Token for the user
@@ -160,7 +157,6 @@ export const ForgetPasswordUpdater = async (request: Request, response: Response
 						AccountDetails: EncryptAccountData,
 					},
 					response: response,
-					
 				}); // Send Response to the Client
 			}
 		} else if (AccountStatus.status === false) {
@@ -171,7 +167,6 @@ export const ForgetPasswordUpdater = async (request: Request, response: Response
 				Title: "Account Not Found",
 				data: undefined,
 				response: response,
-				
 			}); // Send Response to the Client
 		}
 	} catch (error) {
@@ -183,7 +178,6 @@ export const ForgetPasswordUpdater = async (request: Request, response: Response
 			Title: "Internal Server Error",
 			data: undefined,
 			response: response,
-			
 		});
 	}
 }; // Function for forget password updater

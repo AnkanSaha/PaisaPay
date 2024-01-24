@@ -19,7 +19,7 @@ import { LoadingScreen } from '@page/Common Pages/Loading Screen'; // import the
 import Footer from '@component/Footer/General Footer'; // import the footer component
 
 export default function PaymentHistoryS() {
-	//States
+	// States
 	const [isLoading, setIsLoading] = React.useState(true); // Loading Screen State
 
 	// Hooks
@@ -36,7 +36,7 @@ export default function PaymentHistoryS() {
 		Service.Post('/post/Payment/TransactionHistory', {
 			Number: Decoded_Account_Details.PhoneNumber,
 			Email: Decoded_Account_Details.Email,
-			sessionID : ReduxState.AccountInfo.sessionID
+			sessionID: ReduxState.AccountInfo.sessionID,
 		}).then(Response => {
 			if (!Response.statusCode === 200) {
 				toast({
@@ -48,7 +48,7 @@ export default function PaymentHistoryS() {
 					position: 'top-right',
 				});
 			} else if (Response.statusCode === 200) {
-					dispatch(UpdateTransactions(Response.data));
+				dispatch(UpdateTransactions(Response.data));
 			}
 			setIsLoading(false);
 		});
@@ -87,8 +87,8 @@ export default function PaymentHistoryS() {
 												{item.ReceivingPaymentID === Decoded_Account_Details.PaymentID
 													? `Received from ${item.SendingPaymentID}`
 													: item.SendingPaymentID === Decoded_Account_Details.PaymentID
-													? `Sent To ${item.ReceivingPaymentID}`
-													: item.TransactionType}
+													  ? `Sent To ${item.ReceivingPaymentID}`
+													  : item.TransactionType}
 											</td>
 											<td>
 												<List>
@@ -104,10 +104,10 @@ export default function PaymentHistoryS() {
 														{item.TransactionStatus === 'Transaction Failed'
 															? 'Failed'
 															: item.TransactionStatus === 'Transaction Success'
-															? 'Success'
-															: item.TransactionStatus === 'Processing'
-															? 'Processing'
-															: 'Pending'}
+															  ? 'Success'
+															  : item.TransactionStatus === 'Processing'
+															    ? 'Processing'
+															    : 'Pending'}
 													</ListItem>
 												</List>
 											</td>
@@ -122,7 +122,8 @@ export default function PaymentHistoryS() {
 							data={ReduxState.TransactionDetails.Transactions}
 							filename={`${AppName} Payment History.csv`}
 							className="btn btn-accent fixed right-[2rem] bottom-5 text-black font-bold"
-							download={true}>
+							download
+						>
 							Download Payment History
 						</CSVLink>
 					</div>

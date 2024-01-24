@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export function StepOne(Data) {
 	if (Data === '' || Data === null || Data === undefined) {
 		alert('Please Enter a Valid Email');
@@ -5,9 +7,7 @@ export function StepOne(Data) {
 	} else {
 		return true; // Return True
 	}
-}
-
-import moment from 'moment'; // Importing utc from moment
+} // Importing utc from moment
 
 export function StepTwo(Data, UserData) {
 	// User Entered Data
