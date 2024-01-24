@@ -87,8 +87,8 @@ export default function PaymentHistoryS() {
 												{item.ReceivingPaymentID === Decoded_Account_Details.PaymentID
 													? `Received from ${item.SendingPaymentID}`
 													: item.SendingPaymentID === Decoded_Account_Details.PaymentID
-													  ? `Sent To ${item.ReceivingPaymentID}`
-													  : item.TransactionType}
+													? `Sent To ${item.ReceivingPaymentID}`
+													: item.TransactionType}
 											</td>
 											<td>
 												<List>
@@ -104,10 +104,10 @@ export default function PaymentHistoryS() {
 														{item.TransactionStatus === 'Transaction Failed'
 															? 'Failed'
 															: item.TransactionStatus === 'Transaction Success'
-															  ? 'Success'
-															  : item.TransactionStatus === 'Processing'
-															    ? 'Processing'
-															    : 'Pending'}
+															? 'Success'
+															: item.TransactionStatus === 'Processing'
+															? 'Processing'
+															: 'Pending'}
 													</ListItem>
 												</List>
 											</td>

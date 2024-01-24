@@ -72,8 +72,8 @@ export default function RecentTransactions() {
 									{item.ReceivingPaymentID === Decoded_Account_Details.PaymentID
 										? `Received from ${item.SendingPaymentID}`
 										: item.SendingPaymentID === Decoded_Account_Details.PaymentID
-										  ? `Sent To ${item.ReceivingPaymentID}`
-										  : item.TransactionType}{' '}
+										? `Sent To ${item.ReceivingPaymentID}`
+										: item.TransactionType}{' '}
 									on {Moment(item.TransactionDate).format('DD-MM-YY HH:mm A')}
 								</ListItem>
 							);

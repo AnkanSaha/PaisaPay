@@ -46,36 +46,36 @@ export function BrowserDetailsSetter() {
 		BrowserName: navigator.userAgent.includes('Chrome')
 			? 'Chrome'
 			: navigator.userAgent.includes('Firefox')
-			  ? 'Firefox'
-			  : navigator.userAgent.includes('Safari')
-			    ? 'Safari'
-			    : navigator.userAgent.includes('Opera')
-			      ? 'Opera'
-			      : navigator.userAgent.includes('MSIE')
-			        ? 'Internet Explorer'
-			        : 'Details Not Available', // Browser Name
+			? 'Firefox'
+			: navigator.userAgent.includes('Safari')
+			? 'Safari'
+			: navigator.userAgent.includes('Opera')
+			? 'Opera'
+			: navigator.userAgent.includes('MSIE')
+			? 'Internet Explorer'
+			: 'Details Not Available', // Browser Name
 		BrowserVersion: navigator.userAgent.includes('Chrome')
 			? navigator.userAgent.split('Chrome/')[1].split(' ')[0]
 			: navigator.userAgent.includes('Firefox')
-			  ? navigator.userAgent.split('Firefox/')[1].split(' ')[0]
-			  : navigator.userAgent.includes('Safari')
-			    ? navigator.userAgent.split('Version/')[1].split(' ')[0]
-			    : navigator.userAgent.includes('Opera')
-			      ? navigator.userAgent.split('OPR/')[1].split(' ')[0]
-			      : navigator.userAgent.includes('MSIE')
-			        ? navigator.userAgent.split('MSIE ')[1].split(';')[0]
-			        : 'Details Not Available', // Browser Version
+			? navigator.userAgent.split('Firefox/')[1].split(' ')[0]
+			: navigator.userAgent.includes('Safari')
+			? navigator.userAgent.split('Version/')[1].split(' ')[0]
+			: navigator.userAgent.includes('Opera')
+			? navigator.userAgent.split('OPR/')[1].split(' ')[0]
+			: navigator.userAgent.includes('MSIE')
+			? navigator.userAgent.split('MSIE ')[1].split(';')[0]
+			: 'Details Not Available', // Browser Version
 		BrowserEngine: navigator.userAgent.includes('Chrome')
 			? 'Blink'
 			: navigator.userAgent.includes('Firefox')
-			  ? 'Gecko'
-			  : navigator.userAgent.includes('Safari')
-			    ? 'WebKit'
-			    : navigator.userAgent.includes('Opera')
-			      ? 'Presto'
-			      : navigator.userAgent.includes('MSIE')
-			        ? 'Trident'
-			        : 'Details Not Available', // Browser Engine
+			? 'Gecko'
+			: navigator.userAgent.includes('Safari')
+			? 'WebKit'
+			: navigator.userAgent.includes('Opera')
+			? 'Presto'
+			: navigator.userAgent.includes('MSIE')
+			? 'Trident'
+			: 'Details Not Available', // Browser Engine
 	};
 	return BrowserDetails;
 }

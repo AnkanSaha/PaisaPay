@@ -77,8 +77,8 @@ export default function BalanceShow() {
 									Decoded_Account_Details.AccountStatus === 'Active'
 										? 'ring-accent-focus'
 										: Decoded_Account_Details.AccountStatus === 'Deleted'
-										  ? 'ring-red-700'
-										  : 'ring-yellow-500'
+										? 'ring-red-700'
+										: 'ring-yellow-500'
 								} ring-offset-base-100 ring-offset-2`}
 							>
 								<img src={ReduxState.TransactionDetails.UserProfileImageURl ? ReduxState.TransactionDetails.UserProfileImageURl : LocalAnonymousUserLogo} />
