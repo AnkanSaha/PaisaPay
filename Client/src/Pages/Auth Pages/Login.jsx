@@ -6,7 +6,7 @@ import LoginForm from '@component/Auth Components/Login Components/LoginForm'; /
 import GeneralFooter from '@component/Footer/General Footer'; // ← Footer Component
 
 export default function LoginPage() {
-	Update_Document_Title("Login"); // ← changing the title of document (page)
+	Update_Document_Title('Login'); // ← changing the title of document (page)
 	return (
 		<>
 			<LoginForm />

@@ -18,7 +18,7 @@ import { GiCrossMark } from 'react-icons/gi'; // import the cross mark icon from
 import { IoMdTimer } from 'react-icons/io'; // import the timer icon from react icons
 
 export default function RecentTransactions() {
-	//States
+	// States
 	const [isLoading, setIsLoading] = React.useState(true); // Loading Screen State
 
 	// Hooks
@@ -32,7 +32,7 @@ export default function RecentTransactions() {
 	const Decoded_Account_Details = ReduxState.AccountInfo.AccountDetails; // decode the jwt token to get the account details
 
 	React.useEffect(() => {
-		Service.Post("/post/Payment/TransactionHistory", {
+		Service.Post('/post/Payment/TransactionHistory', {
 			Number: Decoded_Account_Details.PhoneNumber,
 			Email: Decoded_Account_Details.Email,
 			sessionID: ReduxState.AccountInfo.sessionID,
@@ -47,7 +47,7 @@ export default function RecentTransactions() {
 					position: 'top-right',
 				});
 			} else if (Response.statusCode === 200) {
-					dispatch(UpdateTransactions(Response.data));
+				dispatch(UpdateTransactions(Response.data));
 			}
 			setIsLoading(false);
 		});
@@ -72,8 +72,8 @@ export default function RecentTransactions() {
 									{item.ReceivingPaymentID === Decoded_Account_Details.PaymentID
 										? `Received from ${item.SendingPaymentID}`
 										: item.SendingPaymentID === Decoded_Account_Details.PaymentID
-										? `Sent To ${item.ReceivingPaymentID}`
-										: item.TransactionType}{' '}
+										  ? `Sent To ${item.ReceivingPaymentID}`
+										  : item.TransactionType}{' '}
 									on {Moment(item.TransactionDate).format('DD-MM-YY HH:mm A')}
 								</ListItem>
 							);

@@ -12,7 +12,7 @@ function Signup() {
 	// react redux hooks
 	// const ReduxState = useSelector(state => state); // ← get all state from redux store
 	// const Dispatcher = useDispatch(); // ← get all dispatcher from redux store
-	Update_Document_Title("Signup"); // ← changing the title of document (page)
+	Update_Document_Title('Signup'); // ← changing the title of document (page)
 
 	return (
 		<>

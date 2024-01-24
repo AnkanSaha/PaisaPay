@@ -67,7 +67,7 @@ export default function LoginForm() {
 				LastLoginIP: LoginData.LastLoginIP,
 				LastLoginClientDetails: JSON.stringify(LoginData.LastLoginClientDetails),
 			};
-			const LoginResult = await API.Post("/post/auth/login-with-paisapay", LoginCredentials); // API Call for Login
+			const LoginResult = await API.Post('/post/auth/login-with-paisapay', LoginCredentials); // API Call for Login
 
 			if (LoginResult.statusCode === 200) {
 				setIsLoading(false); // Set isLoading to false
@@ -127,9 +127,10 @@ export default function LoginForm() {
 				finalFocusRef={Password}
 				isOpen={isOpen}
 				scrollBehavior="inside"
-				size={'xl'}
-				variant={'ghost'}
-				onClose={CloseModal}>
+				size="xl"
+				variant="ghost"
+				onClose={CloseModal}
+			>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>Login To Your Account</ModalHeader>
@@ -156,7 +157,8 @@ export default function LoginForm() {
 							mr={3}
 							onClick={() => {
 								navigate('/auth/forget-password');
-							}}>
+							}}
+						>
 							Reset
 						</Button>
 					</ModalFooter>
