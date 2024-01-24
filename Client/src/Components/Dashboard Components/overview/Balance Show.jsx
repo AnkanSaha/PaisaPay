@@ -87,7 +87,7 @@ export default function BalanceShow() {
 								// Copy the text to the clipboard
 								navigator.clipboard.writeText(Decoded_Account_Details.PaymentID);
 								toast({
-									title: `Payment ID Copied`,
+									title: "Payment ID Copied",
 									position: 'top-right',
 									isClosable: true,
 								});

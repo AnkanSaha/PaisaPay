@@ -53,7 +53,7 @@ export const SendMoney = async (Request: Request, Response: Response) => {
 			Serve.JSON({
 				status: false,
 				statusCode: StatusCodes.NOT_ACCEPTABLE,
-				message: `Transaction PIN is Incorrect | Please Enter Correct Transaction PIN`,
+				message: "Transaction PIN is Incorrect | Please Enter Correct Transaction PIN",
 				Title: "Incorrect Transaction PIN",
 				data: undefined,
 				response: Response,

@@ -67,7 +67,7 @@ export default function LoginForm() {
 				LastLoginIP: LoginData.LastLoginIP,
 				LastLoginClientDetails: JSON.stringify(LoginData.LastLoginClientDetails),
 			};
-			const LoginResult = await API.Post(`/post/auth/login-with-paisapay`, LoginCredentials); // API Call for Login
+			const LoginResult = await API.Post("/post/auth/login-with-paisapay", LoginCredentials); // API Call for Login
 
 			if (LoginResult.statusCode === 200) {
 				setIsLoading(false); // Set isLoading to false

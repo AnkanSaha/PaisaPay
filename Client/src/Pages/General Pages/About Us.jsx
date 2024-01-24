@@ -10,7 +10,7 @@ import AboutTopSection from '@component/General Components/About Us Components/T
 import Accordions from '@component/General Components/About Us Components/Accordion'; // About Us Accordion
 
 export default function AboutUsPage() {
-	Update_Document_Title(`About Us`); // update the document title
+	Update_Document_Title("About Us"); // update the document title
 	return (
 		<>
 			<GeneralNavbar Text="Dashboard" Link="/dashboard" />

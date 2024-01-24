@@ -74,7 +74,7 @@ export default function SendMoneySection() {
 		const Encrypted_Payment_Info = PaymentInfo;
 
 		// API Call
-		const Response = await Service.Post(`/post/Payment/NewTransaction`, {
+		const Response = await Service.Post("/post/Payment/NewTransaction", {
 			sessionID: AccountDetails.sessionID,
 			Encrypted_PaymentInfo: Encrypted_Payment_Info,
 		});

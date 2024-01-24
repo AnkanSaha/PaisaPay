@@ -48,7 +48,7 @@ export default function ForgetPasswordValidator() {
 				duration: 5000,
 				isClosable: true,
 			});
-			Navigate(`/auth/reset-password/Update`); // Navigate to Reset Password Page
+			Navigate("/auth/reset-password/Update"); // Navigate to Reset Password Page
 		}
 	}; // Verify User Details
 

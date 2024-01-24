@@ -32,7 +32,7 @@ export default function RecentTransactions() {
 	const Decoded_Account_Details = ReduxState.AccountInfo.AccountDetails; // decode the jwt token to get the account details
 
 	React.useEffect(() => {
-		Service.Post(`/post/Payment/TransactionHistory`, {
+		Service.Post("/post/Payment/TransactionHistory", {
 			Number: Decoded_Account_Details.PhoneNumber,
 			Email: Decoded_Account_Details.Email,
 			sessionID: ReduxState.AccountInfo.sessionID,
