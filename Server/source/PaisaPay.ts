@@ -50,6 +50,9 @@ if (isPrimary) {
 	// Enable All Proxy Settings for Server Security
 	Server.set("trust proxy", () => true); // Enable All Proxy Settings
 
+	// Create a URL Object for getting the URL of the Allowed Origin
+	const AllowedOrigin = new URL(StringKeys.CORS_URL); // Create a URL Object for getting the URL of the Allowed Origin
+
 	// Link All Router as MainRouter
 	Server.use(
 		"/api",
@@ -58,8 +61,9 @@ if (isPrimary) {
 			extended: true,
 			limit: 5000000 * 1000,
 		}),
-		CheckHeader,
-		Middleware.RequestInjectIP,
+		CheckHeader, // Link Check Header Middleware
+		Middleware.AccessController([AllowedOrigin.hostname], 406), // Link Access Controller Middleware
+		Middleware.RequestInjectIP, // Link Request Inject IP Middleware
 		MainRouter
 	); // Link Main Router
 
@@ -72,6 +76,7 @@ if (isPrimary) {
 	try {
 		Server.listen(NumberKeys.PORT, async () => {
 			const DB_Connection_Status = await MongoDB.ClientAccount.Connect(); // Connect to MongoDB
+
 			DB_Connection_Status.status === true
 				? Console.yellow(` 🚀 Database Connected & Server is listening on Port ${NumberKeys.PORT} 🚀`)
 				: Console.red(` 🚀 Database Connection Failed & Server is listening on Port ${NumberKeys.PORT} 🚀`); // Print Server Status with Database Connection Status
