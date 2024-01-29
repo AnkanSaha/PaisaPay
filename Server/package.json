@@ -6,7 +6,7 @@
   "scripts": {
     "test": "eslint ./source/**/*.{js,ts} --fix",
     "build": "npm test && tsc && cp package.json ./Build/ && cp package-lock.json ./Build/ && cd ./Build && npm install",
-    "dev": "nodemon source/PaisaPay.ts",
+    "dev": "ts-node source/PaisaPay.ts",
     "start": "pm2 start ./PaisaPay.js --name PaisaPay --max-memory-restart 200M -f",
     "stop": "pm2 stop PaisaPay"
   },
@@ -38,8 +38,7 @@
     "moment": "^2.29.4",
     "mongosuper": "^4.4.3",
     "multer": "^1.4.5-lts.1",
-    "nodemon": "^3.0.1",
-    "outers": "^6.0.1"
+    "outers": "^6.3.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
