@@ -36,23 +36,27 @@ ports:
   - name: MongoDB
     description: MongoDB Port for MongoDB
     port: 27017
+    protocol: https
     visibility: public
     onOpen: ignore
 
   - name: Redis
     description: Redis Port for Redis
     port: 6379
+    protocol: https
     visibility: public
 
   - name: Server Port
     description: Port for Server Backend
     port: 27017
+    protocol: http
     visibility: public
     onOpen: ignore
 
   - name: Client
     description: Port for Client Frontend
     port: 5173
+    protocol: http
     visibility: public
 
 # Additional Repositories to import from github
