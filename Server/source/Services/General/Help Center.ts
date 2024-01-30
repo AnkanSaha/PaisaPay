@@ -143,6 +143,9 @@ export const GetAllTickets = async (request: Request, response: Response) => {
 		// Encrypt All Tickets
 		const EncryptedAllTickets = ClientAllTickets.Data; // Encrypt All Tickets
 
+		// Remove Some Useless Data from Find Result
+		EncryptedAllTickets[0].CurrentClientDetails = undefined; // Removed this from Find Result
+
 		// Send the response
 		Serve.JSON({
 			data: EncryptedAllTickets,
