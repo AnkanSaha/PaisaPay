@@ -215,11 +215,11 @@ export async function Register(req: SignupRequestInterface, res: Response) {
 				const AccountStatus = await MongoDB.ClientAccount.create(NewClientAccount); // Create Client Account in MongoDB
 
 				const EncryptedAccountData = AccountStatus.NewData[0]; // Encrypt Account Data
-				
+
 				// Remove Password from the Account Details
 				const ToBeRemoved: str[] = ["Password", "TransactionPIN", "National_ID_Number", "LastLoginToken"]; // tease are to be removed
-				ToBeRemoved.forEach(key => EncryptedAccountData[key] = undefined); // Remove one by one
-				
+				ToBeRemoved.forEach(key => (EncryptedAccountData[key] = undefined)); // Remove one by one
+
 				// Send Response to Client
 				if (AccountStatus.status === true) {
 					Serve.JSON({

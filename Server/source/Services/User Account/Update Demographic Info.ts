@@ -151,10 +151,20 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
 		}
 
 		// Remove Useless Data from Update Result
-		const ToBeRemoved: string[] = ["Password", "TransactionPIN", "National_ID_Type", "National_ID_Number", "LastFourDigitsOfIDNumber", "LastLoginClientDetails", "LastLoginToken", "TPIN", "LastLoginIP"]; // Data To Be Removed
-		
+		const ToBeRemoved: string[] = [
+			"Password",
+			"TransactionPIN",
+			"National_ID_Type",
+			"National_ID_Number",
+			"LastFourDigitsOfIDNumber",
+			"LastLoginClientDetails",
+			"LastLoginToken",
+			"TPIN",
+			"LastLoginIP",
+		]; // Data To Be Removed
+
 		// Remove Data From Update Result one by one with forEach
-		ToBeRemoved.forEach(key => UpdateStatus.UpdatedData[key] = undefined); // Remove Data From Update Result one by one with forEach
+		ToBeRemoved.forEach(key => (UpdateStatus.UpdatedData[key] = undefined)); // Remove Data From Update Result one by one with forEach
 
 		// Serve JSON Response To The Client
 		Serve.JSON({

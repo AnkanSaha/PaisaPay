@@ -105,8 +105,8 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 			}
 			// Remove Password from the Account Details
 			const ToBeRemoved: str[] = ["Password", "TransactionPIN", "National_ID_Number", "LastLoginToken"]; // tease are to be removed
-			ToBeRemoved.forEach(key => AccountStatus.Data[0][key] = undefined); // Remove one by one
-			
+			ToBeRemoved.forEach(key => (AccountStatus.Data[0][key] = undefined)); // Remove one by one
+
 			// Encrypt Account Details if you want to send it to the user
 			const EncryptedaccountDetails = AccountStatus.Data[0]; // Generate JWT Token for Account Details
 

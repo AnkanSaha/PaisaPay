@@ -65,10 +65,20 @@ export async function AccountActivationDeactivationManagement(Request: Request, 
 		); // Update Account Status in Database
 
 		// Remove Useless Data from Update Result
-		const ToBeRemoved: string[] = ["Password", "TransactionPIN", "National_ID_Type", "National_ID_Number", "LastFourDigitsOfIDNumber", "LastLoginClientDetails", "LastLoginToken", "TPIN", "LastLoginIP"]; // Data To Be Removed
-		
+		const ToBeRemoved: string[] = [
+			"Password",
+			"TransactionPIN",
+			"National_ID_Type",
+			"National_ID_Number",
+			"LastFourDigitsOfIDNumber",
+			"LastLoginClientDetails",
+			"LastLoginToken",
+			"TPIN",
+			"LastLoginIP",
+		]; // Data To Be Removed
+
 		// Remove Data From Update Result one by one with forEach
-		ToBeRemoved.forEach(key => AccountDetails.Data[0][key] = undefined); // Remove Data From Update Result one by one with forEach
+		ToBeRemoved.forEach(key => (AccountDetails.Data[0][key] = undefined)); // Remove Data From Update Result one by one with forEach
 
 		if (UpdateStatus.UpdatedCount !== 0 && UpdateStatus.status === true) {
 			Serve.JSON({
