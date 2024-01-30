@@ -63,7 +63,7 @@ if (isPrimary) {
 		}),
 		CheckHeader, // Link Check Header Middleware
 		Middleware.AccessController([AllowedOrigin.hostname], 406), // Link Access Controller Middleware
-		Middleware.RequestInjectIP(['POST', 'PUT', 'DELETE']), // Link Request Inject IP Middleware
+		Middleware.RequestInjectIP(["POST", "PUT", "DELETE"]), // Link Request Inject IP Middleware
 		MainRouter
 	); // Link Main Router
 
