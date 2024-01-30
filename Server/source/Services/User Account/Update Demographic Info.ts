@@ -126,9 +126,10 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
 		const ToBeUpdate = {
 			Email: Decrypted_Info.NewEmail,
 			PhoneNumber: Decrypted_Info.NewPhoneNumber,
-			DOB: Decrypted_Info.NewDOB,
+			DOB: new Date(Decrypted_Info.NewDOB),
 			Name: Decrypted_Info.Name,
 		};
+
 		// Update The Account Details In The Database
 		const UpdateStatus = await MongoDB.ClientAccount.update(
 			[{ ClientID: Decrypted_Info.ClientID }, { Email: ShortData.OldEmail }, { PhoneNumber: Decrypted_Info.OldPhoneNumber }],
@@ -148,6 +149,22 @@ export default async function UpdateDemographicInfo(Request: Request, Response: 
 			}); // Serve JSON
 			return;
 		}
+
+		// Remove Useless Data from Update Result
+		const ToBeRemoved: string[] = [
+			"Password",
+			"TransactionPIN",
+			"National_ID_Type",
+			"National_ID_Number",
+			"LastFourDigitsOfIDNumber",
+			"LastLoginClientDetails",
+			"LastLoginToken",
+			"TPIN",
+			"LastLoginIP",
+		]; // Data To Be Removed
+
+		// Remove Data From Update Result one by one with forEach
+		ToBeRemoved.forEach(key => (UpdateStatus.UpdatedData[key] = undefined)); // Remove Data From Update Result one by one with forEach
 
 		// Serve JSON Response To The Client
 		Serve.JSON({

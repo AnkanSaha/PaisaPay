@@ -131,7 +131,7 @@ export const GetAllTickets = async (request: Request, response: Response) => {
 		// Check if the client has any tickets
 		if (ClientAllTickets.count === 0) {
 			Serve.JSON({
-				data: undefined,
+				data: [],
 				Title: "No Tickets Found",
 				message: "The client has not created any tickets yet",
 				status: false,

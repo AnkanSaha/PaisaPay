@@ -102,6 +102,22 @@ export default async function UpdatePaymentID(Request: Request, Response: Respon
 			false
 		); // Update Payment ID
 
+		// Remove Useless Data from Find Result
+		const ToBeRemoved: string[] = [
+			"Password",
+			"TransactionPIN",
+			"National_ID_Type",
+			"National_ID_Number",
+			"LastFourDigitsOfIDNumber",
+			"LastLoginClientDetails",
+			"LastLoginToken",
+			"TPIN",
+			"LastLoginIP",
+		]; // Data To Be Removed
+
+		// Remove Useless Data from Find Result with ForEach
+		ToBeRemoved.forEach(key => (UpdateStatus.UpdatedData[key] = undefined)); // Remove Useless Data from Find Result with ForEach
+
 		Serve.JSON({
 			response: Response,
 			status: true,
