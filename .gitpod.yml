@@ -24,17 +24,12 @@ vscode:
 
 # Run Some Commands
 tasks:
-  - name: Install and Build Server
-    init: cd Server && npm install && npm run build
-
-  - name: Install and Build Client
-    init: cd Client && npm install && npm run build
-
-  - name: Docker MongoDB Setup
-    init: docker pull mongodb/mongodb-community-server:latest && docker run -d -p 27017:27017 --name MongoDB mongodb/mongodb-community-server
-
-  - name: Docker Redis Setup
-    init: docker pull redis:latest && docker run -d -p 6379:6379 --name Redis redis
+  - name: Docker MongoDB and Redis Setup
+    init: |
+      cd Server && npm install && npm run build && \
+      cd ../Client && npm install && npm run build && \
+      docker pull mongodb/mongodb-community-server:latest && docker run -d -p 27017:27017 --name MongoDB mongodb/mongodb-community-server && \
+      docker pull redis:latest && docker run -d -p 6379:6379 --name Redis redis
 
 # Expose PORTS
 ports:
