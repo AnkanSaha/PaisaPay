@@ -104,11 +104,9 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 				return; // Return if Password is Incorrect
 			}
 			// Remove Password from the Account Details
-			AccountStatus.Data[0].Password = undefined; // Remove Password from the Account Details
-			AccountStatus.Data[0].TransactionPIN = undefined; // Remove Transaction PIN from the Account Details
-			AccountStatus.Data[0].National_ID_Number = undefined; // Remove National ID Number from the Account Details
-			AccountStatus.Data[0].LastLoginToken = undefined; // Remove Last Login Token from the Account Details
-
+			const ToBeRemoved: str[] = ["Password", "TransactionPIN", "National_ID_Number", "LastLoginToken"]; // tease are to be removed
+			ToBeRemoved.forEach(key => AccountStatus.Data[0][key] = undefined); // Remove one by one
+			
 			// Encrypt Account Details if you want to send it to the user
 			const EncryptedaccountDetails = AccountStatus.Data[0]; // Generate JWT Token for Account Details
 

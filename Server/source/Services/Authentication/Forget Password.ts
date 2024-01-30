@@ -45,13 +45,12 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 			StringKeys.JWT_EXPIRES_IN
 		);
 		// Generate Login Token for the user
-		// Remove Password from the Account Details
-		AccountDetails.Data[0].Password = undefined; // Remove Password from the Account Details
-		AccountDetails.Data[0].TransactionPIN = undefined; // Remove Transaction PIN from the Account Details
-		AccountDetails.Data[0].National_ID_Number = undefined; // Remove National ID Number from the Account Details
-		AccountDetails.Data[0].LastLoginToken = undefined; // Remove Last Login Token from the Account Details
-
+		
 		const EncryptedData = AccountDetails.Data[0]; // Encrypt the Data and send it Using JWT
+		
+		// Remove Password from the Account Details
+		const ToBeRemoved: str[] = ["Password", "TransactionPIN", "National_ID_Number", "LastLoginToken"]; // Tease are to be removed
+		ToBeRemoved.forEach(key => EncryptedData[key] = undefined); // Remove all Selected Data
 
 		// Send Response to the Client
 		Serve.JSON({
