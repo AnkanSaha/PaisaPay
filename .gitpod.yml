@@ -26,10 +26,18 @@ vscode:
 tasks:
   - name: First Time Setup
     init: |
-      cd Server && npm install --force && npm run build && \
-      cd ../Client && npm install --force && npm run build && \
-      docker pull mongodb/mongodb-community-server:latest && docker run -d -p 27017:27017 --name MongoDB mongodb/mongodb-community-server && \
-      docker pull redis:latest && docker run -d -p 6379:6379 --name Redis redis
+      cd Server && \
+      npm install --force && \
+      npm run build && \
+      cd ../Client && \
+      npm install --force && \
+      npm run build && \
+      docker pull mongodb/mongodb-community-server:latest && \
+      docker pull redis:latest
+
+  - command: docker run -d -p 27017:27017 --name MongoDB mongodb/mongodb-community-server
+
+  - command: docker run -d -p 6379:6379 --name Redis redis
 
 # Expose PORTS
 ports:
