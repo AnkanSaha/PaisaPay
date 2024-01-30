@@ -66,7 +66,10 @@ export default async function HelpCenterService(request: RequestInterface, respo
 
 			// Save the request data to the database
 			const DBResult = await MongoDB.HelpCenter.create(RequestDataToBeSave); // Save the request data to the database
-
+			
+			// Remove Some Useless Data
+			DBResult.NewData[0].CurrentClientDetails = undefined; // Remove Client Details
+			
 			// Check if the request data was saved successfully
 			if (DBResult.status === true) {
 				Serve.JSON({
