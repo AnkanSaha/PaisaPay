@@ -8,7 +8,7 @@ import { cpus, platform, freemem, arch } from "os"; // Import OS
 export enum NumberKeys {
 	PORT = Number(process.env.PORT) || 5412,
 	// CPU Count
-	CPUCount = cpus().length * Number(process.env.CPU_COUNT_MULTIPLIERenv) || 2,
+	CPUCount = cpus().length * Number(process.env.CPU_COUNT_MULTIPLIERENV) || 2,
 }
 
 // Export keys
