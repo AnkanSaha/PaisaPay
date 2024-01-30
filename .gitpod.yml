@@ -56,7 +56,7 @@ ports:
 
   - name: Server Port
     description: Port for Server Backend
-    port: 27017
+    port: 5413
     protocol: http
     visibility: public
     onOpen: ignore
