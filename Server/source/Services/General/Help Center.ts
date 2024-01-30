@@ -111,7 +111,7 @@ export const GetAllTickets = async (request: Request, response: Response) => {
 
 		// Find the client data
 		const ClientData = await AccountExistenceChecker(Number(PhoneNumber), String(Email)); // Check if the client exists
-
+		
 		// Check if the client exists
 		if (ClientData.status === false) {
 			Serve.JSON({
@@ -142,6 +142,9 @@ export const GetAllTickets = async (request: Request, response: Response) => {
 		}
 		// Encrypt All Tickets
 		const EncryptedAllTickets = ClientAllTickets.Data; // Encrypt All Tickets
+		
+		// Remove Some Useless Data from Find Result
+		EncryptedAllTickets[0].CurrentClientDetails = undefined; // Removed this from Find Result
 
 		// Send the response
 		Serve.JSON({
