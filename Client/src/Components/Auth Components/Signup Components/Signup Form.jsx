@@ -124,7 +124,7 @@ export default function SignupForm() {
 
 			MainData.append('ProfilePic', TempFormData.profilePicture);
 			MainData.append('LastLoginIP', IPDetails.ClientIP);
-			MainData.append('LastLoginClientDetails', IPDetails);
+			MainData.append('LastLoginClientDetails', JSON.stringify(IPDetails));
 
 			// Log FormData for debugging
 			// for (let [key, value] of MainData.entries()) {

@@ -99,7 +99,7 @@ export async function Register(req: SignupRequestInterface, res: Response) {
 			const DecryptedNational_ID_Number = National_ID_Number; // Decrypt National ID Number
 			const DecryptedPhoneNumber = PhoneNumber; // Decrypt Phone Number
 			const DecryptedLastLoginIP = LastLoginIP; // Decrypt Last Login IP
-			const DecryptedLastLoginClientDetails = LastLoginClientDetails; // Decrypt Last Login Client Details
+			const DecryptedLastLoginClientDetails = JSON.parse(LastLoginClientDetails); // Decrypt Last Login Client Details
 			const DecryptedPaymentID = PaymentID; // Decrypt Payment ID
 			const DecryptedEmail = Email; // Decrypt Email
 			const DecryptedTransactionPIN: int = TransactionPIN; // Decrypt Transaction PIN
