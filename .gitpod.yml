@@ -25,33 +25,34 @@ vscode:
 # Run Some Commands
 tasks:
   - name: First Time Setup
-    init: |
-      cd Server && \
-      npm install --force && \
-      npm run build && \
-      cd ../Client && \
-      npm install --force && \
-      npm run build && \
-      docker pull mongodb/mongodb-community-server:latest && \
-      docker pull redis:latest
-
-  - command: docker run -d -p 27017:27017 --name MongoDB mongodb/mongodb-community-server
-
-  - command: docker run -d -p 6379:6379 --name Redis redis
+  - command: bash ./.devcontainer/postCreateCommand.sh
 
 # Expose PORTS
 ports:
   - name: MongoDB
     description: MongoDB Port for MongoDB
-    port: 27017
-    protocol: https
+    port: 4442
     visibility: public
     onOpen: ignore
-
   - name: Redis
     description: Redis Port for Redis
     port: 6379
-    protocol: https
+    visibility: public
+  - name: PostgreSQL
+    description: PostgreSQL Port for Redis
+    port: 5432
+    visibility: public
+  - name: MySQL
+    description: MySQL Port for Redis
+    port: 3306
+    visibility: public
+  - name: phpMyAdmin
+    description: phpMyAdmin Port for Redis
+    port: 8080
+    visibility: public
+  - name: MariaDB
+    description: MariaDB Port for Redis
+    port: 3307
     visibility: public
 
   - name: Server Port
