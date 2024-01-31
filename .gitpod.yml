@@ -14,13 +14,12 @@ vscode:
     - streetsidesoftware.code-spell-checker
     - TabNine.tabnine-vscode
     - eamodio.gitlens
-    - gitpod.gitpod-desktop
     - PKief.material-icon-theme
     - mongodb.mongodb-vscode
     - christian-kohler.npm-intellisense
     - esbenp.prettier-vscode
     - bradlc.vscode-tailwindcss
-    - gitpod.gitpod-theme
+    - dracula-theme.theme-dracula
 
 # Run Some Commands
 tasks:
