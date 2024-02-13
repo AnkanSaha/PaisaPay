@@ -35,7 +35,7 @@ interface PasswordEncryptionInterface {
 export default async function UpdatePassword(Request: Request, Response: Response) {
 	try {
 		// Decrypt The Info
-		const Decrypted_Info: DecryptedData = Request.body.Encrypted_Info; // Decrypt The Info
+		const Decrypted_Info: DecryptedData = Request.body; // Decrypt The Info
 
 		// Short The Email
 		const ShortData = {

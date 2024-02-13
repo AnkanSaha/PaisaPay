@@ -24,10 +24,12 @@ interface Decrypted_Data_Interface {
 // Function
 export default async function UpdatePaymentID(Request: Request, Response: Response) {
 	try {
-		const Decrypted_Data: Decrypted_Data_Interface = Request.body.Encrypted_Info; // Decrypt Data
+		const Decrypted_Data: Decrypted_Data_Interface = Request.body; // Decrypt Data
 		const SmelledDetails = {
 			Email: Decrypted_Data.Email.toLowerCase(),
-			NewPaymentID: `${Decrypted_Data.NewPaymentID.toLowerCase()}@pp`,
+			NewPaymentID: Decrypted_Data.NewPaymentID.toLowerCase().includes("@pp")
+				? Decrypted_Data.NewPaymentID.toLowerCase()
+				: `${Decrypted_Data.NewPaymentID.toLowerCase()}@pp`,
 			OldPaymentID: Decrypted_Data.PreviousPaymentID.toLowerCase(),
 		}; // Smell Details with Lowercase
 

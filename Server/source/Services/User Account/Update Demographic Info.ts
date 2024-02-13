@@ -25,7 +25,8 @@ interface DecryptedData {
 
 export default async function UpdateDemographicInfo(Request: Request, Response: Response) {
 	try {
-		const Decrypted_Info: DecryptedData = Request.body.Encrypted_Info; // Decrypt The Info
+		const Decrypted_Info: DecryptedData = Request.body; // Decrypt The Info
+
 		// Short Data
 		const ShortData = {
 			OldEmail: Decrypted_Info.OldEmail.toLowerCase(),

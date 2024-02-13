@@ -76,13 +76,10 @@ export default function UpdateTransactionPIN() {
 		}
 		setLoading(true); // set the loading state to true
 
-		// Encrypt the pin info object for security reasons
-		const Encrypted_Pin_Info = PinInfo; // encrypt the pin info object
-
 		// Send the request to the server to update the transaction pin
 		const Response = await API.Put('/put/update/transaction-pin', {
 			sessionID: AccountDetails.sessionID,
-			EncryptedData: Encrypted_Pin_Info,
+			PinInfo,
 		}); // send the request to the server to update the transaction pin using PUT method
 		setLoading(false); // set the loading state to false
 

@@ -78,13 +78,10 @@ export default function UpdatePassword() {
 		}
 		setLoading(true); // set the loading state to true to show the loading spinner
 
-		// Encrypt the Password Info
-		const Encrypted_Password_Info = PasswordInfo; // encrypt the password info
-
 		// Send the Password Info to the API
 		const Response = await API.Put('/put/update/update-password', {
 			sessionID: AccountDetails.sessionID,
-			Encrypted_Info: Encrypted_Password_Info,
+			Encrypted_Info: PasswordInfo,
 		});
 
 		// Set the loading state to false to hide the loading spinner

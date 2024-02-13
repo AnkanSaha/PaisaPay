@@ -6,12 +6,14 @@ services:
     ports:
       - "4442:27017"
     container_name: MongoDB
+    restart: always
 
   redis_stack:
     image: redis/redis-stack:latest
     ports:
       - "6379:6379"
     container_name: RedisStack
+    restart: always
 
   postgresql:
     image: bitnami/postgresql:latest
@@ -20,6 +22,7 @@ services:
     ports:
       - "5432:5432"
     container_name: PostgreSQL
+    restart: always
 
   mysql:
     image: mysql:latest
@@ -28,6 +31,7 @@ services:
     ports:
       - "3306:3306"
     container_name: MySQL
+    restart: always
 
   mariadb:
     image: mariadb:latest
@@ -36,6 +40,7 @@ services:
     environment:
       - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=true
     container_name: MariaDB
+    restart: always
 
   phpmyadmin:
     image: phpmyadmin:latest
@@ -44,4 +49,4 @@ services:
     ports:
       - "8080:80"
     container_name: phpMyAdmin
-
+    restart: always

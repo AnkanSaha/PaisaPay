@@ -68,10 +68,10 @@ export default function UpdatePaymentID() {
 			return;
 		}
 		setLoading(true); // Update loading State to True
-		const Encrypted_Info = NewpaymentIDinfo; // Encrypt All New Payment ID Info
+
 		const Response = await API.Put('/put/update/update-PaymentID', {
 			sessionID: ReduxState.AccountInfo.sessionID,
-			Encrypted_Info,
+			NewpaymentIDinfo,
 		});
 		setLoading(false); // Update loading State to True
 		if (Response.statusCode === 200) {
@@ -137,8 +137,7 @@ export default function UpdatePaymentID() {
 						colorScheme="blue"
 						onClick={handleUpdatePaymentID}
 						leftIcon={<FiAtSign />}
-						rightIcon={<FiAtSign />}
-					>
+						rightIcon={<FiAtSign />}>
 						Update Payment ID
 					</Button>
 				</div>
