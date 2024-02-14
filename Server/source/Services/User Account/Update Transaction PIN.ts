@@ -24,10 +24,8 @@ interface PasswordEncryptionInterface {
 // Update Transaction PIN
 export const UpdateTransactionPIN = async (Request: Request, Response: Response) => {
 	try {
-		const { EncryptedData } = Request.body; // Get Request Body Data
-
 		// Decrypt Data & Get Transaction PIN
-		const DecryptedData = EncryptedData; // Decrypt Data
+		const DecryptedData = Request.body; // Decrypt Data
 
 		// Check if No Data Send By User
 		if (

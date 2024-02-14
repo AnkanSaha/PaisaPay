@@ -193,7 +193,7 @@ export async function Register(req: SignupRequestInterface, res: Response) {
 					DOB: DecryptedDOB,
 					PhoneNumber: DecryptedPhoneNumber,
 					Balance: 0,
-					PaymentID: SmallPaymentID,
+					PaymentID: SmallPaymentID.includes("@pp") ? SmallPaymentID : `${SmallPaymentID}@pp`,
 					Password: EncryptedPassword.EncryptedData,
 					TransactionPIN: EncryptedPIN.EncryptedData,
 					National_ID_Type: DecryptedNational_ID_Type,

@@ -12,6 +12,8 @@ const MainRouter = Router(); // Create Router
 
 // APi Path of Health Checking & Load Check
 MainRouter.get("/health", (request, Response) => {
+	// Change Response Server Name
+	Response.setHeader("X-Powered-By", StringKeys.AppName); // Change Server Name to App Name
 	Serve.JSON({
 		response: Response,
 		status: true,
