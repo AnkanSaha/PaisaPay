@@ -22,7 +22,7 @@ export default async function IPAddressInfoService(request: Request, response: R
 		const IPCacheDetails = await IPstorage.Get(ClientIP); // Get IP Cache Details
 
 		// Check if Client IP Address is cached or not if it is cached then return it
-		if (IPCacheDetails.TotalData != 0) {
+		if (IPCacheDetails.status == StatusCodes.OK) {
 			Serve.JSON({
 				response: response,
 				status: true,
@@ -53,6 +53,7 @@ export default async function IPAddressInfoService(request: Request, response: R
 				message: "Currently, we can't find your IP Address. Please try again later.",
 				data: undefined,
 			});
+			return; // Return if Error
 		}
 
 		// Collect Client IP Address Info from IP Address Lookup API
