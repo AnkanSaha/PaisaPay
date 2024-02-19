@@ -44,7 +44,7 @@ export async function Load_General_App_Info() {
 	const Updater = useDispatch(); // initialize the useDispatch hook
 	const InternetStatus = useSelector(state => state.InternetStatus); // initialize the useSelector hook
 
-	const IPDetails = await fetch(`${Live_URL}/api/get/info/IP_Details`); // Get the Current IP Details
+	const IPDetails = await (await fetch(`${Live_URL}/api/get/info/IP_Details`)).json(); // Get the Current IP Details
 
 	// Update the General App Info
 	Updater(
@@ -107,9 +107,9 @@ export async function Load_General_App_Info() {
 			},
 			ClientDetails: {
 				ClientDeviceDetails: DeviceDetails, // Client Device Details
-				ClientIP: IPDetails.Data.IP, // Client IP Address
-				IP_Type: IPDetails.Data.Version, // IP Type
-				Client_Location: IPDetails.Data.Details, // IP Location
+				ClientIP: IPDetails.data.IP, // Client IP Address
+				IP_Type: IPDetails.data.Version, // IP Type
+				Client_Location: IPDetails.data.Details, // IP Location
 			},
 		})
 	);
@@ -134,14 +134,14 @@ export async function Update_Internet_Status() {
 		Update(UpdateInternetStatusInGeneralInfo(false)); // Update the Internet Status in General Info
 	});
 	window.addEventListener('online', async () => {
-		const IPDetails = await fetch(`${Live_URL}/api/get/info/IP_Details`); // Get the Current IP Details
+		const IPDetails = await (await fetch(`${Live_URL}/api/get/info/IP_Details`)).json(); // Get the Current IP Details
 
 		// add event listener for online
 		Update(updateInternetStatus(true)); // Update the Internet Status to true
 		Update(UpdateInternetStatusInGeneralInfo(true)); // Update the Internet Status in General Info
-		Update(UpdateUpAddressTypeInGeneralInfo(IPDetails.Data.Version)), // Update the IP Address Type in General Info
-			Update(UpdateIpAddressInGeneralInfo(IPDetails.Data.IP)), // Update the IP Address in General Info
-			Update(UpdateIPLocationInGeneralInfo(IPDetails.Data.Details)); // Update the IP Location in General Info
+		Update(UpdateUpAddressTypeInGeneralInfo(IPDetails.data.Version)), // Update the IP Address Type in General Info
+			Update(UpdateIpAddressInGeneralInfo(IPDetails.data.IP)), // Update the IP Address in General Info
+			Update(UpdateIPLocationInGeneralInfo(IPDetails.data.Details)); // Update the IP Location in General Info
 	});
 } // import the encryption configuration
 
