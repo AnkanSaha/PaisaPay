@@ -34,6 +34,7 @@ export async function GetProfilePic(request: FileFetchInterface, response: any) 
 			response: response,
 			Filename: undefined,
 			statusCode: StatusCodes.BAD_REQUEST,
+			contentType: "text/plain",
 		});
 	} else {
 		Serve.File({
@@ -41,6 +42,7 @@ export async function GetProfilePic(request: FileFetchInterface, response: any) 
 			statusCode: StatusCodes.OK,
 			Filename: `${request.params.ProfilePicID}`,
 			rootName: `${StringKeys.StaticDirectoryName}/`,
+			contentType: "image",
 		});
 	}
 }
