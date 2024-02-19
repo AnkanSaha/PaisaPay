@@ -23,6 +23,7 @@ export const StringKeys = Object.freeze({
 	Architecture: String(arch()),
 	FreeRam: Number((freemem() / 1024 / 1024 / 1024).toFixed(2)),
 	Model: String(cpus()[0].model),
+	IP_INFO_API_KEY: String(process.env.IP_INFO_API_KEY),
 }); // Immutable Keys
 
 export const Database_Keys = Object.freeze({
