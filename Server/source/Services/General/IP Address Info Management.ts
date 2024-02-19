@@ -7,7 +7,11 @@ import { Console, StatusCodes, Serve, methods } from "outers"; // Import red fro
 import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Import Keys
 
 // Start Storage Instance for IP Address Cache Management
-const IPstorage = new methods.Storage.CreateNewShortStorage("IP_Cache", 500, `${StringKeys.AppName}${StringKeys.JWT_SECRET}${StringKeys.IP_INFO_API_KEY}`); // Start Storage Instance for IP Address Cache Management
+const IPstorage = new methods.Storage.CreateNewShortStorage(
+	"IP_Cache",
+	500,
+	`${StringKeys.AppName}${StringKeys.JWT_SECRET}${StringKeys.IP_INFO_API_KEY}`
+); // Start Storage Instance for IP Address Cache Management
 
 export default async function IPAddressInfoService(request: Request, response: Response) {
 	try {
@@ -27,51 +31,50 @@ export default async function IPAddressInfoService(request: Request, response: R
 				message: "Your IP Address & IP Details is here.",
 				data: {
 					...IPCacheDetails.Data[0].Data,
-					origin: `${StringKeys.AppName}'s Cache Server`
+					origin: `${StringKeys.AppName}'s Cache Server`,
 				},
 			});
 			return; // Return if IP Address is cached
-		} 
+		}
 
-			// Create IP Info API URL
-			const IPInfo_API_URL: str = `https://ipinfo.io/${ClientIP}/json?token=${StringKeys.IP_INFO_API_KEY}`; // Create IP Info API URL
+		// Create IP Info API URL
+		const IPInfo_API_URL: str = `https://ipinfo.io/${ClientIP}/json?token=${StringKeys.IP_INFO_API_KEY}`; // Create IP Info API URL
 
-			// Get Client IP Address Info from IP Address Lookup API
-			const IPData = await (await fetch(IPInfo_API_URL)).json(); // Get Client IP Address Info from IP Address Lookup API
+		// Get Client IP Address Info from IP Address Lookup API
+		const IPData = await (await fetch(IPInfo_API_URL)).json(); // Get Client IP Address Info from IP Address Lookup API
 
-			// Check if Error or not
-			if (IPData.status) {
-				Serve.JSON({
-					response: response,
-					status: false,
-					statusCode: StatusCodes.NOT_ACCEPTABLE,
-					Title: "Currently IP Not Available",
-					message: "Currently, we can't find your IP Address. Please try again later.",
-					data: undefined,
-				});
-			}
-
-			// Collect Client IP Address Info from IP Address Lookup API
-			const Fetched_ClientIP_Details: obj = {
-				IP: ClientIP,
-				Details: IPData,
-				Version: await IPChecker(ClientIP), // Send IP Address & IP Details to check IPv4 or IPv6
-				origin: "IP Address Lookup API Server",
-			};
-
-			// Store IP Address & IP Details in Storage
-			await IPstorage.Save(ClientIP, Fetched_ClientIP_Details); // Store IP Address & IP Details in Storage
-
-			// Send IP Details to Client
+		// Check if Error or not
+		if (IPData.status) {
 			Serve.JSON({
 				response: response,
-				status: true,
-				statusCode: StatusCodes.OK,
-				Title: "Success",
-				message: "Your IP Address & IP Details is here.",
-				data: Fetched_ClientIP_Details,
+				status: false,
+				statusCode: StatusCodes.NOT_ACCEPTABLE,
+				Title: "Currently IP Not Available",
+				message: "Currently, we can't find your IP Address. Please try again later.",
+				data: undefined,
 			});
+		}
 
+		// Collect Client IP Address Info from IP Address Lookup API
+		const Fetched_ClientIP_Details: obj = {
+			IP: ClientIP,
+			Details: IPData,
+			Version: await IPChecker(ClientIP), // Send IP Address & IP Details to check IPv4 or IPv6
+			origin: "IP Address Lookup API Server",
+		};
+
+		// Store IP Address & IP Details in Storage
+		await IPstorage.Save(ClientIP, Fetched_ClientIP_Details); // Store IP Address & IP Details in Storage
+
+		// Send IP Details to Client
+		Serve.JSON({
+			response: response,
+			status: true,
+			statusCode: StatusCodes.OK,
+			Title: "Success",
+			message: "Your IP Address & IP Details is here.",
+			data: Fetched_ClientIP_Details,
+		});
 	} catch (error) {
 		Console.red(error); // Log Error
 		Serve.JSON({
