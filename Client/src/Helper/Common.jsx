@@ -35,7 +35,6 @@ import {
 	Process_Manager,
 	Web_Server_Manager,
 } from '@app/App_Config'; // import the App Name
-import Get_IP_Details from './IP Details/Get IP Details';
 
 // Encryption Configuration
 import { React } from 'react-caches'; // import the Get_IP_Details function
@@ -45,7 +44,8 @@ export async function Load_General_App_Info() {
 	const Updater = useDispatch(); // initialize the useDispatch hook
 	const InternetStatus = useSelector(state => state.InternetStatus); // initialize the useSelector hook
 
-	const IPDetails = await Get_IP_Details(); // Get the Current IP Details
+	const IPDetails = await fetch(`${Live_URL}/api/get/info/IP_Details`); // Get the Current IP Details
+	
 	// Update the General App Info
 	Updater(
 		updateGeneralAppInfo({
@@ -107,9 +107,9 @@ export async function Load_General_App_Info() {
 			},
 			ClientDetails: {
 				ClientDeviceDetails: DeviceDetails, // Client Device Details
-				ClientIP: IPDetails.IP_Address, // Client IP Address
-				IP_Type: IPDetails.IP_Type, // IP Type
-				Client_Location: IPDetails.IPDetails, // IP Location
+				ClientIP: IPDetails.Data.IP, // Client IP Address
+				IP_Type: IPDetails.Data.Version, // IP Type
+				Client_Location: IPDetails.Data.Details, // IP Location
 			},
 		})
 	);
@@ -134,13 +134,14 @@ export async function Update_Internet_Status() {
 		Update(UpdateInternetStatusInGeneralInfo(false)); // Update the Internet Status in General Info
 	});
 	window.addEventListener('online', async () => {
-		const IPDetails = await Get_IP_Details(); // Get the Current IP Details
+		const IPDetails = await fetch(`${Live_URL}/api/get/info/IP_Details`); // Get the Current IP Details
+	
 		// add event listener for online
 		Update(updateInternetStatus(true)); // Update the Internet Status to true
 		Update(UpdateInternetStatusInGeneralInfo(true)); // Update the Internet Status in General Info
-		Update(UpdateUpAddressTypeInGeneralInfo(IPDetails.IP_Type)), // Update the IP Address Type in General Info
-			Update(UpdateIpAddressInGeneralInfo(IPDetails.IP_Address)), // Update the IP Address in General Info
-			Update(UpdateIPLocationInGeneralInfo(IPDetails.IPDetails)); // Update the IP Location in General Info
+		Update(UpdateUpAddressTypeInGeneralInfo(IPDetails.Data.Version)), // Update the IP Address Type in General Info
+			Update(UpdateIpAddressInGeneralInfo(IPDetails.Data.IP)), // Update the IP Address in General Info
+			Update(UpdateIPLocationInGeneralInfo(IPDetails.Data.Details)); // Update the IP Location in General Info
 	});
 } // import the encryption configuration
 
