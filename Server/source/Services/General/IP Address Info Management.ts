@@ -58,14 +58,14 @@ export default async function IPAddressInfoService(request: Request, response: R
 
 		// Collect Client IP Address Info from IP Address Lookup API
 		const Fetched_ClientIP_Details: obj = {
-			IP: ClientIP,
+			IP: IPData.ip,
 			Details: IPData,
-			Version: IPChecker(ClientIP), // Send IP Address & IP Details to check IPv4 or IPv6
+			Version: IPChecker(IPData.ip), // Send IP Address & IP Details to check IPv4 or IPv6
 			origin: "IP Address Lookup API Server",
 		};
 
 		// Store IP Address & IP Details in Storage
-		await IPstorage.Save(ClientIP, Fetched_ClientIP_Details); // Store IP Address & IP Details in Storage
+		await IPstorage.Save(IPData.ip, Fetched_ClientIP_Details); // Store IP Address & IP Details in Storage
 
 		// Send IP Details to Client
 		Serve.JSON({
