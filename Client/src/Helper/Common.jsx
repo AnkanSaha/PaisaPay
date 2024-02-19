@@ -45,7 +45,7 @@ export async function Load_General_App_Info() {
 	const InternetStatus = useSelector(state => state.InternetStatus); // initialize the useSelector hook
 
 	const IPDetails = await fetch(`${Live_URL}/api/get/info/IP_Details`); // Get the Current IP Details
-	
+
 	// Update the General App Info
 	Updater(
 		updateGeneralAppInfo({
@@ -135,7 +135,7 @@ export async function Update_Internet_Status() {
 	});
 	window.addEventListener('online', async () => {
 		const IPDetails = await fetch(`${Live_URL}/api/get/info/IP_Details`); // Get the Current IP Details
-	
+
 		// add event listener for online
 		Update(updateInternetStatus(true)); // Update the Internet Status to true
 		Update(UpdateInternetStatusInGeneralInfo(true)); // Update the Internet Status in General Info
