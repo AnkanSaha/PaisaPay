@@ -59,7 +59,7 @@ export default async function IPAddressInfoService(request: Request, response: R
 		const Fetched_ClientIP_Details: obj = {
 			IP: ClientIP,
 			Details: IPData,
-			Version: await IPChecker(ClientIP), // Send IP Address & IP Details to check IPv4 or IPv6
+			Version: IPChecker(ClientIP), // Send IP Address & IP Details to check IPv4 or IPv6
 			origin: "IP Address Lookup API Server",
 		};
 
@@ -89,7 +89,7 @@ export default async function IPAddressInfoService(request: Request, response: R
 }
 
 // Check if IP is IPv4 or IPv6 address
-export async function IPChecker(CurrentIP: str) {
+export function IPChecker(CurrentIP: str) {
 	try {
 		// Regular expressions for IPv4 and IPv6 addresses
 		const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
@@ -97,14 +97,14 @@ export async function IPChecker(CurrentIP: str) {
 
 		// Check if the IP address matches IPv4 or IPv6 regex
 		if (ipv4Regex.test(CurrentIP)) {
-			return Promise.resolve("IPv4");
+			return "IPv4";
 		} else if (ipv6Regex.test(CurrentIP)) {
-			return Promise.resolve("IPv6");
+			return "IPv6";
 		} else {
-			return Promise.reject(new Error("Invalid IP address"));
+			return new Error("Invalid IP address");
 		}
 	} catch (error) {
 		// If any error occurs, reject the Promise with the error
-		return Promise.reject(error);
+		return error;
 	}
 }
