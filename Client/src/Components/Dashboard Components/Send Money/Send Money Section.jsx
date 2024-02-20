@@ -70,13 +70,10 @@ export default function SendMoneySection() {
 			return;
 		}
 
-		// Encrypt the Payment Info
-		const Encrypted_Payment_Info = PaymentInfo;
-
 		// API Call
 		const Response = await Service.Post('/post/Payment/NewTransaction', {
 			sessionID: AccountDetails.sessionID,
-			Encrypted_PaymentInfo: Encrypted_Payment_Info,
+			Encrypted_PaymentInfo: PaymentInfo,
 		});
 		if (Response.statusCode !== 200) {
 			toast({
