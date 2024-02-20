@@ -26,7 +26,7 @@ export default async function IPAddressInfoService(request: Request, response: R
 			Serve.JSON({
 				response: response,
 				status: true,
-				statusCode: StatusCodes.OK,
+				statusCode: StatusCodes.NOT_MODIFIED,
 				Title: "Success",
 				message: "Your IP Address & IP Details is here.",
 				data: {
