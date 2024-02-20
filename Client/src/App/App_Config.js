@@ -97,9 +97,6 @@ export function DeviceDetailsSetter() {
 	return DeviceDetail;
 }
 
-// API Key
-export const IP_INFO_API_KEY = import.meta.env.VITE_IP_INFO_API_KEY; // Cache Storage
-
 // Global Cache Storage Functions
 export const Cache = {
 	IP: new CacheStorage('IP Details'), // IP Cache
