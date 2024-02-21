@@ -1,7 +1,6 @@
 /* eslint-disable new-cap */
 import { Router, Request, Response } from "express"; // Import Express
-import { methods } from "outers"; // Import Methods from Outers
-import { StatusCodes } from "outers"; // Import Status Codes
+import { methods, StatusCodes } from "outers"; // Import Status Codes
 import { NumberKeys, StringKeys } from "../settings/keys/KeysConfig.keys.settings"; // Import Keys
 
 // Import Middlewares
