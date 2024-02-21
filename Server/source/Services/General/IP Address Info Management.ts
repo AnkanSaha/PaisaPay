@@ -16,7 +16,13 @@ const IPstorage = new methods.Storage.CreateNewShortStorage(
 export default async function IPAddressInfoService(request: Request, response: Response) {
 	try {
 		// Extract Client IP Address
-		const ClientIP: str = String(request.headers["x-forwarded-for"]); // Get Client IP Address
+		const ClientIP: str =
+			String(request.headers["x-forwarded-for"]) ||
+			String(request.connection.remoteAddress) ||
+			String(request.socket.remoteAddress) ||
+			String(request.socket.remoteAddress) ||
+			String(request.headers["x-real-ip"]) ||
+			String(request.ip); // Get Requester IP Address; // Get Client IP Address
 
 		// Check if Client IP Address is cached or not
 		const IPCacheDetails = await IPstorage.Get(ClientIP); // Get IP Cache Details

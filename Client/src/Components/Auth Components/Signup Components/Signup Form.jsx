@@ -31,7 +31,6 @@ export default function SignupForm () {
     ID_Number: '',
     PhoneNumber: '',
     password: '',
-    PaymentID: '',
     confirmPassword: '',
     profilePicture: '',
     TransactionPIN: ''
@@ -111,7 +110,6 @@ export default function SignupForm () {
       MainData.append('National_ID_Number', TempFormData.ID_Number)
       MainData.append('PhoneNumber', TempFormData.PhoneNumber)
       MainData.append('DOB', TempFormData.DOB)
-      MainData.append('PaymentID', `${TempFormData.PaymentID}@pp`)
       MainData.append('TransactionPIN', TempFormData.TransactionPIN)
 
       if (TempFormData.password === TempFormData.confirmPassword) {
@@ -251,18 +249,6 @@ export default function SignupForm () {
               placeholder='Phone Number'
               onChange={Handler}
               value={TempFormData.PhoneNumber}
-              className='w-full p-3 border rounded outline-none'
-              required
-            />
-          </div>
-          <div className='mb-4'>
-            <h1 className='mb-2 font-semibold'>Enter Payment ID</h1>
-            <input
-              type='text'
-              name='PaymentID'
-              placeholder='ex: Pay123'
-              onChange={Handler}
-              value={TempFormData.PaymentID}
               className='w-full p-3 border rounded outline-none'
               required
             />
