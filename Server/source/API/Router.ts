@@ -1,6 +1,6 @@
 /* eslint-disable new-cap */
 import { Router, Request, Response } from "express"; // Import Express
-import { StatusCodes, Serve } from "outers"; // Import Status Codes
+import { methods, StatusCodes } from "outers"; // Import Status Codes
 import { NumberKeys, StringKeys } from "../settings/keys/KeysConfig.keys.settings"; // Import Keys
 
 // Import Middlewares
@@ -12,16 +12,14 @@ const MainRouter = Router(); // Create Router
 
 // APi Path of Health Checking & Load Check
 MainRouter.get("/health", (request, Response) => {
-	// Change Response Server Name
-	Response.setHeader("X-Powered-By", StringKeys.AppName); // Change Server Name to App Name
-	Serve.JSON({
-		response: Response,
-		status: true,
-		statusCode: StatusCodes.OK,
-		Title: `${StringKeys.AppName} Server is Running`,
-		message: `${StringKeys.AppName} is Running Successfully on Port ${NumberKeys.PORT} With ${StringKeys.Platform} ${StringKeys.Architecture} server : ${StringKeys.FreeRam} GB Free Ram : ${StringKeys.Model}`,
-		data: request.headers,
-	});
+	// Register Response Instance
+	const OK = new methods.Response.JSON(Response, StatusCodes.OK, "json", `${StringKeys.AppName} Server is Running`); // Create Response Instance
+
+	// Send Response to Client
+	OK.Send(
+		request.headers,
+		`${StringKeys.AppName} is Running Successfully on Port ${NumberKeys.PORT} With ${StringKeys.Platform} ${StringKeys.Architecture} server : ${StringKeys.FreeRam} GB Free Ram : ${StringKeys.Model}`
+	);
 }); // Health Check
 
 // Implement Rate Limit
@@ -48,19 +46,19 @@ MainRouter.use("/delete", Delete_Request_Manager); // Use Post Request Manager
 
 // Response Not Allowed Request
 MainRouter.all("*", (Request: Request, Response: Response) => {
-	Serve.JSON({
-		status: false,
-		statusCode: StatusCodes.NOT_FOUND,
-		Title: "URL Not Found",
-		message: "Requested url is not found on this server, please check your url and try again",
-		response: Response,
-		data: {
+	// Register Response Instance
+	const NOT_FOUND = new methods.Response.JSON(Response, StatusCodes.NOT_FOUND, "json", "URL Not Found"); // Create Response Instance
+
+	// Send Response to Client
+	NOT_FOUND.Send(
+		{
 			requestedUrl: Request.url,
 			requestedMethod: Request.method,
 			requestedBody: Request.body,
 			requestedHeaders: Request.headers,
 		},
-	}); // Send Response if Method is not allowed
+		"Requested url is not found on this server, please check your url and try again"
+	); // Send Response if Method is not allowed
 });
 
 // export Main Router
