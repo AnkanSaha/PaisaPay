@@ -51,7 +51,7 @@ if (isPrimary) {
 	Server.set("trust proxy", () => true); // Enable All Proxy Settings
 
 	// Create a URL Object for getting the URL of the Allowed Origin
-	const { hostname } = new URL(StringKeys.CORS_URL); // Create a URL Object for getting the URL of the Allowed Origin
+	// const { hostname } = new URL(StringKeys.CORS_URL); // Create a URL Object for getting the URL of the Allowed Origin
 
 	// Link All Router as MainRouter
 	Server.use(
@@ -62,7 +62,7 @@ if (isPrimary) {
 			limit: 5000000 * 1000,
 		}),
 		CheckHeader, // Link Check Header Middleware
-		Middleware.AccessController([hostname], 406), // Link Access Controller Middleware
+		// Middleware.AccessController([hostname], 406), // Link Access Controller Middleware
 		Middleware.RequestInjectIP(["POST", "PUT", "DELETE"]), // Link Request Inject IP Middleware
 		MainRouter
 	); // Link Main Router
