@@ -59,18 +59,6 @@ export const VerifyRegisterData = async Data => {
 			message: 'Please Upload a Profile Picture, a Profile Picture is Required for Registration',
 			title: 'Error, Profile Picture',
 		};
-	} else if (Data.PaymentID === undefined || Data.PaymentID === null || Data.PaymentID === '') {
-		return {
-			status: false,
-			message: 'Please Enter a Valid Payment ID, It is Required for Registration',
-			title: 'Error, Payment ID',
-		};
-	} else if (Data.PaymentID.includes('@pp') || Data.PaymentID.includes('@PP') || Data.PaymentID.includes('@Pp') || Data.PaymentID.includes('@pP')) {
-		return {
-			status: false,
-			message: 'Payment ID Cannot Include @pp or @PP',
-			title: 'Error, Payment ID',
-		};
 	} else if (Data.TransactionPIN === undefined || Data.TransactionPIN === null || Data.TransactionPIN === '' || Data.TransactionPIN.length < 4) {
 		return {
 			status: false,

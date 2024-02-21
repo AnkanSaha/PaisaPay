@@ -114,7 +114,7 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 			const Generator = new methods.UniqueGenerator(1); // Create a new Unique Generator
 
 			// Generate Login Token
-			const LoginToken = await JWT.generateLoginToken(
+			const LoginToken = JWT.generateLoginToken(
 				{
 					ClientID: AccountStatus.Data[0].ClientID,
 					LastLoginIP: DecryptedLastLoginIP,
@@ -139,7 +139,6 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 				false
 			);
 
-			// Send Response
 			Serve.JSON({
 				status: true,
 				statusCode: StatusCodes.OK,

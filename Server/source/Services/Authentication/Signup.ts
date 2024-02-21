@@ -54,19 +54,8 @@ interface PasswordEncryptionInterface {
  */
 export async function Register(req: SignupRequestInterface, res: Response) {
 	try {
-		const {
-			Name,
-			Email,
-			DOB,
-			Password,
-			National_ID_Type,
-			National_ID_Number,
-			PhoneNumber,
-			LastLoginIP,
-			LastLoginClientDetails,
-			PaymentID,
-			TransactionPIN,
-		} = req.body; // Destructure the request body
+		const { Name, Email, DOB, Password, National_ID_Type, National_ID_Number, PhoneNumber, LastLoginIP, LastLoginClientDetails, TransactionPIN } =
+			req.body; // Destructure the request body
 		if (
 			!Name ||
 			!Email ||
@@ -77,7 +66,6 @@ export async function Register(req: SignupRequestInterface, res: Response) {
 			!PhoneNumber ||
 			!LastLoginIP ||
 			!LastLoginClientDetails ||
-			!PaymentID ||
 			!TransactionPIN
 		) {
 			Serve.JSON({
@@ -100,13 +88,15 @@ export async function Register(req: SignupRequestInterface, res: Response) {
 			const DecryptedPhoneNumber = PhoneNumber; // Decrypt Phone Number
 			const DecryptedLastLoginIP = LastLoginIP; // Decrypt Last Login IP
 			const DecryptedLastLoginClientDetails = JSON.parse(LastLoginClientDetails); // Decrypt Last Login Client Details
-			const DecryptedPaymentID = PaymentID; // Decrypt Payment ID
+			const DecryptedPaymentID = `${new methods.UniqueGenerator(9)
+				.RandomWord(true, DecryptedName.split(""))
+				.replace(/ /g, "")}${new methods.UniqueGenerator(3).RandomNumber(true)}@pp`; // Decrypt Payment ID
 			const DecryptedEmail = Email; // Decrypt Email
 			const DecryptedTransactionPIN: int = TransactionPIN; // Decrypt Transaction PIN
-
 			// Lowercase all the strings
 			const SmallEmail = DecryptedEmail.toLowerCase(); // Convert Email to lowercase
 			const SmallPaymentID = DecryptedPaymentID.toLowerCase(); // Convert Payment ID to lowercase
+			console.log(DecryptedPaymentID, SmallPaymentID);
 
 			// Check if account exists
 			const AccountStatus = await AccountExistenceChecker(DecryptedPhoneNumber, SmallEmail); // Check if account exists

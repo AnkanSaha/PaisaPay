@@ -24,7 +24,7 @@ interface Decrypted_Data_Interface {
 // Function
 export default async function UpdatePaymentID(Request: Request, Response: Response) {
 	try {
-		const Decrypted_Data: Decrypted_Data_Interface = Request.body; // Decrypt Data
+		const Decrypted_Data: Decrypted_Data_Interface = Request.body.NewpaymentIDinfo; // Decrypt Data
 		const SmelledDetails = {
 			Email: Decrypted_Data.Email.toLowerCase(),
 			NewPaymentID: Decrypted_Data.NewPaymentID.toLowerCase().includes("@pp")

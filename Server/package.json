@@ -6,7 +6,7 @@
   "scripts": {
     "test": "eslint ./source/**/*.{js,ts} --fix",
     "build": "npm test && tsc && cp package.json ./Build/ && cp package-lock.json ./Build/ && cd ./Build && npm install",
-    "dev": "ts-node source/PaisaPay.ts",
+    "dev": "ts-node source/PaisaPay.ts --watch",
     "start": "pm2 start ./PaisaPay.js --name PaisaPay --max-memory-restart 200M -f",
     "stop": "pm2 stop PaisaPay"
   },
