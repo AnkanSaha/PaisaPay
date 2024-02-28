@@ -1,6 +1,6 @@
 {
   "name": "paisapay",
-  "version": "10.2.3",
+  "version": "11.0.0",
   "description": "A Node.js Backend for integrating with the PaisaPay API",
   "main": "./settings/PaisaPay.js",
   "scripts": {
