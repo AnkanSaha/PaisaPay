@@ -1,6 +1,6 @@
 // Import variables
-import {NumberKeys} from '../keys/KeysConfig.keys.settings'; // Import Number Keys
-import { Console } from 'outers'; // Import Console
+import { NumberKeys } from "../keys/KeysConfig.keys.settings"; // Import Number Keys
+import { Console } from "outers"; // Import Console
 
 // Import All Sub Instances
 import {
@@ -22,7 +22,6 @@ export default {
 	RequestMoney: Request_Money_Instance,
 }; // Export All Instances
 
-
 // MongoDB Connection Function
 export const ConnectDB = async () => {
 	const DB_Connection_Status = await Client_Account_and_Connection_Instance.Connect(); // Connect to MongoDB
@@ -30,4 +29,4 @@ export const ConnectDB = async () => {
 	DB_Connection_Status.status === true
 		? Console.yellow(` 🚀 Database Connected & Server is listening on Port ${NumberKeys.PORT} 🚀`)
 		: Console.red(` 🚀 Database Connection Failed & Server is listening on Port ${NumberKeys.PORT} 🚀`); // Print Server Status with Database Connection Status
-}
+};

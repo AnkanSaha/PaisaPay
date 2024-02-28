@@ -55,8 +55,7 @@ export const All_AllowedHeadersInCORS: string[] = [
 	"Access-Control-Allow-Credentials",
 ]; // AllowedHeaders is an array of headers that are allowed in a request.
 
-
-export const All_exposedHeadersInCORS : string[] = [
+export const All_exposedHeadersInCORS: string[] = [
 	"Content-Type",
 	"Authorization",
 	"X-Requested-With",
