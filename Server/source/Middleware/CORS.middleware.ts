@@ -1,5 +1,5 @@
 import CORS from "cors"; // Import CORS from cors
-import { StringKeys } from "../settings/keys/KeysConfig.keys.settings"; // Import StringKeys from keys
+import { StringKeys, All_AllowedHeadersInCORS, All_exposedHeadersInCORS } from "../settings/keys/KeysConfig.keys.settings"; // Import StringKeys from keys
 import { StatusCodes } from "outers"; // Import StatusCodes from outers
 
 // Export CORS Config as Middleware
@@ -10,26 +10,6 @@ export default CORS({
 	maxAge: 86400, // MaxAge is the maximum age (in seconds) of the cache duration for preflight requests.
 	preflightContinue: false, // PreflightContinue determines whether the middleware will process the request after a preflight request even if the request's method is not a valid HTTP method.
 	optionsSuccessStatus: StatusCodes.NO_CONTENT, // OptionsSuccessStatus specifies the response status code to use for successful OPTIONS requests, since some legacy browsers (IE11, various SmartTVs) choke on 204.
-	allowedHeaders: [
-		"Content-Type",
-		"Authorization",
-		"X-Requested-With",
-		"Accept",
-		"Origin",
-		"Access-Control-Allow-Headers",
-		"Access-Control-Allow-Origin",
-		"Access-Control-Allow-Methods",
-		"Access-Control-Allow-Credentials",
-	], // AllowedHeaders is an array of headers that are allowed in a request.
-	exposedHeaders: [
-		"Content-Type",
-		"Authorization",
-		"X-Requested-With",
-		"Accept",
-		"Origin",
-		"Access-Control-Allow-Headers",
-		"Access-Control-Allow-Origin",
-		"Access-Control-Allow-Methods",
-		"Access-Control-Allow-Credentials",
-	], // ExposedHeaders indicates which headers are safe to expose to the API of a CORS API specification
+	allowedHeaders: All_AllowedHeadersInCORS, // AllowedHeaders is an array of headers that are allowed in a request.
+	exposedHeaders: All_exposedHeadersInCORS, // ExposedHeaders indicates which headers are safe to expose to the API of a CORS API specification
 }); // Export CORS Config as Middleware

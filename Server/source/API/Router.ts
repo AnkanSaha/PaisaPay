@@ -1,7 +1,8 @@
 /* eslint-disable new-cap */
 import { Router, Request, Response } from "express"; // Import Express
-import { methods, StatusCodes } from "outers"; // Import Status Codes
+import { methods, StatusCodes, Middleware } from "outers"; // Import Status Codes
 import { NumberKeys, StringKeys } from "../settings/keys/KeysConfig.keys.settings"; // Import Keys
+import { CheckHeader } from "../utils/Incoming.Req.Check.utils"; // Import Check Header
 
 // Import Middlewares
 import RateLimiterMiddleware from "../Middleware/RateLimiter.middleware"; // Import Rate Limiter Middleware
@@ -22,16 +23,20 @@ MainRouter.get("/health", (request, Response) => {
 	);
 }); // Health Check
 
-// Implement Rate Limit
+// Attach Security Middlewares in Main Router to Protect Routes
+// Create a URL Object for getting the URL of the Allowed Origin
 MainRouter.use(RateLimiterMiddleware); // Use Rate Limiter Middleware on Main Router
 
-// Implement CORS
+MainRouter.use(CheckHeader); // Use Check Header Middleware on Main Router
+
+const { hostname } = new URL(StringKeys.CORS_URL); // Create a URL Object for getting the URL of the Allowed Origin
+MainRouter.use(Middleware.AccessController([hostname], 406)); // Allow access to the API only from the specified origin
+
 MainRouter.use(CORSMiddleware); // Use CORS Middleware on Main Router
 
+MainRouter.use(Middleware.RequestInjectIP(["POST", "PUT", "DELETE"])); // Inject IP Address in Request Body for POST, PUT and DELETE
+
 // import All Sub Routers
-/* The code is importing different modules that handle different types of HTTP requests (GET, POST,
-PUT, DELETE) in an Express application. Each module is responsible for handling requests of a
-specific type and is mounted on a specific path in the main router. */
 import GetRequestManager from "./Manager/Get.Manager"; // Import Get Request Manager
 import PostRequestManager from "./Manager/Post.Manager"; // Import Post Request Manager
 import PutRequestManager from "./Manager/Put.Manager"; // Import Put Request Manager

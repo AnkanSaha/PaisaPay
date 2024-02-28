@@ -41,3 +41,28 @@ export const Database_Keys = Object.freeze({
 export const Payment_Keys = Object.freeze({
 	MERCHANT_ID: String(process.env.RAZORPAY_MERCHANT_ID),
 }); // Immutable Keys
+
+// All Variables for CORS
+export const All_AllowedHeadersInCORS: string[] = [
+	"Content-Type",
+	"Authorization",
+	"X-Requested-With",
+	"Accept",
+	"Origin",
+	"Access-Control-Allow-Headers",
+	"Access-Control-Allow-Origin",
+	"Access-Control-Allow-Methods",
+	"Access-Control-Allow-Credentials",
+]; // AllowedHeaders is an array of headers that are allowed in a request.
+
+export const All_exposedHeadersInCORS: string[] = [
+	"Content-Type",
+	"Authorization",
+	"X-Requested-With",
+	"Accept",
+	"Origin",
+	"Access-Control-Allow-Headers",
+	"Access-Control-Allow-Origin",
+	"Access-Control-Allow-Methods",
+	"Access-Control-Allow-Credentials",
+]; // ExposedHeaders indicates which headers are safe to expose to the API of a CORS API specification

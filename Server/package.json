@@ -1,6 +1,6 @@
 {
   "name": "paisapay",
-  "version": "10.2.3",
+  "version": "11.0.0",
   "description": "A Node.js Backend for integrating with the PaisaPay API",
   "main": "./settings/PaisaPay.js",
   "scripts": {
@@ -38,7 +38,7 @@
     "moment": "^2.29.4",
     "mongosuper": "^4.4.3",
     "multer": "^1.4.5-lts.1",
-    "outers": "^6.4.9"
+    "outers": "^7.2.6"
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
