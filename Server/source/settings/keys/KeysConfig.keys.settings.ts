@@ -8,15 +8,15 @@ import { cpus, platform, freemem, arch } from "os"; // Import OS
 export enum NumberKeys {
 	PORT = Number(process.env.PORT) || 5412,
 	// CPU Count
-	CPUCount = cpus().length * Number(process.env.CPU_COUNT_MULTIPLIERENV) || 2,
+	CPUCount = cpus().length * Number(process.env.CPU_COUNT_MULTIPLIERENV) ?? 2,
 }
 
 // Export keys
 export const StringKeys = Object.freeze({
 	AppName: String("PaisaPay"),
-	CORS_URL: String(process.env.CORS_ORIGIN) || "*",
+	CORS_URL: String(process.env.CORS_ORIGIN) ?? "*",
 	JWT_SECRET: String(process.env.JWT_SECRET),
-	JWT_EXPIRES_IN: String(process.env.JWT_EXPIRES_IN) || "30d",
+	JWT_EXPIRES_IN: String(process.env.JWT_EXPIRES_IN) ?? "30d",
 	StaticDirectoryName: String("Database"),
 	// Server Details
 	Platform: String(platform()),
