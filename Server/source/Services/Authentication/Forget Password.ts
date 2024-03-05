@@ -16,9 +16,9 @@ import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // I
 // Function  for forget password Account Details Sender
 export const ForgetPasswordAccountFinder = async (request: Request, response: Response) => {
 	try {
-		const { Email } = request.params; // Destructure the request body
+		const { Email } = request.query; // Destructure the request body
 		// Convert Email to lowercase
-		const SmelledEmail = Email.toLowerCase(); // Convert Email to lowercase
+		const SmelledEmail = String(Email).toLowerCase(); // Convert Email to lowercase
 
 		const AccountDetails = await MongoDB.ClientAccount.find("AND", [{ Email: SmelledEmail }], 1);
 
@@ -36,7 +36,7 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 		}
 
 		// Encrypt the Data and send it Using JWT
-		const LoginToken = await JWT.generate(
+		const LoginToken = JWT.generate(
 			{
 				ClientID: AccountDetails.Data[0].ClientID,
 				LastFourDigitsOfIDNumber: AccountDetails.Data[0].LastFourDigitsOfIDNumber,
@@ -48,7 +48,19 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 		const EncryptedData = AccountDetails.Data[0]; // Encrypt the Data and send it Using JWT
 
 		// Remove Password from the Account Details
-		const ToBeRemoved: str[] = ["Password", "TransactionPIN", "National_ID_Number", "LastLoginToken"]; // Tease are to be removed
+		const ToBeRemoved: str[] = [
+			"Balance",
+			"PaymentID",
+			"ProfilePicturePath",
+			"ProfilePicFileName",
+			"LastLoginTime",
+			"DateCreated",
+			"LastLoginIP",
+			"Password",
+			"TransactionPIN",
+			"National_ID_Number",
+			"LastLoginToken",
+		]; // Tease are to be removed
 		ToBeRemoved.forEach(key => (EncryptedData[key] = undefined)); // Remove all Selected Data
 
 		// Send Response to the Client

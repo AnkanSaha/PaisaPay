@@ -1,10 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Global types
 type str = string;
+import { Request } from "express"; // Import Request from express
 
-// Import Interfaces
-import { RequestInterface } from "../../utils/Incoming.Req.Check.utils"; // Import Response Interface
-
+// Interfaces
+export interface RequestInterface extends Request {
+	url: str;
+	method: str;
+	body: {
+		sessionID: str;
+	};
+}
 // Import AppKey
 import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Import String Keys
 
