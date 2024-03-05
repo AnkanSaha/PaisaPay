@@ -3,7 +3,6 @@
 type str = string;
 import { Request } from "express"; // Import Request from express
 
-
 // Interfaces
 export interface RequestInterface extends Request {
 	url: str;

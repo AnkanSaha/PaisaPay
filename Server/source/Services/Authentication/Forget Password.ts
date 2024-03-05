@@ -48,7 +48,19 @@ export const ForgetPasswordAccountFinder = async (request: Request, response: Re
 		const EncryptedData = AccountDetails.Data[0]; // Encrypt the Data and send it Using JWT
 
 		// Remove Password from the Account Details
-		const ToBeRemoved: str[] = ["Balance", "PaymentID", "ProfilePicturePath" ,"ProfilePicFileName", "LastLoginTime", "DateCreated","LastLoginIP", "Password", "TransactionPIN", "National_ID_Number", "LastLoginToken"]; // Tease are to be removed
+		const ToBeRemoved: str[] = [
+			"Balance",
+			"PaymentID",
+			"ProfilePicturePath",
+			"ProfilePicFileName",
+			"LastLoginTime",
+			"DateCreated",
+			"LastLoginIP",
+			"Password",
+			"TransactionPIN",
+			"National_ID_Number",
+			"LastLoginToken",
+		]; // Tease are to be removed
 		ToBeRemoved.forEach(key => (EncryptedData[key] = undefined)); // Remove all Selected Data
 
 		// Send Response to the Client

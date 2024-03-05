@@ -10,7 +10,6 @@ import { StringKeys } from "../../../settings/keys/KeysConfig.keys.settings"; //
 // Middlewares
 import { Middleware } from "outers"; // Import Middleware from outers
 
-
 // Import Functions
 import { UpdateProfilePicture } from "../../../Services/User Account/Profile Details"; // Import UpdateProfilePicture from '.../.../.../Profile Details
 import { UpdateTransactionPIN } from "../../../Services/User Account/Update Transaction PIN"; // Import UpdateTransactionPIN from '.../.../.../Update Transaction PIN'
@@ -19,7 +18,12 @@ import UpdateDemographicInfo from "../../../Services/User Account/Update Demogra
 import UpdatePassword from "../../../Services/User Account/Update Password"; // Import UpdatePassword from '.../.../.../Update Password'
 
 // All Routes
-ProfileDetails.put("/update-profile-picture", Multer.single("profilePicture"), Middleware.JWTValidator(StringKeys.JWT_FieldName, StringKeys.JWT_SECRET), UpdateProfilePicture); // Use User Route
+ProfileDetails.put(
+	"/update-profile-picture",
+	Multer.single("profilePicture"),
+	Middleware.JWTValidator(StringKeys.JWT_FieldName, StringKeys.JWT_SECRET),
+	UpdateProfilePicture
+); // Use User Route
 ProfileDetails.put("/transaction-pin", UpdateTransactionPIN); // Use The Update Transaction PIN Route
 ProfileDetails.put("/update-PaymentID", UpdatePaymentID); // Use The Update Payment ID Route
 ProfileDetails.put("/update-Demographic-Info", UpdateDemographicInfo); // use the Update UpdateDemographicInfo Route

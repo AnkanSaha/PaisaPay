@@ -4,7 +4,7 @@ type str = string; // Define str
 
 // Imports
 // Import Required Modules
-import { Console, Serve, StatusCodes} from "outers";
+import { Console, Serve, StatusCodes } from "outers";
 import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Import HTTP Status Codes
 import JWT from "../../Middleware/JWT.middleware"; // Import JWT Config
 import { Request, Response } from "express"; // Import Request from express
