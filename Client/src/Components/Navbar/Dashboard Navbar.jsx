@@ -29,7 +29,7 @@ function GeneralNavbar() {
 	// Load User ProfileImageURL To Redux Store
 	Dispatch(
 		UpdateUserImageURl(
-			`${ReduxState.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL}/get/AccountDetails/ProfilePic/${Decoded_Account_Details.ProfilePicFileName}`
+			`${ReduxState.GeneralAppInfo.ApplicationConfig.Frontend_Details.Live_URL_FOR_API_CALL}/get/Profile/ProfilePic/${Decoded_Account_Details.ProfilePicFileName}`
 		)
 	);
 

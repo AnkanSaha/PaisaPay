@@ -33,7 +33,8 @@
   - MONGODB_URL
   - DB_NAME
   - RAZORPAY_MERCHANT_ID
-  - CPU_COUNT_MULTIPLIERenv
+  - IP_INFO_API_KEY
+  - CPU_COUNT_MULTIPLIERENV
 - change to Client directory and run `npm install`
 - run `npm run dev` in Server directory to Start Server
 - run `npm start` in Client directory to Start Client

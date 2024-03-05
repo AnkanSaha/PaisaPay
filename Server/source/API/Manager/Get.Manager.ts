@@ -15,6 +15,7 @@ import Information from "../Routes/GET/ServerInfo.Details.Route"; // Import Serv
 const Get_Request_Manager = Router(); // Setup Get_Request_Manager as Router
 
 // All Sub Routes
+Get_Request_Manager.use("/Profile", AccountDetails); // Use Account Details
 Get_Request_Manager.use("/AccountDetails", Middleware.JWTValidator(StringKeys.JWT_FieldName, StringKeys.JWT_SECRET), AccountDetails); // Use Account Details
 Get_Request_Manager.use("/Auth", Authenticator); // Use Account Details
 Get_Request_Manager.use("/help", HelpCenter); // Use Help Center

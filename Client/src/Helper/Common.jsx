@@ -107,9 +107,9 @@ export async function Load_General_App_Info() {
 			},
 			ClientDetails: {
 				ClientDeviceDetails: DeviceDetails, // Client Device Details
-				ClientIP: IPDetails.data.IP, // Client IP Address
-				IP_Type: IPDetails.data.Version, // IP Type
-				Client_Location: IPDetails.data.Details, // IP Location
+				ClientIP: IPDetails.data.details.ip, // Client IP Address
+				IP_Type: IPDetails.data.details.Type, // IP Type
+				Client_Location: IPDetails.data.details, // IP Location
 			},
 		})
 	);

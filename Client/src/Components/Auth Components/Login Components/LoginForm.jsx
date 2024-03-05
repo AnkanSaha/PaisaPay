@@ -56,6 +56,7 @@ export default function LoginForm() {
 			LastLoginIP: ReduxStore.GeneralAppInfo.ClientDetails.ClientIP,
 			LastLoginClientDetails: ReduxStore.GeneralAppInfo.ClientDetails,
 		};
+
 		const VerificationResult = await VerifyLoginData(LoginData); // Verify Login Data
 		if (VerificationResult === true) {
 			setIsLoading(true); // Set isLoading to true

@@ -45,7 +45,6 @@ interface isPasswordCorrectInterface {
 export const Login_PaisaPay = async (request: LoginRequestInterface, Response: Response) => {
 	try {
 		const { PhoneNumber, Password, LastLoginIP, LastLoginClientDetails } = request.body; // Destructure the request body
-
 		if (!PhoneNumber || !Password || !LastLoginIP || !LastLoginClientDetails) {
 			Serve.JSON({
 				data: undefined,
