@@ -10,12 +10,12 @@ export default async function IPAddressInfoService(request: Request, response: R
 	try {
 		// Extract Client IP Address
 		const ClientIP: str =
-		String(request.headers["x-forwarded-for"]) ||
-		String(request.connection.remoteAddress) ||
-		String(request.socket.remoteAddress) ||
-		String(request.socket.remoteAddress) ||
-		String(request.headers["x-real-ip"]) ||
-		String(request.ip); // Get Requester IP Address; // Get Client IP Address
+			String(request.headers["x-forwarded-for"]) ||
+			String(request.connection.remoteAddress) ||
+			String(request.socket.remoteAddress) ||
+			String(request.socket.remoteAddress) ||
+			String(request.headers["x-real-ip"]) ||
+			String(request.ip); // Get Requester IP Address; // Get Client IP Address
 
 		// Get IP Details
 		const IP_Details: obj = await FunctionBased.IP.Info(StringKeys.IP_INFO_API_KEY, ClientIP); // Get IP Details
