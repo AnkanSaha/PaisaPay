@@ -43,7 +43,7 @@ export default function BalanceShow () {
   // Update Balance Function
   const BalanceUpdater = async () => {
     setIsLoading(true) // set the loading state to true
-    const Response = await API.Get(`/get/Auth/ForgotPassword/?Email=${Decoded_Account_Details.Email}&sessionID=${AccountDetails.sessionID}`) // call the function for balance update
+    const Response = await API.Get(`/get/AccountDetails/GetDetails/?Email=${Decoded_Account_Details.Email}&sessionID=${AccountDetails.sessionID}`) // call the function for balance update
 
     // Check if the response is 200 or not
     if (Response.statusCode === 200) {
