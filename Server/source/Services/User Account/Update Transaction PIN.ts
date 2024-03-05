@@ -7,7 +7,7 @@ type int = number;
 // Import Required Modules
 import { Request, Response } from "express"; // Import Request from express
 // Import Required Modules
-import { Console, StatusCodes, Serve, methods } from "outers"; // Import Console & Status Codes
+import { Console, StatusCodes, Serve, ClassBased } from "outers"; // Import Console & Status Codes
 import { Compare, Encrypt as Bcrypt } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Middleware
 
 // import Helpers
@@ -93,7 +93,7 @@ export const UpdateTransactionPIN = async (Request: Request, Response: Response)
 
 		// Select Random Number as Round
 		// Encrypt Password
-		const RoundGenerator = new methods.UniqueGenerator(1); // Create Unique ID Generator
+		const RoundGenerator = new ClassBased.UniqueGenerator(1); // Create Unique ID Generator
 		const Rounds: int = RoundGenerator.RandomNumber(false, [1, 2, 3, 4, 5, 6, 7, 8, 9]); // Generate Rounds
 
 		// Encrypt New Transaction PIN

@@ -8,7 +8,7 @@ import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Im
 import JWT from "../../Middleware/JWT.middleware"; // Import JWT Config
 import { Request, Response } from "express"; // Import Request from express
 // Import Required Modules
-import { Console, StatusCodes, Serve, methods } from "outers"; // Import Console & Status Codes
+import { Console, StatusCodes, Serve, ClassBased } from "outers"; // Import Console & Status Codes
 
 // import Helpers
 import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Config
@@ -111,7 +111,7 @@ export const Login_PaisaPay = async (request: LoginRequestInterface, Response: R
 			const EncryptedaccountDetails = AccountStatus.Data[0]; // Generate JWT Token for Account Details
 
 			// Register Login Token Round Generator
-			const Generator = new methods.UniqueGenerator(1); // Create a new Unique Generator
+			const Generator = new ClassBased.UniqueGenerator(1); // Create a new Unique Generator
 
 			// Generate Login Token
 			const LoginToken = JWT.generateLoginToken(

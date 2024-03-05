@@ -7,7 +7,7 @@ import { Request, Response } from "express"; // Import Request from express
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
 import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Config
-import { Console, Serve, StatusCodes, methods } from "outers"; // Import red from outers
+import { Console, Serve, StatusCodes, ClassBased } from "outers"; // Import red from outers
 
 export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 	try {
@@ -109,7 +109,7 @@ export const WithdrawalMoney = async (Request: Request, Response: Response) => {
 		}
 
 		// Register Transaction ID Generator
-		const Generator = new methods.UniqueGenerator(18);
+		const Generator = new ClassBased.UniqueGenerator(18);
 
 		// Create Transaction ID for this Transaction
 		let TransactionID: int; // Create Transaction ID

@@ -1,6 +1,6 @@
 // All Imports
 import express, { json, urlencoded, Express } from "express"; // Import Express
-import { methods } from "outers"; // Import Outers
+import { FunctionBased } from "outers"; // Import Outers
 import { NumberKeys, StringKeys } from "./settings/keys/KeysConfig.keys.settings"; // Import Keys
 import { ConnectDB } from "./settings/DB/MongoDB.db"; // Import MongoDB Connection
 
@@ -32,4 +32,4 @@ Server.use("/api", MainRouter); // Link Main Router
 // Configure Static Folder
 Server.use(express.static(StringKeys.StaticDirectoryName)); // Configure Static Folder
 
-methods.ClusterCreator(Server, NumberKeys.PORT, NumberKeys.CPUCount, [], [ConnectDB]);
+FunctionBased.ClusterCreator(Server, NumberKeys.PORT, NumberKeys.CPUCount, [], [ConnectDB]); // Create Cluster with Port and CPU Count

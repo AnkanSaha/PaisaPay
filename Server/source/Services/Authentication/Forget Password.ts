@@ -5,12 +5,11 @@ type str = string; // Define str
 
 // Imports
 // Import Required Modules
-import { Console, Serve, StatusCodes } from "outers";
+import { Console, Serve, StatusCodes, FunctionBased } from "outers";
 import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Import HTTP Status Codes
 import JWT from "../../Middleware/JWT.middleware"; // Import JWT Config
 import { Encrypt } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Config
 import { Request, Response } from "express"; // Import Request from express
-import { randomNumber } from "uniquegen"; // Import Uniquegen
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
 
@@ -100,7 +99,7 @@ export const ForgetPasswordUpdater = async (request: Request, response: Response
 		const SmelledEmail: str = DecryptEmail.toLowerCase(); // Convert Email to lowercase
 
 		// Encrypt the Password
-		const Rounds: int = randomNumber(1, false, [1, 2, 3, 4, 5, 6, 7, 8, 9]);
+		const Rounds: int = FunctionBased.RandomGenerator.Number(1, false, [1, 2, 3, 4, 5, 6, 7, 8, 9]);
 		const EncryptedPassword: any = await Encrypt(DecryptPassword, Rounds); // Encrypt the Password
 
 		// Find the Account in the Database

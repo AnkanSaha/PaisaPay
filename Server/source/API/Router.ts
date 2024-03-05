@@ -1,8 +1,7 @@
 /* eslint-disable new-cap */
 import { Router, Request, Response } from "express"; // Import Express
-import { methods, StatusCodes, Middleware } from "outers"; // Import Status Codes
-import { NumberKeys, StringKeys } from "../settings/keys/KeysConfig.keys.settings"; // Import Keys
-import { CheckHeader } from "../utils/Incoming.Req.Check.utils"; // Import Check Header
+import { ClassBased, StatusCodes, Middleware } from "outers"; // Import Status Codes
+import { NumberKeys, StringKeys, AllowedMethods } from "../settings/keys/KeysConfig.keys.settings"; // Import Keys
 
 // Import Middlewares
 import RateLimiterMiddleware from "../Middleware/RateLimiter.middleware"; // Import Rate Limiter Middleware
@@ -14,7 +13,7 @@ const MainRouter = Router(); // Create Router
 // APi Path of Health Checking & Load Check
 MainRouter.get("/health", (request, Response) => {
 	// Register Response Instance
-	const OK = new methods.Response.JSON(Response, StatusCodes.OK, "json", `${StringKeys.AppName} Server is Running`); // Create Response Instance
+	const OK = new ClassBased.Response.JSON(Response, StatusCodes.OK, "json", `${StringKeys.AppName} Server is Running`); // Create Response Instance
 
 	// Send Response to Client
 	OK.Send(
@@ -27,10 +26,9 @@ MainRouter.get("/health", (request, Response) => {
 // Create a URL Object for getting the URL of the Allowed Origin
 MainRouter.use(RateLimiterMiddleware); // Use Rate Limiter Middleware on Main Router
 
-MainRouter.use(CheckHeader); // Use Check Header Middleware on Main Router
+MainRouter.use(Middleware.MethodsController(AllowedMethods)); // Use Check Header Middleware on Main Router
 
-const { hostname } = new URL(StringKeys.CORS_URL); // Create a URL Object for getting the URL of the Allowed Origin
-MainRouter.use(Middleware.AccessController([hostname], 406)); // Allow access to the API only from the specified origin
+MainRouter.use(Middleware.AccessController([new URL(StringKeys.CORS_URL).hostname], 406)); // Allow access to the API only from the specified origin
 
 MainRouter.use(CORSMiddleware); // Use CORS Middleware on Main Router
 
@@ -52,7 +50,7 @@ MainRouter.use("/delete", Delete_Request_Manager); // Use Post Request Manager
 // Response Not Allowed Request
 MainRouter.all("*", (Request: Request, Response: Response) => {
 	// Register Response Instance
-	const NOT_FOUND = new methods.Response.JSON(Response, StatusCodes.NOT_FOUND, "json", "URL Not Found"); // Create Response Instance
+	const NOT_FOUND = new ClassBased.Response.JSON(Response, StatusCodes.NOT_FOUND, "json", "URL Not Found"); // Create Response Instance
 
 	// Send Response to Client
 	NOT_FOUND.Send(

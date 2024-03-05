@@ -15,7 +15,7 @@ import { Encrypt } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt C
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 
 // Import Interfaces
-import { Console, StatusCodes, Serve, methods } from "outers"; // Import Console & Status Codes
+import { Console, StatusCodes, Serve, ClassBased } from "outers"; // Import Console & Status Codes
 
 // Interfaces for Signup
 interface SignupRequestInterface extends Request {
@@ -88,9 +88,9 @@ export async function Register(req: SignupRequestInterface, res: Response) {
 			const DecryptedPhoneNumber = PhoneNumber; // Decrypt Phone Number
 			const DecryptedLastLoginIP = LastLoginIP; // Decrypt Last Login IP
 			const DecryptedLastLoginClientDetails = JSON.parse(LastLoginClientDetails); // Decrypt Last Login Client Details
-			const DecryptedPaymentID = `${new methods.UniqueGenerator(9)
+			const DecryptedPaymentID = `${new ClassBased.UniqueGenerator(9)
 				.RandomWord(true, DecryptedName.split(""))
-				.replace(/ /g, "")}${new methods.UniqueGenerator(3).RandomNumber(true)}@pp`; // Decrypt Payment ID
+				.replace(/ /g, "")}${new ClassBased.UniqueGenerator(3).RandomNumber(true)}@pp`; // Decrypt Payment ID
 			const DecryptedEmail = Email; // Decrypt Email
 			const DecryptedTransactionPIN: int = TransactionPIN; // Decrypt Transaction PIN
 			// Lowercase all the strings
@@ -113,8 +113,8 @@ export async function Register(req: SignupRequestInterface, res: Response) {
 				return; // Return if the account exists
 			} else if (AccountStatus.status == false) {
 				// Register Unique ID Generator
-				const RoundGenerator = new methods.UniqueGenerator(1); // Create Unique ID Generator
-				const ClientGenerator = new methods.UniqueGenerator(20); // Create Unique ID Generator
+				const RoundGenerator = new ClassBased.UniqueGenerator(1); // Create Unique ID Generator
+				const ClientGenerator = new ClassBased.UniqueGenerator(20); // Create Unique ID Generator
 
 				// Encrypt Password
 				const Rounds: int = RoundGenerator.RandomNumber(false, [1, 2, 3, 4, 5, 6, 7, 8, 9]); // Generate Rounds

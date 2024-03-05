@@ -3,75 +3,22 @@ type str = string; // Type Declaration for string
 type obj = object; // Type Declaration for object
 
 import { Request, Response } from "express"; // Import Request from express
-import { Console, StatusCodes, Serve, methods } from "outers"; // Import red from outers
+import { Console, StatusCodes, Serve, FunctionBased } from "outers"; // Import red from outers
 import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Import Keys
-
-// Start Storage Instance for IP Address Cache Management
-const IPstorage = new methods.Storage.CreateNewShortStorage(
-	"IP_Cache",
-	500,
-	`${StringKeys.AppName}${StringKeys.JWT_SECRET}${StringKeys.IP_INFO_API_KEY}`
-); // Start Storage Instance for IP Address Cache Management
 
 export default async function IPAddressInfoService(request: Request, response: Response) {
 	try {
 		// Extract Client IP Address
 		const ClientIP: str =
-			String(request.headers["x-forwarded-for"]) ||
-			String(request.connection.remoteAddress) ||
-			String(request.socket.remoteAddress) ||
-			String(request.socket.remoteAddress) ||
-			String(request.headers["x-real-ip"]) ||
-			String(request.ip); // Get Requester IP Address; // Get Client IP Address
+		String(request.headers["x-forwarded-for"]) ||
+		String(request.connection.remoteAddress) ||
+		String(request.socket.remoteAddress) ||
+		String(request.socket.remoteAddress) ||
+		String(request.headers["x-real-ip"]) ||
+		String(request.ip); // Get Requester IP Address; // Get Client IP Address
 
-		// Check if Client IP Address is cached or not
-		const IPCacheDetails = await IPstorage.Get(ClientIP); // Get IP Cache Details
-
-		// Check if Client IP Address is cached or not if it is cached then return it
-		if (IPCacheDetails.status == StatusCodes.OK) {
-			Serve.JSON({
-				response: response,
-				status: true,
-				statusCode: StatusCodes.NOT_MODIFIED,
-				Title: "Success",
-				message: "Your IP Address & IP Details is here.",
-				data: {
-					...IPCacheDetails.Data[0].Data,
-					origin: `${StringKeys.AppName}'s Cache Server`,
-				},
-			});
-			return; // Return if IP Address is cached
-		}
-
-		// Create IP Info API URL
-		const IPInfo_API_URL: str = `https://ipinfo.io/${ClientIP}/json?token=${StringKeys.IP_INFO_API_KEY}`; // Create IP Info API URL
-
-		// Get Client IP Address Info from IP Address Lookup API
-		const IPData = await (await fetch(IPInfo_API_URL)).json(); // Get Client IP Address Info from IP Address Lookup API
-
-		// Check if Error or not
-		if (IPData.status) {
-			Serve.JSON({
-				response: response,
-				status: false,
-				statusCode: StatusCodes.NOT_ACCEPTABLE,
-				Title: "Currently IP Not Available",
-				message: "Currently, we can't find your IP Address. Please try again later.",
-				data: undefined,
-			});
-			return; // Return if Error
-		}
-
-		// Collect Client IP Address Info from IP Address Lookup API
-		const Fetched_ClientIP_Details: obj = {
-			IP: IPData.ip,
-			Details: IPData,
-			Version: IPChecker(IPData.ip), // Send IP Address & IP Details to check IPv4 or IPv6
-			origin: "IP Address Lookup API Server",
-		};
-
-		// Store IP Address & IP Details in Storage
-		await IPstorage.Save(IPData.ip, Fetched_ClientIP_Details); // Store IP Address & IP Details in Storage
+		// Get IP Details
+		const IP_Details: obj = await FunctionBased.IP.Info(StringKeys.IP_INFO_API_KEY, ClientIP); // Get IP Details
 
 		// Send IP Details to Client
 		Serve.JSON({
@@ -80,7 +27,7 @@ export default async function IPAddressInfoService(request: Request, response: R
 			statusCode: StatusCodes.OK,
 			Title: "Success",
 			message: "Your IP Address & IP Details is here.",
-			data: Fetched_ClientIP_Details,
+			data: IP_Details,
 		});
 	} catch (error) {
 		Console.red(error); // Log Error
@@ -92,26 +39,5 @@ export default async function IPAddressInfoService(request: Request, response: R
 			response: response,
 			data: undefined,
 		});
-	}
-}
-
-// Check if IP is IPv4 or IPv6 address
-export function IPChecker(CurrentIP: str) {
-	try {
-		// Regular expressions for IPv4 and IPv6 addresses
-		const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
-		const ipv6Regex = /^([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}$/;
-
-		// Check if the IP address matches IPv4 or IPv6 regex
-		if (ipv4Regex.test(CurrentIP)) {
-			return "IPv4";
-		} else if (ipv6Regex.test(CurrentIP)) {
-			return "IPv6";
-		} else {
-			return new Error("Invalid IP address");
-		}
-	} catch (error) {
-		// If any error occurs, reject the Promise with the error
-		return error;
 	}
 }
