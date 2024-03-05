@@ -32,4 +32,4 @@ Server.use("/api", MainRouter); // Link Main Router
 // Configure Static Folder
 Server.use(express.static(StringKeys.StaticDirectoryName)); // Configure Static Folder
 
-FunctionBased.ClusterCreator(Server, NumberKeys.PORT, NumberKeys.CPUCount, [], [ConnectDB]); // Create Cluster with Port and CPU Count
+FunctionBased.ClusterCreator(Server, NumberKeys.PORT, NumberKeys.CPUCount, [ConnectDB]); // Create Cluster with Port and CPU Count
