@@ -41,7 +41,7 @@ export default function ForgetPasswordFinder() {
 		const Validate = StepOne(EmailInput); // Validate the Email Input
 		if (Validate === true) {
 			setisLoading(true); // Set Loading Screen to True
-			const Result = await API.Get(`/get/Auth/ForgotPassword/${EmailInput}`); // Get Result from StepOneFinder Function
+			const Result = await API.Get(`/get/Auth/ForgotPassword/?Email=${EmailInput}`); // Get Result from StepOneFinder Function
 			if (Result.statusCode === 200) {
 				dispatch(updateAccountDetails(Result.data));
 				Navigate('/auth/forget-password/Verify'); // Navigate to Step 2

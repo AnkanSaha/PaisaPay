@@ -65,7 +65,7 @@ export default function ReceivedRequestTable() {
 
 	// Use Effect
 	React.useEffect(() => {
-		Service.Get(`/get/Payments/listofrequests/?ClientID=${Decoded_Account_Details.ClientID}&Email=${Decoded_Account_Details.Email}`).then(Response => {
+		Service.Get(`/get/Payments/listofrequests/?ClientID=${Decoded_Account_Details.ClientID}&Email=${Decoded_Account_Details.Email}&sessionID=${ReduxState.AccountInfo.sessionID}`).then(Response => {
 			if (Response.statusCode === 200) {
 				setReceivedRequest(Response.data); // set the received request state
 				setIsLoading(false); // set the loading screen to false

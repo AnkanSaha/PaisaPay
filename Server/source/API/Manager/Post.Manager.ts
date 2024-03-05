@@ -1,7 +1,8 @@
 import { Router } from "express"; // Import express router
+import { StringKeys } from "../../settings/keys/KeysConfig.keys.settings"; // Import String Keys
 
-// Import Middleware
-import { SessionValidation } from "../../utils/Incoming.Req.Check.utils"; // Import session validation
+// Middlewares
+import { Middleware } from "outers"; // Import Middleware from outers
 
 // Import All Sub Service Routes
 import Authenticator from "../Routes/POST/Authentication.Route"; // Import authenticator
@@ -13,9 +14,9 @@ const PostRequestManager = Router(); // Create router
 
 // All Sub Routes
 PostRequestManager.use("/auth", Authenticator); // Use authenticator
-PostRequestManager.use("/help-center", SessionValidation, HelpCenter); // Use help center
+PostRequestManager.use("/help-center", Middleware.JWTValidator(StringKeys.JWT_FieldName, StringKeys.JWT_SECRET), HelpCenter); // Use help center
 PostRequestManager.use("/WebhookPayment", PaymentService); // Use payment webhook manager
-PostRequestManager.use("/Payment", SessionValidation, PaymentService); // Use Payment Service
+PostRequestManager.use("/Payment", Middleware.JWTValidator(StringKeys.JWT_FieldName, StringKeys.JWT_SECRET), PaymentService); // Use Payment Service
 
 // Export router
 export default PostRequestManager; // Export router

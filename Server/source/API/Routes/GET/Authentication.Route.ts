@@ -7,7 +7,7 @@ const Authenticator = Router(); // Create a router
 import { ForgetPasswordAccountFinder } from "../../../Services/Authentication/Forget Password"; // Import Forget Password Service
 
 // All Services
-Authenticator.get("/ForgotPassword/:Email", ForgetPasswordAccountFinder); // Forgot Password Service
+Authenticator.get("/ForgotPassword/", ForgetPasswordAccountFinder); // Forgot Password Service
 
 // Export Router
 export default Authenticator; // Export router
