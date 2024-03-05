@@ -2,7 +2,7 @@ import multer from "multer"; // Import multer
 import fs from "fs"; // Import the fs module
 import { extname, join } from "path"; // Import the path module
 import { StringKeys } from "../settings/keys/KeysConfig.keys.settings"; // Import the keys
-import { methods } from "outers"; // Import the outers module
+import { ClassBased } from "outers"; // Import the outers module
 
 // Ensure 'uploads' directory exists
 const uploadDirectory = join(`${StringKeys.StaticDirectoryName}/`);
@@ -11,7 +11,7 @@ if (!fs.existsSync(uploadDirectory)) {
 }
 
 // Generate a random digits with class
-const Generator = new methods.UniqueGenerator(100);
+const Generator = new ClassBased.UniqueGenerator(100);
 
 const storage = multer.diskStorage({
 	destination: (_req, _file, cb) => {

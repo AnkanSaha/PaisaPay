@@ -8,7 +8,7 @@ import { cpus, platform, freemem, arch } from "os"; // Import OS
 export enum NumberKeys {
 	PORT = Number(process.env.PORT) || 5412,
 	// CPU Count
-	CPUCount = cpus().length * Number(process.env.CPU_COUNT_MULTIPLIERENV) ?? 2,
+	CPUCount = Number(process.env.CPU_COUNT_MULTIPLIERENV) ?? cpus().length,
 }
 
 // Export keys
@@ -66,3 +66,6 @@ export const All_exposedHeadersInCORS: string[] = [
 	"Access-Control-Allow-Methods",
 	"Access-Control-Allow-Credentials",
 ]; // ExposedHeaders indicates which headers are safe to expose to the API of a CORS API specification
+
+// All Variables for send response
+export const AllowedMethods: string[] = ["POST", "GET", "PUT", "DELETE", "OPTIONS"]; // Allowed Methods

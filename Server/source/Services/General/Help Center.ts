@@ -2,7 +2,7 @@
 type str = string; // Type Declaration for string
 
 import { Request, Response } from "express"; // Import Request from express
-import { Console, StatusCodes, Serve, methods } from "outers"; // Import red from outers
+import { Console, StatusCodes, Serve, ClassBased } from "outers"; // Import red from outers
 
 // Import Helpers
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
@@ -52,7 +52,7 @@ export default async function HelpCenterService(request: RequestInterface, respo
 			const EncryptedTicketDescription = request.body.TicketDescription; // Encrypt the request data
 
 			//  Register Ticket ID Generator
-			const TicketIDGenerator = new methods.UniqueGenerator(15); // Create a new Unique ID Generator
+			const TicketIDGenerator = new ClassBased.UniqueGenerator(15); // Create a new Unique ID Generator
 
 			const RequestDataToBeSave = {
 				ClientID: ClientID,

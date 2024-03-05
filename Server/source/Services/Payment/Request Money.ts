@@ -6,7 +6,7 @@ type str = string; // Define str
 import { Request, Response } from "express"; // Import Request from express
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
 import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
-import { Console, Serve, StatusCodes, methods } from "outers"; // Import red from outers
+import { Console, Serve, StatusCodes, ClassBased } from "outers"; // Import red from outers
 import { Compare } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Config
 
 // Interfaces
@@ -141,8 +141,8 @@ export default async (Request: Request, Response: Response) => {
 			return; // Return
 		}
 		// Create Transaction Record for Sender & Requester
-		const RequestIDGenerator = new methods.UniqueGenerator(11); // Create Unique Generator for RequestID
-		const TransactionIDgenerator = new methods.UniqueGenerator(16); // Create Unique Generator
+		const RequestIDGenerator = new ClassBased.UniqueGenerator(11); // Create Unique Generator for RequestID
+		const TransactionIDgenerator = new ClassBased.UniqueGenerator(16); // Create Unique Generator
 
 		// Create Request
 		const CreateRequest = await MongoDB.RequestMoney.create({
@@ -407,7 +407,7 @@ export async function Accept_Request_Money(Request: Request, Response: Response)
 		}
 
 		// Register Transaction ID Generator
-		const Generator = new methods.UniqueGenerator(18);
+		const Generator = new ClassBased.UniqueGenerator(18);
 
 		// Create Transaction ID for this Transaction
 		let TransactionID: int; // Create Transaction ID

@@ -6,9 +6,6 @@ import JWT from "../Middleware/JWT.middleware"; // Import JWT Config
 type str = string;
 type int = number;
 
-// All Variables for send response
-const AllowedMethods: str[] = ["POST", "GET", "PUT", "DELETE", "OPTIONS"]; // Allowed Methods
-
 // All Interfaces
 /* The `RequestInterface` interface is defining the structure of the request object that will be
 received by the `CheckHeader` function. It has the following properties: */
@@ -43,40 +40,6 @@ export interface NextInterface {
  * next middleware function in the request-response cycle. It is typically called as `next()` to invoke
  * the next middleware function.
  */
-
-export function CheckHeader(req: RequestInterface, res: Response, next: NextInterface) {
-	if (!req.headers) {
-		Serve.JSON({
-			status: false,
-			statusCode: StatusCodes.FORBIDDEN,
-			Title: "Request Headers not found",
-			message: "Request Headers not found or not set",
-			response: res,
-			data: {
-				requestedUrl: req.url,
-				requestedMethod: req.method,
-				requestedBody: req.body,
-				requestedHeaders: req.headers,
-			},
-		}); // Send Response to Client
-	} else if (!AllowedMethods.includes(req.method)) {
-		Serve.JSON({
-			status: false,
-			statusCode: StatusCodes.METHOD_NOT_ALLOWED,
-			Title: "Request Method not allowed",
-			message: "Request Method not allowed for this url, please check the url and try again",
-			response: res,
-			data: {
-				requestedUrl: req.url,
-				requestedMethod: req.method,
-				requestedBody: req.body,
-				requestedHeaders: req.headers,
-			},
-		}); // Send Response to Client
-	} else {
-		next(); // Go to next middleware
-	}
-}
 
 // Session Validation
 export const SessionValidation = async (Request: RequestInterface, Response: Response, next: NextInterface) => {

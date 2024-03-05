@@ -7,7 +7,7 @@ type int = number;
 import { Request, Response } from "express"; // Import Request from express
 
 // Import Required Modules
-import { Console, StatusCodes, Serve, methods } from "outers"; // Import Console & Status Codes
+import { Console, StatusCodes, Serve, ClassBased } from "outers"; // Import Console & Status Codes
 import { Compare, Encrypt as Bcrypt } from "../../Middleware/Bcrypt.middleware"; // Import Bcrypt Middleware
 
 // // import Helpers
@@ -84,7 +84,7 @@ export default async function UpdatePassword(Request: Request, Response: Respons
 		}
 
 		// Register Unique Number Generator
-		const Generator = new methods.UniqueGenerator(1); // Create Unique Number Generator
+		const Generator = new ClassBased.UniqueGenerator(1); // Create Unique Number Generator
 
 		// Encrypt Password
 		const EncryptedPassword: PasswordEncryptionInterface = await Bcrypt(Decrypted_Info.ConfirmNewPassword, Generator.RandomNumber(false)); // Encrypt Password
