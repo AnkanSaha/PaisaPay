@@ -1,0 +1,100 @@
+version: 2.1
+
+jobs:
+  Build_Client:
+    docker:
+      - image: node:latest
+    steps:
+      - checkout
+      - run:
+          name: Build Client Project
+          command: | 
+            cd Client/ && npm install --force && npm run build
+  
+  Test_Client:
+    docker:
+      - image: node:latest
+    steps:
+      - checkout
+      - run:
+          name: Test Client Project
+          command: |
+            cd Client/ && npm install --force && npm run test
+
+  Build_Server:
+    docker:
+      - image: node:latest
+    steps:
+      - checkout
+      - run:
+          name: Build Server Project
+          command: |
+           cd Server/ && npm install --force && npm run build
+  
+  Test_Server:
+    docker:
+      - image: node:latest
+    steps:
+      - checkout
+      - run:
+          name: Test Server Project
+          command: |
+            cd Server/ && npm install --force && npm run test
+
+
+  Push_To_Gitlab:
+    docker:
+      - image: node:latest
+    steps:
+      - checkout
+      - run:
+          name: Add Gitlab Remote URL
+          command: git remote add gitlab ${GITLAB_REPO_URL}
+      - run:
+          name: Configure GitLab Credentials
+          command: |
+            git config --global credential.helper store
+            echo "https://oauth2:${GITLAB_PERMANENT_ACCESS_TOKEN}@gitlab.com" > ~/.git-credentials
+            git config --global user.email "${OWNER_EMAIL}"
+            git config --global user.name "${OWNER_NAME}"
+      - run:
+          name: Push to Gitlab
+          command: |
+            git push gitlab
+
+workflows:
+  version: 2
+  Build_Publish:
+    jobs:
+      - Build_Client:
+          name: Build Client Side
+          filters:
+           branches:
+             only: main
+      - Build_Server:
+          name: Build Server Side
+          filters:
+           branches:
+             only: main
+      - Test_Client:
+          name: Test Client Side
+          requires:
+            - Build Client Side
+          filters:
+           branches:
+             only: main
+      - Test_Server:
+          name: Test Server Side
+          requires:
+            - Build Server Side
+          filters:
+           branches:
+             only: main
+      - Push_To_Gitlab:
+          name: Publish to Gitlab
+          requires:
+            - Test Client Side
+            - Test Server Side
+          filters:
+            branches:
+              only: main
