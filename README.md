@@ -1,5 +1,7 @@
 # PaisaPay - NodeJS Based Payment Network
 
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/AnkanSaha/PaisaPay/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/AnkanSaha/PaisaPay/tree/main)
+
 - PaisaPay is a robust payment network built using React and MERN (MongoDB, Express.js, React, Node.js) technology stack. It provides users with a seamless and secure platform for managing their finances and making transactions within their family network.
 
 ## Features
