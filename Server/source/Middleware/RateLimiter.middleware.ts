@@ -16,11 +16,11 @@ export default rateLimit({
 	legacyHeaders: false, // Include legacy headers for request limit
 	keyGenerator: Request => {
 		return String(
-			Request.headers['x-forwarded-for'] ??
+			Request.headers["x-forwarded-for"] ??
 				Request.connection.remoteAddress ??
 				Request.socket.remoteAddress ??
 				Request.socket.remoteAddress ??
-				Request.headers['x-real-ip'] ??
+				Request.headers["x-real-ip"] ??
 				Request.ip
 		);
 	},
