@@ -39,7 +39,7 @@ jobs:
       - run:
           name: Test Server Project
           command: |
-            cd Server/ && npm install --force && npm run test
+            cd Server/ && npm install --force && npm run build && npm i pm2 && npm run test
 
 
   Push_To_Gitlab:

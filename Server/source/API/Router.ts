@@ -28,7 +28,7 @@ MainRouter.use(RateLimiterMiddleware); // Use Rate Limiter Middleware on Main Ro
 
 MainRouter.use(Middleware.MethodsController(AllowedMethods)); // Use Check Header Middleware on Main Router
 
-MainRouter.use(Middleware.AccessController([new URL(StringKeys.CORS_URL).hostname], 406)); // Allow access to the API only from the specified origin
+MainRouter.use(Middleware.URL_Controller([new URL(StringKeys.CORS_URL).hostname], 406)); // Allow access to the API only from the specified origin
 
 MainRouter.use(CORSMiddleware); // Use CORS Middleware on Main Router
 
