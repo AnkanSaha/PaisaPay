@@ -12,9 +12,6 @@ cores. */
 
 const Server: Express = express(); // Create Express Server
 
-// Enable All Proxy Settings for Server Security
-Server.set("trust proxy", () => true); // Enable All Proxy Settings
-
 // Enable JSON & URL Encoded Body Parser
 Server.use(json({ limit: "999mb" })); // Enable JSON Body Parser
 Server.use(
@@ -32,4 +29,4 @@ Server.use("/api", MainRouter); // Link Main Router
 // Configure Static Folder
 Server.use(express.static(StringKeys.StaticDirectoryName)); // Configure Static Folder
 
-FunctionBased.ClusterCreator(Server, NumberKeys.PORT, NumberKeys.CPUCount, [ConnectDB]); // Create Cluster with Port and CPU Count
+FunctionBased.ClusterCreator(Server, NumberKeys.PORT, NumberKeys.CPUCount, true, [ConnectDB]); // Create Cluster with Port and CPU Count
