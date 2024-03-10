@@ -11,7 +11,7 @@ import { Console, Serve, StatusCodes } from "outers"; // Import Console
 export const AddMoney = async (Request: Request, Response: Response) => {
 	try {
 		const { account_id, event, payload } = Request.body; // Get Data From Request Body
-		console.log(event, payload.payment.entity.notes );
+		console.log(event, payload.payment.entity.notes);
 
 		// Check if Request Body is Empty or Not
 		if (account_id === undefined || event === undefined || payload === undefined) {
@@ -40,7 +40,7 @@ export const AddMoney = async (Request: Request, Response: Response) => {
 
 		// Check if service is PaisaPay
 		if (payload.payment.entity.notes.choose_service !== "PaisaPay Services") {
-			return	Serve.JSON({
+			return Serve.JSON({
 				statusCode: StatusCodes.BAD_REQUEST,
 				status: false,
 				message: "This Service is Not for me",
@@ -62,7 +62,9 @@ export const AddMoney = async (Request: Request, Response: Response) => {
 
 		// Check if payment is captured
 		if (event === "payment.captured") {
-			const AccountDetails = await MongoDB.ClientAccount.find('OR', [{PaymentID: UserPaymentID, Email: EmailID, PhoneNumber: NumberWithoutCountryCode}]); // Get Account Details From MongoDB
+			const AccountDetails = await MongoDB.ClientAccount.find("OR", [
+				{ PaymentID: UserPaymentID, Email: EmailID, PhoneNumber: NumberWithoutCountryCode },
+			]); // Get Account Details From MongoDB
 			const RecordStatus = await UpdateTransaction(
 				"Transaction Success",
 				AccountDetails,
@@ -98,7 +100,9 @@ export const AddMoney = async (Request: Request, Response: Response) => {
 				}); // Send Response To Client if payment record is created
 			}
 		} else if (event === "payment.failed") {
-			const AccountDetails = await MongoDB.ClientAccount.find('OR', [{PaymentID: UserPaymentID, Email: EmailID, PhoneNumber: NumberWithoutCountryCode}]); // Get Account Details From MongoDB
+			const AccountDetails = await MongoDB.ClientAccount.find("OR", [
+				{ PaymentID: UserPaymentID, Email: EmailID, PhoneNumber: NumberWithoutCountryCode },
+			]); // Get Account Details From MongoDB
 			// Ready The Data To Be Inserted if Payment Failed
 			const RecordStatus = await UpdateTransaction(
 				"Transaction Failed",
