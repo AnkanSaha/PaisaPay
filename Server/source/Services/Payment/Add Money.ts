@@ -12,10 +12,23 @@ import { Console, Serve, StatusCodes } from "outers"; // Import Console
 export const AddMoney = async (Request: Request, Response: Response) => {
 	try {
 		const { account_id, event, payload } = Request.body; // Get Data From Request Body
-		console.log(Request.body);
+		console.log(account_id, event, payload );
+
+		// Check if Request Body is Empty or Not
+		if (account_id === undefined || event === undefined || payload === undefined) {
+			return Serve.JSON({
+				statusCode: StatusCodes.BAD_REQUEST,
+				status: false,
+				message: "Request With Empty Body Not Allowed",
+				Title: "Invalid Request",
+				data: undefined,
+				response: Response,
+			});
+			return; // Return from here if request body is empty
+		}
 		// Check if account id is valid & payment done by merchant
 		if (account_id.replace("acc_", "") !== Payment_Keys.MERCHANT_ID) {
-			Serve.JSON({
+			return Serve.JSON({
 				statusCode: StatusCodes.BAD_REQUEST,
 				status: false,
 				message: "Invalid Account ID",
@@ -28,10 +41,10 @@ export const AddMoney = async (Request: Request, Response: Response) => {
 
 		// Check if service is PaisaPay
 		if (payload.payment.entity.notes.choose_service !== "PaisaPay Services") {
-			Serve.JSON({
+			return	Serve.JSON({
 				statusCode: StatusCodes.BAD_REQUEST,
 				status: false,
-				message: "Invalid Service",
+				message: "This Service is Not for me",
 				Title: "Invalid Service",
 				data: undefined,
 				response: Response,
