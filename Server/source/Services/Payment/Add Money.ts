@@ -6,16 +6,28 @@ type str = string; // Define str
 import { Payment_Keys } from "../../settings/keys/KeysConfig.keys.settings"; // Import HTTP Status Codes
 import { Request, Response } from "express"; // Import Request from express
 import MongoDB from "../../settings/DB/MongoDB.db"; // Import MongoDB Instance
-import { AccountExistenceChecker } from "../../utils/AC.Exist.Check.utils"; // Import Account Existence Checker
 import { Console, Serve, StatusCodes } from "outers"; // Import Console
 
 export const AddMoney = async (Request: Request, Response: Response) => {
 	try {
 		const { account_id, event, payload } = Request.body; // Get Data From Request Body
-		console.log(Request.body);
+		console.log(event, payload.payment.entity.notes);
+
+		// Check if Request Body is Empty or Not
+		if (account_id === undefined || event === undefined || payload === undefined) {
+			return Serve.JSON({
+				statusCode: StatusCodes.BAD_REQUEST,
+				status: false,
+				message: "Request With Empty Body Not Allowed",
+				Title: "Invalid Request",
+				data: undefined,
+				response: Response,
+			});
+			return; // Return from here if request body is empty
+		}
 		// Check if account id is valid & payment done by merchant
 		if (account_id.replace("acc_", "") !== Payment_Keys.MERCHANT_ID) {
-			Serve.JSON({
+			return Serve.JSON({
 				statusCode: StatusCodes.BAD_REQUEST,
 				status: false,
 				message: "Invalid Account ID",
@@ -28,10 +40,10 @@ export const AddMoney = async (Request: Request, Response: Response) => {
 
 		// Check if service is PaisaPay
 		if (payload.payment.entity.notes.choose_service !== "PaisaPay Services") {
-			Serve.JSON({
+			return Serve.JSON({
 				statusCode: StatusCodes.BAD_REQUEST,
 				status: false,
-				message: "Invalid Service",
+				message: "This Service is Not for me",
 				Title: "Invalid Service",
 				data: undefined,
 				response: Response,
@@ -41,15 +53,18 @@ export const AddMoney = async (Request: Request, Response: Response) => {
 
 		// User Account Details From Payload
 		const NumberWithoutCountryCode = removeCountryCode(payload.payment.entity.notes.phone); // Remove Country Code From Phone Number
-		const Email = payload.payment.entity.notes.email.toLowerCase(); // Email From Payload
+		const EmailID = payload.payment.entity.notes.email.toLowerCase(); // Email From Payload
 		const TransactionID = payload.payment.entity.id; // Transaction ID From Payload
 		const TransactionAmount = payload.payment.entity.amount === undefined ? 0 : payload.payment.entity.amount / 100; // Transaction Amount From Payload
 		const Method = `RazorPay's ${payload.payment.entity.method}`; // Transaction Method From Payload
 		const Description = payload.payment.entity.notes.description === undefined ? "No Description Provided" : payload.payment.entity.notes.description; // Transaction Description From Payload
+		const UserPaymentID = payload.payment.entity.notes.payment_id.toLowerCase(); // Payment ID From Payload
 
 		// Check if payment is captured
 		if (event === "payment.captured") {
-			const AccountDetails = await AccountExistenceChecker(NumberWithoutCountryCode, Email); // Check if account exists
+			const AccountDetails = await MongoDB.ClientAccount.find("OR", [
+				{ PaymentID: UserPaymentID, Email: EmailID, PhoneNumber: NumberWithoutCountryCode },
+			]); // Get Account Details From MongoDB
 			const RecordStatus = await UpdateTransaction(
 				"Transaction Success",
 				AccountDetails,
@@ -67,9 +82,9 @@ export const AddMoney = async (Request: Request, Response: Response) => {
 			}
 
 			// Update Account Balance
-			const AccountBalanceToUpdate = AccountDetails.Information.Data[0].Balance + TransactionAmount; // Calculate New Balance
+			const AccountBalanceToUpdate = AccountDetails.Data[0].Balance + TransactionAmount; // Calculate New Balance
 			const AccountBalanceToUpdateStatus = await MongoDB.ClientAccount.update(
-				[{ ClientID: AccountDetails.Information.Data[0].ClientID }, { PhoneNumber: NumberWithoutCountryCode }, { Email: Email }],
+				[{ ClientID: AccountDetails.Data[0].ClientID }, { PhoneNumber: NumberWithoutCountryCode }, { Email: EmailID }],
 				{ Balance: AccountBalanceToUpdate },
 				false
 			); // Update Account Balance
@@ -85,7 +100,9 @@ export const AddMoney = async (Request: Request, Response: Response) => {
 				}); // Send Response To Client if payment record is created
 			}
 		} else if (event === "payment.failed") {
-			const AccountDetails = await AccountExistenceChecker(NumberWithoutCountryCode, Email); // Check if account exists
+			const AccountDetails = await MongoDB.ClientAccount.find("OR", [
+				{ PaymentID: UserPaymentID, Email: EmailID, PhoneNumber: NumberWithoutCountryCode },
+			]); // Get Account Details From MongoDB
 			// Ready The Data To Be Inserted if Payment Failed
 			const RecordStatus = await UpdateTransaction(
 				"Transaction Failed",
@@ -153,7 +170,7 @@ export const UpdateTransaction = async (
 ) => {
 	try {
 		// Check if account exists or not
-		if (AccountDetails.status === false) {
+		if (AccountDetails.count === 0) {
 			Serve.JSON({
 				statusCode: StatusCodes.BAD_REQUEST,
 				status: false,
@@ -167,7 +184,7 @@ export const UpdateTransaction = async (
 		// Check if transaction id is already present
 		const isTransactionIDPresent = await MongoDB.ServerTransaction.findAndCount("AND", [
 			{ TransactionID: TransactionID },
-			{ UserClientID: AccountDetails.Information.Data[0].ClientID },
+			{ UserClientID: AccountDetails.Data[0].ClientID },
 		]);
 
 		// Check if transaction id is already present
@@ -185,10 +202,10 @@ export const UpdateTransaction = async (
 
 		// Ready The Data To Be Inserted if Payment Failed
 		const NewPaymentRecord = {
-			UserClientID: AccountDetails.Information.Data[0].ClientID,
-			UserPaymentID: AccountDetails.Information.Data[0].PaymentID,
-			UserName: AccountDetails.Information.Data[0].Name,
-			UserEmail: AccountDetails.Information.Data[0].Email,
+			UserClientID: AccountDetails.Data[0].ClientID,
+			UserPaymentID: AccountDetails.Data[0].PaymentID,
+			UserName: AccountDetails.Data[0].Name,
+			UserEmail: AccountDetails.Data[0].Email,
 			UserPhone: NumberWithoutCountryCode,
 			TransactionID: TransactionID,
 			TransactionDate: Date.now(),
