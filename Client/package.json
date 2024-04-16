@@ -23,7 +23,7 @@
     "react-jwt": "^1.2.0",
     "react-qr-code": "^2.0.12",
     "react-redux": "^8.1.1",
-    "react-router-dom": "^6.14.2",
+    "react-router-dom": "^6.22.3",
     "typed.js": "^2.0.16"
   },
   "devDependencies": {
