@@ -20,17 +20,21 @@ jobs:
           command: |
             cd Client/ && npm run build
       - run:
+          name: Check if Client Build Folder Already Exists in Server
+          command: |
+            sudo ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "rm -rf ${PROJECT_NAME}"
+      - run:
           name: Send Client Files to Server
           command: |
             cd Client/ && scp -o StrictHostKeyChecking=no -r ${PROJECT_NAME}/ ${SSH_USER}@${VM_IP}:/home/${SSH_USER}/
       - run:
           name: Check if Already Exists in Nginx Static Folder
           command: |
-            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "rm -rf /var/www/html/${PROJECT_NAME}"
+            sudo ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "rm -rf /var/www/html/${PROJECT_NAME}"
       - run:
           name: Move Files to Nginx Static Folder
           command: |
-            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "mv /home/${SSH_USER}/${PROJECT_NAME} /var/www/html/"
+            sudo ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "mv /home/${SSH_USER}/${PROJECT_NAME} /var/www/html/"
 
   Send_Server_File:
     docker:
