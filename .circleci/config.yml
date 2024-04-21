@@ -2,7 +2,7 @@ version: 2.1
 
 jobs:
   Send_Client_File:
-   - add_ssh_keys:
+    - add_ssh_keys:
         fingerprints:
           - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
     docker:
@@ -10,7 +10,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Switch  to Client Directory
+          name: Switch to Client Directory
           command: | 
             cd Client/
       - run:
@@ -26,7 +26,7 @@ jobs:
           command: |
             scp -r ${PROJECT_NAME}/ ${SSH_USER}@${VM_IP}:/home/${SSH_USER}/
       - run:
-          name: Check if Already Exists in Nginx Static Folder if has then remove
+          name: Check if Already Exists in Nginx Static Folder
           command: |
             ssh ${SSH_USER}@${VM_IP} "rm -rf /var/www/html/${PROJECT_NAME}"
       - run:
@@ -34,12 +34,8 @@ jobs:
           command: |
             ssh ${SSH_USER}@${VM_IP} "mv /home/${SSH_USER}/${PROJECT_NAME} /var/www/html/"
 
-            
-            
-  
-
   Send_Server_File:
-   - add_ssh_keys:
+    - add_ssh_keys:
         fingerprints:
           - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
     docker:
@@ -98,15 +94,15 @@ workflows:
       - Send_Client_File:
           name: Send Client Side to Server
           filters:
-           branches:
-             only: main
+            branches:
+              only: main
       - Send_Server_File:
           name: Send Server Side to Server
           requires:
             - Send Client Side to Server
           filters:
-           branches:
-             only: main
+            branches:
+              only: main
       - Push_To_Gitlab:
           name: Publish to Gitlab
           requires:
