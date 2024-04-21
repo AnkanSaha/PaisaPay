@@ -2,12 +2,12 @@ version: 2.1
 
 jobs:
   Send_Client_File:
-    - add_ssh_keys:
-        fingerprints:
-          - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
     docker:
       - image: node:latest
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
       - checkout
       - run:
           name: Switch to Client Directory
@@ -35,12 +35,12 @@ jobs:
             ssh ${SSH_USER}@${VM_IP} "mv /home/${SSH_USER}/${PROJECT_NAME} /var/www/html/"
 
   Send_Server_File:
-    - add_ssh_keys:
-        fingerprints:
-          - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
     docker:
       - image: node:latest
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
       - checkout
       - run:
           name: Switch to Server Directory
