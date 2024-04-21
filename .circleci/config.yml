@@ -87,15 +87,15 @@ jobs:
             echo 'RAZORPAY_MERCHANT_ID=${RAZORPAY_MERCHANT_ID}' >> .env"
 
       - run:
-          name: Start Server
-          command: |
-            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "cd ${PROJECT_NAME} && npm start"
-      
-      - run:
           name: Check if Pm2 Already Has the Process Running if Yes then delete it
           command: |
             ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "pm2 delete ${PROJECT_NAME}"
 
+      - run:
+          name: Start Server
+          command: |
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "cd ${PROJECT_NAME} && npm start"
+  
       - run:
           name: Save The Pm2 Process for Restart
           command: |
