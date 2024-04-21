@@ -126,22 +126,22 @@ workflows:
   Build_Publish:
     jobs:
       - Send_Client_File:
-          name: Configure Client Side to Nginx Server
+          name: Configure Nginx Frontend Server
           filters:
             branches:
               only: main
       - Send_Server_File:
-          name: Configure Server Side to Docker Server
+          name: Configure Docker Backend Server
           requires:
-            - Configure Client Side to Nginx Server
+            - Configure Nginx Frontend Server
           filters:
             branches:
               only: main
       - Push_To_Gitlab:
           name: Publish to Gitlab
           requires:
-            - Configure Server Side to Docker Server
-            - Configure Client Side to Nginx Server
+            - Configure Docker Backend Server
+            - Configure Nginx Frontend Server
           filters:
             branches:
               only: main
