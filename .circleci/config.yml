@@ -123,7 +123,7 @@ workflows:
       - Send_Server_File:
           name: Send Server Side to Server
           requires:
-            - Send_Client_File
+            - Send Client Side to Server
           filters:
             branches:
               only: main
