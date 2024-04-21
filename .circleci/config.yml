@@ -62,6 +62,11 @@ jobs:
             cd Server/ && npm run build
 
       - run:
+          name: Check if Client Build Folder Already Exists in Server
+          command: |
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "sudo rm -rf ${PROJECT_NAME}"
+
+      - run:
           name: Send Server Files to Server
           command: |
             cd Server/ && scp -o StrictHostKeyChecking=no -r ${PROJECT_NAME}/ ${SSH_USER}@${VM_IP}:/home/${SSH_USER}/
