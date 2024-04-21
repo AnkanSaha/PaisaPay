@@ -10,11 +10,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
-      - run:
-          name: Install Sudo Command
-          command: | 
-            apt-get update
-            apt-get install sudo
+
       - run:
           name: Install Client Dependencies
           command: | 
@@ -26,7 +22,7 @@ jobs:
       - run:
           name: Check if Client Build Folder Already Exists in Server
           command: |
-            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "rm -rf ${PROJECT_NAME}"
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "sudo rm -rf ${PROJECT_NAME}"
       - run:
           name: Send Client Files to Server
           command: |
@@ -34,11 +30,11 @@ jobs:
       - run:
           name: Check if Already Exists in Nginx Static Folder
           command: |
-            sudo ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "rm -rf /var/www/html/${PROJECT_NAME}"
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "sudo rm -rf /var/www/html/${PROJECT_NAME}"
       - run:
           name: Move Files to Nginx Static Folder
           command: |
-            sudo ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "mv /home/${SSH_USER}/${PROJECT_NAME} /var/www/html/"
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "sudo mv /home/${SSH_USER}/${PROJECT_NAME} /var/www/html/"
 
   Send_Server_File:
     docker:
@@ -49,11 +45,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
-      - run:
-          name: Install Sudo Command
-          command: | 
-            apt-get update
-            apt-get install sudo
+
       - run:
           name: Install Server Dependencies
           command: |
