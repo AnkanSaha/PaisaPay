@@ -4,9 +4,9 @@
   "description": "A Node.js Backend for integrating with the PaisaPay API",
   "main": "./settings/PaisaPay.js",
   "scripts": {
-    "test:start": "pm2 start ./Build/PaisaPay.js --name PaisaPay --max-memory-restart 200M -f",
+    "test:start": "pm2 start ./PaisaPay/PaisaPay.js --name PaisaPay --max-memory-restart 200M -f",
     "lint": "eslint ./source/**/*.{js,ts} --fix",
-    "build": "npm run lint && tsc && cp package.json ./Build/ && cp package-lock.json ./Build/ && cd ./Build && npm install",
+    "PaisaPay": "npm run lint && tsc && cp package.json ./PaisaPay/ && cp package-lock.json ./PaisaPay/ && cd ./PaisaPay && npm install",
     "dev": "ts-node source/PaisaPay.ts --watch",
     "start": "pm2 start ./PaisaPay.js --name PaisaPay --max-memory-restart 200M -f",
     "stop": "pm2 stop PaisaPay",
