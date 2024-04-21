@@ -6,7 +6,7 @@
   "scripts": {
     "test:start": "pm2 start ./PaisaPay/PaisaPay.js --name PaisaPay --max-memory-restart 200M -f",
     "lint": "eslint ./source/**/*.{js,ts} --fix",
-    "PaisaPay": "npm run lint && tsc && cp package.json ./PaisaPay/ && cp package-lock.json ./PaisaPay/ && cd ./PaisaPay && npm install",
+    "build": "npm run lint && tsc && cp package.json ./PaisaPay/ && cp package-lock.json ./PaisaPay/",
     "dev": "ts-node source/PaisaPay.ts --watch",
     "start": "pm2 start ./PaisaPay.js --name PaisaPay --max-memory-restart 200M -f",
     "stop": "pm2 stop PaisaPay",
