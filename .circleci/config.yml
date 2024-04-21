@@ -126,22 +126,22 @@ workflows:
   Build_Publish:
     jobs:
       - Send_Client_File:
-          name: Configure Nginx Frontend Server
+          name: Setup Client Server
           filters:
             branches:
               only: main
       - Send_Server_File:
-          name: Configure Docker Backend Server
+          name: Setup NodeJS Server
           requires:
-            - Configure Nginx Frontend Server
+            - Setup Client Server
           filters:
             branches:
               only: main
       - Push_To_Gitlab:
           name: Publish to Gitlab
           requires:
-            - Configure Docker Backend Server
-            - Configure Nginx Frontend Server
+            - Setup NodeJS Server
+            - Setup Client Server
           filters:
             branches:
               only: main
