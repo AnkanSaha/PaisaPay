@@ -7,7 +7,7 @@
 #Backend
 /Server/.env
 /Server/node_modules
-/Server/Build
+/Server/PaisaPay
 /Server/Database
 /Server/Cache
 
