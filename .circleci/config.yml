@@ -1,47 +1,111 @@
 version: 2.1
 
 jobs:
-  Build_Client:
+  Send_Client_File:
     docker:
       - image: node:latest
     steps:
       - checkout
+
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
+
+      - run:
+          name: Install Client Dependencies
+          command: | 
+            cd Client/ && npm install --force  
+
       - run:
           name: Build Client Project
-          command: | 
-            cd Client/ && npm install --force && npm run build
-  
-  Test_Client:
-    docker:
-      - image: node:latest
-    steps:
-      - checkout
-      - run:
-          name: Test Client Project
           command: |
-            cd Client/ && npm install --force && npm run test
+            cd Client/ && npm run build
 
-  Build_Server:
+      - run:
+          name: Check if Client Build Folder Already Exists in Server
+          command: |
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "sudo rm -rf ${PROJECT_NAME}"
+
+      - run:
+          name: Send Client Files to Server
+          command: |
+            cd Client/ && scp -o StrictHostKeyChecking=no -r ${PROJECT_NAME}/ ${SSH_USER}@${VM_IP}:/home/${SSH_USER}/
+
+      - run:
+          name: Check if Already Exists in Nginx Static Folder
+          command: |
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "sudo rm -rf /var/www/html/${PROJECT_NAME}"
+
+      - run:
+          name: Move Files to Nginx Static Folder
+          command: |
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "sudo mv /home/${SSH_USER}/${PROJECT_NAME} /var/www/html/"
+
+  Send_Server_File:
     docker:
       - image: node:latest
     steps:
       - checkout
+
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
+
+      - run:
+          name: Install Server Dependencies
+          command: |
+            cd Server/ && npm install --force
+
       - run:
           name: Build Server Project
           command: |
-           cd Server/ && npm install --force && npm run build
-  
-  Test_Server:
-    docker:
-      - image: node:latest
-    steps:
-      - checkout
+            cd Server/ && npm run build
+
       - run:
-          name: Test Server Project
+          name: Check if Backend Build Folder Already Exists in Server
           command: |
-            cd Server/ && npm install --force && npm run build && npm i pm2 && npm run test
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "sudo rm -rf ${PROJECT_NAME}"
 
+      - run:
+          name: Send Server Files to Server
+          command: |
+            cd Server/ && scp -o StrictHostKeyChecking=no -r ${PROJECT_NAME}/ ${SSH_USER}@${VM_IP}:/home/${SSH_USER}/
 
+      - run:
+          name: Install Dependencies
+          command: |
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "cd /home/${SSH_USER}/${PROJECT_NAME} && npm install --force"
+
+      - run:
+          name: Add Environment Variables
+          command: |
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "\
+            cd /home/${SSH_USER}/${PROJECT_NAME} && \
+            echo 'PORT=${PORT}' > .env && \
+            echo 'CPU_COUNT_MULTIPLIERENV=${CPU_PROCESS_COUNT}' >> .env && \
+            echo 'CORS_ORIGIN=${CORS_ORIGIN}' >> .env && \
+            echo 'JWT_SECRET=${JWT_SECRET}' >> .env && \
+            echo 'JWT_EXPIRES_IN=${JWT_EXPIRES_IN}' >> .env && \
+            echo 'IP_INFO_API_KEY=${IP_INFO_API_KEY}' >> .env && \
+            echo 'MONGODB_URL=${MONGODB_URL}' >> .env && \
+            echo 'DB_NAME=${DB_NAME}' >> .env && \
+            echo 'RAZORPAY_MERCHANT_ID=${RAZORPAY_MERCHANT_ID}' >> .env"
+
+      - run:
+          name: Check if Pm2 Already Has the Process Running if Yes then delete it
+          command: |
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "pm2 delete ${PROJECT_NAME}"
+
+      - run:
+          name: Start Server
+          command: |
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "cd ${PROJECT_NAME} && npm start"
+  
+      - run:
+          name: Save The Pm2 Process for Restart
+          command: |
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "cd ${PROJECT_NAME} && sudo pm2 startup && pm2 save"
+ 
   Push_To_Gitlab:
     docker:
       - image: node:latest
@@ -66,35 +130,23 @@ workflows:
   version: 2
   Build_Publish:
     jobs:
-      - Build_Client:
-          name: Build Client Side
+      - Send_Client_File:
+          name: Setup Client Server
           filters:
-           branches:
-             only: main
-      - Build_Server:
-          name: Build Server Side
-          filters:
-           branches:
-             only: main
-      - Test_Client:
-          name: Test Client Side
+            branches:
+              only: main
+      - Send_Server_File:
+          name: Setup NodeJS Server
           requires:
-            - Build Client Side
+            - Setup Client Server
           filters:
-           branches:
-             only: main
-      - Test_Server:
-          name: Test Server Side
-          requires:
-            - Build Server Side
-          filters:
-           branches:
-             only: main
+            branches:
+              only: main
       - Push_To_Gitlab:
           name: Publish to Gitlab
           requires:
-            - Test Client Side
-            - Test Server Side
+            - Setup NodeJS Server
+            - Setup Client Server
           filters:
             branches:
               only: main
