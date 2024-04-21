@@ -7,6 +7,12 @@ jobs:
     steps:
       - checkout
 
+      - run:
+          name: Add host key to known hosts
+          command: |
+            mkdir -p ~/.ssh
+            ssh-keyscan -t ed25519 ${VM_IP} >> ~/.ssh/known_hosts
+
       - add_ssh_keys:
           fingerprints:
             - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
@@ -37,6 +43,12 @@ jobs:
       - image: node:latest
     steps:
       - checkout
+
+      - run:
+          name: Add host key to known hosts
+          command: |
+            mkdir -p ~/.ssh
+            ssh-keyscan -t ed25519 ${VM_IP} >> ~/.ssh/known_hosts
 
       - add_ssh_keys:
           fingerprints:
