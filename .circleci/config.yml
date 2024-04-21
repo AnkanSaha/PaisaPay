@@ -90,7 +90,16 @@ jobs:
           name: Start Server
           command: |
             ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "cd ${PROJECT_NAME} && npm start"
-  
+      
+      - run:
+          name: Check if Pm2 Already Has the Process Running if Yes then delete it
+          command: |
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "pm2 delete ${PROJECT_NAME}"
+
+      - run:
+          name: Save The Pm2 Process for Restart
+          command: |
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "cd ${PROJECT_NAME} && sudo pm2 startup && pm2 save"
   Push_To_Gitlab:
     docker:
       - image: node:latest
@@ -116,22 +125,22 @@ workflows:
   Build_Publish:
     jobs:
       - Send_Client_File:
-          name: Send Client Side to Server
+          name: Configure Client Side to Nginx Server
           filters:
             branches:
               only: main
       - Send_Server_File:
-          name: Send Server Side to Server
+          name: Configure Server Side to Docker Server
           requires:
-            - Send Client Side to Server
+            - Configure Client Side to Nginx Server
           filters:
             branches:
               only: main
       - Push_To_Gitlab:
           name: Publish to Gitlab
           requires:
-            - Send Server Side to Server
-            - Send Client Side to Server
+            - Configure Server Side to Docker Server
+            - Configure Client Side to Nginx Server
           filters:
             branches:
               only: main
