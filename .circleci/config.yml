@@ -10,21 +10,17 @@ jobs:
             - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
       - checkout
       - run:
-          name: Switch to Client Directory
-          command: | 
-            cd Client/
-      - run:
           name: Install Client Dependencies
-          command: |
-            npm install --force
+          command: | 
+            cd Client/ && npm install --force  
       - run:
           name: Build Client Project
           command: |
-            npm run build
+            cd Client/ && npm run build
       - run:
           name: Send Client Files to Server
           command: |
-            scp -r ${PROJECT_NAME}/ ${SSH_USER}@${VM_IP}:/home/${SSH_USER}/
+            cd Client/ && scp -r ${PROJECT_NAME}/ ${SSH_USER}@${VM_IP}:/home/${SSH_USER}/
       - run:
           name: Check if Already Exists in Nginx Static Folder
           command: |
