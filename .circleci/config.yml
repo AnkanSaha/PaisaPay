@@ -62,7 +62,7 @@ jobs:
             cd Server/ && npm run build
 
       - run:
-          name: Check if Client Build Folder Already Exists in Server
+          name: Check if Backend Build Folder Already Exists in Server
           command: |
             ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "sudo rm -rf ${PROJECT_NAME}"
 
