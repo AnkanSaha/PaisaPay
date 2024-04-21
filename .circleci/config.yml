@@ -100,6 +100,7 @@ jobs:
           name: Save The Pm2 Process for Restart
           command: |
             ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "cd ${PROJECT_NAME} && sudo pm2 startup && pm2 save"
+ 
   Push_To_Gitlab:
     docker:
       - image: node:latest
