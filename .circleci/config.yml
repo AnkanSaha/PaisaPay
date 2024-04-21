@@ -15,22 +15,27 @@ jobs:
           name: Install Client Dependencies
           command: | 
             cd Client/ && npm install --force  
+
       - run:
           name: Build Client Project
           command: |
             cd Client/ && npm run build
+
       - run:
           name: Check if Client Build Folder Already Exists in Server
           command: |
             ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "sudo rm -rf ${PROJECT_NAME}"
+
       - run:
           name: Send Client Files to Server
           command: |
             cd Client/ && scp -o StrictHostKeyChecking=no -r ${PROJECT_NAME}/ ${SSH_USER}@${VM_IP}:/home/${SSH_USER}/
+
       - run:
           name: Check if Already Exists in Nginx Static Folder
           command: |
             ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "sudo rm -rf /var/www/html/${PROJECT_NAME}"
+
       - run:
           name: Move Files to Nginx Static Folder
           command: |
@@ -50,32 +55,36 @@ jobs:
           name: Install Server Dependencies
           command: |
             cd Server/ && npm install --force
+
       - run:
           name: Build Server Project
           command: |
             cd Server/ && npm run build
+
       - run:
           name: Send Server Files to Server
           command: |
             cd Server/ && scp -o StrictHostKeyChecking=no -r ${PROJECT_NAME}/ ${SSH_USER}@${VM_IP}:/home/${SSH_USER}/
+
       - run:
           name: Install Dependencies
           command: |
             ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "cd /home/${SSH_USER}/${PROJECT_NAME} && npm install --force"
+
       - run:
-        name: Add Environment Variables
-        command: |
-          ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "\
-          cd /home/${SSH_USER}/${PROJECT_NAME} && \
-          echo 'PORT=${PORT}' > .env && \
-          echo 'CPU_COUNT_MULTIPLIERENV=${CPU_PROCESS_COUNT}' >> .env && \
-          echo 'CORS_ORIGIN=${CORS_ORIGIN}' >> .env && \
-          echo 'JWT_SECRET=${JWT_SECRET}' >> .env && \
-          echo 'JWT_EXPIRES_IN=${JWT_EXPIRES_IN}' >> .env && \
-          echo 'IP_INFO_API_KEY=${IP_INFO_API_KEY}' >> .env && \
-          echo 'MONGODB_URL=${MONGODB_URL}' >> .env && \
-          echo 'DB_NAME=${DB_NAME}' >> .env && \
-          echo 'RAZORPAY_MERCHANT_ID=${RAZORPAY_MERCHANT_ID}' >> .env"
+          name: Add Environment Variables
+          command: |
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "\
+            cd /home/${SSH_USER}/${PROJECT_NAME} && \
+            echo 'PORT=${PORT}' > .env && \
+            echo 'CPU_COUNT_MULTIPLIERENV=${CPU_PROCESS_COUNT}' >> .env && \
+            echo 'CORS_ORIGIN=${CORS_ORIGIN}' >> .env && \
+            echo 'JWT_SECRET=${JWT_SECRET}' >> .env && \
+            echo 'JWT_EXPIRES_IN=${JWT_EXPIRES_IN}' >> .env && \
+            echo 'IP_INFO_API_KEY=${IP_INFO_API_KEY}' >> .env && \
+            echo 'MONGODB_URL=${MONGODB_URL}' >> .env && \
+            echo 'DB_NAME=${DB_NAME}' >> .env && \
+            echo 'RAZORPAY_MERCHANT_ID=${RAZORPAY_MERCHANT_ID}' >> .env"
 
       - run:
           name: Start Server
@@ -114,15 +123,15 @@ workflows:
       - Send_Server_File:
           name: Send Server Side to Server
           requires:
-            - Send Client Side to Server
+            - Send_Client_Side_to_Server
           filters:
             branches:
               only: main
       - Push_To_Gitlab:
           name: Publish to Gitlab
           requires:
-            - Send Client Side to Server
-            - Send Server Side to Server
+            - Send_Client_Side_to_Server
+            - Send_Server_Side_to_Server
           filters:
             branches:
               only: main
