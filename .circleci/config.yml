@@ -5,10 +5,12 @@ jobs:
     docker:
       - image: node:latest
     steps:
+      - checkout
+
       - add_ssh_keys:
           fingerprints:
             - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
-      - checkout
+
       - run:
           name: Install Client Dependencies
           command: | 
@@ -34,10 +36,12 @@ jobs:
     docker:
       - image: node:latest
     steps:
+      - checkout
+
       - add_ssh_keys:
           fingerprints:
             - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
-      - checkout
+
       - run:
           name: Switch to Server Directory
           command: | 
