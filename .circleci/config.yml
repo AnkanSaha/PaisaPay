@@ -1,47 +1,76 @@
 version: 2.1
 
 jobs:
-  Build_Client:
+  Send_Client_File:
+   - add_ssh_keys:
+        fingerprints:
+          - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
     docker:
       - image: node:latest
     steps:
       - checkout
+      - run:
+          name: Switch  to Client Directory
+          command: | 
+            cd Client/
+      - run:
+          name: Install Client Dependencies
+          command: |
+            npm install --force
       - run:
           name: Build Client Project
-          command: | 
-            cd Client/ && npm install --force && npm run build
+          command: |
+            npm run build
+      - run:
+          name: Send Client Files to Server
+          command: |
+            scp -r ${PROJECT_NAME}/ ${SSH_USER}@${VM_IP}:/home/${SSH_USER}/
+      - run:
+          name: Check if Already Exists in Nginx Static Folder if has then remove
+          command: |
+            ssh ${SSH_USER}@${VM_IP} "rm -rf /var/www/html/${PROJECT_NAME}"
+      - run:
+          name: Move Files to Nginx Static Folder
+          command: |
+            ssh ${SSH_USER}@${VM_IP} "mv /home/${SSH_USER}/${PROJECT_NAME} /var/www/html/"
+
+            
+            
   
-  Test_Client:
+
+  Send_Server_File:
+   - add_ssh_keys:
+        fingerprints:
+          - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
     docker:
       - image: node:latest
     steps:
       - checkout
       - run:
-          name: Test Client Project
+          name: Switch to Server Directory
+          command: | 
+            cd Server/
+      - run:
+          name: Install Server Dependencies
           command: |
-            cd Client/ && npm install --force && npm run test
-
-  Build_Server:
-    docker:
-      - image: node:latest
-    steps:
-      - checkout
+            npm install --force
       - run:
           name: Build Server Project
           command: |
-           cd Server/ && npm install --force && npm run build
-  
-  Test_Server:
-    docker:
-      - image: node:latest
-    steps:
-      - checkout
+            npm run build
       - run:
-          name: Test Server Project
+          name: Send Server Files to Server
           command: |
-            cd Server/ && npm install --force && npm run build && npm i pm2 && npm run test
-
-
+            scp -r ${PROJECT_NAME}/ ${SSH_USER}@${VM_IP}:/home/${SSH_USER}/
+      - run:
+          name: Install Dependencies
+          command: |
+            ssh ${SSH_USER}@${VM_IP} "cd /home/${SSH_USER}/${PROJECT_NAME} && npm install --force"
+      - run:
+          name: Start Server
+          command: |
+            ssh ${SSH_USER}@${VM_IP} "cd ${PROJECT_NAME} && npm start"
+  
   Push_To_Gitlab:
     docker:
       - image: node:latest
@@ -66,35 +95,23 @@ workflows:
   version: 2
   Build_Publish:
     jobs:
-      - Build_Client:
-          name: Build Client Side
+      - Send_Client_File:
+          name: Send Client Side to Server
           filters:
            branches:
              only: main
-      - Build_Server:
-          name: Build Server Side
-          filters:
-           branches:
-             only: main
-      - Test_Client:
-          name: Test Client Side
+      - Send_Server_File:
+          name: Send Server Side to Server
           requires:
-            - Build Client Side
-          filters:
-           branches:
-             only: main
-      - Test_Server:
-          name: Test Server Side
-          requires:
-            - Build Server Side
+            - Send Client Side to Server
           filters:
            branches:
              only: main
       - Push_To_Gitlab:
           name: Publish to Gitlab
           requires:
-            - Test Client Side
-            - Test Server Side
+            - Send Client Side to Server
+            - Send Server Side to Server
           filters:
             branches:
               only: main
