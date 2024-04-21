@@ -4,9 +4,9 @@
   "description": "A Node.js Backend for integrating with the PaisaPay API",
   "main": "./settings/PaisaPay.js",
   "scripts": {
-    "test:start": "pm2 start ./Build/PaisaPay.js --name PaisaPay --max-memory-restart 200M -f",
+    "test:start": "pm2 start ./PaisaPay/PaisaPay.js --name PaisaPay --max-memory-restart 200M -f",
     "lint": "eslint ./source/**/*.{js,ts} --fix",
-    "build": "npm run lint && tsc && cp package.json ./Build/ && cp package-lock.json ./Build/ && cd ./Build && npm install",
+    "build": "npm run lint && tsc && cp package.json ./PaisaPay/ && cp package-lock.json ./PaisaPay/",
     "dev": "ts-node source/PaisaPay.ts --watch",
     "start": "pm2 start ./PaisaPay.js --name PaisaPay --max-memory-restart 200M -f",
     "stop": "pm2 stop PaisaPay",
@@ -28,7 +28,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/bcryptjs": "^2.4.4",
-    "@types/cors": "^2.8.13",
+    "@types/cors": "^2.8.17",
     "@types/multer": "^1.4.7",
     "@types/node": "^20.4.5",
     "@types/nodemon": "^1.19.2",
