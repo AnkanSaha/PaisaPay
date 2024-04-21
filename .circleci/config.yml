@@ -123,15 +123,15 @@ workflows:
       - Send_Server_File:
           name: Send Server Side to Server
           requires:
-            - Send_Client_Side_to_Server
+            - Send_Client_File
           filters:
             branches:
               only: main
       - Push_To_Gitlab:
           name: Publish to Gitlab
           requires:
-            - Send_Client_Side_to_Server
-            - Send_Server_Side_to_Server
+            - Send Server Side to Server
+            - Send Client Side to Server
           filters:
             branches:
               only: main
