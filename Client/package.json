@@ -15,7 +15,7 @@
     "aos": "^2.3.4",
     "axios": "^1.6.8",
     "moment": "^2.29.4",
-    "public-ip": "^6.0.1",
+    "public-ip": "^6.0.2",
     "react": "^18.2.0",
     "react-caches": "^4.4.4",
     "react-csv": "^2.2.2",
