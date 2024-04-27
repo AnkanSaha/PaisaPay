@@ -79,7 +79,7 @@ jobs:
       - run:
           name: Check if Pm2 Already Has the Process Running if Yes then delete it
           command: |
-            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "if pm2 list | grep -q '${PROJECT_NAME}'; then pm2 delete ${PROJECT_NAME}; fi"
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "if pm2 list | grep -q '${PROJECT_NAME}'; then pm2 delete ${PROJECT_NAME}; else true; fi"
       - run:
           name: Start Server
           command: |
