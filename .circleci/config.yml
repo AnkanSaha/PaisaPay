@@ -87,7 +87,7 @@ jobs:
       - run:
           name: Save The Pm2 Process for Restart
           command: |
-            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "cd ${PROJECT_NAME} && sudo pm2 startup && pm2 save"
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "if pm2 list | grep -q '${PROJECT_NAME}'; then pm2 delete ${PROJECT_NAME}; else echo 'Process or Namespace not found'; fi"
  
   Push_To_Gitlab:
     docker:
