@@ -27,7 +27,7 @@
   "author": "Ankan Saha",
   "license": "MIT",
   "dependencies": {
-    "@types/bcryptjs": "^2.4.4",
+    "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
     "@types/multer": "^1.4.11",
     "@types/node": "^20.4.5",
