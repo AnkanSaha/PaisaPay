@@ -13,7 +13,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "aos": "^2.3.4",
-    "axios": "^1.7.2",
+    "axios": "^1.7.4",
     "moment": "^2.30.1",
     "public-ip": "^6.0.2",
     "react": "^18.3.1",
