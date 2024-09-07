@@ -8,7 +8,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "SHA256:Yczlp/TbiigbYVaVe2AC6UdlVE37s89DPvJjH+SC9us"
+            - ${SSH_FINGERPRINT}
       - run:
           name: Install Client Dependencies
           command: | 
