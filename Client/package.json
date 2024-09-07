@@ -13,17 +13,17 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "aos": "^2.3.4",
-    "axios": "^1.6.8",
+    "axios": "^1.7.4",
     "moment": "^2.30.1",
-    "public-ip": "^6.0.1",
+    "public-ip": "^6.0.2",
     "react": "^18.3.1",
     "react-caches": "^4.4.4",
     "react-csv": "^2.2.2",
     "react-dom": "^18.3.1",
-    "react-jwt": "^1.2.1",
-    "react-qr-code": "^2.0.12",
+    "react-jwt": "^1.2.2",
+    "react-qr-code": "^2.0.15",
     "react-redux": "^8.1.1",
-    "react-router-dom": "^6.22.3",
+    "react-router-dom": "^6.24.1",
     "typed.js": "^2.0.16"
   },
   "devDependencies": {
