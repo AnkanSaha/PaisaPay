@@ -76,7 +76,7 @@ export default defineConfig({
   build: {
     outDir: 'PaisaPay',
     emptyOutDir: true,
-    sourcemap: true,
+    sourcemap: false,
     minify: true,
     ssrManifest: true,
     modulePreload: true,
@@ -231,6 +231,6 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom'],
-    sourcemap: true
+    sourcemap: false
   }
 })
