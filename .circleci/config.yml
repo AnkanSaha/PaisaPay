@@ -89,26 +89,6 @@ jobs:
           command: |
             ssh -o StrictHostKeyChecking=no ${SSH_USER}@${VM_IP} "cd ${PROJECT_NAME} && sudo pm2 startup && pm2 save"
  
-  Push_To_Gitlab:
-    docker:
-      - image: node:latest
-    steps:
-      - checkout
-      - run:
-          name: Add Gitlab Remote URL
-          command: git remote add gitlab ${GITLAB_REPO_URL}
-      - run:
-          name: Configure GitLab Credentials
-          command: |
-            git config --global credential.helper store
-            echo "https://oauth2:${GITLAB_PERMANENT_ACCESS_TOKEN}@gitlab.com" > ~/.git-credentials
-            git config --global user.email "${OWNER_EMAIL}"
-            git config --global user.name "${OWNER_NAME}"
-      - run:
-          name: Push to Gitlab
-          command: |
-            git push gitlab
-
 workflows:
   version: 2
   Build_Publish:
@@ -121,14 +101,6 @@ workflows:
       - Send_Server_File:
           name: Setup NodeJS Server
           requires:
-            - Setup Client Server
-          filters:
-            branches:
-              only: main
-      - Push_To_Gitlab:
-          name: Publish to Gitlab
-          requires:
-            - Setup NodeJS Server
             - Setup Client Server
           filters:
             branches:
